@@ -1,0 +1,1088 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<script src="/practices/lib/mm-sync.js?v=3"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Личные границы | Клуб #MaxMagia</title>
+<style>
+
+:root{
+  --bg:#FFFFFF; --bg2:#F4F3EF; --card:#F4F3EF; --ink:#2F2F2F; --dim:#4D4D4D; --mute:#696969; --num:#E4E1DA;
+  --line:rgba(47,47,47,.12); --line2:rgba(47,47,47,.24);
+  --acc:#9A6A2E; --acc-fill:#D4B48A; --on-fill:#141414; --mark:#F6EC6E; --hot:#B23A2E;
+  --glow:rgba(212,180,138,.22); --tile:#2F2F2F; --tile-line:rgba(212,180,138,.6);
+  --gem-base:#8C8680; --gem-lit:#D4A86A;
+  --band1:#2A2420; --band2:#0C0C0E; --band-ink:#F0ECE4; --band-hot:#F49385; --yel:#2F2F2F; --yel-bg:#F6EC6E; --strike:#D2402F;
+  --serif:'Cormorant Garamond',Georgia,'Times New Roman',serif;
+  --sans:'Manrope',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --ease:cubic-bezier(.2,.8,.2,1);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --yel:#F3E37C; --yel-bg:transparent; --strike:#EF5A47;
+    --bg:#0C0C0E; --bg2:#0F0F11; --card:#18181A; --ink:#F0ECE4; --dim:#B9B2A8; --mute:#9C958C; --num:#232326;
+    --line:rgba(240,236,228,.08); --line2:rgba(240,236,228,.16);
+    --acc:#D4B48A; --acc-fill:#D4B48A; --on-fill:#0C0C0E; --mark:rgba(212,180,138,.26); --hot:#EF7A6B;
+    --glow:rgba(212,180,138,.12); --tile:#18181A; --tile-line:rgba(212,180,138,.4);
+    --gem-base:#2C2730; --gem-lit:#E2C79C;
+  }
+}
+:root[data-theme="dark"]{
+  --yel:#F3E37C; --yel-bg:transparent; --strike:#EF5A47;
+  --bg:#0C0C0E; --bg2:#0F0F11; --card:#18181A; --ink:#F0ECE4; --dim:#B9B2A8; --mute:#9C958C; --num:#232326;
+  --line:rgba(240,236,228,.08); --line2:rgba(240,236,228,.16);
+  --acc:#D4B48A; --acc-fill:#D4B48A; --on-fill:#0C0C0E; --mark:rgba(212,180,138,.26); --hot:#EF7A6B;
+  --glow:rgba(212,180,138,.12); --tile:#18181A; --tile-line:rgba(212,180,138,.4);
+  --gem-base:#2C2730; --gem-lit:#E2C79C;
+}
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px);scroll-behavior:smooth}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.7;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+h1,h2,h3{font-family:var(--serif);font-weight:500;margin:0;line-height:1.08;text-wrap:balance}
+p{margin:0}
+button,input{font:inherit;color:inherit;touch-action:manipulation}
+:focus-visible{outline:2px solid var(--acc);outline-offset:4px;border-radius:6px}
+[hidden]{display:none!important}
+.wrap{max-width:1200px;margin:0 auto;padding:0 clamp(20px,4vw,48px)}
+.center{text-align:center}
+.col{max-width:780px;margin-left:auto;margin-right:auto}
+.sec{--gap:clamp(72px,11vh,128px);padding:var(--gap) 0}
+.sec.orn-top{padding-top:0}
+.sec.orn-top > .wrap > .rule-orn{margin:0 auto var(--gap)}
+.label{display:block;font-size:13px;font-weight:600;letter-spacing:.28em;text-transform:uppercase;color:var(--acc);margin-bottom:22px}
+h2{font-size:clamp(38px,5vw,68px);font-weight:400;max-width:20ch;margin:0 auto}
+h2 em{font-style:italic;color:var(--acc)}
+.lede{font-size:clamp(18px,1.4vw,20px);color:var(--dim);max-width:58ch;margin:24px auto 0}
+mark{background:linear-gradient(transparent 60%,var(--mark) 60%);color:inherit;padding:0 .06em}
+.rule-orn{display:flex;align-items:center;justify-content:center;gap:14px;margin:0 auto 26px;color:var(--acc)}
+.rule-orn::before,.rule-orn::after{content:"";width:56px;height:1px;background:linear-gradient(90deg,transparent,var(--acc))}
+.rule-orn::after{transform:scaleX(-1)}
+.rule-orn i{width:6px;height:6px;background:var(--acc);transform:rotate(45deg)}
+
+/* Hero */
+.hero{min-height:100vh;min-height:100svh;display:grid;place-items:center;text-align:center;padding:clamp(40px,8vh,80px) 0;position:relative;overflow:hidden}
+.hero::before{content:"";position:absolute;left:50%;top:40%;width:min(110vw,980px);aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(circle,var(--glow),transparent 64%);pointer-events:none}
+.hero > div{position:relative;width:100%;min-width:0}
+.badge{width:clamp(112px,13vw,144px);aspect-ratio:1;border-radius:50%;margin:0 auto;display:grid;place-items:center;background:#F7F4EE;box-shadow:0 0 0 1px var(--line2),0 24px 60px -24px rgba(0,0,0,.45);animation:rise 1s var(--ease) both}
+.badge img{width:52%;height:auto;display:block}
+.hero .label{margin:30px 0 0;animation:rise 1s .1s var(--ease) both}
+.hero h1{font-size:clamp(38px,11.4vw,132px);font-weight:400;line-height:.95;margin-top:18px;animation:rise 1s .18s var(--ease) both}
+.hero .sub{font-family:var(--serif);font-size:clamp(22px,2.3vw,31px);line-height:1.38;color:var(--dim);margin:30px auto 0;animation:rise 1s .26s var(--ease) both}
+.hero .sub b{font-style:italic;font-weight:600;color:var(--ink)}
+.hero .go{display:inline-flex;flex-direction:column;align-items:center;gap:10px;margin-top:48px;color:var(--mute);font-size:13px;letter-spacing:.2em;text-transform:uppercase;text-decoration:none;animation:rise 1s .34s var(--ease) both}
+.hero .go i{width:1px;height:40px;background:linear-gradient(var(--acc),transparent)}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+
+/* Statement typography */
+.big{font-family:var(--serif);font-size:clamp(26px,2.8vw,38px);line-height:1.28;max-width:30ch;margin:34px auto 0}
+.body{font-size:clamp(18px,1.4vw,20px);color:var(--dim);max-width:60ch;margin:22px auto 0}
+
+/* Cards (landing style) */
+.cards{display:grid;gap:4px;margin-top:clamp(44px,7vh,72px)}
+.cards.c2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.cards.c3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.cards.c4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.card{position:relative;background:var(--card);padding:clamp(34px,4.5vw,56px) clamp(22px,3vw,40px) clamp(34px,4vw,48px);text-align:center}
+.card::before{content:"";position:absolute;left:0;right:0;top:0;height:2px;background:linear-gradient(90deg,var(--acc),transparent)}
+.card .num{display:block;font-family:var(--serif);font-weight:600;font-size:clamp(56px,6vw,84px);line-height:.9;color:var(--num);margin-bottom:12px;font-variant-numeric:oldstyle-nums}
+.card .label{margin-bottom:14px}
+.card h3{font-size:clamp(26px,2.4vw,34px);font-weight:500}
+.card p{color:var(--dim);margin-top:12px}
+.callout{margin-top:4px;background:var(--card);border-left:2px solid var(--acc);padding:clamp(24px,3vw,36px) clamp(24px,4vw,56px);color:var(--dim);font-size:clamp(17px,1.3vw,19px)}
+.callout b{color:var(--acc);font-weight:600}
+
+/* Ways grid */
+.ways{list-style:none;margin:clamp(44px,7vh,72px) 0 0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px;counter-reset:w}
+.ways li{counter-increment:w;position:relative;background:var(--card);padding:28px 18px 26px;text-align:center;font-family:var(--serif);font-size:clamp(20px,1.7vw,24px);line-height:1.2;min-height:150px;display:flex;flex-direction:column;justify-content:flex-end;align-items:center}
+.ways li::before{content:counter(w,decimal-leading-zero);font-family:var(--serif);font-weight:600;font-size:50px;line-height:.9;color:var(--num);margin-bottom:auto;padding-bottom:12px;font-variant-numeric:oldstyle-nums}
+.ways li.span2{grid-column:span 2;font-style:italic;color:var(--acc);font-size:clamp(21px,1.9vw,26px)}
+.ways li.span2::before{content:"…";color:var(--num)}
+.examples{list-style:none;margin:clamp(48px,8vh,80px) auto 0;padding:0;max-width:820px}
+.examples li{font-family:var(--serif);font-size:clamp(25px,2.8vw,38px);line-height:1.2;padding:12px 0;text-align:center}
+.examples li span{color:var(--mute);font-style:italic}
+.examples li.last{color:var(--acc);font-style:italic}
+.whole{margin:clamp(40px,6vh,60px) auto 0}
+
+/* Cinematic band */
+.band{position:relative;overflow:hidden;padding:clamp(110px,20vh,220px) 0;text-align:center;color:var(--band-ink);background:radial-gradient(ellipse 70% 90% at 72% 60%,var(--band1),var(--band2) 70%)}
+.band::before{content:"";position:absolute;inset:-20%;background:radial-gradient(circle at 30% 40%,rgba(212,180,138,.14),transparent 40%),radial-gradient(circle at 75% 65%,rgba(239,122,107,.12),transparent 38%);animation:drift 18s ease-in-out infinite alternate}
+.band::after{content:"";position:absolute;inset:0;opacity:.09;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+.band .fade-top,.band .fade-bot{position:absolute;left:0;right:0;height:30%;pointer-events:none;z-index:1}
+.band .fade-top{top:0;background:linear-gradient(var(--bg),transparent)}
+.band .fade-bot{bottom:0;background:linear-gradient(transparent,var(--bg))}
+.band .in{position:relative;z-index:2}
+.band p{font-family:var(--serif);font-style:italic;font-size:clamp(26px,3.2vw,46px);line-height:1.5;opacity:0;transform:translateY(12px);transition:opacity 1.2s var(--ease),transform 1.2s var(--ease)}
+.band.seen p{opacity:.92;transform:none}
+.band.seen p:nth-child(2){transition-delay:.5s}
+.band.seen p:nth-child(3){transition-delay:1.2s}
+.band p.hot{color:var(--band-hot);font-size:clamp(46px,6.4vw,92px);line-height:1.2;margin-top:12px;opacity:0}
+.band.seen p.hot{opacity:1}
+@keyframes drift{from{transform:translate(-3%,-2%)}to{transform:translate(3%,2%)}}
+
+.ghost{min-height:44px;padding:0 20px;border-radius:999px;border:1px solid var(--line2);background:none;cursor:pointer;font-size:14px;letter-spacing:.06em}
+.ghost:hover{border-color:var(--acc)}
+footer{padding:70px 0 90px;border-top:1px solid var(--line);color:var(--mute);font-size:14px;text-align:center}
+footer .sign{font-family:var(--serif);font-style:italic;font-size:22px;color:var(--acc);margin-bottom:10px}
+footer p + p{margin-top:8px}
+footer a{color:var(--acc)}
+.series{display:inline-flex;flex-wrap:wrap;gap:4px 18px;justify-content:center}
+
+@media (max-width:980px){.ways,.cards.c4{grid-template-columns:repeat(2,minmax(0,1fr))}.cards.c3{grid-template-columns:1fr}}
+@media (max-width:640px){
+  .cards.c2{grid-template-columns:1fr}
+  .ways li{min-height:118px;font-size:17px;padding:22px 10px;hyphens:auto;-webkit-hyphens:auto;overflow-wrap:break-word}
+  .ways li::before{font-size:40px}
+  .answers button{flex:1 1 auto}
+  .tiles{gap:3px}
+  .stage{width:min(100%,300px)}
+}
+@media (prefers-reduced-motion: reduce){
+  *{animation:none!important;transition:none!important}
+  html{scroll-behavior:auto}
+  .band p{opacity:.92!important;transform:none!important}
+}
+.yel{color:var(--yel);background:linear-gradient(transparent 58%,var(--yel-bg) 58%);-webkit-box-decoration-break:clone;box-decoration-break:clone}
+.def-not{display:block;font-family:var(--serif);font-size:clamp(20px,1.8vw,26px);line-height:1.3;color:var(--mute);margin:14px 0 10px;font-weight:400}
+.def-not s{text-decoration:line-through;text-decoration-color:var(--strike);text-decoration-thickness:2px}
+h2.def-yes{max-width:22ch}
+h2.caps{text-transform:uppercase;letter-spacing:.06em;font-size:clamp(34px,5vw,64px)}
+.ps-line{font-family:var(--serif);font-size:clamp(21px,2vw,27px);line-height:1.45;color:var(--dim);max-width:44ch;margin:clamp(36px,6vh,56px) auto 0}
+.ps-line .ps-tag{font-family:var(--sans);font-size:13px;font-weight:700;letter-spacing:.2em;color:var(--acc);margin-right:4px}
+.ps-line b{color:var(--ink);font-weight:600}
+h2.ex-h{margin-top:clamp(64px,10vh,110px)}
+.band p.hot:only-child{margin-top:0}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:54px;padding:0 30px;border-radius:999px;border:0;background:var(--acc-fill);color:var(--on-fill);font-weight:700;font-size:16px;cursor:pointer;text-decoration:none;transition:transform .2s var(--ease),filter .2s}
+.btn:hover{filter:brightness(1.06)}
+.btn:active{transform:scale(.97)}
+.btn svg{width:20px;height:20px;flex:none}
+.photo{margin-top:34px}
+.note-s{font-size:14px;color:var(--mute);margin-top:10px;min-height:1.2em}
+.next-btn{margin-top:30px}
+.goals-ex{list-style:none;margin:clamp(40px,6vh,60px) auto 0;padding:0;max-width:820px;display:grid;gap:4px}
+.goals-ex li{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:16px;align-items:center;background:var(--card);padding:18px clamp(18px,3vw,32px);text-align:left}
+.goals-ex li span{font-family:var(--serif);font-size:clamp(20px,1.8vw,24px)}
+.goals-ex li b{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--acc);font-weight:600;text-align:right}
+.err{color:var(--hot);font-size:15px;margin-top:10px}
+.err:empty{display:none}
+.goal-pin{font-size:13px;letter-spacing:.2em;text-transform:uppercase;color:var(--mute);text-align:center}
+.goal-pin b{display:block;font-family:var(--serif);font-weight:500;font-size:clamp(24px,2.4vw,32px);letter-spacing:0;text-transform:none;color:var(--ink);line-height:1.15;margin-top:6px}
+/* traffic light */
+:root{--c-red:#B8352A;--c-yel:#8A6200;--c-grn:#23744A}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--c-red:#F06A57;--c-yel:#F2C94C;--c-grn:#5CC587}}
+:root[data-theme="dark"]{--c-red:#F06A57;--c-yel:#F2C94C;--c-grn:#5CC587}
+.c-red{color:var(--c-red)!important}.c-yel{color:var(--c-yel)!important}.c-grn{color:var(--c-grn)!important}
+.q[data-c="red"]{--qc:var(--c-red)}.q[data-c="yel"]{--qc:var(--c-yel)}.q[data-c="grn"]{--qc:var(--c-grn)}
+.q::before{background:linear-gradient(90deg,var(--qc),transparent)!important;height:3px}
+.q h3{color:var(--qc)}
+.q small{color:var(--qc)}
+.q .lamp{width:12px;height:12px;border-radius:50%;background:var(--qc);box-shadow:0 0 14px var(--qc);margin-bottom:4px}
+.q[aria-pressed="true"]{background:color-mix(in srgb,var(--card) 86%,var(--qc));box-shadow:inset 0 0 0 1px var(--qc)}
+.q-detail{border-left-color:var(--qc,var(--acc))}
+.q-detail h3{color:var(--qc,var(--ink))}
+.gdot{background:var(--qc,var(--acc-fill))}
+.gdot[data-c="red"]{--qc:var(--c-red)}.gdot[data-c="yel"]{--qc:var(--c-yel)}.gdot[data-c="grn"]{--qc:var(--c-grn)}
+.gdot{box-shadow:0 0 0 4px color-mix(in srgb,var(--qc) 30%,transparent),0 0 18px color-mix(in srgb,var(--qc) 70%,transparent)!important}
+.gdot b{color:#0C0C0E}
+.callout-yel{background:color-mix(in srgb,var(--card) 88%,#F2C94C);border-left-color:#F2C94C}
+.callout-yel > b{color:var(--c-yel)}
+.ps-note{display:block;margin-top:12px;font-size:15px;color:var(--dim)}
+.ps-note b{color:var(--acc)}
+.mini-note{margin:22px auto 0;font-size:16px;color:var(--dim)}
+.mini-note a{color:var(--acc);font-weight:600}
+
+/* ===== Личные границы ===== */
+.x{flex:none;width:36px;height:36px;border:0;background:none;border-radius:50%;cursor:pointer;color:var(--mute);font-size:20px;line-height:1;display:grid;place-items:center}
+.x:hover{color:var(--hot);background:var(--line)}
+.bnd-fig{margin:clamp(36px,5vh,56px) auto 0;max-width:820px}
+.bnd-fig svg{width:100%;height:auto;display:block}
+.bnd-fig figcaption{font-family:var(--serif);font-style:italic;font-size:clamp(20px,2vw,26px);color:var(--dim);max-width:46ch;margin:14px auto 0;line-height:1.35}
+.bf-floor{fill:var(--line)}
+.bf-zone.me{fill:color-mix(in srgb,var(--acc-fill) 16%,transparent)}.bf-zone.other{fill:color-mix(in srgb,#6FA8D8 16%,transparent)}
+.bf-ring{fill:none;stroke-width:2.5;stroke-dasharray:6 7}.bf-ring.me{stroke:var(--acc)}.bf-ring.other{stroke:#6FA8D8}
+.bf-man circle{fill:var(--ink)}.bf-man path{stroke:var(--ink);stroke-width:7;stroke-linecap:round;fill:none}
+.bf-gap{stroke:var(--line2);stroke-width:1.5;stroke-dasharray:2 6}
+.bf-t{fill:var(--ink);font-family:var(--serif);font-size:30px}.bf-s{fill:var(--mute);font-family:var(--sans);font-size:13px;letter-spacing:.12em}
+.charter{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(20px,4vw,48px);margin-top:clamp(36px,5vh,56px);align-items:center;text-align:left}
+#charterSvg{width:100%;max-width:460px;height:auto;display:block;margin:0 auto}
+.ch-ring{fill:none;stroke:var(--line2);stroke-width:1.5;stroke-dasharray:4 6}
+.ch-ray{stroke:var(--line2);stroke-width:1;stroke-dasharray:2 5}
+.ch-me circle{fill:var(--ink)}.ch-me path{stroke:var(--ink);stroke-width:7;stroke-linecap:round;fill:none}
+.ch-it{cursor:pointer}
+.ch-it .bg{fill:var(--card);stroke:var(--line2);stroke-width:1.5;transition:fill .2s,stroke .2s}
+.ch-it .ic{stroke:var(--ink);stroke-width:2.4;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.ch-it .ic .f{fill:var(--ink);stroke:none}
+.ch-it .lb{fill:var(--dim);font-family:var(--sans);font-size:12px;font-weight:600;text-anchor:middle}
+.ch-it:hover .bg,.ch-it:focus .bg{stroke:var(--acc)}
+.ch-it[aria-pressed="true"] .bg{fill:var(--acc-fill);stroke:var(--acc-fill)}
+.ch-it[aria-pressed="true"] .ic{stroke:var(--on-fill)}.ch-it[aria-pressed="true"] .ic .f{fill:var(--on-fill)}
+.ch-it[aria-pressed="true"] .lb{fill:var(--acc)}
+.ch-it:focus{outline:none}.ch-it:focus-visible .bg{stroke:var(--acc);stroke-width:3}
+.ch-detail{background:var(--card);padding:clamp(22px,3vw,34px);position:relative;min-height:300px;animation:rise .4s var(--ease)}
+.ch-detail::before{content:"";position:absolute;left:0;right:0;top:0;height:2px;background:linear-gradient(90deg,var(--acc),transparent)}
+.ch-detail h3{font-size:clamp(30px,3vw,40px)}
+.ch-detail p{color:var(--dim);margin-top:12px}
+.ch-detail .ex{font-family:var(--serif);font-style:italic;font-size:21px;color:var(--ink);line-height:1.35}
+.ch-detail ul{margin:12px 0 0;padding-left:18px;color:var(--dim)}
+.ch-detail .hint{font-size:13px;color:var(--mute);margin-top:16px}
+.m-steps .card h3{font-size:clamp(24px,2.2vw,30px)}
+.musts{max-width:860px;margin:clamp(32px,5vh,48px) auto 0;text-align:left}
+.m-prompts{display:flex;flex-wrap:wrap;gap:7px;justify-content:center}
+.m-prompts button{border:1px dashed var(--line2);background:transparent;border-radius:999px;padding:7px 14px;min-height:40px;font-size:14px;color:var(--dim);cursor:pointer}
+.m-prompts button:hover{border-color:var(--acc);color:var(--ink)}
+.m-add{display:flex;gap:8px;margin-top:16px}
+.m-add input,.m-card input{flex:1;min-width:0;background:var(--bg);border:1px solid var(--line2);border-radius:12px;padding:12px 14px;color:var(--ink);font:inherit}
+.m-add input:focus,.m-card input:focus{outline:none;border-color:var(--acc)}
+.m-list{display:grid;gap:4px;margin-top:18px}
+.m-card{background:var(--card);padding:18px 20px;display:grid;gap:12px}
+.m-card .mt{display:flex;gap:10px;align-items:flex-start}
+.m-card .mt b{flex:1;min-width:0;font-family:var(--serif);font-weight:500;font-size:clamp(22px,2vw,26px);line-height:1.25}
+.m-card .mt b mark{background:none;color:var(--c-red);font-style:italic}
+.m-card .ml{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--mute);font-weight:700}
+.m-who{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.m-who button{border:1px solid var(--line2);background:transparent;border-radius:999px;padding:5px 12px;min-height:34px;font-size:13px;cursor:pointer;color:var(--ink)}
+.m-who button[aria-pressed="true"]{background:var(--acc-fill);border-color:var(--acc-fill);color:var(--on-fill);font-weight:700}
+.m-card .row{display:flex;gap:8px;margin-top:6px}
+.m-jar{justify-self:start;border:1px solid var(--acc);background:transparent;border-radius:999px;padding:7px 14px;min-height:38px;font-size:14px;cursor:pointer;color:var(--ink)}
+.m-jar[disabled]{border-color:var(--c-grn);color:var(--c-grn);cursor:default}
+@media (max-width:860px){.charter{grid-template-columns:1fr}.ch-detail{min-height:0}}
+@media (max-width:560px){.m-add{flex-direction:column}}
+
+.isl-wrap{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:clamp(20px,3vw,40px);margin-top:clamp(36px,5vh,56px);align-items:start;text-align:left}
+.isl-wrap .island-fig{position:sticky;top:calc(12px + env(safe-area-inset-top,0px));margin:0}
+.isl-legend{display:flex;flex-wrap:wrap;gap:6px 14px;justify-content:center;font-size:13px;color:var(--mute);margin-top:10px}
+.isl-legend span b{color:var(--ink);font-weight:700}
+.isl-wrap .zones,.princ-wrap .zones{grid-template-columns:1fr;margin-top:0}
+.zone .znote{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--zc);font-weight:700;margin-top:8px}
+.zone .zflash{font-size:13px;color:var(--ink);margin-top:6px;min-height:0}
+.zone[data-z="nice"]{--zc:#C98A1E}
+.i-pop{animation:ipop .6s cubic-bezier(.2,1.6,.4,1);transform-box:fill-box;transform-origin:50% 100%}
+@keyframes ipop{from{transform:scale(0);opacity:0}to{transform:scale(1);opacity:1}}
+.i-rays{stroke:#F2C94C;stroke-width:3;stroke-linecap:round;opacity:.8}
+.i-fin{fill:#5D6B78}.i-prison{fill:#8C8680}.i-prison-d{fill:#5E5A55}.i-bars{stroke:#2F2F2F;stroke-width:2}
+.i-plane{fill:#F7F1E3;stroke:#2F2F2F;stroke-width:1.5}.i-trail{stroke:var(--mute);stroke-width:2;stroke-dasharray:4 6;fill:none}
+.i-bush{fill:#3F7A3A}.i-bush2{fill:#5E9B4E}.i-flower{fill:#E86A8A}
+.i-light{fill:#F7F1E3;stroke:#2F2F2F;stroke-width:1.2}.i-lred{fill:#D2402F}.i-lamp{fill:#F2C94C}
+.i-heart{fill:#E8505B}.i-ped{fill:#C9C2B4}
+.princ-wrap{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:clamp(20px,3vw,40px);margin-top:clamp(36px,5vh,56px);align-items:start;text-align:left}
+.book-fig{margin:0;position:sticky;top:calc(12px + env(safe-area-inset-top,0px))}
+.book-fig svg{width:100%;max-width:440px;height:auto;display:block;margin:0 auto}
+.b-floor{fill:var(--line)}.b-cover{fill:#7A4E2E}.b-page{fill:#F7F1E3}.b-line{stroke:#C9C2B4;stroke-width:2.5;stroke-linecap:round}
+.b-title{fill:#7A4E2E;font-family:var(--serif);font-style:italic;font-weight:600;font-size:15px}
+.b-man circle{fill:var(--ink)}.b-man path{stroke:var(--ink)}.b-glow{stroke:var(--acc-fill);stroke-width:2;fill:none;stroke-dasharray:3 5}
+.crit{max-width:1000px;margin:clamp(32px,5vh,48px) auto 0;border:1.5px solid var(--acc);border-radius:18px;padding:clamp(20px,3vw,34px)}
+.crit-lead{font-size:clamp(17px,1.4vw,19px);color:var(--dim);max-width:62ch;margin:0 auto 18px}
+.crit .tips div{background:var(--card);position:relative}
+.crit .tips .num{display:block;font-family:var(--serif);font-weight:600;font-size:40px;line-height:.9;color:var(--num);margin-bottom:6px}
+.crit .tips small{display:block;margin-top:10px;font-size:14px;color:var(--mute)}
+.bad-wrap{overflow-x:auto;margin-top:clamp(32px,5vh,48px);text-align:left}
+.bad{width:100%;border-collapse:separate;border-spacing:0 4px;min-width:640px}
+.bad th{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--mute);font-weight:700;text-align:left;padding:6px 16px}
+.bad td{background:var(--card);padding:14px 16px;vertical-align:top;font-size:15px;color:var(--dim)}
+.bad td:first-child{width:28%}
+.bad td:first-child button{display:flex;gap:10px;align-items:flex-start;border:0;background:none;cursor:pointer;text-align:left;color:var(--ink);font-family:var(--serif);font-size:21px;line-height:1.2;padding:0}
+.bad td:first-child button i{flex:none;width:20px;height:20px;border:1.5px solid var(--line2);border-radius:5px;margin-top:3px;display:grid;place-items:center;font-style:normal;font-size:13px;font-family:var(--sans)}
+.bad tr.on td:first-child button i{background:var(--c-red);border-color:var(--c-red);color:#fff}
+.bad tr.on td{background:color-mix(in srgb,var(--card) 88%,var(--c-red))}
+.bad td em{font-style:italic;font-family:var(--serif);font-size:18px;color:var(--ink)}
+@media (max-width:900px){.isl-wrap,.princ-wrap{grid-template-columns:1fr}.isl-wrap .island-fig,.book-fig{position:relative;top:0}.book-fig svg{max-width:300px}}
+
+:root{--wood:#B98A5E;--wood2:#9C7148;--wood-back:#E9DCC6;--shelf:#8A6240;--sea1:#BFE3E6;--sea2:#7FC1C9;--sand:#EAD3A2;--grass:#7DAE6A;--sky:#F6F1E4}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--wood:#7A5638;--wood2:#5E4029;--wood-back:#241C16;--shelf:#4A3322;--sea1:#183A40;--sea2:#0F2A30;--sand:#9C8458;--grass:#4E7A45;--sky:#121417}}
+:root[data-theme="dark"]{--wood:#7A5638;--wood2:#5E4029;--wood-back:#241C16;--shelf:#4A3322;--sea1:#183A40;--sea2:#0F2A30;--sand:#9C8458;--grass:#4E7A45;--sky:#121417}
+h2.one-line{max-width:none}
+@media (min-width:900px){h2.one-line{white-space:nowrap}}
+.lede b,.body b{font-weight:700;color:var(--ink)}
+.sci{max-width:760px;margin:clamp(28px,4vh,40px) auto 0;padding:18px 22px;border-left:2px solid var(--acc);background:var(--card);text-align:left;font-size:15px;color:var(--dim)}
+.sci .label{margin-bottom:6px}
+.sci b{color:var(--ink)}
+/* types */
+.types .card{text-align:left}
+.types .card .label,.types .card h3{text-align:left}
+.types .card h3{font-size:clamp(24px,2.2vw,30px)}
+.types .card p{font-size:16px}
+.types .card .ex{font-family:var(--serif);font-style:italic;font-size:19px;color:var(--ink);margin-top:12px;line-height:1.35}
+/* pantry */
+.pantry-pair{display:grid;grid-template-columns:1fr 1fr;gap:clamp(20px,4vw,56px);margin-top:clamp(40px,6vh,64px);align-items:start}
+.pantry-fig{margin:0;text-align:center}
+.pantry-fig svg{width:100%;max-width:420px;height:auto;display:block;margin:0 auto}
+.pantry-fig figcaption{font-family:var(--serif);font-size:clamp(24px,2.4vw,32px);margin-top:14px;line-height:1.2}
+.pantry-fig figcaption em{color:var(--acc)}
+.p-frame{fill:var(--wood)}.p-back{fill:var(--wood-back)}.p-shelf{fill:var(--shelf)}.p-inner{fill:var(--wood2)}
+.p-me{fill:var(--acc-fill)}.p-me-line{stroke:var(--ink);stroke-width:1.5;fill:none}
+.p-tag{fill:var(--ink);font-family:var(--serif);font-style:italic;font-size:17px}
+.p-bulb{fill:#F6E7B0}.p-glow{fill:rgba(246,231,176,.25)}
+.jar-glass{fill:rgba(255,255,255,.22);stroke:rgba(255,255,255,.55);stroke-width:1.2}
+.jar-lid{fill:#C9C2B4;stroke:rgba(0,0,0,.25);stroke-width:.8}
+.jar-lab{fill:#F7F1E3;stroke:rgba(0,0,0,.15);stroke-width:.6}
+.jar{cursor:pointer;transition:transform .25s var(--ease);transform-box:fill-box;transform-origin:50% 100%}
+.jar:hover,.jar.hl{transform:translateY(-4px)}
+.jar.hl .jar-glass{stroke:var(--acc-fill);stroke-width:2.4}
+.jar.mine .jar-lab{fill:#BFE7CC}.jar.not .jar-lab{fill:#F6C2BA}
+.jars{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px;margin-top:clamp(32px,5vh,48px);text-align:left}
+.jrow{background:var(--card);padding:16px 18px;display:grid;grid-template-columns:28px minmax(0,1fr);gap:14px;align-items:start;border-left:3px solid transparent;transition:border-color .2s}
+.jrow.hl{border-left-color:var(--acc)}
+.jrow .dot{width:22px;height:30px;border-radius:5px 5px 7px 7px;margin-top:4px;box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.35)}
+.jrow b{display:block;font-family:var(--serif);font-weight:500;font-size:22px;line-height:1.2}
+.jrow small{display:block;color:var(--mute);font-size:14px;margin-top:2px}
+.jrow .sort{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.jrow .sort button{border:1px solid var(--line2);background:transparent;border-radius:999px;padding:4px 12px;min-height:34px;font-size:13px;cursor:pointer;color:var(--ink)}
+.jrow .sort button[aria-pressed="true"][data-v="mine"]{background:var(--c-grn);border-color:var(--c-grn);color:#fff}
+.jrow .sort button[aria-pressed="true"][data-v="not"]{background:var(--c-red);border-color:var(--c-red);color:#fff}
+.jrow .sort button[aria-pressed="true"][data-v="q"]{background:var(--c-yel);border-color:var(--c-yel);color:#141414}
+.own-jar{display:flex;gap:8px;max-width:560px;margin:20px auto 0}
+.own-jar input{flex:1;min-width:0;background:var(--bg);border:1px solid var(--line2);border-radius:12px;padding:12px 14px;color:var(--ink);font:inherit}
+.jar-sum{font-family:var(--serif);font-size:clamp(22px,2.2vw,28px);margin-top:22px;min-height:1.3em}
+/* island */
+.island-fig{margin:clamp(40px,6vh,64px) auto 0;max-width:900px}
+.island-fig svg{width:100%;height:auto;display:block}
+.i-sky{fill:var(--sky)}.i-sea{fill:url(#seaG)}.i-wave{stroke:rgba(255,255,255,.55);stroke-width:2;fill:none;stroke-linecap:round}
+.i-sand{fill:var(--sand)}.i-grass{fill:var(--grass)}.i-trunk{stroke:#7A5638;stroke-width:5;fill:none;stroke-linecap:round}.i-leaf{fill:#4E8A4A}
+.i-sun{fill:#F2C94C}.i-man{fill:var(--ink)}.i-flag{fill:var(--c-red)}
+.i-cap{fill:var(--ink);font-family:var(--serif);font-style:italic;font-size:20px}
+.i-boat{fill:#8A6240}.i-sail{fill:#F7F1E3;stroke:rgba(0,0,0,.2)}
+.zones{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px;margin-top:clamp(36px,5vh,56px);text-align:left}
+.zone{--zc:var(--acc);background:var(--card);padding:22px 18px 18px;position:relative;display:flex;flex-direction:column;min-width:0}
+.zone::before{content:"";position:absolute;left:0;right:0;top:0;height:3px;background:var(--zc)}
+.zone[data-z="ok"]{--zc:var(--c-grn)}.zone[data-z="soft"]{--zc:var(--c-yel)}.zone[data-z="no"]{--zc:#E08A3C}.zone[data-z="never"]{--zc:var(--c-red)}
+.zone h3{font-size:clamp(23px,2vw,28px);color:var(--zc)}
+.zone .zd{font-size:14px;color:var(--mute);margin-top:6px;min-height:3em}
+.zone ul{list-style:none;margin:12px 0 0;padding:0;display:grid;gap:4px}
+.zone li{display:flex;gap:6px;align-items:flex-start;background:var(--bg);padding:8px 6px 8px 12px;font-size:15px}
+.zone li span{flex:1;min-width:0;overflow-wrap:anywhere}
+.zone li button{flex:none;width:28px;height:28px;border:0;background:none;color:var(--mute);cursor:pointer;font-size:17px;border-radius:50%}
+.zone li button:hover{color:var(--hot);background:var(--line)}
+.zone .zin{display:flex;gap:6px;margin-top:auto;padding-top:12px}
+.zone .zin input{flex:1;min-width:0;background:var(--bg);border:1px solid var(--line2);border-radius:10px;padding:9px 10px;color:var(--ink);font:inherit;font-size:14px}
+.zone .zin button{flex:none;width:40px;border-radius:10px;border:1px solid var(--line2);background:transparent;color:var(--ink);font-size:20px;cursor:pointer}
+.zone .zin button:hover{border-color:var(--zc)}
+.zone .zex{font-size:13px;color:var(--dim);font-style:italic;margin-top:10px}
+.tips{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px;margin-top:4px;text-align:left}
+.tips div{background:var(--card);padding:18px 20px;font-size:15px;color:var(--dim)}
+.tips b{display:block;color:var(--ink);font-family:var(--serif);font-weight:500;font-size:21px;margin-bottom:4px}
+.tips s{text-decoration-color:var(--strike);color:var(--mute)}
+/* why */
+.why .card{text-align:left}
+.why .card .label,.why .card h3{text-align:left}
+.why .card h3{font-size:clamp(23px,2.1vw,28px)}
+.why .card p{font-size:16px}
+.why .card .meta{font-family:var(--serif);font-style:italic;font-size:19px;color:var(--ink);margin-top:12px}
+/* ladder */
+.ladder-wrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(20px,4vw,48px);margin-top:clamp(40px,6vh,64px);text-align:left;align-items:start}
+.ladder{list-style:none;margin:0;padding:0;display:grid;gap:4px;position:relative}
+.ladder li button{--lc:var(--c-yel);width:100%;display:grid;grid-template-columns:40px minmax(0,1fr) auto;gap:12px;align-items:center;padding:14px 16px;background:var(--card);border:0;border-left:4px solid var(--lc);cursor:pointer;text-align:left;color:var(--ink);transition:background .2s,box-shadow .2s}
+.ladder li button:hover{background:color-mix(in srgb,var(--card) 88%,var(--lc))}
+.ladder li button[aria-pressed="true"]{background:color-mix(in srgb,var(--card) 80%,var(--lc));box-shadow:inset 0 0 0 1px var(--lc)}
+.ladder .n{font-family:var(--serif);font-weight:600;font-size:28px;color:var(--lc);line-height:1}
+.ladder b{font-family:var(--serif);font-weight:500;font-size:clamp(21px,1.9vw,25px);line-height:1.15;display:block}
+.ladder small{display:block;font-size:13px;color:var(--mute);margin-top:2px}
+.ladder .t{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--lc);font-weight:700;white-space:nowrap}
+.ladder .zl{font-size:12px;letter-spacing:.2em;text-transform:uppercase;font-weight:700;padding:14px 4px 6px}
+.ladder .zl.hot{color:#E08A3C}.ladder .zl.cold{color:#6FA8D8}
+.lv-detail{position:sticky;top:calc(16px + env(safe-area-inset-top,0px));background:var(--card);padding:clamp(22px,3vw,32px);border-top:3px solid var(--lc,var(--acc));min-height:340px}
+.lv-detail .label{margin-bottom:6px}
+.lv-detail h3{font-size:clamp(30px,3vw,40px);color:var(--lc,var(--ink))}
+.lv-detail p{color:var(--dim);margin-top:12px}
+.lv-detail p b{color:var(--ink)}
+.lv-detail .tool{margin-top:16px;padding-top:14px;border-top:1px solid var(--line);display:flex;gap:14px;align-items:center}
+.lv-detail .tool svg{width:54px;height:54px;flex:none;color:var(--acc)}
+.lv-detail .kids{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.lv-detail .kids span{border:1px solid #6FA8D8;color:var(--ink);border-radius:999px;padding:5px 12px;font-size:14px}
+.temp{height:8px;border-radius:4px;margin-top:20px;background:linear-gradient(90deg,#F2C94C,#E08A3C,#D2402F,#8B2B5C,#5B6FA8,#6FA8D8)}
+.temp-l{display:flex;justify-content:space-between;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--mute);margin-top:6px}
+/* arsenal */
+.arsenal{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px;margin-top:clamp(40px,6vh,64px);text-align:left}
+.weapon{background:var(--card);padding:20px 18px 18px;display:flex;flex-direction:column;position:relative;min-width:0}
+.weapon .wtop{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.weapon svg{width:68px;height:68px;color:var(--ink);flex:none}
+.weapon .pw{display:flex;gap:3px;margin-top:6px}
+.weapon .pw i{width:8px;height:8px;border-radius:2px;background:var(--line2)}
+.weapon .pw i.on{background:var(--c-red)}
+.weapon h3{font-size:clamp(23px,2vw,28px);margin-top:12px}
+.weapon .what{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--acc);font-weight:700;margin-top:2px}
+.weapon p{font-size:15px;color:var(--dim);margin-top:10px}
+.weapon .say{font-family:var(--serif);font-style:italic;font-size:19px;line-height:1.3;color:var(--ink);margin-top:10px}
+.weapon .wbtn{display:flex;flex-wrap:wrap;gap:6px;margin-top:auto;padding-top:16px}
+.weapon .wbtn button{border:1px solid var(--line2);background:transparent;border-radius:999px;padding:5px 12px;min-height:36px;font-size:13px;cursor:pointer;color:var(--ink)}
+.weapon .wbtn button[aria-pressed="true"]{background:var(--acc-fill);border-color:var(--acc-fill);color:var(--on-fill);font-weight:700}
+.weapon .wbtn button.fav[aria-pressed="true"]{background:var(--c-red);border-color:var(--c-red);color:#fff}
+.weapon.has{box-shadow:inset 0 0 0 1px var(--acc)}
+.ars-out{max-width:760px;margin:clamp(28px,4vh,40px) auto 0;font-family:var(--serif);font-size:clamp(22px,2.2vw,28px);line-height:1.35;min-height:1.4em}
+.ars-out small{display:block;font-family:var(--sans);font-size:15px;color:var(--dim);margin-top:8px}
+/* summary */
+.const{max-width:860px;margin:clamp(40px,6vh,64px) auto 0;background:var(--card);padding:clamp(24px,4vw,44px);text-align:left;position:relative}
+.const::before{content:"";position:absolute;left:0;right:0;top:0;height:2px;background:linear-gradient(90deg,var(--acc),transparent)}
+.const h3{font-size:clamp(30px,3vw,42px)}
+.const .blk{margin-top:20px;padding-top:14px;border-top:1px solid var(--line)}
+.const .lbl{font-size:12px;letter-spacing:.2em;text-transform:uppercase;font-weight:700;margin-bottom:6px}
+.const ul{margin:0;padding-left:18px;font-family:var(--serif);font-size:20px;line-height:1.35}
+.const .dim{color:var(--mute);font-size:15px}
+.const-act{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:24px}
+.note-s{font-size:14px;color:var(--mute);margin-top:10px;min-height:1.2em}
+.end-links{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:30px}
+.end-links a{display:inline-flex;align-items:center;text-decoration:none;color:var(--ink)}
+@media (max-width:980px){.zones,.arsenal{grid-template-columns:repeat(2,minmax(0,1fr))}.tips{grid-template-columns:1fr}}
+@media (max-width:860px){.ladder-wrap{grid-template-columns:1fr}.lv-detail{position:relative;top:0}}
+@media (max-width:640px){.pantry-pair{grid-template-columns:1fr}.jars{grid-template-columns:1fr}.zones,.arsenal{grid-template-columns:1fr}.own-jar{flex-direction:column}}
+</style>
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="/practices/fonts/fonts.css">
+<script src="/telegram-web-app.js"></script>
+<script>
+/* MaxMagia: практика внутри кабинета Telegram */
+(function(){
+  var tg = window.Telegram && Telegram.WebApp;
+  var inTg = !!(tg && tg.platform && tg.platform !== 'unknown');
+  function ext(href){
+    try {
+      var u = new URL(href, location.href);
+      if (u.origin === location.origin) { location.href = u.pathname + u.search + u.hash; return true; }
+      if (!inTg) return false;
+      if (u.hostname === 't.me' && tg.openTelegramLink) tg.openTelegramLink(u.href);
+      else tg.openLink(u.href, {try_instant_view:false});
+      return true;
+    } catch(e){ return false; }
+  }
+  document.addEventListener('click', function(e){
+    var a = e.target && e.target.closest ? e.target.closest('a[href]') : null;
+    if (!a) return;
+    var h = a.getAttribute('href') || '';
+    if (!h || h.charAt(0) === '#' || /^(javascript|blob|data|mailto|tel):/i.test(h)) return;
+    if (ext(h)) e.preventDefault();
+  }, true);
+  if (!inTg) return;
+  var wo = window.open;
+  window.open = function(url){
+    var s = String(url || '');
+    if (/^(blob|data):/i.test(s)) return null;      /* картинку внутри Telegram открыть нельзя — страница сама предложит скриншот */
+    if (s && ext(s)) return {};
+    return wo.apply(window, arguments);
+  };
+  try {
+    tg.ready(); tg.expand();
+    tg.setHeaderColor && tg.setHeaderColor('#ffffff');
+    tg.setBackgroundColor && tg.setBackgroundColor('#ffffff');
+    tg.BackButton.show();
+    tg.BackButton.onClick(function(){ location.href = '/'; });
+  } catch(e){}
+})();
+</script>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <linearGradient id="seaG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color:var(--sea1)"/><stop offset="1" style="stop-color:var(--sea2)"/></linearGradient>
+</defs></svg>
+<main>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="badge"><img src="/practices/img/emblem.png" alt="Логотип клуба MaxMagia"></div>
+    <span class="label">Клуб #MaxMagia · занятие</span>
+    <h1 style="font-size:clamp(40px,9vw,120px)">Личные границы</h1>
+    <p class="sub">или неписаные правила, на которые всем плевать.<br><b>Где заканчиваюсь я и начинается другой?</b></p>
+    <a class="go" href="#what">Ниже подробнее<i aria-hidden="true"></i></a>
+  </div>
+</header>
+
+<section class="sec" id="what" aria-labelledby="h-what">
+<div class="wrap center">
+  <span class="label">Что это такое</span>
+  <h2 id="h-what">Граница — это место, где заканчиваешься ты</h2>
+  <p class="lede">Личные границы — это твои правила: что со мной можно, что нельзя и что будет, если их нарушить. Они отделяют <b>моё</b> — тело, время, чувства, мнения, вещи, решения — от <b>чужого</b>. Границы не про стены и не про холодность. Они про то, чтобы рядом с другими оставаться собой.</p>
+  <figure class="bnd-fig">
+    <svg viewBox="0 0 760 304" role="img" aria-label="Два человека, вокруг каждого — своя граница; между ними — пространство">
+      <ellipse class="bf-floor" cx="380" cy="262" rx="330" ry="14"/>
+      <circle class="bf-zone me" cx="230" cy="160" r="112"/><circle class="bf-zone other" cx="530" cy="160" r="112"/>
+      <circle class="bf-ring me" cx="230" cy="160" r="112"/><circle class="bf-ring other" cx="530" cy="160" r="112"/>
+      <g class="bf-man me"><circle cx="230" cy="112" r="16"/><path d="M230 128 V196 M230 196 L216 238 M230 196 L244 238 M230 144 L205 176 M230 144 L262 160"/></g>
+      <g class="bf-man other"><circle cx="530" cy="112" r="16"/><path d="M530 128 V196 M530 196 L516 238 M530 196 L544 238 M530 144 L498 160 M530 144 L555 176"/></g>
+      <path class="bf-gap" d="M380 70 V250"/>
+      <text class="bf-t" x="230" y="34" text-anchor="middle">Я</text><text class="bf-t" x="530" y="34" text-anchor="middle">Другой</text>
+      <text class="bf-s" x="380" y="60" text-anchor="middle">здесь мы встречаемся</text>
+      <text class="bf-s" x="140" y="294" text-anchor="middle">моя граница</text><text class="bf-s" x="620" y="294" text-anchor="middle">его граница</text>
+    </svg>
+    <figcaption>Граница не стена. Это линия, по которой понятно, где моё, а где твоё, — и где мы можем встретиться по взаимному согласию.</figcaption>
+  </figure>
+  <div class="sci"><span class="label">Что говорит наука</span>Американский антрополог <b>Эдвард Холл</b> описал, что вокруг каждого из нас есть невидимые зоны: интимная — примерно до 45 см, личная — до 1,2 м, социальная — до 3,5 м. Когда в зону без приглашения входит тот, кому там быть не положено, тело реагирует напряжением раньше, чем мы успеваем это осознать. Психиатр <b>Мюррей Боуэн</b> называл способность оставаться собой рядом с близкими <b>дифференциацией себя</b>: чем она выше, тем меньше человек растворяется в чужих ожиданиях и тем спокойнее держит свою позицию.</div>
+</div>
+</section>
+
+<section class="sec orn-top" id="charter" aria-labelledby="h-charter">
+<div class="wrap center">
+  <div class="rule-orn" aria-hidden="true"><i></i></div>
+  <span class="label">Из чего состоят границы</span>
+  <h2 id="h-charter">Устав</h2>
+  <p class="lede">К личным границам относится много разного. Нажми на любой элемент вокруг человека — и прочитай, что входит в эту часть твоего устава.</p>
+  <div class="charter">
+    <svg id="charterSvg" viewBox="0 0 400 400" role="group" aria-label="Составные части личных границ"></svg>
+    <div class="ch-detail" id="chDetail" aria-live="polite"></div>
+  </div>
+</div>
+</section>
+
+<section class="sec orn-top" id="pantry" aria-labelledby="h-pantry">
+<div class="wrap center">
+  <div class="rule-orn" aria-hidden="true"><i></i></div>
+  <span class="label">Как формируются границы</span>
+  <h2 id="h-pantry">Кладовка</h2>
+  <p class="lede">Когда ты был(а) маленьким, ты был(а) как пустая кладовка. И родители, бабушки, учителя бережно и не очень ставили туда свои банки: установки, правила жизни, ценности, интересы. Воспитание и социализация закатали на полки огурцы, помидоры, компоты и варенье на все случаи жизни.</p>
+  <div class="pantry-pair">
+    <figure class="pantry-fig">
+      <svg viewBox="0 0 300 380" role="img" aria-label="Пустая кладовка, в ней маленький человек">
+        <rect class="p-frame" x="14" y="14" width="272" height="352" rx="8"/>
+        <rect class="p-back" x="30" y="30" width="240" height="320"/>
+        <circle class="p-glow" cx="150" cy="60" r="34"/><line x1="150" y1="30" x2="150" y2="52" stroke="currentColor" stroke-width="1" opacity=".5"/><circle class="p-bulb" cx="150" cy="58" r="7"/>
+        <rect class="p-shelf" x="30" y="122" width="240" height="8"/><rect class="p-shelf" x="30" y="202" width="240" height="8"/><rect class="p-shelf" x="30" y="282" width="240" height="8"/>
+        <g transform="translate(150 0)">
+          <circle class="p-me" cx="0" cy="304" r="9"/>
+          <path class="p-me-line" d="M0 313 V332 M0 332 L-7 348 M0 332 L7 348 M0 318 L-9 328 M0 318 L9 328" style="stroke-width:3"/>
+        </g>
+        <path d="M168 312 L196 296" stroke="var(--acc)" stroke-width="1.5" fill="none"/>
+        <text class="p-tag" x="200" y="296">это ты</text>
+      </svg>
+      <figcaption>Это ты.<br><em>Пустая кладовка</em></figcaption>
+    </figure>
+    <figure class="pantry-fig">
+      <svg viewBox="0 0 300 380" role="img" aria-label="Та же кладовка, заставленная банками; человека почти не видно">
+        <rect class="p-frame" x="14" y="14" width="272" height="352" rx="8"/>
+        <rect class="p-back" x="30" y="30" width="240" height="320"/>
+        <circle class="p-glow" cx="150" cy="60" r="34"/><circle class="p-bulb" cx="150" cy="58" r="7"/>
+        <rect class="p-shelf" x="30" y="122" width="240" height="8"/><rect class="p-shelf" x="30" y="202" width="240" height="8"/><rect class="p-shelf" x="30" y="282" width="240" height="8"/>
+        <g transform="translate(150 0)"><circle class="p-me" cx="0" cy="304" r="9"/><path class="p-me-line" d="M0 313 V332 M0 332 L-7 348 M0 332 L7 348" style="stroke-width:3"/></g>
+        <g id="jarsG"></g>
+      </svg>
+      <figcaption>Банок стало много.<br><em>А где ты во всём этом?</em></figcaption>
+    </figure>
+  </div>
+  <p class="body">Пройдись по полкам. Нажми на банку — и реши, что с ней делать: это правда <b>моё</b>, это <b>не моё</b> — стоит по наследству, или пока <b>не знаю</b>.</p>
+  <div class="jars" id="jars"></div>
+  <div class="own-jar"><input type="text" id="ownJar" maxlength="70" placeholder="Своя банка: какая установка стоит у тебя?" aria-label="Своя банка"><button type="button" class="ghost" id="ownJarAdd">Поставить на полку</button></div>
+  <p class="jar-sum" id="jarSum" aria-live="polite"></p>
+  <div class="sci"><span class="label">Что говорит наука</span>В гештальт-терапии такие банки называют <b>интроектами</b> — правилами, которые ребёнок «проглотил» целиком, не пережёвывая: ему было рано проверять, подходят ли они. Около двух лет ребёнок впервые активно говорит «нет» — это не вредность, а первая граница. Если за «нет» стыдили или наказывали, полки заполняются чужим, а своё пространство становится всё меньше. Хорошая новость: взрослый может пересмотреть содержимое кладовки — оставить нужное, а остальное аккуратно вынести.</div>
+</div>
+</section>
+
+<section class="sec orn-top" id="musts" aria-labelledby="h-musts">
+<div class="wrap center">
+  <div class="rule-orn" aria-hidden="true"><i></i></div>
+  <span class="label">Практика</span>
+  <h2 id="h-musts">Как узнать свои банки</h2>
+  <p class="lede">Свои банки трудно увидеть изнутри кладовки. Зато их хорошо видно в том, что мы требуем от других. Всё, что, по-нашему, другие люди <b>должны</b> делать, как они <b>должны</b> жить и чего <b>не должны</b> делать, чаще всего показывает, какие банки стоят на наших собственных полках.</p>
+  <div class="cards c3 m-steps">
+    <div class="card"><span class="num">01</span><span class="label">Допиши</span><h3>«Люди должны…»</h3><p>Быстро, не раздумывая. Чем резче звучит фраза, тем лучше.</p></div>
+    <div class="card"><span class="num">02</span><span class="label">Узнай</span><h3>Чей это голос?</h3><p>Кто так говорил, когда ты был(а) маленьким? Чья это банка?</p></div>
+    <div class="card"><span class="num">03</span><span class="label">Переформулируй</span><h3>«Мне важно, чтобы…»</h3><p>Требование к миру превращается в твоё предпочтение. Его уже можно сделать границей.</p></div>
+  </div>
+  <div class="musts">
+    <div class="m-prompts" id="mPrompts"></div>
+    <div class="m-add"><input type="text" id="mIn" maxlength="140" placeholder="Например: люди должны отвечать на сообщения сразу" aria-label="Допиши фразу о том, что другие должны"><button type="button" class="ghost" id="mAdd">Добавить</button></div>
+    <div class="m-list" id="mList"></div>
+  </div>
+  <div class="sci"><span class="label">Что говорит наука</span>В когнитивно-поведенческой терапии жёсткие «должен» и «обязан» относят к когнитивным искажениям — <b>долженствованиям</b>. Основатель рационально-эмоционально-поведенческой терапии <b>Альберт Эллис</b> показал: именно жёсткие требования к себе, другим и миру («люди должны…») дают сильный гнев и обиду, когда реальность им не соответствует. А переформулировка требования в предпочтение («мне бы хотелось, чтобы…») снижает напряжение, не отменяя ценности. Психоаналитик <b>Карен Хорни</b> называла это «тиранией долженствования». Не каждое «должен» — чужая банка, но почти каждое стоит проверить.</div>
+</div>
+</section>
+
+<section class="band" aria-label="Чужие банки">
+  <div class="fade-top"></div><div class="fade-bot"></div>
+  <div class="in wrap">
+    <p>Сначала в тебя складывали чужое.</p>
+    <p>Потом ты стал(а) этим жить.</p>
+    <p class="hot">Пора проверить, что здесь твоё.</p>
+  </div>
+</section>
+
+<section class="sec orn-top" id="island" aria-labelledby="h-island">
+<div class="wrap center">
+  <div class="rule-orn" aria-hidden="true"><i></i></div>
+  <span class="label">Внешние границы · правила для других</span>
+  <h2 id="h-island">Твой остров — твоё государство</h2>
+  <p class="lede">Представь маленький остров. На нём стоишь ты и смотришь на море. Это твоя территория — и у неё, как у любого государства, есть свои законы: что другим приятно делать, что можно, что иногда можно, но нежелательно, что нельзя и что категорически недопустимо. Записывай законы — и смотри, как меняется твой остров.</p>
+  <div class="isl-wrap">
+    <figure class="island-fig">
+      <svg id="islandSvg" viewBox="0 0 900 400" role="img" aria-label="Твой остров: меняется, когда ты добавляешь законы"></svg>
+      <figcaption class="isl-legend" id="islLegend"></figcaption>
+    </figure>
+    <div class="zones" id="zones"></div>
+  </div>
+</div>
+</section>
+
+<section class="sec orn-top" id="principles" aria-labelledby="h-princ">
+<div class="wrap center">
+  <div class="rule-orn" aria-hidden="true"><i></i></div>
+  <span class="label">Внутренние границы · правила для себя</span>
+  <h2 id="h-princ">Принципы моей жизни</h2>
+  <p class="lede">Границы бывают не только внешними. У человека должны быть правила и для самого себя — они становятся <b>принципами</b>. Что я могу делать для себя, чтобы мне было хорошо и жизнь держалась в тонусе? Где я иногда могу отступить от своих правил — и это окей? А что мне самому категорически нельзя, потому что после этого я перестану себе доверять?</p>
+  <div class="princ-wrap">
+    <figure class="book-fig">
+      <svg viewBox="0 0 360 300" role="img" aria-label="Человек читает книгу «Принципы моей жизни»">
+        <ellipse class="b-floor" cx="180" cy="270" rx="150" ry="14"/>
+        <path class="b-cover" d="M70 120 L180 136 L290 120 L290 248 L180 262 L70 248 Z"/>
+        <path class="b-page" d="M80 126 L176 140 L176 252 L80 240 Z"/><path class="b-page" d="M184 140 L280 126 L280 240 L184 252 Z"/>
+        <path class="b-line" d="M92 156 L164 166 M92 172 L164 182 M92 188 L150 196 M196 166 L268 156 M196 182 L268 172 M196 198 L250 190"/>
+        <text class="b-title" x="128" y="152" text-anchor="middle" transform="rotate(8 128 152)">Принципы</text>
+        <text class="b-title" x="232" y="150" text-anchor="middle" transform="rotate(-8 232 150)">моей жизни</text>
+        <g class="b-man"><circle cx="180" cy="44" r="16"/><path d="M180 60 V108 M180 76 L132 128 M180 76 L228 128" stroke-width="6" stroke-linecap="round" fill="none"/></g>
+        <path class="b-glow" d="M150 40 q30 -30 60 0"/>
+      </svg>
+    </figure>
+    <div class="zones self" id="selfZones"></div>
+  </div>
+</div>
+</section>
+
+<section class="sec orn-top" id="criteria" aria-labelledby="h-crit">
+<div class="wrap center">
+  <div class="rule-orn" aria-hidden="true"><i></i></div>
+  <span class="label">Проверь свои правила</span>
+  <h2 id="h-crit">Хорошая граница соответствует трём критериям</h2>
+  <div class="crit">
+    <p class="crit-lead">В идеале и <b>внешние</b> границы — правила для других, — и <b>внутренние</b> — принципы для себя — соответствуют трём критериям:</p>
+    <div class="tips">
+      <div><span class="num">01</span><b>Про себя, а не про других</b><s>«Ты не должен на меня кричать»</s><br>«Когда на меня кричат, я заканчиваю разговор».<small>Ты не управляешь другими. Но ты управляешь тем, что делаешь сам(а).</small></div>
+      <div><span class="num">02</span><b>Конкретно</b><s>«Уважайте меня»</s><br>«Не звоните мне после 22:00, кроме экстренных случаев».<small>Понятно, что именно можно и что нельзя, — без догадок.</small></div>
+      <div><span class="num">03</span><b>С последствием</b><s>«Ещё раз — и я не знаю, что сделаю»</s><br>«Если опоздаешь больше чем на 20 минут, я уйду».<small>Правило без последствия — пожелание.</small></div>
+    </div>
+  </div>
+</div>
+</section>
+
+<section class="sec orn-top" id="why" aria-labelledby="h-why">
+<div class="wrap center">
+  <div class="rule-orn" aria-hidden="true"><i></i></div>
+  <span class="label">Почему их нарушают</span>
+  <h2 id="h-why">Гости плывут по своим картам</h2>
+  <p class="lede">К твоему острову постоянно подплывают лодки. И большинство гостей нарушают границы не со зла. Они просто не видят, где проходит твой берег, — и плывут по карте, которую им когда-то нарисовали в их собственной кладовке.</p>
+  <div class="cards c3 why">
+    <div class="card"><span class="num">01</span><span class="label">Неписаные правила</span><h3>На берегу нет табличек</h3><p>Ты знаешь свои законы, а гость — нет. Правило, которое ни разу не прозвучало вслух, для другого не существует.</p><p class="meta">Нельзя соблюдать закон, которого не видишь.</p></div>
+    <div class="card"><span class="num">02</span><span class="label">Другая кладовка</span><h3>У них стоят другие банки</h3><p>В их семье было нормально заходить без стука, давать советы без спроса, брать вещи без разрешения. Для них это не нарушение — это обычная жизнь.</p><p class="meta">То, что для тебя вторжение, для них — забота или привычка.</p></div>
+    <div class="card"><span class="num">03</span><span class="label">Проверка берега</span><h3>Люди проверяют, что можно</h3><p>Если нарушение ничего не стоит, оно повторяется. Каждый раз, когда ты промолчал(а), гость узнаёт: здесь можно причаливать.</p><p class="meta">Мы учим людей, как с нами обращаться.</p></div>
+    <div class="card"><span class="num">04</span><span class="label">Выгода</span><h3>Им так удобно</h3><p>Ты всегда соглашался(ась), подменял(а), выручал(а). Когда ты вдруг говоришь «нет», это ломает привычный и выгодный для них порядок — отсюда обида и давление.</p><p class="meta">Сопротивление новым границам — признак, что они работают.</p></div>
+    <div class="card"><span class="num">05</span><span class="label">Слияние</span><h3>У них самих нет острова</h3><p>Человек, который не отличает своё от чужого, не видит и чужих границ. Ему кажется, что вы — одно целое, и твоё — немного и его тоже.</p><p class="meta">Тот, кто не уважает свои границы, редко видит чужие.</p></div>
+    <div class="card"><span class="num">06</span><span class="label">Состояние</span><h3>Шторм у них в голове</h3><p>Усталость, стресс, страх, обида. В шторме человек плохо видит берега — и наступает туда, куда в спокойном состоянии не пошёл бы.</p><p class="meta">Объяснение — не оправдание. Граница от этого не отменяется.</p></div>
+  </div>
+  <div class="sci"><span class="label">Что говорит наука</span>Психолог <b>Томас Гилович</b> описал <b>иллюзию прозрачности</b>: нам кажется, что наши чувства и мысли видны окружающим гораздо лучше, чем на самом деле. «Он же видит, что мне неприятно» — чаще всего не видит. А поведение, которое иногда сходит с рук, а иногда нет, закрепляется даже сильнее, чем то, которое всегда проходит без последствий: в поведенческой психологии это называют эффектом частичного подкрепления. Поэтому границы держатся на <b>ясности и последовательности</b>, а не на намёках.</div>
+</div>
+</section>
+
+<section class="sec orn-top" id="signals" aria-labelledby="h-signals">
+<div class="wrap center">
+  <div class="rule-orn" aria-hidden="true"><i></i></div>
+  <span class="label">Сигналы психики</span>
+  <h2 id="h-signals">Как психика сообщает: «Границу нарушают»</h2>
+  <p class="lede">У психики есть своя пограничная служба — чувства. Сначала горячие, защитные: они строят стену и пытаются «отремонтировать» отношения. Если стену проламывают снова и снова — включаются холодные, уязвимые чувства. Нажми на ступень, чтобы прочитать, что на ней происходит.</p>
+  <div class="ladder-wrap">
+    <ol class="ladder" id="ladder"></ol>
+    <div class="lv-detail" id="lvDetail" aria-live="polite"></div>
+  </div>
+  <div class="sci"><span class="label">Что говорит наука</span>Эмоции — это информация. Гнев в психологии эмоций рассматривают как реакцию на препятствие или нарушение: он мобилизует силы, чтобы защитить важное. Холодные, уязвимые состояния хорошо описаны в <b>схема-терапии Джеффри Янга</b> как режимы «уязвимого ребёнка»: одинокого, покинутого, униженного, зависимого. Чем раньше ты замечаешь ранние сигналы, тем мягче инструмент, которого достаточно, — и тем меньше шансов дойти до ярости или злости на себя.</div>
+</div>
+</section>
+
+<section class="band" aria-label="Пограничник">
+  <div class="fade-top"></div><div class="fade-bot"></div>
+  <div class="in wrap">
+    <p>Раздражение — это не плохой характер.</p>
+    <p>Это пограничник,</p>
+    <p class="hot">который заметил лодку.</p>
+  </div>
+</section>
+
+<section class="sec orn-top" id="arsenal" aria-labelledby="h-ars">
+<div class="wrap center">
+  <div class="rule-orn" aria-hidden="true"><i></i></div>
+  <span class="label">Как отстаивать</span>
+  <h2 id="h-ars">Как обычно защищают границы</h2>
+  <p class="lede">Большинство из нас никто не учил защищать себя. Поэтому от 20 до 70 лет люди пользуются одним и тем же набором — тем, что видели в семье. Узнаёшь свои способы? Отметь.</p>
+  <div class="bad-wrap"><table class="bad">
+    <thead><tr><th>Что делают</th><th>Как это выглядит</th><th>Почему плохо работает</th></tr></thead>
+    <tbody id="badBody"></tbody>
+  </table></div>
+  <p class="ars-out" id="badOut" aria-live="polite"></p>
+  <h2 class="ex-h" id="h-ars2">Как защищать корректно: арсенал твоего государства</h2>
+  <p class="lede">Для разных нарушений нужны разные инструменты. За заплывшую лодку не стреляют из базуки, а против десанта бесполезно махать платочком. Важно, чтобы в арсенале было <b>всё</b> — от лёгкого сигнала до тяжёлой артиллерии — и чтобы ты умел(а) выбирать по ситуации. Отметь, что у тебя есть, и какой инструмент ты применяешь чаще всего.</p>
+  <div class="arsenal" id="arsenalBox"></div>
+  <p class="ars-out" id="arsOut" aria-live="polite"></p>
+  <div class="sci"><span class="label">Правило соразмерности</span>Начинай с самого лёгкого инструмента, который сработает, и повышай мощность, если нарушение повторяется. Проблемы начинаются в двух случаях: когда в арсенале только дротики — и тебя не слышат, или только базука — и ты молчишь до взрыва. Техника «заезженной пластинки» из книги <b>Мануэля Смита</b> о настойчивом поведении — спокойно повторять своё «нет» теми же словами, не вступая в спор, — один из самых недооценённых мечей.</div>
+</div>
+</section>
+
+<section class="sec orn-top" id="repeat" aria-labelledby="h-repeat">
+<div class="wrap center">
+  <div class="rule-orn" aria-hidden="true"><i></i></div>
+  <span class="label">Чтобы не повторялось</span>
+  <h2 id="h-repeat">Как не допускать нарушений повторно</h2>
+  <div class="cards c3">
+    <div class="card"><span class="num">01</span><span class="label">Последовательность</span><h3>Каждый раз, а не иногда</h3><p>Граница, которую защищают через раз, учит другого пробовать снова. Лучше маленькое, но постоянное последствие, чем громкое, но редкое.</p></div>
+    <div class="card"><span class="num">02</span><span class="label">Заранее</span><h3>Вывески на берегу</h3><p>Говори о правилах до нарушения, в спокойный момент: «Мне важно, чтобы…». Договорённость проще удержать, чем запрет, придуманный в ссоре.</p></div>
+    <div class="card"><span class="num">03</span><span class="label">Своя кладовка</span><h3>Проверь свои банки</h3><p>Если тебе трудно сказать «нет», где-то на полке стоит банка «Будь удобным(ой)» или «Не обижай». Пока она там, рука сама опускает оружие.</p></div>
+  </div>
+</div>
+</section>
+
+<section class="band" aria-label="Свобода">
+  <div class="fade-top"></div><div class="fade-bot"></div>
+  <div class="in wrap">
+    <p>Границы не отделяют тебя от людей.</p>
+    <p>Они показывают, как тебя найти.</p>
+    <p class="hot">Мои границы — моя свобода.</p>
+  </div>
+</section>
+
+<section class="sec orn-top" id="summary" aria-labelledby="h-sum">
+<div class="wrap center">
+  <div class="rule-orn" aria-hidden="true"><i></i></div>
+  <span class="label">Итог</span>
+  <h2 id="h-sum">Конституция твоего острова</h2>
+  <p class="lede">Здесь собирается всё, что ты отметил(а): законы острова по зонам, принципы твоей жизни, твой арсенал и то, что ты решил(а) вынести из кладовки. Сохрани картинкой и перечитай через месяц.</p>
+  <div class="const" id="constCard"></div>
+  <div class="const-act"><button type="button" class="btn" id="saveConst">Сохранить конституцию картинкой</button></div>
+  <p class="note-s" id="constNote" aria-live="polite"></p>
+</div>
+</section>
+
+<section class="sec orn-top next-sec" aria-labelledby="h-next">
+<div class="wrap center">
+  <div class="rule-orn" aria-hidden="true"><i></i></div>
+  <span class="label">Продолжить</span>
+  <h2 id="h-next">Ещё о границах</h2>
+  <p class="body">Две практики, которые продолжают эту тему: как охранять свою территорию снаружи и как выстраивать границы с самим собой.</p>
+  <div class="end-links">
+    <a class="ghost" href="https://maxmagia.ru/practices/granicy/">Внешние личные границы</a>
+    <a class="ghost" href="https://claude.ai/artifact/Sz31jVxNmzhfbtuqMFKpq5" target="_blank" rel="noopener">Внутренние личные границы</a>
+  </div>
+</div>
+</section>
+
+</main>
+
+<div class="wrap">
+  <footer>
+    <div class="sign">Клуб #MaxMagia</div>
+    <p>Клуб — не терапия и не медицинская помощь. Если твои границы нарушают с угрозой для безопасности или поднимается много тяжёлого, можно написать мне: <a href="https://t.me/MaxGuschin" target="_blank" rel="noopener">t.me/MaxGuschin</a>.</p>
+    <p>Ответы хранятся только в этом браузере.</p>
+    <p>Максим Гущин · самозанятый · ИНН 616616544435</p>
+    <p><a href="https://maxmagia.ru/">Клуб #MaxMagia</a> · <a href="https://maxmagia.ru/oferta.html">Условия участия</a> · <a href="https://maxmagia.ru/rules.html">Правила клуба</a> · <a href="https://maxmagia.ru/privacy.html">Политика обработки данных</a> · <a href="https://maxmagia.ru/consent.html">Согласие на обработку данных</a></p>
+  </footer>
+</div>
+
+<script>
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+const uid = () => Math.random().toString(36).slice(2, 9);
+const RM = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const bio = 'IntersectionObserver' in window ? new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting){ e.target.classList.add('seen'); bio.unobserve(e.target); } }), {threshold:.35}) : null;
+$$('.band').forEach(b => (RM || !bio) ? b.classList.add('seen') : bio.observe(b));
+
+const KEY = 'maxmagia-granicy-v1';
+let S = {jars:{}, own:[], rules:{}, self:{}, has:[], fav:null, lv:0, bad:[], ch:0, musts:[]};
+try { const r = localStorage.getItem(KEY); if (r) S = Object.assign(S, JSON.parse(r)); } catch(e){}
+const save = () => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch(e){} };
+['nice','ok','soft','no','never'].forEach(k => { S.rules[k] = S.rules[k] || []; S.self[k] = S.self[k] || []; });
+S.bad = S.bad || [];
+
+/* ---------- Pantry ---------- */
+const JARS = [
+  {id:'j1', kind:'Огурцы', t:'Не высовывайся', d:'Будь как все, не выделяйся.', c:'#6E9B4F'},
+  {id:'j2', kind:'Помидоры', t:'Что люди скажут?', d:'Чужое мнение важнее твоего.', c:'#C8453A'},
+  {id:'j3', kind:'Компот', t:'Сначала дело — потом отдых', d:'Отдых нужно заслужить.', c:'#B25A86'},
+  {id:'j4', kind:'Варенье', t:'Будь удобным(ой)', d:'Хороший — значит не доставляющий хлопот.', c:'#D08A2C'},
+  {id:'j5', kind:'Лечо', t:'Мальчики не плачут, девочки не злятся', d:'Некоторые чувства тебе нельзя.', c:'#D9662E'},
+  {id:'j6', kind:'Грибы', t:'Деньги достаются тяжёлым трудом', d:'Легко — значит нечестно.', c:'#8C6A48'},
+  {id:'j7', kind:'Аджика', t:'Терпи', d:'Потерпишь — не развалишься.', c:'#A8352E'},
+  {id:'j8', kind:'Икра кабачковая', t:'Старших не перебивают', d:'Твоё мнение — после всех.', c:'#C99A3A'},
+  {id:'j9', kind:'Вареники', t:'Доедай, а то обидишь', d:'Чужие чувства важнее твоих «не хочу».', c:'#E3D3B0'},
+  {id:'j10', kind:'Капуста квашеная', t:'Не выноси сор из избы', d:'О проблемах молчат.', c:'#B9C47A'}
+];
+const allJars = () => JARS.concat(S.own.map((o, i) => ({id:o.id, kind:'Своя банка', t:o.t, d:'Поставил(а) сам(а)', c:['#7A9CC6','#9B7FC1','#5FA39B'][i % 3], own:true})));
+const SLOTS = [[36,122,44,58],[86,122,48,60],[178,122,44,54],[228,122,38,56],[36,202,42,62],[84,202,54,56],[144,202,44,60],[196,202,62,50],[40,282,46,58],[196,282,50,48],[96,282,40,52],[40,350,52,44],[204,350,52,46],[152,282,36,50]];
+function drawJars(){
+  const g = $('#jarsG'); if (!g) return; let h = '';
+  const list = allJars();
+  list.forEach((j, i) => {
+    if (i >= SLOTS.length) return;
+    const [x, base, w, hh] = SLOTS[i];
+    const st = S.jars[j.id] || '';
+    let dots = ''; for (let k = 0; k < 5; k++) dots += `<circle cx="${(x + 8 + ((k * 13) % (w - 14))).toFixed(1)}" cy="${(base - 10 - ((k * 17) % (hh - 26))).toFixed(1)}" r="${3 + (k % 2) * 2}" fill="rgba(0,0,0,.14)"/>`;
+    h += `<g class="jar ${st}" data-j="${j.id}" tabindex="0" role="button" aria-label="${esc(j.kind + ' «' + j.t + '»')}"><rect x="${x}" y="${base - hh}" width="${w}" height="${hh}" rx="7" fill="${j.c}"/>${dots}<rect class="jar-glass" x="${x}" y="${base - hh}" width="${w}" height="${hh}" rx="7"/><rect class="jar-lid" x="${x + 3}" y="${base - hh - 7}" width="${w - 6}" height="8" rx="2"/><rect class="jar-lab" x="${x + 5}" y="${base - hh * .62}" width="${w - 10}" height="${hh * .3}" rx="2"/></g>`;
+  });
+  g.innerHTML = h;
+  $$('.jar', g).forEach(el => { const f = () => focusJar(el.dataset.j); el.onclick = f; el.onkeydown = e => { if (e.key === 'Enter' || e.key === ' '){ e.preventDefault(); f(); } }; });
+}
+function focusJar(id){
+  $$('.jar').forEach(j => j.classList.toggle('hl', j.dataset.j === id));
+  $$('.jrow').forEach(r => r.classList.toggle('hl', r.dataset.j === id));
+  const r = $(`.jrow[data-j="${id}"]`); if (r) r.scrollIntoView({block:'nearest', behavior: RM ? 'auto' : 'smooth'});
+}
+function drawJarList(){
+  const box = $('#jars');
+  box.innerHTML = allJars().map(j => { const v = S.jars[j.id] || '';
+    return `<div class="jrow" data-j="${j.id}"><span class="dot" style="background:${j.c}"></span><div><small>${esc(j.kind)}</small><b>«${esc(j.t)}»</b><small>${esc(j.d)}</small><div class="sort">${[['mine','Моё'],['not','Не моё'],['q','Не знаю']].map(([k, l]) => `<button type="button" data-jv="${j.id}" data-v="${k}" aria-pressed="${v === k}">${l}</button>`).join('')}${j.own ? `<button type="button" data-jdel="${j.id}" aria-label="Убрать банку">×</button>` : ''}</div></div></div>`; }).join('');
+  $$('[data-jv]', box).forEach(b => b.onclick = () => { const id = b.dataset.jv, v = b.dataset.v; S.jars[id] = S.jars[id] === v ? '' : v; save(); drawPantry(); focusJar(id); });
+  $$('[data-jdel]', box).forEach(b => b.onclick = () => { S.own = S.own.filter(o => o.id !== b.dataset.jdel); delete S.jars[b.dataset.jdel]; save(); drawPantry(); });
+  $$('.jrow', box).forEach(r => r.onmouseenter = () => $$('.jar').forEach(j => j.classList.toggle('hl', j.dataset.j === r.dataset.j)));
+  const all = allJars(), mine = all.filter(j => S.jars[j.id] === 'mine').length, not = all.filter(j => S.jars[j.id] === 'not').length, q = all.filter(j => S.jars[j.id] === 'q').length;
+  $('#jarSum').textContent = !(mine + not + q) ? '' : not > mine ? `Чужих банок больше, чем своих: ${not} против ${mine}. Значит, место для тебя есть — его просто заставили.` : mine && !not ? `Всё отмеченное ты признаёшь своим: ${mine}. Проверь: это выбор или привычка?` : `Моё: ${mine}. Не моё: ${not}. Не знаю: ${q}. Банки с «не знаю» — хороший материал для разговора с собой.`;
+}
+function drawPantry(){ drawJars(); drawJarList(); renderConst(); }
+const addJar = () => { const i = $('#ownJar'); const v = i.value.trim(); if (!v) return; S.own.push({id: 'o' + uid(), t: v}); i.value = ''; save(); drawPantry(); };
+$('#ownJarAdd').onclick = addJar; $('#ownJar').onkeydown = e => { if (e.key === 'Enter'){ e.preventDefault(); addJar(); } };
+
+/* ---------- Charter ---------- */
+const CH = [
+  {k:'body', n:'Тело', l:'Телесные', d:'Кто и как может к тебе прикасаться, как близко стоять, что делать с твоим телом, внешностью, здоровьем.', ex:'«Я не люблю, когда меня обнимают без спроса».', li:['прикосновения и объятия','личная дистанция','комментарии о внешности и весе','сон, еда, отдых — режим тела'], ic:'<circle class="f" cx="0" cy="-12" r="5"/><path d="M0 -6 V7 M0 7 L-6 17 M0 7 L6 17 M-10 -1 H10"/>'},
+  {k:'heart', n:'Чувства', l:'Эмоциональные', d:'Право чувствовать своё и не отвечать за чувства других. Не быть «жилеткой» по умолчанию.', ex:'«Я сочувствую, но сейчас у меня нет сил это слушать».', li:['право на свои чувства','не нести ответственность за чужое настроение','не обесценивать и не высмеивать','не быть всегда «на подхвате»'], ic:'<path d="M0 12 C-18 0 -14 -16 0 -7 C14 -16 18 0 0 12 Z"/>'},
+  {k:'time', n:'Время', l:'Временные', d:'Твоё время и силы: когда ты доступен(на), сколько готов(а) отдать, когда отдыхаешь.', ex:'«После девяти вечера я не отвечаю на рабочие сообщения».', li:['рабочие и личные часы','опоздания и ожидание','выходные и отпуск','сколько времени я готов(а) отдать'], ic:'<circle cx="0" cy="0" r="14"/><path d="M0 0 V-9 M0 0 L7 4"/>'},
+  {k:'money', n:'Вещи и деньги', l:'Материальные', d:'Что можно брать, одалживать, трогать. Сколько и кому ты готов(а) давать.', ex:'«Мою машину без меня не берут».', li:['личные вещи и пространство','долги и одалживание','подарки и траты','моя комната, мой стол, мой шкаф'], ic:'<rect x="-14" y="-9" width="28" height="20" rx="3"/><path d="M-14 -3 H14"/><circle cx="8" cy="4" r="3"/>'},
+  {k:'mind', n:'Мысли', l:'Интеллектуальные', d:'Право на своё мнение, ценности, вкусы и решения — без высмеивания и давления.', ex:'«Можно не соглашаться, но обесценивать — нельзя».', li:['своё мнение и вкус','свои решения о жизни','вера и ценности','право не объяснять свой выбор'], ic:'<circle cx="0" cy="-4" r="9"/><path d="M-4 6 H4 M-3 10 H3 M0 -16 V-19 M-11 -11 L-13 -13 M11 -11 L13 -13"/>'},
+  {k:'phone', n:'Связь', l:'Цифровые', d:'Твой телефон, переписки, соцсети, скорость ответа на сообщения.', ex:'«Мой телефон без меня не смотрят».', li:['переписки и пароли','фото со мной в соцсетях','скорость ответа','звонки и голосовые'], ic:'<rect x="-9" y="-15" width="18" height="30" rx="3"/><circle class="f" cx="0" cy="10" r="1.8"/>'}
+];
+function drawCharter(){
+  const svg = $('#charterSvg'); if (!svg) return;
+  let h = '<circle class="ch-ring" cx="200" cy="200" r="92"/>';
+  CH.forEach((c, i) => { const a = -Math.PI / 2 + i * Math.PI / 3; const x = 200 + Math.cos(a) * 150, y = 200 + Math.sin(a) * 150; h += `<line class="ch-ray" x1="200" y1="200" x2="${x.toFixed(1)}" y2="${y.toFixed(1)}"/>`; });
+  h += '<g class="ch-me"><circle cx="200" cy="168" r="14"/><path d="M200 182 V232 M200 232 L188 262 M200 232 L212 262 M200 196 L180 220 M200 196 L220 220"/></g>';
+  CH.forEach((c, i) => { const a = -Math.PI / 2 + i * Math.PI / 3; const x = 200 + Math.cos(a) * 150, y = 200 + Math.sin(a) * 150;
+    h += `<g class="ch-it" data-ch="${i}" role="button" tabindex="0" aria-pressed="${S.ch === i}" aria-label="${c.n}" transform="translate(${x.toFixed(1)} ${y.toFixed(1)})"><circle class="bg" r="32"/><g class="ic">${c.ic}</g><text class="lb" y="${y > 300 ? 50 : y < 100 ? -40 : 50}">${c.n}</text></g>`; });
+  svg.innerHTML = h;
+  $$('.ch-it', svg).forEach(g => { const f = () => { S.ch = +g.dataset.ch; save(); drawCharter(); }; g.onclick = f; g.onkeydown = e => { if (e.key === 'Enter' || e.key === ' '){ e.preventDefault(); f(); } }; });
+  const c = CH[S.ch] || CH[0];
+  $('#chDetail').innerHTML = `<span class="label">${c.l} границы</span><h3>${c.n}</h3><p>${c.d}</p><ul>${c.li.map(x => `<li>${x}</li>`).join('')}</ul><p class="ex">${c.ex}</p><p class="hint">${S.ch + 1} из ${CH.length} · нажми на другой элемент на картинке</p>`;
+}
+
+/* ---------- Musts ---------- */
+const MPROMPT = ['Люди должны…','Мужчина должен…','Женщина должна…','Родители должны…','Друзья должны…','Партнёр должен…','Начальник должен…','Нормальный человек не должен…'];
+const WHO = ['мама','папа','бабушка или дедушка','учителя','общество, кино, соцсети','мой собственный'];
+function drawMusts(){
+  $('#mPrompts').innerHTML = MPROMPT.map(t => `<button type="button" data-mp="${esc(t)}">${esc(t)}</button>`).join('');
+  $$('[data-mp]').forEach(b => b.onclick = () => { const i = $('#mIn'); i.value = b.dataset.mp.replace('…', ' '); i.focus(); });
+  const list = $('#mList');
+  list.innerHTML = S.musts.map(m => `<div class="m-card" data-m="${m.id}"><div class="mt"><b>${esc(m.t).replace(/(не\s+)?(должен|должн[а-я]*|обязан[а-я]*)/gi, '<mark>$&</mark>')}</b><button type="button" class="x" data-mdel="${m.id}" aria-label="Удалить">×</button></div>
+    <div><span class="ml">Чей это голос?</span><div class="m-who">${WHO.map(w => `<button type="button" data-mw="${m.id}" data-w="${esc(w)}" aria-pressed="${m.who === w}">${w}</button>`).join('')}</div></div>
+    <div><span class="ml">Переформулируй в предпочтение</span><div class="row"><input type="text" data-mpref="${m.id}" maxlength="140" value="${esc(m.pref || '')}" placeholder="Мне важно, чтобы… / Мне бы хотелось, чтобы…" aria-label="Переформулировка"></div></div>
+    <button type="button" class="m-jar" data-mjar="${m.id}" ${m.jar ? 'disabled' : ''}>${m.jar ? '✓ Банка на полке в кладовке' : 'Поставить банкой в кладовку'}</button></div>`).join('');
+  $$('[data-mdel]', list).forEach(b => b.onclick = () => { S.musts = S.musts.filter(m => m.id !== b.dataset.mdel); save(); drawMusts(); });
+  $$('[data-mw]', list).forEach(b => b.onclick = () => { const m = S.musts.find(x => x.id === b.dataset.mw); m.who = m.who === b.dataset.w ? '' : b.dataset.w; save(); drawMusts(); });
+  $$('[data-mpref]', list).forEach(i => i.oninput = () => { S.musts.find(x => x.id === i.dataset.mpref).pref = i.value; save(); });
+  $$('[data-mjar]', list).forEach(b => b.onclick = () => { const m = S.musts.find(x => x.id === b.dataset.mjar); if (m.jar) return; const id = 'o' + uid(); S.own.push({id, t: m.t}); m.jar = id; save(); drawMusts(); drawPantry(); });
+}
+const addMust = () => { const i = $('#mIn'); const v = i.value.trim(); if (!v) return; S.musts.push({id: uid(), t: v, who: '', pref: '', jar: ''}); i.value = ''; save(); drawMusts(); };
+$('#mAdd').onclick = addMust; $('#mIn').onkeydown = e => { if (e.key === 'Enter'){ e.preventDefault(); addMust(); } };
+
+/* ---------- Zones ---------- */
+const ZONES = [
+  ['nice','Приятно','Что другие могут делать в мою сторону — и мне будет приятно, радостно, тепло, хорошо.','Например: дарить мне подарки; говорить, что гордятся мной; звать на прогулку','на острове: солнце и достопримечательности'],
+  ['ok','Можно','Что другие могут делать спокойно — и мне тоже спокойно. Внутри ровно, ничего не нарушается.','Например: приезжать в гости; задавать вопросы; делиться со мной своими чувствами и историями','на острове: деревья и сады'],
+  ['soft','Иногда можно, но нежелательно','Допустимо по договорённости или в форс-мажоре — пожар, непредвиденная ситуация. Это окей, но злоупотреблять не стоит.','Например: звонить ночью, если что-то срочное; приходить без предупреждения','в море: акулы'],
+  ['no','Нельзя, потому что неприятно','Поступки, которые ранят, цепляют за душу и вызывают неприятные чувства. Я скажу об этом и приму меры.','Например: повышать на меня голос; брать мои вещи без спроса; шутить над моим телом','на острове: тюрьма'],
+  ['never','Категорически недопустимо','Зашквар. Если человек так поступит, доверие и безопасность рядом с ним полностью рушатся.','Например: поднимать на меня руку; унижать при других; читать мою переписку','самолёт депортации']
+];
+const SELF = [
+  ['nice','Приятно себе','Что я могу делать для себя — и мне самому(ой) будет приятно.','Например: покупать себе цветы; гулять одному(ой) у воды'],
+  ['ok','Можно себе','Что поддерживает мою жизнь в хорошем тонусе.','Например: ложиться спать до полуночи; говорить «нет», когда устал(а)'],
+  ['soft','Иногда можно','Где я иногда отступаю от своих правил — и это окей.','Например: съесть торт на ночь в свой день рождения; пропустить тренировку, когда болею'],
+  ['no','Нельзя себе, потому что неприятно','Что я делаю — и мне самому(ой) потом неприятно.','Например: соглашаться на то, чего не хочу; ругать себя за ошибки'],
+  ['never','Себе категорически недопустимо','После этого я перестану себе доверять и разочаруюсь в себе.','Например: предавать свои ценности ради чужого одобрения']
+];
+const ZNOTE = {nice:'Солнце разгорается, на острове новая достопримечательность', ok:'На острове выросло новое дерево', soft:'В море появилась акула', no:'На острове построили тюрьму', never:'Самолёт депортации улетает с острова'};
+function drawZoneSet(boxId, store, defs, pref, withIsland){
+  const box = $('#' + boxId);
+  box.innerHTML = defs.map(([k, t, d, ex, isl]) => `<div class="zone" data-z="${k}"><h3>${t}</h3><p class="zd">${d}</p>${isl ? `<p class="znote">${isl}</p>` : ''}<ul>${store[k].map(r => `<li><span>${esc(r.t)}</span><button type="button" data-rdel="${pref}:${k}:${r.id}" aria-label="Удалить">×</button></li>`).join('')}</ul>${store[k].length ? '' : `<p class="zex">${esc(ex)}</p>`}<div class="zin"><input type="text" id="${pref}-${k}" maxlength="120" placeholder="${pref === 'zin' ? 'Новый закон' : 'Новый принцип'}" aria-label="${t}: добавить"><button type="button" data-radd="${pref}:${k}" aria-label="Добавить">+</button></div><p class="zflash" id="${pref}-f-${k}" aria-live="polite"></p></div>`).join('');
+  $$('[data-radd]', box).forEach(b => { const k = b.dataset.radd.split(':')[1]; const inp = $(`#${pref}-${k}`);
+    const add = () => { const v = inp.value.trim(); if (!v) return; store[k].push({id: uid(), t: v}); save(); drawZoneSet(boxId, store, defs, pref, withIsland); renderConst(); if (withIsland){ renderIsland(k); const f = $(`#${pref}-f-${k}`); if (f) f.textContent = ZNOTE[k]; } const n = $(`#${pref}-${k}`); if (n) n.focus(); };
+    b.onclick = add; inp.onkeydown = e => { if (e.key === 'Enter'){ e.preventDefault(); add(); } }; });
+  $$('[data-rdel]', box).forEach(b => b.onclick = () => { const [, k, id] = b.dataset.rdel.split(':'); store[k] = store[k].filter(r => r.id !== id); save(); drawZoneSet(boxId, store, defs, pref, withIsland); renderConst(); if (withIsland) renderIsland(); });
+}
+function drawZones(){ drawZoneSet('zones', S.rules, ZONES, 'zin', true); drawZoneSet('selfZones', S.self, SELF, 'sin', false); }
+
+/* ---------- Island ---------- */
+function renderIsland(fresh){
+  const svg = $('#islandSvg'); if (!svg) return;
+  const n = k => S.rules[k].length;
+  const pop = k => (fresh === k && !RM) ? ' class="i-pop"' : '';
+  const N = {nice: n('nice'), ok: n('ok'), soft: n('soft'), no: n('no'), never: n('never')};
+  const sunR = 30 + Math.min(N.nice, 6) * 5;
+  let h = `<rect class="i-sky" x="0" y="0" width="900" height="400"/>`;
+  if (N.nice){ let rays = ''; for (let a = 0; a < 12; a++){ const an = a * Math.PI / 6; rays += `<line x1="${(780 + Math.cos(an) * (sunR + 6)).toFixed(1)}" y1="${(78 + Math.sin(an) * (sunR + 6)).toFixed(1)}" x2="${(780 + Math.cos(an) * (sunR + 6 + 8 + N.nice * 2)).toFixed(1)}" y2="${(78 + Math.sin(an) * (sunR + 6 + 8 + N.nice * 2)).toFixed(1)}"/>`; } h += `<g class="i-rays">${rays}</g>`; }
+  h += `<circle class="i-sun" cx="780" cy="78" r="${sunR}"/>`;
+  // nice landmarks in sky / island
+  const NICE = [
+    () => `<g transform="translate(130 70)"><path d="M-40 60 A40 40 0 0 1 40 60" stroke="#E8505B" stroke-width="5" fill="none"/><path d="M-33 60 A33 33 0 0 1 33 60" stroke="#F2C94C" stroke-width="5" fill="none"/><path d="M-26 60 A26 26 0 0 1 26 60" stroke="#5CC587" stroke-width="5" fill="none"/><path d="M-19 60 A19 19 0 0 1 19 60" stroke="#6FA8D8" stroke-width="5" fill="none"/></g>`,
+    () => `<g transform="translate(660 262)"><path class="i-light" d="M-10 0 L-6 -66 H6 L10 0 Z"/><path class="i-lred" d="M-8.6 -20 H8.6 L8 -30 H-8 Z M-7.2 -44 H7.2 L6.8 -54 H-6.8 Z"/><rect class="i-lamp" x="-7" y="-76" width="14" height="10"/><path d="M-9 -76 L0 -86 L9 -76 Z" fill="#2F2F2F"/></g>`,
+    () => `<g transform="translate(300 60)"><circle r="20" fill="#E86A8A"/><path d="M-20 0 Q0 30 20 0" fill="#C94F70"/><path d="M-10 18 L-6 36 M10 18 L6 36" stroke="#7A5638" stroke-width="1.5"/><rect x="-7" y="36" width="14" height="10" fill="#9C7148"/></g>`,
+    () => `<g transform="translate(505 236)"><rect class="i-ped" x="-10" y="-14" width="20" height="14"/><path class="i-heart" d="M0 -16 C-14 -26 -14 -40 0 -34 C14 -40 14 -26 0 -16 Z"/></g>`,
+    () => `<g transform="translate(560 40)"><path d="M0 -14 L12 0 L0 14 L-12 0 Z" fill="#6FA8D8"/><path d="M0 14 Q-6 26 4 34 Q10 42 2 52" stroke="#2F2F2F" stroke-width="1.2" fill="none"/></g>`,
+    () => `<g transform="translate(395 232)"><rect x="-14" y="-24" width="28" height="24" fill="#E3D3B0" stroke="#7A5638"/><path d="M-18 -24 L0 -40 L18 -24 Z" fill="#B85C38"/><path class="i-heart" d="M0 -8 C-6 -12 -6 -18 0 -15 C6 -18 6 -12 0 -8 Z"/></g>`
+  ];
+  // sea
+  h += `<rect x="0" y="230" width="900" height="170" style="fill:url(#seaG)"/>`;
+  h += `<path class="i-wave" d="M40 268 q20 -10 40 0 t40 0 M660 262 q20 -10 40 0 t40 0 M90 330 q20 -10 40 0 t40 0 M720 330 q20 -10 40 0 t40 0 M300 370 q20 -10 40 0 t40 0 M540 372 q20 -10 40 0 t40 0"/>`;
+  // sharks
+  const FINS = [[120,318],[250,362],[640,352],[790,300],[60,378],[840,372],[420,388],[180,290]];
+  FINS.slice(0, Math.min(N.soft, FINS.length)).forEach(([x, y], i) => { h += `<g transform="translate(${x} ${y})"><g${fresh === 'soft' && i === N.soft - 1 && !RM ? ' class="i-pop"' : ''}><path class="i-fin" d="M-12 0 L2 -26 Q8 -10 16 0 Z"/><path class="i-wave" d="M-20 2 q8 -4 16 0 t16 0 t16 0"/></g></g>`; });
+  // island
+  h += `<ellipse class="i-sand" cx="450" cy="262" rx="270" ry="40"/><path class="i-grass" d="M220 256 Q320 186 450 190 Q590 192 680 258 Q450 246 220 256 Z"/>`;
+  // palm
+  h += `<path class="i-trunk" d="M590 248 Q598 190 616 146"/><g transform="translate(616 146)"><ellipse class="i-leaf" cx="-26" cy="4" rx="30" ry="8" transform="rotate(20)"/><ellipse class="i-leaf" cx="26" cy="4" rx="30" ry="8" transform="rotate(-20)"/><ellipse class="i-leaf" cx="-14" cy="-10" rx="24" ry="7" transform="rotate(-35)"/><ellipse class="i-leaf" cx="16" cy="-12" rx="24" ry="7" transform="rotate(30)"/></g>`;
+  // trees / bushes (ok)
+  const PL = [[300,236,'b'],[548,232,'t'],[350,228,'f'],[470,226,'b'],[262,246,'t'],[520,244,'f'],[630,246,'b'],[330,250,'b'],[575,250,'f'],[420,246,'t']];
+  PL.slice(0, Math.min(N.ok, PL.length)).forEach(([x, y, t], i) => { const pp = fresh === 'ok' && i === N.ok - 1 && !RM ? ' class="i-pop"' : '';
+    h += `<g transform="translate(${x} ${y})"><g${pp}>` + (t === 't' ? `<rect x="-2.5" y="-20" width="5" height="20" fill="#7A5638"/><circle class="i-bush2" cy="-28" r="13"/><circle class="i-bush" cx="-7" cy="-22" r="8"/>` : t === 'b' ? `<circle class="i-bush" cx="-8" cy="-7" r="9"/><circle class="i-bush2" cx="4" cy="-10" r="10"/><circle class="i-bush" cx="12" cy="-5" r="7"/>` : `<path d="M0 0 V-14" stroke="#3F7A3A" stroke-width="2"/><circle class="i-flower" cy="-16" r="5"/><path d="M8 0 V-10" stroke="#3F7A3A" stroke-width="2"/><circle cx="8" cy="-12" r="4" fill="#F2C94C"/>`) + `</g></g>`; });
+  // prison (no)
+  if (N.no){ h += `<g transform="translate(250 252)"><g${pop('no')}><rect class="i-prison" x="-6" y="-46" width="70" height="46"/><rect class="i-prison-d" x="-10" y="-52" width="78" height="8"/><g class="i-bars">${[0,1,2].map(k => `<rect x="${4 + k * 20}" y="-36" width="12" height="14" fill="#2F2F2F" opacity=".25"/><path d="M${7 + k * 20} -36 V-22 M${10 + k * 20} -36 V-22 M${13 + k * 20} -36 V-22"/>`).join('')}</g><rect x="24" y="-16" width="12" height="16" fill="#5E5A55"/>${N.no > 2 ? `<rect class="i-prison" x="68" y="-70" width="16" height="70"/><rect class="i-prison-d" x="64" y="-76" width="24" height="8"/>` : ''}<text x="29" y="-58" text-anchor="middle" font-family="Manrope, sans-serif" font-size="10" font-weight="700" fill="var(--ink)">ТЮРЬМА${N.no > 1 ? ' ×' + N.no : ''}</text></g></g>`; }
+  // flag + man
+  h += `<line x1="372" y1="242" x2="372" y2="186" stroke="var(--ink)" stroke-width="2.5"/><path class="i-flag" d="M372 186 L404 196 L372 206 Z"/>`;
+  h += `<g class="i-man"><circle cx="450" cy="186" r="9"/><path d="M450 195 V222 M450 222 L443 240 M450 222 L457 240 M450 202 L441 216 M450 202 L459 216" stroke="var(--ink)" stroke-width="3.5" stroke-linecap="round" fill="none"/></g><text class="i-cap" x="466" y="176">это ты</text>`;
+  NICE.slice(0, Math.min(N.nice, NICE.length)).forEach((f, i) => { h += fresh === 'nice' && i === N.nice - 1 && !RM ? `<g class="i-pop">${f()}</g>` : f(); });
+  // planes (never)
+  const PLN = [[180,150,-28],[330,110,-36],[740,170,-152]];
+  PLN.slice(0, Math.min(N.never, PLN.length)).forEach(([x, y, a], i) => { const sx = a < -90 ? 600 : 420; const pp = fresh === 'never' && i === N.never - 1 && !RM ? ' class="i-pop"' : '';
+    h += `<path class="i-trail" d="M${sx} 228 Q${(sx + x) / 2} ${y + 60} ${x} ${y}"/><g transform="translate(${x} ${y}) rotate(${a})"><g${pp}><path class="i-plane" d="M-22 0 L18 -4 Q26 0 18 4 Z M0 -2 L-8 -18 L-2 -18 L8 -2 Z M0 2 L-8 18 L-2 18 L8 2 Z M-18 -1 L-24 -9 L-20 -9 L-14 -1 Z"/></g></g>`; });
+  if (N.never > PLN.length) h += `<text x="40" y="34" font-family="Manrope, sans-serif" font-size="14" font-weight="700" fill="var(--c-red)">депортировано: ${N.never}</text>`;
+  svg.innerHTML = h;
+  $('#islLegend').innerHTML = `<span>Приятно: <b>${N.nice}</b></span><span>Можно: <b>${N.ok}</b></span><span>Акул: <b>${N.soft}</b></span><span>В тюрьме: <b>${N.no}</b></span><span>Депортаций: <b>${N.never}</b></span>`;
+}
+
+/* ---------- Bad ways ---------- */
+const BAD = [
+  ['Истерика и крик','Взрыв эмоций, слёзы, хлопанье дверью, «да сколько можно!»','Человек слышит эмоцию, а не правило. Спорят с тоном, а суть теряется. После — стыд и чувство вины.'],
+  ['Обвинения','«Ты всегда…», «Ты никогда…», «Из-за тебя…»','Обвинение вызывает защиту, а не изменение. Начинается спор о том, кто прав, а граница так и не названа.'],
+  ['Обида и молчанка','Холодный игнор, «ничего не случилось», ожидание, что догадаются','Иллюзия прозрачности: другой часто не понимает, что произошло. А ты копишь напряжение.'],
+  ['Месть','«Назло», ответный удар, «пусть почувствует то же самое»','Запускает войну, а не уважение. Нарушитель становится пострадавшим в своих глазах.'],
+  ['Гадости за спиной','Жалобы общим знакомым, сплетни, сбор «союзников»','Психологи называют это триангуляцией: конфликт расползается на других, а с тем, кто нарушил, ничего не решается.'],
+  ['Сарказм и колкие шутки','«Ну конечно, ты же у нас самый занятой»','Можно сказать «я же пошутил(а)», но и граница становится шуткой. Сообщение размыто.'],
+  ['Пассивная агрессия','«Забыть», опоздать, сделать плохо, тяжело вздыхать','Злость есть, но идёт в обход. Другой не понимает, на что реагировать, а отношения портятся.'],
+  ['Намёки и терпение','«Ну ты же видишь…», «Мне вообще-то не очень удобно…» — и снова терпеть','Намёк легко не заметить. Граница не названа, значит её как будто и нет.'],
+  ['Угрозы без выполнения','«Ещё раз — и я уйду!» — и не уходить','Учит другого, что твои слова ничего не значат. В следующий раз граница весит ещё меньше.'],
+  ['Самообвинение','«Сам(а) виноват(а), надо было раньше», и злость на себя','Агрессия разворачивается внутрь — это ступень «злость на себя» из лестницы чувств.']
+];
+function drawBad(){
+  const tb = $('#badBody');
+  tb.innerHTML = BAD.map(([a, b, c], i) => `<tr class="${S.bad.includes(i) ? 'on' : ''}"><td><button type="button" data-bad="${i}" aria-pressed="${S.bad.includes(i)}"><i>${S.bad.includes(i) ? '✓' : ''}</i>${a}</button></td><td><em>${b}</em></td><td>${c}</td></tr>`).join('');
+  $$('[data-bad]', tb).forEach(b => b.onclick = () => { const i = +b.dataset.bad; const k = S.bad.indexOf(i); if (k > -1) S.bad.splice(k, 1); else S.bad.push(i); save(); drawBad(); });
+  const n = S.bad.length;
+  $('#badOut').innerHTML = !n ? '' : n <= 2 ? `Отмечено: ${n}. Это нормально — так защищались почти все вокруг нас.<small>Ниже — инструменты, которые работают лучше.</small>` : `Отмечено: ${n}. Значит, ты защищаешь себя, как умеешь — с большими потерями сил.<small>Хорошая новость: этому можно научиться. Ниже — арсенал, который работает корректно.</small>`;
+}
+
+/* ---------- Weapons ---------- */
+const ICON = {
+  darts:'<path d="M10 54 L38 26 M22 58 L46 34"/><path d="M38 26 L48 16 L42 30 Z M46 34 L56 24 L50 38 Z" fill="currentColor"/><path d="M10 54 l-4 -2 M10 54 l2 4 M22 58 l-4 -2 M22 58 l2 4"/>',
+  nunchaku:'<rect x="8" y="30" width="9" height="26" rx="4" transform="rotate(-18 12 43)"/><rect x="46" y="30" width="9" height="26" rx="4" transform="rotate(18 50 43)"/><path d="M15 30 Q32 6 49 30" stroke-dasharray="2 3"/>',
+  bow:'<path d="M22 6 Q54 32 22 58"/><path d="M22 6 L22 58" stroke-width="1.5"/><path d="M8 32 H56 M56 32 l-7 -5 M56 32 l-7 5 M8 32 l-3 -4 M8 32 l-3 4"/>',
+  sword:'<path d="M18 46 L54 10 L56 8 L54 14 L22 50" fill="currentColor" fill-opacity=".15"/><path d="M12 38 L26 52"/><path d="M18 46 L8 56"/><circle cx="7" cy="57" r="2.5"/>',
+  axe:'<path d="M16 60 L42 12"/><path d="M36 8 Q56 8 58 28 Q48 26 40 18 Z" fill="currentColor" fill-opacity=".2"/>',
+  pistol:'<path d="M8 20 H54 V30 H32 L28 52 H17 L21 30 H8 Z" fill="currentColor" fill-opacity=".15"/><path d="M28 30 q-1 9 -8 9"/><path d="M50 20 V16"/>',
+  rifle:'<path d="M4 26 H44 L60 24 V30 H44 V34 H30 L28 30 H12 L6 40 L4 38 Z" fill="currentColor" fill-opacity=".15"/><path d="M33 34 Q36 46 42 48 L46 44 Q42 40 40 34"/><path d="M24 22 V26"/>',
+  bazooka:'<rect x="4" y="22" width="50" height="12" rx="3" fill="currentColor" fill-opacity=".15"/><path d="M54 20 L62 16 V40 L54 36"/><path d="M26 34 V46 H32 V34"/><rect x="16" y="15" width="9" height="7" rx="1"/>'
+};
+const svgIcon = k => `<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICON[k]}</svg>`;
+const WEAPONS = [
+  {k:'darts', p:1, n:'Дротики', w:'Сигнал', d:'Пауза, взгляд, интонация, лёгкий маркер. Даёт понять: «Ты подплыл к берегу».', s:'«Хм. Подожди-ка».'},
+  {k:'nunchaku', p:2, n:'Нунчаки', w:'Я-сообщение', d:'Говоришь о себе и своих чувствах, без обвинений. Гибко и точно.', s:'«Мне неприятно, когда меня перебивают. Дай договорить».'},
+  {k:'bow', p:3, n:'Лук', w:'Прямое правило', d:'Чётко называешь закон своего острова — на расстоянии, спокойно.', s:'«Со мной так разговаривать нельзя».'},
+  {k:'sword', p:4, n:'Меч', w:'«Нет» без оправданий', d:'Отказ, который не нужно объяснять. Если давят — повторяешь теми же словами.', s:'«Нет. — Ну пожалуйста. — Нет, я не смогу».'},
+  {k:'axe', p:5, n:'Топор', w:'Последствие', d:'Называешь, что сделаешь, если нарушение повторится, — и делаешь.', s:'«Если ты снова повысишь голос, я закончу разговор».'},
+  {k:'pistol', p:6, n:'Пистолет', w:'Дистанция', d:'Сокращаешь контакт: меньше доверия, меньше встреч, уходишь из ситуации.', s:'«Я ухожу. Продолжим, когда сможем говорить спокойно».'},
+  {k:'rifle', p:7, n:'Автомат', w:'Разрыв', d:'Заканчиваешь отношения, сотрудничество, договорённости. Когда граница нарушается системно.', s:'«Я больше не буду с тобой работать».'},
+  {k:'bazooka', p:8, n:'Базука', w:'Внешняя сила', d:'Руководство, юрист, полиция, близкие на подмогу. Когда есть угроза безопасности.', s:'«Я обращусь туда, где меня защитят».'}
+];
+function drawArsenal(){
+  const box = $('#arsenalBox');
+  box.innerHTML = WEAPONS.map(w => { const has = S.has.includes(w.k);
+    return `<div class="weapon${has ? ' has' : ''}"><div class="wtop">${svgIcon(w.k)}<div class="pw" aria-label="Мощность ${w.p} из 8">${Array.from({length:8}, (_, i) => `<i class="${i < w.p ? 'on' : ''}"></i>`).join('')}</div></div><h3>${w.n}</h3><span class="what">${w.w}</span><p>${w.d}</p><p class="say">${w.s}</p><div class="wbtn"><button type="button" data-has="${w.k}" aria-pressed="${has}">${has ? '✓ Есть у меня' : 'Есть у меня'}</button><button type="button" class="fav" data-fav="${w.k}" aria-pressed="${S.fav === w.k}">Чаще всего</button></div></div>`; }).join('');
+  $$('[data-has]', box).forEach(b => b.onclick = () => { const k = b.dataset.has; const i = S.has.indexOf(k); if (i > -1) S.has.splice(i, 1); else S.has.push(k); save(); drawArsenal(); renderConst(); });
+  $$('[data-fav]', box).forEach(b => b.onclick = () => { const k = b.dataset.fav; S.fav = S.fav === k ? null : k; if (S.fav && !S.has.includes(k)) S.has.push(k); save(); drawArsenal(); renderConst(); });
+  const pw = S.has.map(k => WEAPONS.find(w => w.k === k).p);
+  const light = pw.filter(p => p <= 3).length, mid = pw.filter(p => p >= 4 && p <= 5).length, heavy = pw.filter(p => p >= 6).length;
+  const fav = S.fav ? WEAPONS.find(w => w.k === S.fav) : null;
+  let t = '', sub = '';
+  if (!pw.length) t = 'А какой инструмент ты применяешь для защиты себя?';
+  else if (heavy && !light && !mid){ t = 'В арсенале только тяжёлое оружие.'; sub = 'Обычно так бывает, когда долго молчишь и терпишь, а потом взрываешься. Попробуй добавить дротики и нунчаки — замечать нарушение на ступени раздражения.'; }
+  else if (light && !mid && !heavy){ t = 'В арсенале только лёгкое оружие.'; sub = 'Тебя могут просто не услышать. Добавь меч — спокойное «нет» без оправданий — и топор: последствие, которое ты готов(а) выполнить.'; }
+  else if (light && mid && heavy){ t = 'Хороший арсенал: есть и лёгкое, и среднее, и тяжёлое.'; sub = 'Теперь главное — соразмерность и последовательность.'; }
+  else { t = `Инструментов: ${pw.length} из 8.`; sub = !mid ? 'Не хватает середины — меча и топора: ясного «нет» и последствия.' : !light ? 'Не хватает лёгких сигналов — их достаточно для большинства нарушений.' : 'Подумай, чем ты защитишься, если лёгкого не хватит.'; }
+  if (fav) sub += ` Чаще всего ты используешь ${fav.n.toLowerCase()} — ${fav.w.toLowerCase()}.`;
+  $('#arsOut').innerHTML = esc(t) + (sub ? `<small>${esc(sub)}</small>` : '');
+}
+
+/* ---------- Ladder ---------- */
+const LV = [
+  {n:'Раздражение', s:'лёгкая рассерженность', z:'hot', c:'#F2C94C', when:'Кто-то пытается подплыть к границе: перебивает, торопит, даёт непрошеный совет.', what:'Первый сигнал пограничника. Он ещё тихий — его легко пропустить или списать на «я просто устал(а)».', tool:'darts', toolT:'Достаточно дротиков или нунчак: паузы, взгляда, я-сообщения.'},
+  {n:'Гнев', s:'напор усиливается', z:'hot', c:'#EBA43C', when:'Человек нарушает сильнее и настойчивее, не реагирует на первые сигналы.', what:'Гнев мобилизует силы. Это энергия на «ремонт отношений»: сказать, остановить, объяснить.', tool:'bow', toolT:'Время лука и меча: прямое правило и «нет».'},
+  {n:'Злость', s:'граница уже нарушена', z:'hot', c:'#E08A3C', when:'Тебе уже сделали неприятное: накричали, взяли, решили за тебя.', what:'Злость говорит: «Со мной так нельзя». Она про восстановление справедливости и твоей территории.', tool:'axe', toolT:'Нужен топор: назвать последствие — и выполнить его.'},
+  {n:'Упрямство и молчаливое мщение', s:'сержусь, но не показываю', z:'hot', c:'#D2402F', when:'Нарушение продолжается после того, как уже случилось. Открыто защищаться кажется бесполезным или опасным.', what:'Хладнокровное желание защитить себя: «назло», молчание, саботаж, холодная дистанция. Энергия есть, но идёт в обход.', tool:'pistol', toolT:'Честнее взять пистолет: открыто увеличить дистанцию, чем мстить тайком.'},
+  {n:'Ярость', s:'крайняя степень рассерженности', z:'hot', c:'#A8352E', when:'Натиск такой, что выдерживать больше нельзя. Стена трещит.', what:'Последний рубеж горячих чувств. Сил много, контроля мало — легко наговорить и сделать то, о чём потом пожалеешь.', tool:'rifle', toolT:'Здесь уместны автомат или базука, но лучше не доводить до этой ступени: применить средства раньше.'},
+  {n:'Злость на себя', s:'агрессия разворачивается внутрь', z:'cold', c:'#7A6FA8', when:'Отстоять себя не удалось. Стена рухнула.', what:'Вся агрессия направляется на себя: «Сам(а) допустил(а). Надо было раньше. Я слабак». Человек начинает нападать на себя вместо того, кто нарушил.', tool:null, toolT:'Здесь нужен не арсенал, а поддержка: остановить внутреннюю атаку и признать, что ты защищался(ась), как мог(ла).'},
+  {n:'Уязвимость', s:'холодные чувства', z:'cold', c:'#6FA8D8', when:'Защитные чувства «умерли». Внутри — маленький ребёнок, которого обидели.', what:'Обида, брошенность, покинутость, низкая самооценка, неуверенность в себе. Хочется спрятаться и исчезнуть.', kids:['Одинокий ребёнок','Покинутый ребёнок','Униженный, неполноценный','Подвергшийся насилию','Зависимый ребёнок'], tool:null, toolT:'Сначала — забота и тепло к себе. Потом — вернуться к правилам острова и пересобрать арсенал, чтобы в следующий раз защититься раньше.'}
+];
+function drawLadder(){
+  const ol = $('#ladder'); let h = '';
+  LV.forEach((l, i) => {
+    if (i === 0) h += '<li class="zl hot">Горячие · защитные чувства</li>';
+    if (i === 5) h += '<li class="zl cold">Холодные · уязвимость</li>';
+    h += `<li><button type="button" data-lv="${i}" aria-pressed="${S.lv === i}" style="--lc:${l.c}"><span class="n">${i + 1}</span><span><b>${l.n}</b><small>${l.s}</small></span><span class="t">${l.z === 'hot' ? 'стена' : 'стена рухнула'}</span></button></li>`;
+  });
+  ol.innerHTML = h;
+  $$('[data-lv]', ol).forEach(b => b.onclick = () => { S.lv = +b.dataset.lv; save(); drawLadder(); });
+  const l = LV[S.lv] || LV[0]; const d = $('#lvDetail'); d.style.setProperty('--lc', l.c);
+  d.innerHTML = `<span class="label">Ступень ${S.lv + 1} из 7 · ${l.z === 'hot' ? 'горячее чувство' : 'холодное чувство'}</span><h3>${l.n}</h3><p><b>Когда:</b> ${l.when}</p><p><b>Что происходит:</b> ${l.what}</p>${l.kids ? `<div class="kids">${l.kids.map(k => `<span>${k}</span>`).join('')}</div>` : ''}<div class="tool">${l.tool ? svgIcon(l.tool) : ''}<p style="margin:0">${l.toolT}</p></div><div class="temp"></div><div class="temp-l"><span>горячо</span><span>холодно</span></div>`;
+}
+
+/* ---------- Constitution ---------- */
+function renderConst(){
+  const c = $('#constCard'); if (!c) return;
+  const COL = {nice:'#C98A1E', ok:'var(--c-grn)', soft:'var(--c-yel)', no:'#E08A3C', never:'var(--c-red)'};
+  const z = ZONES.map(([k, t]) => { const r = S.rules[k];
+    return `<div class="blk"><p class="lbl" style="color:${COL[k]}">${t}</p>${r.length ? `<ul>${r.map(x => `<li>${esc(x.t)}</li>`).join('')}</ul>` : '<p class="dim">Пока пусто — допиши законы в блоке «Твой остров».</p>'}</div>`; }).join('');
+  const sp = SELF.filter(([k]) => S.self[k].length);
+  const zs = `<div class="blk"><p class="lbl" style="color:var(--acc)">Принципы моей жизни</p>${sp.length ? sp.map(([k, t]) => `<p class="dim" style="margin-top:8px;color:${COL[k]};font-weight:700">${t}</p><ul>${S.self[k].map(x => `<li>${esc(x.t)}</li>`).join('')}</ul>`).join('') : '<p class="dim">Допиши принципы в блоке «Принципы моей жизни».</p>'}</div>`;
+  const has = S.has.map(k => WEAPONS.find(w => w.k === k)).sort((a, b) => a.p - b.p);
+  const not = allJars().filter(j => S.jars[j.id] === 'not');
+  c.innerHTML = `<span class="label">Клуб #MaxMagia</span><h3>Конституция моего острова</h3>${z}${zs}
+  <div class="blk"><p class="lbl" style="color:var(--acc)">Мой арсенал</p>${has.length ? `<ul>${has.map(w => `<li>${w.n} — ${w.w.toLowerCase()}${S.fav === w.k ? ' <span class="dim">(чаще всего)</span>' : ''}</li>`).join('')}</ul>` : '<p class="dim">Отметь инструменты в блоке «Арсенал».</p>'}</div>
+  <div class="blk"><p class="lbl" style="color:var(--acc)">Выношу из кладовки</p>${not.length ? `<ul>${not.map(j => `<li>«${esc(j.t)}»</li>`).join('')}</ul>` : '<p class="dim">Отметь «не моё» на банках в кладовке.</p>'}</div>`;
+}
+let dlNs = null;
+(async () => { try { if (window.claude && typeof window.claude.use === 'function') dlNs = await window.claude.use('downloads'); } catch(e){ dlNs = null; } })();
+function wrapText(x, text, maxW){ const out = []; String(text).split('\n').forEach(par => { const words = par.split(' '); let line = ''; for (const w of words){ const t = line ? line + ' ' + w : w; if (x.measureText(t).width > maxW && line){ out.push(line); line = w; } else line = t; } out.push(line); }); return out; }
+async function constPNG(){
+  try { await Promise.all([document.fonts.load('500 56px "Cormorant Garamond"'), document.fonts.load('600 18px Manrope'), document.fonts.load('400 22px Manrope')]); } catch(e){}
+  const W = 1080, M = 90, CW = W - M * 2, SERIF = '"Cormorant Garamond", Georgia, serif', SANS = 'Manrope, system-ui, sans-serif';
+  const C = {bg:'#FBFAF7', card:'#F4F1EA', ink:'#2F2F2F', mute:'#696969', acc:'#9A6A2E', nice:'#A86E10', ok:'#23744A', soft:'#8A6200', no:'#C2621C', never:'#B8352A'};
+  const has = S.has.map(k => WEAPONS.find(w => w.k === k)).sort((a, b) => a.p - b.p);
+  const not = allJars().filter(j => S.jars[j.id] === 'not');
+  const blocks = ZONES.map(([k, t]) => ({h:t.toUpperCase(), c:C[k], items:S.rules[k].map(r => r.t)}));
+  SELF.forEach(([k, t]) => { if (S.self[k].length) blocks.push({h:'ПРИНЦИП · ' + t.toUpperCase(), c:C[k], items:S.self[k].map(r => r.t)}); });
+  blocks.push({h:'МОЙ АРСЕНАЛ', c:C.acc, items:has.map(w => `${w.n} — ${w.w.toLowerCase()}${S.fav === w.k ? ' (чаще всего)' : ''}`)});
+  blocks.push({h:'ВЫНОШУ ИЗ КЛАДОВКИ', c:C.acc, items:not.map(j => `«${j.t}»`)});
+  function paint(x, draw){
+    const T = (t, px, py, f, col, al = 'left') => { if (!draw) return; x.font = f; x.fillStyle = col; x.textAlign = al; x.fillText(t, px, py); };
+    let y = 92; T('КЛУБ  #MAXMAGIA  ·  ЛИЧНЫЕ ГРАНИЦЫ', W / 2, y, `600 18px ${SANS}`, C.acc, 'center');
+    y += 80; T('Конституция моего острова', W / 2, y, `500 60px ${SERIF}`, C.ink, 'center'); y += 30;
+    blocks.forEach(b => {
+      y += 56; if (draw){ x.fillStyle = b.c; x.fillRect(M, y - 22, 4, 26); } T(b.h, M + 18, y, `700 18px ${SANS}`, b.c);
+      if (!b.items.length){ y += 36; T('—', M + 18, y, `400 22px ${SANS}`, C.mute); return; }
+      b.items.forEach(it => { x.font = `500 30px ${SERIF}`; wrapText(x, it, CW - 40).forEach((l, k) => { y += 40; T((k ? '   ' : '·  ') + l, M + 18, y, `500 30px ${SERIF}`, C.ink); }); });
+    });
+    y += 90; T('Мои границы — моя свобода.', W / 2, y, `italic 500 34px ${SERIF}`, C.acc, 'center');
+    return y + 70;
+  }
+  const H = paint(document.createElement('canvas').getContext('2d'), false);
+  const cv = document.createElement('canvas'); cv.width = W; cv.height = H; const x = cv.getContext('2d');
+  x.fillStyle = C.bg; x.fillRect(0, 0, W, H); paint(x, true);
+  return new Promise(res => cv.toBlob(res, 'image/png'));
+}
+$('#saveConst').onclick = async () => {
+  const n = $('#constNote'); n.textContent = 'Готовлю картинку…';
+  try { const blob = await constPNG();
+    if (dlNs){ await dlNs.save({filename: 'konstituciya-ostrova.png', data: blob}); n.textContent = 'Готово — конституция сохранена картинкой.'; return; }
+    const w = window.open(URL.createObjectURL(blob), '_blank'); n.textContent = w ? 'Картинка открылась в новой вкладке — сохрани её оттуда.' : 'Не получилось сохранить. Можно сделать скриншот карточки.';
+  } catch(e){ n.textContent = e && e.code === 'declined' ? 'Сохранение отменено.' : 'Не получилось сохранить. Можно сделать скриншот карточки.'; }
+};
+
+drawCharter(); drawMusts(); drawPantry(); drawZones(); renderIsland(); drawBad(); drawArsenal(); drawLadder(); renderConst();
+</script>
+</body>
+</html>

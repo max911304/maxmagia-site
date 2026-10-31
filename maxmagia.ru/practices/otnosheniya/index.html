@@ -1,0 +1,961 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Создание серьёзных отношений = выбор себе надёжной машины</title>
+<link rel="stylesheet" href="../fonts/fonts.css">
+<style>
+  :root{
+    --bg:#E7ECF2;
+    --card:#FFFFFF;
+    --ink:#1E2A44;
+    --ink2:#5C6B85;
+    --line:#C9D3E0;
+    --yellow:#F3C317;
+    --yellow-d:#D9AC0B;
+    --asphalt:#222834;
+    --ok:#2E7D5B;
+    --mid:#BC8610;
+    --bad:#C53A2E;
+    --brand:#5B3FD6;
+    --display:"Unbounded","Bahnschrift",system-ui,sans-serif;
+    --body:"Onest",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{margin:0;background:var(--bg);color:var(--ink);font:400 17px/1.6 var(--body);
+    font-variant-numeric:tabular-nums;overflow-x:hidden}
+  .wrap{max-width:1080px;margin:0 auto;padding:44px 20px 0;text-align:center}
+  .wide{max-width:1180px;margin:0 auto;padding:0 12px}
+  @media (max-width:600px){ .wrap{padding:28px 15px 0} }
+
+  h1{margin:0;font:800 clamp(26px,4.3vw,48px)/1.04 var(--display);letter-spacing:-.045em}
+  h1 span{display:block}
+  h1 .eq{font-size:clamp(40px,6.5vw,78px);line-height:.86;color:var(--yellow-d);margin:6px 0 4px}
+  .kicker{font:800 13px var(--display);letter-spacing:.02em;color:var(--brand);margin:0 0 18px}
+  h2{font:600 clamp(21px,2.7vw,30px)/1.12 var(--display);letter-spacing:-.035em;margin:0 0 12px}
+  h3{font:600 18px/1.2 var(--display);letter-spacing:-.03em;margin:0 0 8px}
+  p{margin:0 auto 14px;max-width:58ch}
+  .lead{font-size:clamp(16.5px,1.9vw,19px);color:var(--ink2);max-width:48ch;margin-inline:auto}
+  .sect{margin:56px 0 0;padding:52px 0 0;border-top:1px solid #D2DAE5}
+  @media (max-width:600px){ .sect{margin:38px 0 0;padding:36px 0 0} }
+  a{color:var(--brand)}
+
+  .card{background:var(--card);border:1.5px solid var(--ink);border-radius:8px;padding:26px 22px}
+  @media (max-width:600px){ .card{padding:20px 16px} }
+  .soft{border-color:var(--line)}
+
+  .driver-wrap{display:grid;grid-template-columns:230px 1fr;gap:18px;align-items:start;margin:22px 0 0}
+  @media (max-width:860px){ .driver-wrap{grid-template-columns:1fr} }
+  .figure{position:sticky;top:14px;padding:4px 0 0}
+  @media (max-width:860px){ .figure{position:static;max-width:300px;margin:0 auto} }
+  .figure svg{width:100%;max-width:186px;height:auto;display:block;margin:0 auto}
+  .zpart{cursor:pointer}
+  .zpart .fill{fill:#FBFCFD;transition:fill .4s ease}
+  .zpart:hover .fill{fill:#FFF1C2}
+  .zpart.active .fill{fill:#E2DBFA}
+  .zpart:focus-visible .fill{fill:#E2DBFA}
+  .zpart[data-v="ok"] .fill{fill:var(--yellow)}
+  .zpart[data-v="no"] .fill{fill:#D7DEE8}
+  .silh-out{fill:none;stroke:var(--ink);stroke-width:3.4;stroke-linejoin:round;stroke-linecap:round;pointer-events:none}
+  .hair{fill:var(--ink);pointer-events:none}
+  #face{pointer-events:none}
+  #face{transition:opacity .3s ease}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(91,63,214,.45)}100%{box-shadow:0 0 0 14px rgba(91,63,214,0)}}
+  .dcard.pulse{animation:pulse .9s ease-out}
+  .fig-count{font:800 15px var(--display);letter-spacing:-.02em;margin:12px 0 0}
+  .fig-mood{font:500 14px var(--body);color:var(--ink2);margin:3px 0 0}
+  .driver{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+  @media (max-width:1000px){ .driver{grid-template-columns:1fr} }
+  .dcard{background:var(--card);border:1.5px solid var(--line);border-radius:8px;padding:16px 15px;text-align:center}
+  .dcard[data-v="ok"]{border-color:var(--ok)}
+  .dcard[data-v="no"]{border-color:var(--mid)}
+  .dcard b{display:block;font:600 16px/1.25 var(--display);letter-spacing:-.03em;margin:0 0 10px}
+  .yn{display:flex;gap:7px;justify-content:center}
+  .yn button{font:600 14px var(--body);border:1.5px solid var(--line);background:#fff;color:var(--ink);
+    border-radius:99px;padding:6px 16px;cursor:pointer}
+  .yn button:hover{border-color:var(--ink)}
+  .yn button:focus-visible{outline:3px solid var(--brand);outline-offset:2px}
+  .dcard[data-v="ok"] .yn button[data-v="ok"]{background:var(--ok);border-color:var(--ok);color:#fff}
+  .dcard[data-v="no"] .yn button[data-v="no"]{background:var(--mid);border-color:var(--mid);color:#fff}
+  .dmsg{font-size:15px;line-height:1.45;color:var(--ink2);margin:12px 0 0;max-width:none}
+  .dmsg:empty{display:none}
+  .dsum{margin:18px auto 0;max-width:52ch;font-size:16px}
+
+  .three{display:grid;gap:12px;grid-template-columns:repeat(3,1fr);margin:22px 0 0;padding:0;list-style:none}
+  @media (max-width:760px){ .three{grid-template-columns:1fr} }
+  .three li{background:var(--card);border:1.5px solid var(--line);border-radius:8px;padding:18px 15px}
+  .three b{display:block;font:600 16.5px/1.2 var(--display);letter-spacing:-.03em;margin:0 0 7px}
+  .three span{color:var(--ink2);font-size:15px;line-height:1.45}
+
+  .pull{margin:42px auto 0;max-width:26ch;font:600 clamp(20px,2.6vw,27px)/1.2 var(--display);letter-spacing:-.035em}
+  .pull em{font-style:normal;color:var(--yellow-d)}
+
+  .scene{margin:26px 0 0;overflow-x:auto;overflow-y:hidden}
+  .scene svg{width:100%;height:auto;display:block;overflow:visible}
+  @media (max-width:720px){ .scene svg{min-width:680px} }
+  .hint{font-size:13.5px;color:var(--ink2);margin:6px 0 0;text-align:center}
+  @media (min-width:721px){ .hint{display:none} }
+
+  .zone{color:var(--ink)}
+  .zone .stroke{fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round}
+  .zone .dash{fill:none;stroke:currentColor;stroke-width:1.7;stroke-dasharray:6 5;stroke-linecap:round}
+  .zone .solid{fill:currentColor;stroke:none}
+  .zone.on{color:var(--brand)}
+  .zone.on .stroke,.zone.on .dash{stroke-width:3.2}
+  .shell{fill:#FDFDFE;stroke:var(--ink);stroke-width:2.6;stroke-linejoin:round}
+  .shell.on{stroke:var(--brand)}
+  .glass{fill:#DDE5F0;stroke:var(--ink);stroke-width:1.8}
+  .post{fill:#FDFDFE;stroke:var(--ink);stroke-width:1.6}
+  .reflect{fill:var(--yellow)}
+  .sign-board{fill:var(--yellow);stroke:var(--ink);stroke-width:2.2}
+  .sign-t1{font:800 13px var(--display);fill:var(--ink);text-anchor:middle;letter-spacing:-.02em}
+  .sign-t2{font:500 13px var(--body);fill:var(--ink);text-anchor:middle}
+  #sign{cursor:pointer}
+  #sign:hover .sign-board{fill:#FFD644}
+  #sign:focus-visible .sign-board{stroke:var(--brand);stroke-width:4}
+
+  .pin{cursor:pointer}
+  .pin .hit{fill:transparent}
+  .pin .ball{fill:#fff;stroke:var(--ink);stroke-width:2.2}
+  .pin .num{font:800 15px var(--display);fill:var(--ink);text-anchor:middle;pointer-events:none;letter-spacing:-.03em}
+  .pin .cap{font:500 15px var(--body);fill:var(--ink);pointer-events:none}
+  .pin .lead-line{stroke:var(--ink2);stroke-width:1.4}
+  .pin:hover .ball{fill:#FFF4CC}
+  .pin[aria-current="true"] .ball{fill:var(--yellow);stroke:var(--ink);stroke-width:2.6}
+  .pin[aria-current="true"] .cap{font-weight:700}
+  .pin[aria-current="true"] .lead-line{stroke:var(--ink);stroke-width:2.2}
+  .pin:focus-visible .ball{stroke:var(--brand);stroke-width:4.5}
+  .pin .ring{fill:none;stroke-width:4;opacity:0}
+  .pin[data-s="ok"] .ring{stroke:var(--ok);opacity:1}
+  .pin[data-s="mid"] .ring{stroke:var(--mid);opacity:1}
+  .pin[data-s="bad"] .ring{stroke:var(--bad);opacity:1}
+
+  .strip{position:relative;margin:22px 0 0;overflow-x:auto;padding:0 0 6px}
+  .strip-inner{position:relative;min-width:940px;padding:16px 14px 0}
+  .strip-road{position:absolute;left:0;right:0;top:27px;height:42px;background:var(--asphalt);border-radius:4px}
+  .strip-road::after{content:"";position:absolute;left:8px;right:8px;top:19px;height:4px;
+    background:repeating-linear-gradient(90deg,var(--yellow) 0 26px,transparent 26px 44px)}
+  .strip ol{position:relative;display:flex;justify-content:space-between;gap:6px;margin:0;padding:0;list-style:none}
+  .strip li{flex:1}
+  .strip button{width:100%;background:none;border:0;padding:0;cursor:pointer;display:flex;
+    flex-direction:column;align-items:center;gap:9px;font:500 13.5px/1.25 var(--body);color:var(--ink)}
+  .strip .bead{width:46px;height:46px;border-radius:50%;background:#fff;border:2.2px solid var(--ink);
+    display:grid;place-items:center;font:800 16px var(--display);letter-spacing:-.03em;
+    transition:transform .18s ease, background .18s ease}
+  .strip button:hover .bead{transform:translateY(-3px)}
+  .strip button:focus-visible .bead{outline:3px solid var(--brand);outline-offset:3px}
+  .strip button[aria-current="true"] .bead{background:var(--yellow)}
+  .strip button[aria-current="true"]{font-weight:700}
+  .strip button[data-s="ok"] .bead{box-shadow:0 0 0 4px var(--ok)}
+  .strip button[data-s="mid"] .bead{box-shadow:0 0 0 4px var(--mid)}
+  .strip button[data-s="bad"] .bead{box-shadow:0 0 0 4px var(--bad)}
+  .strip .flag{background:var(--yellow)}
+
+  .panel{max-width:720px;margin:26px auto 0;background:var(--card);border:1.5px solid var(--ink);
+    border-radius:8px;padding:28px 26px;text-align:center}
+  @media (max-width:600px){ .panel{padding:22px 17px} }
+  .p-num{width:46px;height:46px;border-radius:50%;background:var(--yellow);border:2px solid var(--ink);
+    margin:0 auto 12px;display:grid;place-items:center;font:800 18px var(--display);letter-spacing:-.03em}
+  .p-title{font:600 clamp(20px,2.4vw,26px)/1.1 var(--display);letter-spacing:-.035em;margin:0}
+  .p-q{color:var(--ink2);font-size:15.5px;margin:6px 0 0}
+  .p-crit{display:inline-block;margin:14px 0 0;padding:4px 11px;border:1.5px solid var(--bad);border-radius:99px;
+    color:var(--bad);font-size:12.5px;font-weight:700}
+  .p-mean{margin:16px auto 18px;font-size:16.5px;max-width:56ch}
+  .duo{display:grid;grid-template-columns:1fr 1fr;gap:10px;text-align:left}
+  @media (max-width:620px){ .duo{grid-template-columns:1fr} }
+  .duo div{border-radius:6px;padding:12px 14px}
+  .duo .g{background:#EAF4EF}
+  .duo .r{background:#FAECEA}
+  .duo b{display:block;font-size:12.5px;font-weight:700;margin:0 0 3px}
+  .duo .g b{color:var(--ok)} .duo .r b{color:var(--bad)}
+  .duo p{margin:0;font-size:15.5px;line-height:1.45;max-width:none}
+  .p-note{background:#F1EEFD;color:#332A66;border-radius:6px;padding:12px 14px;font-size:15px;margin:12px 0 0}
+  .rate{margin:20px 0 0;border-top:1px solid var(--line);padding:18px 0 0}
+  .rate>p{font-weight:700;font-size:15px;margin:0 0 12px}
+  .opts{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+  .opts button{font:600 14.5px/1.3 var(--body);color:var(--ink);background:#fff;
+    border:1.5px solid var(--line);border-radius:99px;padding:9px 15px;cursor:pointer}
+  .opts button:hover{border-color:var(--ink)}
+  .opts button:focus-visible{outline:3px solid var(--brand);outline-offset:2px}
+  .opts button[data-s="ok"][aria-pressed="true"]{background:var(--ok);border-color:var(--ok);color:#fff}
+  .opts button[data-s="mid"][aria-pressed="true"]{background:var(--mid);border-color:var(--mid);color:#fff}
+  .opts button[data-s="bad"][aria-pressed="true"]{background:var(--bad);border-color:var(--bad);color:#fff}
+  .fade{animation:fade .26s ease}
+  @keyframes fade{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:none}}
+
+  .bars{display:flex;gap:5px;margin:0 0 14px}
+  .bars span{flex:1;height:11px;border-radius:3px;background:var(--line);transition:background .25s ease}
+  .bars span[data-s="ok"]{background:var(--ok)}
+  .bars span[data-s="mid"]{background:var(--mid)}
+  .bars span[data-s="bad"]{background:var(--bad)}
+  .count{font-size:15px;color:var(--ink2);margin:0 0 12px}
+  .names{font-size:15px;color:var(--ink2)}
+  .advice{display:grid;gap:10px;margin:20px 0 0;text-align:left}
+  .adv{border:1.5px solid var(--line);border-radius:8px;padding:14px 16px;background:#FBFCFE}
+  .adv b{display:block;font:600 16px var(--display);letter-spacing:-.03em;margin:0 0 4px}
+  .adv p{margin:0;font-size:15.5px;line-height:1.45;max-width:none;color:var(--ink2)}
+  .helps{list-style:none;margin:12px auto 0;padding:0;max-width:44ch;text-align:left}
+  .helps li{position:relative;padding:9px 0 9px 30px;border-bottom:1px solid var(--line)}
+  .helps li:last-child{border-bottom:0}
+  .helps li::before{content:"";position:absolute;left:4px;top:18px;width:9px;height:9px;border-radius:50%;
+    background:var(--yellow);border:1.5px solid var(--ink)}
+  .adv ul{margin:10px 0 0;padding:0 0 0 20px}
+  .adv li{font-size:15px;line-height:1.45;margin:5px 0;color:var(--ink)}
+  .adv.warm{background:#FFF7E2;border-color:#E8CE84}
+  .adv.hot{background:#FCEDEB;border-color:#E7B0A9}
+  .adv.warm b{color:#96690A} .adv.hot b{color:var(--bad)}
+  .tg{display:inline-flex;align-items:center;gap:9px;margin:20px 0 0;text-decoration:none;
+    background:var(--brand);color:#fff;font:700 15.5px var(--body);border-radius:99px;padding:12px 22px}
+  .tg:hover{background:#4B33BC}
+  .reset{margin:16px 0 0;font:600 14.5px var(--body);background:transparent;color:var(--ink2);
+    border:1.5px solid var(--line);border-radius:99px;padding:8px 16px;cursor:pointer}
+  .reset:hover{color:var(--ink);border-color:var(--ink)}
+
+  .pickers{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;margin:18px 0 0}
+  .pickers button{font:600 15px var(--body);background:#fff;color:var(--ink);
+    border:1.5px solid var(--line);border-radius:99px;padding:10px 18px;cursor:pointer}
+  .pickers button[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:#fff}
+  .pickers button:focus-visible{outline:3px solid var(--brand);outline-offset:2px}
+
+  .qs{list-style:none;margin:14px auto 0;padding:0;counter-reset:q;max-width:46ch;text-align:left}
+  .qs li{position:relative;padding:10px 0 10px 36px;border-bottom:1px solid var(--line)}
+  .qs li:last-child{border-bottom:0}
+  .qs li::before{counter-increment:q;content:counter(q);position:absolute;left:0;top:12px;width:23px;height:23px;
+    border-radius:50%;background:var(--yellow);color:var(--ink);display:grid;place-items:center;
+    font:800 12px var(--display)}
+
+  .end{margin:70px 0 0;padding:34px 0 60px;border-top:2px solid var(--ink)}
+  .end p{font:600 clamp(20px,2.7vw,30px)/1.2 var(--display);letter-spacing:-.035em;max-width:20ch}
+  .sign-off{margin:22px 0 0;color:var(--brand);font:800 15px var(--display)}
+
+  @keyframes drive{from{transform:translateX(-118%)}to{transform:translateX(0)}}
+  @keyframes spin{to{transform:rotate(720deg)}}
+  @keyframes pop{from{opacity:0;transform:scale(.4)}to{opacity:1;transform:scale(1)}}
+  @keyframes dashrun{to{stroke-dashoffset:-480}}
+  #car{animation:drive 1.25s cubic-bezier(.2,.75,.25,1) both}
+  .spin{transform-box:fill-box;transform-origin:center;animation:spin 1.25s cubic-bezier(.2,.75,.25,1) both}
+  #roadline{animation:dashrun 1.25s linear both}
+  .pin{transform-box:fill-box;transform-origin:center;animation:pop .4s ease both}
+  @media (prefers-reduced-motion:reduce){ *{animation:none!important;transition:none!important} }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header>
+    <p class="kicker">#MaxMagia</p>
+    <h1>
+      <span>Создание серьёзных отношений</span>
+      <span class="eq" aria-hidden="true">=</span>
+      <span>выбор себе надёжной машины</span>
+    </h1>
+    <p class="lead" style="margin-top:20px">Давайте разберём понятную метафору от психолога #MaxMagia, унаследованную из системной семейной психотерапии.</p>
+  </header>
+
+  <section class="sect">
+    <h2>Сначала — осмотр водителя</h2>
+    <p class="lead">Прежде чем выбирать машину, посмотри на того, кто сядет за руль. Отметь каждый пункт честно.</p>
+    <div class="driver-wrap">
+      <div class="figure">
+        <svg viewBox="0 0 220 326" role="img" aria-label="Водитель и его четыре опоры">
+          <defs><clipPath id="silh"><path d="M110,14 A36,36 0 0 1 136,74 L126,92 C152,96 170,116 172,152 L178,222 A13,13 0 0 1 152,222 L146,156 L154,216 L146,296 A14,14 0 0 1 118,296 L116,220 L110,210 L104,220 L102,296 A14,14 0 0 1 74,296 L66,216 L74,156 L68,222 A13,13 0 0 1 42,222 L48,152 C50,116 68,96 94,92 L84,74 A36,36 0 0 1 110,14 Z"></path></clipPath></defs>
+          <g clip-path="url(#silh)">
+            <g class="zpart" id="zp-bounds" data-q="bounds" tabindex="0" role="button" aria-label="Личные границы — руки">
+              <path class="fill" d="M0,74 L88,74 L74,164 L56,262 L0,262 Z"></path>
+              <path class="fill" d="M220,74 L132,74 L146,164 L164,262 L220,262 Z"></path>
+            </g>
+            <g class="zpart" id="zp-money" data-q="money" tabindex="0" role="button" aria-label="Финансовая опора — ноги">
+              <path class="fill" d="M66,196 Q110,214 154,196 L168,332 L52,332 Z"></path>
+            </g>
+            <g class="zpart" id="zp-calm" data-q="calm" tabindex="0" role="button" aria-label="Возвращать себя в норму — грудь">
+              <path class="fill" d="M86,70 L134,70 L154,204 Q110,222 66,204 Z"></path>
+            </g>
+            <g class="zpart" id="zp-self" data-q="self" tabindex="0" role="button" aria-label="Отношения с собой — голова">
+              <path class="fill" d="M52,0 L168,0 L168,80 Q110,98 52,80 Z"></path>
+            </g>
+          </g>
+          <path class="silh-out" d="M110,14 A36,36 0 0 1 136,74 L126,92 C152,96 170,116 172,152 L178,222 A13,13 0 0 1 152,222 L146,156 L154,216 L146,296 A14,14 0 0 1 118,296 L116,220 L110,210 L104,220 L102,296 A14,14 0 0 1 74,296 L66,216 L74,156 L68,222 A13,13 0 0 1 42,222 L48,152 C50,116 68,96 94,92 L84,74 A36,36 0 0 1 110,14 Z"></path>
+          <path class="hair" d="M75,44 q5,-30 35,-30 q30,0 35,30 q-15,-12 -35,-12 q-20,0 -35,12 Z"></path>
+          <g id="face" style="opacity:0">
+            <circle cx="98" cy="50" r="4.3" fill="var(--ink)"></circle>
+            <circle cx="122" cy="50" r="4.3" fill="var(--ink)"></circle>
+            <path id="mouth" d="M97,68 h26" fill="none" stroke="var(--ink)" stroke-width="3.2" stroke-linecap="round"></path>
+          </g>
+        </svg>
+        <p class="fig-count" id="figCount">0 из 4</p>
+        <p class="fig-mood" id="figMood">Нажми на часть фигуры или ответь на вопросы</p>
+      </div>
+      <div>
+        <div class="driver" id="driver"></div>
+        <p class="dsum" id="dsum"></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="sect">
+    <h2>Если всё окей</h2>
+    <p>Тогда остаётся понять одну простую вещь. Мы все выбираем себе партнёров:</p>
+    <ul class="three">
+      <li><b>С которыми можно быть собой</b><span>Без масок и без вранья.</span></li>
+      <li><b>На которых можно положиться</b><span>Особенно в моменты, когда ты уязвим.</span></li>
+      <li><b>Которым с нами так же хорошо</b><span>Если хорошо только одному — это не отношения, а обслуживание.</span></li>
+    </ul>
+    <p class="pull">А с чего начинаются отношения? Правильно. <em>С выбора.</em></p>
+  </section>
+</div>
+
+<div class="wide">
+  <div class="scene">
+    <svg viewBox="0 60 990 415" role="img" aria-label="Машина на дороге с десятью точками осмотра">
+      <rect x="-40" y="352" width="1070" height="46" fill="var(--asphalt)"></rect>
+      <line id="roadline" x1="-40" y1="375" x2="1030" y2="375" stroke="var(--yellow)" stroke-width="3.4" stroke-dasharray="28 20"></line>
+      <g id="posts"></g>
+
+      <g id="sign" tabindex="0" role="button" aria-label="Срок тест-драйва">
+        <line x1="896" y1="300" x2="896" y2="356" stroke="var(--ink)" stroke-width="3.4"></line>
+        <rect class="sign-board" x="830" y="246" width="132" height="56" rx="6"></rect>
+        <text class="sign-t1" x="896" y="269">Тест-драйв</text>
+        <text class="sign-t2" id="sign-term" x="896" y="290">срок не выбран</text>
+      </g>
+
+      <g id="car">
+        <g stroke="var(--ink2)" stroke-width="2.4" stroke-linecap="round" opacity=".5">
+          <line x1="24" y1="252" x2="74" y2="252"></line>
+          <line x1="10" y1="278" x2="76" y2="278"></line>
+          <line x1="30" y1="304" x2="72" y2="304"></line>
+        </g>
+
+        <path id="shell" class="shell" d="M110,330 L106,268 Q108,245 130,238 L250,226 Q300,160 345,150 L515,146 Q560,148 650,222 L790,238 Q830,248 836,275 L838,318 Q836,332 815,334 L752,334 A52,52 0 0 0 648,334 L282,334 A52,52 0 0 0 178,334 L128,334 Q110,334 110,330 Z"></path>
+        <path class="glass" d="M268,222 L342,160 L444,157 L444,222 Z"></path>
+        <path class="glass" d="M458,222 L458,157 L512,156 Q560,160 628,222 Z"></path>
+        <path d="M451,222 L451,326" stroke="var(--ink)" stroke-width="1.5" fill="none"></path>
+        <path d="M812,256 Q828,260 832,274 L814,272 Z" fill="var(--yellow)" stroke="var(--ink)" stroke-width="1.2"></path>
+        <rect x="106" y="252" width="10" height="20" rx="2" fill="var(--bad)"></rect>
+
+        <g class="zone" id="z5">
+          <path class="dash" d="M122,246 L244,234 L262,302 L120,302 Z"></path>
+          <path class="dash" d="M140,262 L176,258 M140,282 L200,276"></path>
+        </g>
+        <g class="zone" id="z10">
+          <ellipse class="solid" cx="288" cy="214" rx="11" ry="5"></ellipse>
+          <path class="stroke" d="M306,196 v-16 l13,-4 v16"></path>
+          <circle class="solid" cx="303" cy="197" r="4"></circle>
+          <circle class="solid" cx="316" cy="193" r="4"></circle>
+        </g>
+        <g class="zone" id="z4">
+          <rect class="stroke" x="336" y="178" width="15" height="20" rx="6"></rect>
+          <path class="dash" d="M344,200 L334,292 L382,294"></path>
+          <rect class="stroke" x="492" y="172" width="15" height="21" rx="6"></rect>
+          <path class="dash" d="M500,195 L488,292 L540,294"></path>
+        </g>
+        <g class="zone" id="z3">
+          <rect class="solid" x="524" y="159" width="14" height="5" rx="2"></rect>
+          <path class="stroke" d="M531,164 v10"></path>
+          <path class="stroke" d="M531,172 L523,190 L539,190 Z"></path>
+          <path class="stroke" d="M546,186 q7,-10 14,0 q7,10 14,0"></path>
+        </g>
+        <g class="zone" id="z2">
+          <path class="stroke" d="M270,226 L284,322 M636,226 L644,322"></path>
+          <rect class="solid" x="404" y="246" width="22" height="6" rx="3"></rect>
+          <rect class="solid" x="590" y="246" width="22" height="6" rx="3"></rect>
+        </g>
+        <g class="zone" id="z7">
+          <ellipse class="stroke" cx="603" cy="214" rx="7" ry="22" transform="rotate(-20 603 214)"></ellipse>
+          <path class="dash" d="M608,228 L642,250"></path>
+        </g>
+        <g class="zone" id="z8">
+          <circle class="stroke" cx="558" cy="258" r="5"></circle>
+          <path class="dash" d="M560,263 L570,292"></path>
+          <path class="dash" d="M620,262 L610,297"></path>
+          <rect class="dash" x="600" y="297" width="19" height="6" rx="1"></rect>
+        </g>
+        <g class="zone" id="z9">
+          <path class="dash" d="M652,258 L644,293"></path>
+          <rect class="dash" x="634" y="293" width="19" height="6" rx="1"></rect>
+        </g>
+        <g class="zone" id="z6">
+          <rect class="dash" x="686" y="248" width="98" height="52" rx="4"></rect>
+          <circle class="stroke" cx="712" cy="274" r="11"></circle>
+          <circle class="stroke" cx="744" cy="274" r="11"></circle>
+          <path class="stroke" d="M766,262 v24 M700,248 v-8 M756,248 v-8"></path>
+        </g>
+
+        <g class="spin">
+          <circle cx="230" cy="334" r="40" fill="var(--ink)"></circle>
+          <circle cx="230" cy="334" r="18" fill="var(--bg)"></circle>
+          <path d="M230,316 L230,352 M212,334 L248,334" stroke="var(--ink)" stroke-width="3"></path>
+        </g>
+        <g class="spin">
+          <circle cx="700" cy="334" r="40" fill="var(--ink)"></circle>
+          <circle cx="700" cy="334" r="18" fill="var(--bg)"></circle>
+          <path d="M700,316 L700,352 M682,334 L718,334" stroke="var(--ink)" stroke-width="3"></path>
+        </g>
+      </g>
+
+      <g id="pins"></g>
+    </svg>
+  </div>
+  <p class="hint">Схему и маршрут можно потянуть вбок.</p>
+
+  <nav class="strip" aria-label="Маршрут осмотра">
+    <div class="strip-inner">
+      <div class="strip-road"></div>
+      <ol id="route"></ol>
+    </div>
+  </nav>
+
+  <div class="panel" id="panel" aria-live="polite"></div>
+</div>
+
+<div class="wrap">
+  <section class="sect">
+    <div class="card">
+      <h2>Техосмотр</h2>
+      <div class="bars" id="bars" aria-hidden="true"></div>
+      <p class="count" id="count"></p>
+      <div id="verdict"></div>
+      <div class="advice" id="advice"></div>
+      <div id="cta"></div>
+      <button class="reset" id="reset" type="button">Сбросить отметки</button>
+      <p style="margin-top:18px;font-size:15px;color:var(--ink2)">Это шпаргалка по метафоре, а не приговор. Решение принимается в конце тест-драйва и вдвоём.</p>
+    </div>
+  </section>
+
+  <section class="sect" id="testdrive">
+    <h2>И самое важное — тест-драйв</h2>
+    <p>Время жизни ограничено, вечно молодыми мы не будем, поэтому тянуть с проверкой не стоит. В салоне машину не дают на вечный тест-драйв: дают на несколько часов, максимум на несколько дней.</p>
+    <p>С отношениями так же. Срок стоит определить заранее, ещё до старта: кому-то хватает месяца, кому-то нужно три. Мы все разные, и рефлексия у всех разной скорости.</p>
+    <p style="font-weight:700;margin-top:20px">Сколько времени ты даёшь себе на тест-драйв?</p>
+    <div class="pickers" id="drive"></div>
+    <p class="lead" id="drive-note" style="margin-top:16px;font-size:15px"></p>
+  </section>
+
+  <section class="sect">
+    <div class="card soft">
+      <h2>Проверка идёт в обе стороны</h2>
+      <p>Пока ты осматриваешь машину, тебя осматривают точно так же. Пройди этот список ещё раз — про себя. А лучше попроси того, кто тебе нравится, рассказать, какая ты машина.</p>
+    </div>
+  </section>
+
+  <section class="sect">
+    <h2>Плановый техосмотр</h2>
+    <p>Если машина где-то сломалась, а ты игнорируешь починку, всё закончится поломкой. Поэтому техосмотр планируют заранее: выбери дату, когда вы сядете вдвоём и проговорите, насколько машины вам всё ещё нравятся и что хочется подрихтовать.</p>
+    <div class="pickers" id="service"></div>
+    <p style="font-weight:700;margin-top:24px">Три вопроса на техосмотре</p>
+    <ol class="qs">
+      <li>Что мне сейчас нравится в нас</li>
+      <li>Что хочется подрихтовать</li>
+      <li>О чём я молчал с прошлого раза</li>
+    </ol>
+    <p style="margin-top:18px">Это лучший способ диагностики будущих проблем: они лечатся, пока ещё называются мелочью.</p>
+  </section>
+
+  <section class="sect">
+    <div class="card">
+      <h2>А если хочется разобраться в себе</h2>
+      <p>Если ты чувствуешь, что что-то из этого хочется — и будет даже намного полезнее — детальнее обсудить с профессионалом. Или если есть что-то, что хочется решить внутри себя, — приходи.</p>
+      <p style="font-weight:700;margin-top:22px">Я помогаю:</p>
+      <ul class="helps">
+        <li>понять свои чувства</li>
+        <li>обсуждать свои чувства без обвинений</li>
+        <li>принять в себе то, что хочется выбросить из себя</li>
+        <li>сформировать внутренние и внешние личные границы</li>
+        <li>научиться себя, свои границы и ценности защищать</li>
+        <li>вернуть любовь к себе и починить самооценку</li>
+        <li>изменить отношение к чему-то</li>
+        <li>отпустить прошлое или чувства из прошлого</li>
+        <li>переработать неприятные чувства</li>
+        <li>возвращать себя в норму экологично</li>
+      </ul>
+      <a class="tg" href="https://t.me/MaxGuschin" target="_blank" rel="noopener">Написать Максу в Telegram</a>
+    </div>
+  </section>
+
+  <footer class="end">
+    <p>Желаю вам найти своего человека. Это возможно. Особенно если не тратить время на тех, кто вам не подходит.</p>
+    <p class="sign-off">Психолог #MaxMagia</p>
+  </footer>
+</div>
+
+<script>
+const TG = "https://t.me/MaxGuschin";
+
+const DRIVER = [
+  {id:"self", t:"Отношения с собой выстроены? Всё в себе принимаешь?",
+   ok:"Тот, кто в ладу с собой, не ищет в партнёре спасателя. Это лучший стартовый капитал.",
+   no:"Стань сначала себе союзником: замечай свои желания и не предавай их первым. Пока эта опора шатается, партнёр будет казаться то спасением, то угрозой."},
+  {id:"bounds", t:"Границы — можешь спокойно и чётко проговорить?",
+   ok:"Ты знаешь свои правила пользования и умеешь их озвучить. Значит, партнёру не придётся их угадывать.",
+   no:"Составь свод личных законов: что тебе приятно, что раздражает, что недопустимо совсем. Границы, о которых не сказали вслух, нарушают не со зла — о них просто не знают."},
+  {id:"money", t:"Выстроена ли финансовая опора?",
+   ok:"Ты можешь уйти, если что-то пойдёт не так. Именно поэтому твоё «остаюсь» — настоящий выбор.",
+   no:"Даже небольшая подушка меняет переговорную позицию. Без неё легко остаться в отношениях не из любви, а из невозможности выйти."},
+  {id:"calm", t:"Умеешь возвращать себя в норму экологично, если жизнь ушатала?",
+   ok:"Ты умеешь пережить бурю, не сжигая отношения дотла. С таким человеком безопасно ссориться.",
+   no:"Найди пару своих способов остывать до разговора, а не после. Иначе партнёр будет получать не тебя, а твою реакцию."}
+];
+
+const PARTS = [
+  {id:1, name:"Внешний вид", short:"Внешний вид", q:"Нравится ли дизайн, цвет, форма", whole:true,
+   pin:[110,92], to:[215,228], cap:"right",
+   mean:"Эмоциональный отклик от внешности. Все люди сначала любят глазами, поэтому это входной билет. Сами подумайте: кто будет выбирать себе машину, вообще не глядя на то, как она выглядит?",
+   ok:"Смотришь на него или на неё — и внутри что-то откликается.",
+   bad:"Отклика нет. Значит, это не твоя машина.",
+   opts:[["Обожаю","ok"],["Нравится","ok"],["Сойдёт","mid"],["Не нравится","bad"],["Терплю","bad"]]},
+
+  {id:2, name:"Двери", short:"Двери", q:"Открывают ли тебе двери",
+   pin:[370,418], to:[415,252], cap:"below",
+   mean:"Открывает ли человек тебе свою душу: пускает ли во внутренний мир, рассказывает ли, что у него там и как, делится ли правилами пользования — личными границами и ценностями.",
+   ok:"Тебя пускают внутрь. Появляется первичное доверие и интерес.",
+   bad:"Двери закрыты. Мозг начинает защищаться: «зачем мне такой».",
+   opts:[["Впускают свободно","ok"],["Впускают, но контролируют","mid"],["Впускают ненадолго","mid"],["Не впускают","bad"]]},
+
+  {id:3, name:"Запах", short:"Запах", q:"Приятно ли тебе дышать рядом", crit:true,
+   pin:[450,92], to:[532,168], cap:"right",
+   mean:"Тут чистая физиология. Запах либо нравится, либо не замечается, либо вызывает отторжение. Логикой с этим не договоришься: отвращение включается само, как защитный механизм. Потерпеть можно. Вопрос — сколько тебя хватит.",
+   ok:"Запах нравится, в салоне хорошо дышится.",
+   bad:"Запах не заходит. Рано или поздно захочется проветриться.",
+   opts:[["Запах нравится","ok"],["Не ощущаю, и всё норм","mid"],["Запах не нравится","bad"]]},
+
+  {id:4, name:"Салон", short:"Салон", q:"Можешь ли ты тут расслабиться",
+   pin:[300,92], to:[344,178], cap:"right",
+   mean:"Насколько тебе комфортно находиться внутри. Нет ли давления, можно ли выдохнуть, ничего ли не жмёт?",
+   ok:"Тебе уютно, и ты можешь быть самим собой.",
+   bad:"Постоянно напрягаешься, вечно приходится подстраиваться.",
+   opts:[["Максимально уютно","ok"],["Местами напрягаюсь","mid"],["Постоянно всё не так","bad"]]},
+
+  {id:5, name:"Багажник и пассажиры", short:"Багажник", q:"Нет ли лишних в салоне и багажнике", crit:true,
+   pin:[100,418], to:[150,290], cap:"below",
+   mean:"Многие не готовы прощаться с прошлым и тащат его за собой: где-то живые пассажиры, где-то артефакты, которые давно пора выбросить, а где-то и вовсе чужое забытое. Посмотри, нет ли в салоне лишних людей, а в багажнике — хлама.",
+   ok:"Салон и багажник чисты. Прошлое осталось в прошлом.",
+   bad:"В салоне или багажнике есть пассажиры из прошлого или их вещи.",
+   opts:[["Чисто, прошлое в прошлом","ok"],["Пассажиров нет, но артефакты есть","mid"],["Есть пассажиры из прошлого","bad"],["Кажется, я тут нежданный гость","bad"]]},
+
+  {id:6, name:"Двигатель", short:"Двигатель", q:"Какая тяга под капотом", crit:true,
+   pin:[790,92], to:[742,246], cap:"right",
+   mean:"Сексуальное влечение и совпадение аппетитов. Тянет ли тебя к этому человеку физически, совпадает ли, как часто и как именно вы этого хотите, и можно ли об этом спокойно говорить вслух. Мощность двигателя — не про «много» или «мало», а про то, совпадает ли она у вас двоих.",
+   ok:"Тяга есть, мощности примерно совпадают, и об этом можно договариваться.",
+   bad:"Тяги нет. Или один вечно давит на газ, а второй вечно объясняет, почему не сегодня — и тема закрыта для разговора.",
+   note:"Двигатель не проверяют на витрине. Честно он показывает себя только в движении, на тест-драйве.",
+   opts:[["Тяга есть, мощности совпадают","ok"],["Тяга есть, темпы разные — договариваемся","mid"],["Тяга есть, но говорить об этом нельзя","bad"],["Тяги нет","bad"]]},
+
+  {id:7, name:"Руль", short:"Руль", q:"Слушается ли машина", crit:true,
+   pin:[600,92], to:[600,196], cap:"right",
+   mean:"Слышит ли тебя партнёр. Рулишь направо — и она едет направо, курс не сбивается. А налево? А когда едешь прямо, машину не уводит в сторону?",
+   ok:"Руль слушается, ехать безопасно.",
+   bad:"Ты хочешь в одну сторону, а машина едет в другую.",
+   opts:[["Руль послушный","ok"],["Не всегда следует за поворотом","mid"],["Руль и движение рассинхронизированы","bad"]]},
+
+  {id:8, name:"Газ и коробка", short:"Газ и коробка", q:"Вывозит ли машина твой темп",
+   pin:[505,418], to:[608,300], cap:"below",
+   mean:"У каждого своя скорость жизни. Кто-то проактивный, кто-то медлительный, кто-то держит долгую нагрузку, а кто-то предпочитает тихую и спокойную езду. Успевает ли машина за тобой и умеет ли переключаться?",
+   ok:"Вывозит и переключается вместе с тобой.",
+   bad:"Жмёшь на газ, а она еле тащится. Переключаешь скорость — реагирует не сразу.",
+   opts:[["Ритмы совпадают","ok"],["Иногда совпадают, иногда расходятся","mid"],["Ритмы не совпадают","bad"]]},
+
+  {id:9, name:"Тормоз", short:"Тормоз", q:"Останавливается ли по просьбе", crit:true,
+   pin:[640,418], to:[648,300], cap:"below",
+   mean:"В жизни каждого случаются ситуации, когда нужно остановиться. Не остановились — в лучшем случае обратимая беда, в худшем авария, где пострадают и другие машины. Есть ли уважение к твоим стопам: «эту тему не обсуждаем», «давай вернёмся к этому позже»?",
+   ok:"Жмёшь на тормоз — машина тормозит. Слышит и слушается.",
+   bad:"Не останавливается тогда, когда ты нажал.",
+   opts:[["Тормозит сразу","ok"],["Реагирует с десятого нажатия","mid"],["Тормоз живёт своей жизнью","bad"]]},
+
+  {id:10, name:"Музыка", short:"Музыка", q:"Один ли у вас вайб",
+   pin:[230,418], to:[292,220], cap:"below",
+   mean:"Радио в салоне — это ваши общие темы, шутки, взгляды и вкусы. Человека всегда тянет туда, где играет его вайб, и всегда выталкивает оттуда, где играет чужой. Насколько похожи ваше мышление, мировоззрение и вкусы?",
+   ok:"У вас один вайб, вам нравится примерно одно и то же, ехать приятно.",
+   bad:"Бесконечно играет то, от чего у тебя кровь из ушей. С такой музыкой долго не проедешь даже на идеальной машине.",
+   opts:[["Совпадаем","ok"],["Похожи в общем","ok"],["Притираемся","mid"],["Терпим друг друга","bad"]]}
+];
+
+const DRIVE = ["1 месяц","2–3 месяца","3–6 месяцев"];
+const SERVICE = ["Раз в 3 месяца","Раз в 6 месяцев"];
+const KEY = "maxmagia-car-check-v2";
+const state = {cur:1, marks:{}, driver:{}, drive:null, service:null};
+
+function save(){ try{ localStorage.setItem(KEY, JSON.stringify(state)); }catch(e){} }
+function load(){
+  try{
+    const d = JSON.parse(localStorage.getItem(KEY) || "null");
+    if(d && typeof d === "object"){
+      state.marks = d.marks || {};
+      state.driver = d.driver || {};
+      state.drive = Number.isInteger(d.drive) ? d.drive : null;
+      state.service = Number.isInteger(d.service) ? d.service : null;
+    }
+  }catch(e){}
+}
+
+const NS = "http://www.w3.org/2000/svg";
+const svgEl = (tag, attrs, parent) => {
+  const n = document.createElementNS(NS, tag);
+  for(const k in attrs) n.setAttribute(k, attrs[k]);
+  if(parent) parent.appendChild(n);
+  return n;
+};
+const sev = v => v ? v.replace(/\d+$/,"") : undefined;
+const S = id => sev(state.marks[id]);
+
+function buildDriver(){
+  document.getElementById("driver").innerHTML = DRIVER.map(d=>`
+    <div class="dcard" id="d-${d.id}">
+      <b>${d.t}</b>
+      <div class="yn">
+        <button type="button" data-id="${d.id}" data-v="ok">Да</button>
+        <button type="button" data-id="${d.id}" data-v="no">Пока нет</button>
+      </div>
+      <p class="dmsg" id="dm-${d.id}"></p>
+    </div>`).join("");
+  document.querySelectorAll(".yn button").forEach(b=>b.addEventListener("click", ()=>{
+    const id = b.dataset.id, v = b.dataset.v;
+    if(state.driver[id] === v) delete state.driver[id]; else state.driver[id] = v;
+    save(); renderDriver();
+  }));
+}
+
+function renderDriver(){
+  DRIVER.forEach(d=>{
+    const v = state.driver[d.id];
+    const card = document.getElementById("d-"+d.id);
+    const msg = document.getElementById("dm-"+d.id);
+    v ? card.setAttribute("data-v", v) : card.removeAttribute("data-v");
+    const text = v === "ok" ? d.ok : v === "no" ? d.no : "";
+    if(msg.textContent !== text){
+      msg.textContent = text;
+      if(text){ msg.classList.remove("fade"); void msg.offsetWidth; msg.classList.add("fade"); }
+    }
+  });
+  renderFigure();
+  const done = DRIVER.filter(d=>state.driver[d.id]).length;
+  const gaps = DRIVER.filter(d=>state.driver[d.id] === "no").length;
+  const s = document.getElementById("dsum");
+  if(done < DRIVER.length){ s.innerHTML = ""; return; }
+  s.innerHTML = gaps === 0
+    ? `<b>Водитель готов к дороге.</b> Можно выбирать машину — и выбирать по критериям, а не по тому, кто первым посмотрел в твою сторону.`
+    : `<b>Права можно получать параллельно.</b> Просто помни: пока чего-то не хватает, велик риск искать не партнёра, а инструктора по вождению. Эти пункты стоит подтянуть себе, а не закрывать кем-то.`;
+  s.classList.remove("fade"); void s.offsetWidth; s.classList.add("fade");
+}
+
+const MOUTHS = {
+  1:"M97,76 q13,-14 26,0",
+  2:"M97,71 q13,-7 26,0",
+  3:"M97,68 h26",
+  4:"M96,64 q14,15 28,0"
+};
+const MOODS = {
+  0:"Лица пока нет — водитель не осмотрен",
+  1:"Расстроен: опор почти нет",
+  2:"Хмурится: половина опор шатается",
+  3:"Спокоен: почти всё на месте",
+  4:"Улыбается: водитель готов к дороге"
+};
+const ZONE_HINT = {
+  self:"Голова — отношения с собой и принятие себя",
+  bounds:"Руки — личные границы: очертить и удержать",
+  money:"Ноги — финансовая опора, на которой стоишь",
+  calm:"Грудь — умение возвращать себя в норму"
+};
+
+function renderFigure(){
+  DRIVER.forEach(d=>{
+    const g = document.getElementById("zp-"+d.id);
+    const v = state.driver[d.id];
+    v ? g.setAttribute("data-v", v) : g.removeAttribute("data-v");
+  });
+  const yes = DRIVER.filter(d=>state.driver[d.id] === "ok").length;
+  const face = document.getElementById("face");
+  face.style.opacity = yes > 0 ? 1 : 0;
+  if(yes > 0) document.getElementById("mouth").setAttribute("d", MOUTHS[yes]);
+  document.getElementById("figCount").textContent = yes + " из 4";
+  if(!document.querySelector(".zpart.active"))
+    document.getElementById("figMood").textContent = MOODS[yes];
+}
+
+function bindFigure(){
+  document.querySelectorAll(".zpart").forEach(g=>{
+    const q = g.dataset.q;
+    const focus = ()=>{
+      document.querySelectorAll(".zpart").forEach(z=>z.classList.remove("active"));
+      g.classList.add("active");
+      document.getElementById("figMood").textContent = ZONE_HINT[q];
+      const card = document.getElementById("d-"+q);
+      card.classList.remove("pulse"); void card.offsetWidth; card.classList.add("pulse");
+      if(window.matchMedia("(max-width:860px)").matches)
+        card.scrollIntoView({behavior:"smooth", block:"center"});
+    };
+    g.addEventListener("click", focus);
+    g.addEventListener("keydown", e=>{
+      if(e.key === "Enter" || e.key === " "){ e.preventDefault(); focus(); }
+    });
+  });
+}
+
+function buildPosts(){
+  const host = document.getElementById("posts");
+  [[18,44],[62,40],[972,42]].forEach(([x,h])=>{
+    svgEl("rect", {class:"post", x:x, y:352-h, width:7, height:h, rx:3}, host);
+    svgEl("rect", {class:"reflect", x:x+1, y:358-h, width:5, height:7, rx:1}, host);
+  });
+}
+
+function buildPins(){
+  const host = document.getElementById("pins");
+  PARTS.forEach((p,i)=>{
+    const x = p.pin[0], y = p.pin[1], tx = p.to[0], ty = p.to[1];
+    const g = svgEl("g", {class:"pin", "data-id":p.id, tabindex:"0", role:"button",
+      "aria-label":p.id + ". " + p.name}, host);
+    g.style.animationDelay = (1.15 + i*0.055) + "s";
+    const dx = tx-x, dy = ty-y, len = Math.hypot(dx,dy);
+    svgEl("line", {class:"lead-line", x1:x+dx/len*20, y1:y+dy/len*20, x2:tx, y2:ty}, g);
+    svgEl("circle", {class:"hit", cx:x, cy:y, r:30}, g);
+    svgEl("circle", {class:"ring", cx:x, cy:y, r:22}, g);
+    svgEl("circle", {class:"ball", cx:x, cy:y, r:19}, g);
+    svgEl("text", {class:"num", x:x, y:y+5}, g).textContent = p.id;
+    const cap = p.cap === "right"
+      ? svgEl("text", {class:"cap", x:x+28, y:y+6, "text-anchor":"start"}, g)
+      : svgEl("text", {class:"cap", x:x, y:y+42, "text-anchor":"middle"}, g);
+    cap.textContent = p.short;
+    g.addEventListener("click", ()=>select(p.id));
+    g.addEventListener("keydown", e=>{
+      if(e.key === "Enter" || e.key === " "){ e.preventDefault(); select(p.id); }
+    });
+  });
+}
+
+const goDrive = ()=>document.getElementById("testdrive").scrollIntoView({behavior:"smooth", block:"start"});
+
+function buildRoute(){
+  const ol = document.getElementById("route");
+  ol.innerHTML = PARTS.map(p=>
+    `<li><button type="button" data-id="${p.id}"><span class="bead">${p.id}</span><span>${p.short}</span></button></li>`
+  ).join("") + `<li><button type="button" id="to-drive"><span class="bead flag"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M4 2v16" stroke="#1E2A44" stroke-width="2" stroke-linecap="round"/><path d="M6 3h10v7H6z" fill="#fff" stroke="#1E2A44" stroke-width="1.4"/><path d="M6 3h2.5v2.5H6zM11 3h2.5v2.5H11zM8.5 5.5H11V8H8.5zM13.5 5.5H16V8h-2.5zM6 8h2.5v2H6zM11 8h2.5v2H11z" fill="#1E2A44"/></svg></span><span>Тест-драйв</span></button></li>`;
+  ol.querySelectorAll("button[data-id]").forEach(b=>
+    b.addEventListener("click", ()=>select(+b.dataset.id, true)));
+  document.getElementById("to-drive").addEventListener("click", goDrive);
+}
+
+function select(id, scroll){
+  state.cur = id;
+  render();
+  if(scroll) document.getElementById("panel").scrollIntoView({behavior:"smooth", block:"nearest"});
+}
+
+function mark(id, v){
+  if(state.marks[id] === v) delete state.marks[id]; else state.marks[id] = v;
+  save(); render();
+}
+
+function renderPanel(){
+  const p = PARTS.find(x=>x.id === state.cur);
+  const cur = state.marks[p.id];
+  const el = document.getElementById("panel");
+  el.innerHTML = `
+    <div class="p-num">${p.id}</div>
+    <h3 class="p-title">${p.name}</h3>
+    <p class="p-q">${p.q}</p>
+    ${p.crit ? `<div class="p-crit">Критичная деталь</div>` : ""}
+    <p class="p-mean">${p.mean}</p>
+    <div class="duo">
+      <div class="g"><b>Есть шанс</b><p>${p.ok}</p></div>
+      <div class="r"><b>Небезопасно</b><p>${p.bad}</p></div>
+    </div>
+    ${p.note ? `<p class="p-note">${p.note}</p>` : ""}
+    <div class="rate"><p>У тебя как?</p><div class="opts">
+      ${p.opts.map((o,i)=>`<button type="button" data-v="${o[1]+i}" data-s="${o[1]}" aria-pressed="${cur === o[1]+i}">${o[0]}</button>`).join("")}
+    </div></div>`;
+  el.classList.remove("fade"); void el.offsetWidth; el.classList.add("fade");
+  el.querySelectorAll(".opts button").forEach(b=>
+    b.addEventListener("click", ()=>mark(p.id, b.dataset.v)));
+}
+
+function renderMarks(){
+  PARTS.forEach(p=>{
+    const z = document.getElementById("z"+p.id);
+    if(z) z.classList.toggle("on", p.id === state.cur);
+  });
+  document.getElementById("shell").classList.toggle("on", state.cur === 1);
+  document.querySelectorAll(".pin").forEach(g=>{
+    const id = +g.dataset.id, s = S(id);
+    s ? g.setAttribute("data-s", s) : g.removeAttribute("data-s");
+    g.setAttribute("aria-current", id === state.cur ? "true" : "false");
+  });
+  document.querySelectorAll("#route button[data-id]").forEach(b=>{
+    const id = +b.dataset.id, s = S(id);
+    s ? b.setAttribute("data-s", s) : b.removeAttribute("data-s");
+    b.setAttribute("aria-current", id === state.cur ? "true" : "false");
+  });
+}
+
+const listNames = ids => ids.map(i=>PARTS.find(p=>p.id===i).name.toLowerCase()).join(", ");
+
+const NOTES = {
+  "1:2":"Внешний вид «сойдёт» — скажи, что тебе нравится, а чего не хватает.",
+  "1:3":"Внешность не откликается. Готов ли ты строить что-то на этом?",
+  "1:4":"Ты терпишь то, как он выглядит. Надолго ли тебя хватит?",
+  "2:1":"Тебя впускают, но контролируют — назови, где тебе тесно и что хочешь решать сам.",
+  "2:2":"Двери то открываются, то закрываются — спроси, что закрывает их обратно.",
+  "2:3":"Тебя не впускают внутрь. Отношения ли это вообще?",
+  "3:1":"Запах не считывается — проверь, как тебе рядом физически, без логики.",
+  "3:2":"Запах не заходит. С физиологией не договариваются — нужно ли это тебе?",
+  "4:1":"В салоне местами жмёт — назови моменты, когда ты подбираешься.",
+  "4:2":"В салоне нельзя расслабиться. Хочешь ли ты жить в постоянном напряжении?",
+  "5:1":"В багажнике лежат вещи из прошлого — спроси, что они там делают.",
+  "5:2":"В салоне есть пассажиры из прошлого. Согласен ли ты ехать втроём?",
+  "5:3":"Ты чувствуешь себя нежданным гостем. Твоё ли это место?",
+  "6:1":"Темпы в близости разные — договоритесь, как вы их сводите.",
+  "6:2":"О близости нельзя говорить вслух. Устроит ли тебя это молчание на годы?",
+  "6:3":"Тяги нет. Готов ли ты на отношения без неё?",
+  "7:1":"Руль слушается не всегда — приведи пример, где тебя не услышали.",
+  "7:2":"Тебя не слышат. Сколько ты готов рулить в пустоту?",
+  "8:1":"Ритмы то сходятся, то расходятся — обсудите, чей темп вы берёте и когда.",
+  "8:2":"Ритмы не совпадают. Чьим темпом вы поедете дальше?",
+  "9:1":"Тормоз срабатывает не сразу — договоритесь о стопе, который работает с первого раза.",
+  "9:2":"Твои стопы не работают. Безопасно ли тебе здесь?",
+  "10:2":"Вкусы притираются — решите, где вы совпадаете, а где просто не мешаете друг другу.",
+  "10:3":"Вы терпите друг друга. Это точно то, чего ты хотел?"
+};
+const noteOf = id => NOTES[id + ":" + (state.marks[id] || "").replace(/\D/g,"")];
+const bullets = ids => {
+  const items = ids.map(noteOf).filter(Boolean);
+  return items.length ? "<ul>" + items.map(t=>`<li>${t}</li>`).join("") + "</ul>" : "";
+};
+
+function advice(){
+  const out = [];
+  const badIds = PARTS.filter(p=>S(p.id) === "bad").map(p=>p.id);
+  const midIds = PARTS.filter(p=>S(p.id) === "mid").map(p=>p.id);
+  const soft = badIds.length + midIds.length;
+
+  if(midIds.length){
+    out.push({cls:"warm", t:"Жёлтое — это к разговору",
+      x:"Проговори с партнёром именно то, что отметил жёлтым. Спокойно и экологично: без обвинений, просто назвать, что тебе важно и чего не хватает. Это самое ценное, что ты сейчас можешь сделать для вас двоих.",
+      list:midIds});
+  }
+  if(badIds.length){
+    out.push({cls:"hot", t:"Красное — это вопрос себе",
+      x:"Это не «можно ли потерпеть» и не «изменится ли он когда-нибудь». Ответь себе честно по каждому пункту:",
+      list:badIds});
+  }
+  if(S(6) === "bad" || S(6) === "mid"){
+    out.push({t:"Сексолог", who:"sex",
+      x:"Двигатель — это не про «хотеть больше» или «хотеть меньше», а про совпадение и про возможность об этом говорить. Отдельная профессиональная зона, и чинится она чаще, чем принято думать. Хорошая точка входа в тему — материалы сексолога Кати Сырых в сети. Что нести на разбор:",
+      list:[6]});
+  }
+  const medIds = [7,9,10].filter(id=>S(id) === "bad");
+  if(medIds.length){
+    out.push({t:"Медиатор", who:"med",
+      x:"Это про конфликты, которые не выходит развернуть вдвоём: тебя не слышат, стопы не работают, вы уже просто терпите друг друга. Медиатор нужен не мирить, а вернуть вам разговор. С чем идти:",
+      list:medIds});
+  }
+  if(badIds.length >= 2){
+    out.push({t:"Семейный психолог", who:"fam",
+      x:"Красного больше одного — значит, дело не в отдельной детали, а в том, как вы собираетесь вместе. Если вы оба хотите сохранить машину, разбирать её лучше вдвоём и при третьем. Что выносить на разговор:",
+      list:badIds});
+  }
+  const selfIds = [1,4,5].filter(id=>S(id) === "bad" || S(id) === "mid");
+  if(soft >= 3 || selfIds.length){
+    out.push({t:"Психолог", who:"solo",
+      x:"Это то, что решается в себе, а не с партнёром: непринятие, прошлое, которое едет с тобой, свои границы и умение их держать. Тут работают один на один. С чем можно прийти:",
+      list:selfIds.length ? selfIds : badIds.concat(midIds)});
+  }
+  return out;
+}
+
+function renderCheck(){
+  document.getElementById("bars").innerHTML = PARTS.map(p=>{
+    const s = S(p.id);
+    return `<span${s ? ` data-s="${s}"` : ""}></span>`;
+  }).join("");
+
+  const done = PARTS.filter(p=>state.marks[p.id]).length;
+  document.getElementById("count").textContent = `Отмечено ${done} из ${PARTS.length}`;
+
+  const bad = PARTS.filter(p=>S(p.id) === "bad");
+  const mid = PARTS.filter(p=>S(p.id) === "mid");
+  const critBad = bad.filter(p=>p.crit);
+  const v = document.getElementById("verdict");
+
+  if(done < PARTS.length){
+    v.innerHTML = `<h3>Пока проверено не всё</h3>
+      <p>Пройди по маршруту и отметь каждую из десяти деталей: совпадает, притираетесь или не совпадает. Итог появится здесь.</p>`;
+  } else if(critBad.length){
+    v.innerHTML = `<h3 style="color:var(--bad)">Красное в критичной зоне</h3>
+      <p>Запах, багажник, двигатель, руль и тормоз — это тормозная система отношений. Красное здесь перевешивает зелёное во всём остальном: музыку можно перетерпеть, отказавшие тормоза — нет.</p>
+      <p class="names">Красным отмечено: ${listNames(critBad.map(p=>p.id))}.</p>`;
+  } else if(bad.length){
+    v.innerHTML = `<h3 style="color:var(--bad)">Есть красные зоны</h3>
+      <p>Критичные детали в порядке, но эти места либо обсуждаются и меняются, либо накапливаются. Проверь на тест-драйве, что происходит, когда ты называешь их вслух.</p>
+      <p class="names">Красным отмечено: ${listNames(bad.map(p=>p.id))}.</p>`;
+  } else if(mid.length){
+    v.innerHTML = `<h3 style="color:var(--mid)">Красного нет, есть притирка</h3>
+      <p>Жёлтое — это темы для разговора, а не повод разворачиваться. Выпиши их и проверь на тест-драйве, меняется ли что-то, когда вы обсуждаете их вслух.</p>
+      <p class="names">Притирка нужна: ${listNames(mid.map(p=>p.id))}.</p>`;
+  } else {
+    v.innerHTML = `<h3 style="color:var(--ok)">Машина проходит осмотр</h3>
+      <p>Это не гарантия, а хорошая отправная точка. Дальше решает тест-драйв и то, как вы друг с другом договариваетесь.</p>`;
+  }
+
+  const list = advice();
+  document.getElementById("advice").innerHTML = list.length
+    ? `<p style="font-weight:700;margin:6px 0 0;max-width:none">Что с этим делать</p>` +
+      list.map(a=>`<div class="adv ${a.cls || ""}"><b>${a.t}</b><p>${a.x}</p>${bullets(a.list || [])}</div>`).join("")
+    : "";
+  const solo = list.some(a=>a.who === "solo");
+  const fam = list.some(a=>a.who === "fam");
+  document.getElementById("cta").innerHTML =
+    solo ? `<a class="tg" href="${TG}" target="_blank" rel="noopener">Написать Максу в Telegram</a>`
+    : fam ? `<a class="tg" href="${TG}" target="_blank" rel="noopener">Уточнить у Макса в Telegram</a>`
+    : "";
+}
+
+function buildPickers(){
+  const d = document.getElementById("drive");
+  d.innerHTML = DRIVE.map((t,i)=>`<button type="button" data-i="${i}">${t}</button>`).join("");
+  d.querySelectorAll("button").forEach(b=>b.addEventListener("click", ()=>{
+    state.drive = state.drive === +b.dataset.i ? null : +b.dataset.i;
+    save(); renderPickers();
+  }));
+  const s = document.getElementById("service");
+  s.innerHTML = SERVICE.map((t,i)=>`<button type="button" data-i="${i}">${t}</button>`).join("");
+  s.querySelectorAll("button").forEach(b=>b.addEventListener("click", ()=>{
+    state.service = state.service === +b.dataset.i ? null : +b.dataset.i;
+    save(); renderPickers();
+  }));
+  const sign = document.getElementById("sign");
+  sign.addEventListener("click", goDrive);
+  sign.addEventListener("keydown", e=>{
+    if(e.key === "Enter" || e.key === " "){ e.preventDefault(); goDrive(); }
+  });
+}
+
+function renderPickers(){
+  document.querySelectorAll("#drive button").forEach(b=>
+    b.setAttribute("aria-pressed", state.drive === +b.dataset.i));
+  document.querySelectorAll("#service button").forEach(b=>
+    b.setAttribute("aria-pressed", state.service === +b.dataset.i));
+  document.getElementById("sign-term").textContent =
+    state.drive === null ? "срок не выбран" : DRIVE[state.drive];
+  document.getElementById("drive-note").textContent = state.drive === null
+    ? "Срок выбирают до старта, а не в процессе. Иначе тест-драйв становится бессрочным."
+    : `Срок выбран: ${DRIVE[state.drive]}. Поставь напоминание на эту дату — в этот день ты принимаешь решение, а не откладываешь его.`;
+}
+
+function render(){ renderPanel(); renderMarks(); renderCheck(); renderPickers(); }
+
+load();
+buildDriver();
+bindFigure();
+buildPosts();
+buildPins();
+buildRoute();
+buildPickers();
+document.getElementById("reset").addEventListener("click", ()=>{
+  state.marks = {}; state.driver = {}; save(); render(); renderDriver();
+});
+renderDriver();
+render();
+</script>
+</body>
+</html>

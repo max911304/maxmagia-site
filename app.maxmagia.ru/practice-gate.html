@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Практика клуба #MaxMagia</title>
+<!-- mm-gate: эту страницу nginx показывает вместо практики, пока не проверен пропуск участника -->
+<script src="/telegram-web-app.js"></script>
+<style>
+:root{--bg:#ffffff;--soft:#f4f3ef;--ink:#2f2f2f;--dim:#6b6b6b;--coral:#ef6a5a}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+.wrap{min-height:100vh;min-height:100dvh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:32px 20px;text-align:center}
+.logo{font-family:Georgia,"Times New Roman",serif;font-size:15px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim)}
+.ic{width:64px;height:64px;border-radius:50%;background:var(--soft);display:flex;align-items:center;justify-content:center;font-size:28px}
+h1{font-family:Georgia,"Times New Roman",serif;font-weight:500;font-size:26px;line-height:1.25;max-width:360px}
+p{font-size:15.5px;line-height:1.55;color:var(--dim);max-width:360px}
+.btns{display:flex;flex-direction:column;gap:10px;width:100%;max-width:320px;margin-top:6px}
+.btn{display:block;min-height:48px;padding:14px 18px;border-radius:14px;border:none;font:inherit;font-size:15px;font-weight:600;text-decoration:none;cursor:pointer;background:var(--coral);color:#2f2f2f}
+.btn.ghost{background:var(--soft);color:var(--ink)}
+.spin{width:30px;height:30px;border:2px solid #e6e4de;border-top-color:var(--coral);border-radius:50%;animation:s .8s linear infinite}
+@keyframes s{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){.spin{animation:none}}
+</style>
+</head>
+<body>
+<div class="wrap" id="box">
+  <div class="logo">Клуб #MaxMagia</div>
+  <div class="spin" aria-label="Проверяю доступ"></div>
+  <p>Открываю практику…</p>
+</div>
+<script>
+(function(){
+  var BOT = 'https://t.me/clubeshnik911_bot';
+  var tg = window.Telegram && Telegram.WebApp;
+  var initData = (tg && tg.initData) || '';
+  var m = /^\/practices\/([a-z0-9-]+)\//.exec(location.pathname);
+  var slug = m ? m[1] : '';
+
+  function go(url){
+    try {
+      if (initData && /^https:\/\/t\.me\//.test(url) && tg.openTelegramLink) { tg.openTelegramLink(url); return; }
+      if (initData && tg.openLink) { tg.openLink(url, {try_instant_view:false}); return; }
+    } catch(e){}
+    location.href = url;
+  }
+  function show(icon, title, text, buttons){
+    var b = document.getElementById('box');
+    var html = '<div class="logo">Клуб #MaxMagia</div><div class="ic">' + icon + '</div><h1>' + title + '</h1><p>' + text + '</p><div class="btns">';
+    buttons.forEach(function(x, i){ html += '<button class="btn' + (x[2] ? ' ghost' : '') + '" data-i="' + i + '">' + x[0] + '</button>'; });
+    b.innerHTML = html + '</div>';
+    b.querySelectorAll('button').forEach(function(el){
+      el.onclick = function(){ var x = buttons[+el.dataset.i]; typeof x[1] === 'function' ? x[1]() : go(x[1]); };
+    });
+  }
+  var openInTg = BOT + '?startapp=' + (slug ? 'p-' + slug : '');
+
+  // Открыли не в Telegram (например, переслали ссылку)
+  if (!initData) {
+    show('🗝', 'Это практика клуба #MaxMagia',
+      'Она открывается только у участников клуба — через Telegram. Если вы в клубе, нажмите кнопку ниже: практика откроется в боте клуба.',
+      [['Открыть в Telegram', openInTg], ['Узнать о клубе', 'https://maxmagia.ru/', true]]);
+    return;
+  }
+
+  try { tg.ready(); tg.expand(); tg.BackButton.show(); tg.BackButton.onClick(function(){ location.href = '/'; }); } catch(e){}
+
+  // Защита от бесконечной перезагрузки, если телефон не сохраняет пропуск
+  var last = 0; try { last = +sessionStorage.getItem('mm_gate_try') || 0; } catch(e){}
+  var again = Date.now() - last < 15000;
+
+  fetch('/api/practice/login', {
+    method: 'POST', credentials: 'same-origin', cache: 'no-store',
+    headers: {'Content-Type': 'application/json', 'X-Init-Data': initData}, body: '{}'
+  }).then(function(r){
+    if (r.status === 200) {
+      if (again) {
+        show('☁️', 'Не получилось открыть практику',
+          'Пропуск не сохранился в этом приложении. Закрой Telegram полностью и открой практику снова. Если не поможет — напиши Максиму.',
+          [['Попробовать снова', function(){ location.reload(); }], ['Написать Максиму', 'https://t.me/MaxGuschin', true]]);
+        return;
+      }
+      try { sessionStorage.setItem('mm_gate_try', String(Date.now())); } catch(e){}
+      location.reload();
+    } else if (r.status === 403) {
+      show('🔒', 'Практики — только для участников клуба',
+        'Похоже, твоё участие в #MaxMagia сейчас не активно. Вступить или продлить можно в боте клуба — это пара минут.',
+        [['Вступить или продлить', BOT + '?start=join'], ['Написать Максиму', 'https://t.me/MaxGuschin', true]]);
+    } else {
+      show('✦', 'Открой практику через бота клуба',
+        'Пропуск Telegram устарел. Открой практику ещё раз — из личного кабинета или кнопкой ниже.',
+        [['Открыть заново', openInTg]]);
+    }
+  }).catch(function(){
+    show('☁️', 'Нет связи с сервером',
+      'Проверь интернет и попробуй ещё раз. Если включён VPN — попробуй без него.',
+      [['Попробовать снова', function(){ location.reload(); }]]);
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Клуб #MaxMagia — место, где хорошо быть</title>
+<meta name="description" content="Закрытый психологический клуб Макса Гущина: живые эфиры, гипно-медитации, практики, разборы и люди рядом. 2 500 ₽ за 31 день.">
+<style>
+@font-face{font-family:'Lora';font-style:normal;font-weight:500;font-display:swap;src:url(/new/fonts/lora-cyrillic-500-normal.woff2) format('woff2');unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:'Lora';font-style:normal;font-weight:500;font-display:swap;src:url(/new/fonts/lora-latin-500-normal.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+20AC,U+2122,U+2212}
+@font-face{font-family:'Lora';font-style:normal;font-weight:600;font-display:swap;src:url(/new/fonts/lora-cyrillic-600-normal.woff2) format('woff2');unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:'Lora';font-style:normal;font-weight:600;font-display:swap;src:url(/new/fonts/lora-latin-600-normal.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+20AC,U+2122,U+2212}
+@font-face{font-family:'Lora';font-style:italic;font-weight:500;font-display:swap;src:url(/new/fonts/lora-cyrillic-500-italic.woff2) format('woff2');unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:'Lora';font-style:italic;font-weight:500;font-display:swap;src:url(/new/fonts/lora-latin-500-italic.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+20AC,U+2122,U+2212}
+@font-face{font-family:'Lora';font-style:italic;font-weight:600;font-display:swap;src:url(/new/fonts/lora-cyrillic-600-italic.woff2) format('woff2');unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:'Lora';font-style:italic;font-weight:600;font-display:swap;src:url(/new/fonts/lora-latin-600-italic.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+20AC,U+2122,U+2212}
+@font-face{font-family:'Caveat';font-style:normal;font-weight:600;font-display:swap;src:url(/new/fonts/caveat-cyrillic-600-normal.woff2) format('woff2');unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:'Caveat';font-style:normal;font-weight:600;font-display:swap;src:url(/new/fonts/caveat-latin-600-normal.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+20AC,U+2122,U+2212}
+@font-face{font-family:'Manrope';font-style:normal;font-weight:200 800;font-display:swap;src:url(/psy/fonts/manrope-cyrillic-wght-normal.woff2) format('woff2');unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:'Manrope';font-style:normal;font-weight:200 800;font-display:swap;src:url(/psy/fonts/manrope-latin-wght-normal.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+20AC,U+2122,U+2212}
+
+/* ===== Токены: цвета взяты из логотипа #MaxMagia ===== */
+:root{
+  --white:#ffffff;
+  --soft:#f2f2ee;          /* мягкий фон секций */
+  --ink:#2f2f2f;           /* «чернила» логотипа */
+  --ink-2:#4d4d4d;         /* вторичный текст (контраст 8:1) */
+  --muted:#6b6b6b;         /* подписи (контраст 5.3:1) */
+  --line:#dcdcd6;
+  --coral:#ef6a5a;         /* коралл логотипа — кнопки */
+  --coral-deep:#c8473a;    /* коралл для текста на белом (4.6:1) */
+  --lemon:#f6ec6e;         /* лимон логотипа — маркер */
+  --serif:'Lora',Georgia,'Times New Roman',serif;
+  --sans:'Manrope',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+  --hand:'Caveat','Segoe Print','Bradley Hand',cursive;
+  --wrap:1120px;
+  --measure:62ch;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--white);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img{max-width:100%;display:block}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--coral);outline-offset:3px;border-radius:4px}
+.wrap{max-width:var(--wrap);margin:0 auto;padding:0 24px}
+.narrow{max-width:760px}
+section{padding:clamp(72px,10vw,128px) 0;position:relative}
+.soft{background:var(--soft)}
+h1,h2,h3{font-family:var(--serif);font-weight:600;line-height:1.12;margin:0;letter-spacing:-.01em}
+h2{font-size:clamp(30px,4.4vw,50px);max-width:20ch;text-wrap:balance}
+h3{font-size:clamp(21px,2.2vw,25px);font-weight:600}
+p{margin:0}
+.lead{font-size:clamp(18px,1.6vw,20px);color:var(--ink-2);max-width:var(--measure)}
+.stack>*+*{margin-top:16px}
+.note{font-family:var(--hand);font-weight:600;font-size:clamp(24px,2.4vw,30px);line-height:1.1;color:var(--coral-deep);display:inline-block;transform:rotate(-2deg)}
+/* маркер — как жёлтый мазок на логотипе */
+.mark{background:linear-gradient(transparent 55%,var(--lemon) 55%,var(--lemon) 92%,transparent 92%);padding:0 .08em}
+
+/* ===== Кнопки ===== */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:14px 28px;border-radius:999px;font-family:var(--sans);font-weight:700;font-size:16px;text-decoration:none;cursor:pointer;border:2px solid transparent;transition:background-color .2s ease,color .2s ease,border-color .2s ease}
+.btn-main{background:var(--coral);color:var(--ink);border-color:var(--coral)}
+.btn-main:hover{background:#f48474;border-color:#f48474}
+.btn-line{background:transparent;color:var(--ink);border-color:var(--ink)}
+.btn-line:hover{background:var(--ink);color:var(--white)}
+.btn-small{min-height:44px;padding:9px 18px;font-size:14px}
+.under{font-size:14px;color:var(--muted);margin-top:12px}
+.under a{color:var(--ink-2)}
+
+/* ===== Шапка ===== */
+.top{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.92);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid transparent;transition:border-color .2s}
+.top.scrolled{border-bottom-color:var(--line)}
+.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:68px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;font-family:var(--serif);font-weight:600;font-size:18px}
+.brand img{width:44px;height:44px;object-fit:contain}
+.top nav{display:flex;align-items:center;gap:22px}
+.top nav a.link{text-decoration:none;font-size:15px;color:var(--ink-2);padding:10px 2px}
+.top nav a.link:hover{color:var(--ink);text-decoration:underline;text-underline-offset:5px}
+@media(max-width:880px){.top nav a.link{display:none}.top nav{gap:8px}.brand span{display:none}}
+
+/* ===== 01. Первый экран ===== */
+.hero{padding:clamp(40px,6vw,80px) 0 clamp(64px,8vw,104px)}
+.hero .wrap{display:grid;grid-template-columns:1.15fr .85fr;gap:40px;align-items:center}
+@media(max-width:880px){.hero .wrap{grid-template-columns:1fr}.hero-art{order:-1;max-width:300px;margin:0 auto}}
+.hero h1{font-size:clamp(40px,5.6vw,72px);line-height:1.04}
+@media(max-width:560px){.hero h1 br{display:none}}
+.hero-lines{margin-top:28px;font-family:var(--serif);font-style:italic;font-weight:500;font-size:clamp(19px,1.8vw,22px);line-height:1.5;color:var(--ink-2)}
+.hero-lines span{display:block}
+.hero-def{margin-top:28px;max-width:var(--measure);font-size:18px}
+.hero-def b{font-weight:700}
+.hero-can{margin-top:14px;color:var(--ink-2)}
+.hero-cta{margin-top:32px;display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.hero-hint{margin-top:14px;font-size:15px;color:var(--muted)}
+.hero-art{position:relative}
+.hero-art svg{width:100%;height:auto;overflow:visible}
+/* Росток: одно движение на всей странице — он прорастает при загрузке */
+.grow .stem,.grow .leaf{stroke-dasharray:1;stroke-dashoffset:1;animation:draw 1.5s cubic-bezier(.4,0,.2,1) forwards}
+.grow .leaf{animation-duration:.8s;animation-delay:1s}
+.grow .leaf.l2{animation-delay:1.25s}
+.grow .petal,.grow .core{transform-box:fill-box;transform-origin:center;transform:scale(0);animation:pop .55s cubic-bezier(.3,1.4,.5,1) forwards}
+.grow .petal{animation-delay:calc(1.7s + var(--i) * 70ms)}
+.grow .core{animation-delay:2.2s}
+.grow .tag{opacity:0;animation:fade .6s ease 2.5s forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+@keyframes pop{to{transform:scale(1)}}
+@keyframes fade{to{opacity:1}}
+@media (prefers-reduced-motion:reduce){.grow .stem,.grow .leaf{stroke-dashoffset:0;animation:none}.grow .petal,.grow .core{transform:none;animation:none}.grow .tag{opacity:1;animation:none}}
+
+/* ===== 02. Может, это про меня ===== */
+.quotes{margin:44px 0 0;padding:0;list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:0 48px}
+@media(max-width:760px){.quotes{grid-template-columns:1fr}}
+.quotes li{font-family:var(--serif);font-style:italic;font-weight:500;font-size:clamp(19px,1.8vw,22px);line-height:1.4;padding:20px 0;border-top:1px solid var(--line)}
+.after{margin-top:44px;font-family:var(--serif);font-weight:600;font-size:clamp(21px,2.2vw,26px);max-width:30ch}
+
+/* ===== 03. Почему клуб ===== */
+.why{display:grid;grid-template-columns:1.1fr .9fr;gap:56px;align-items:start}
+@media(max-width:880px){.why{grid-template-columns:1fr;gap:36px}}
+.why .stack p{color:var(--ink-2)}
+.folder{background:var(--white);border:1px solid var(--line);border-radius:6px 18px 18px 18px;padding:26px 26px 22px;position:relative;margin-top:22px}
+.folder::before{content:"";position:absolute;left:-1px;top:-22px;width:46%;height:23px;background:var(--white);border:1px solid var(--line);border-bottom:none;border-radius:10px 14px 0 0}
+.folder-name{position:absolute;left:18px;top:-19px;font-family:var(--hand);font-weight:600;font-size:22px;color:var(--ink-2);z-index:1}
+.folder ul{margin:0;padding:0;list-style:none}
+.folder li{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px dashed var(--line);color:var(--muted);text-decoration:line-through;text-decoration-color:var(--coral);text-decoration-thickness:2px}
+.folder li:last-child{border-bottom:none}
+.folder li svg{flex:none;color:var(--muted)}
+.instead{margin-top:40px;padding-top:28px;border-top:2px solid var(--ink)}
+.instead h3{font-size:clamp(24px,2.6vw,30px)}
+.instead p{margin-top:12px;font-size:19px}
+
+/* ===== 04. Что такое #MaxMagia ===== */
+.def{font-family:var(--serif);font-weight:600;font-size:clamp(26px,3.4vw,40px);line-height:1.22;max-width:28ch}
+.def-grid{margin-top:48px;display:grid;grid-template-columns:repeat(3,1fr);gap:36px 40px}
+@media(max-width:880px){.def-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.def-grid{grid-template-columns:1fr}}
+.def-grid p{border-left:3px solid var(--lemon);padding-left:16px;color:var(--ink-2)}
+.def-grid b{color:var(--ink);font-weight:700}
+.nope{margin-top:56px;display:grid;grid-template-columns:.9fr 1.1fr;gap:40px;align-items:start}
+@media(max-width:760px){.nope{grid-template-columns:1fr;gap:20px}}
+.nope ul{margin:0;padding:0;list-style:none;font-family:var(--serif);font-style:italic;font-size:20px;line-height:1.5}
+.nope li{padding:4px 0}
+.nope .take{font-family:var(--serif);font-weight:600;font-size:clamp(24px,2.6vw,30px);margin-top:16px}
+
+/* ===== 05. Для чего прийти ===== */
+.uses{margin-top:48px;display:grid;grid-template-columns:repeat(3,1fr);border-top:2px solid var(--ink)}
+@media(max-width:880px){.uses{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.uses{grid-template-columns:1fr}}
+.use{padding:28px 28px 32px 0;border-bottom:1px solid var(--line)}
+.use:not(:nth-child(3n)){border-right:1px solid var(--line)}
+.use:not(:nth-child(3n+1)){padding-left:28px}
+@media(max-width:880px){.use{border-right:none!important;padding-left:0!important;padding-right:20px}.use:nth-child(odd){border-right:1px solid var(--line)!important}.use:nth-child(even){padding-left:24px!important}}
+@media(max-width:560px){.use{border-right:none!important;padding-left:0!important}}
+.use-ic{width:44px;height:44px;border-radius:50%;background:var(--lemon);display:flex;align-items:center;justify-content:center;margin-bottom:16px}
+.use h3{font-size:24px}
+.use .when{margin-top:8px;font-family:var(--serif);font-style:italic;color:var(--ink-2)}
+.use .what{margin-top:10px;font-size:15px;color:var(--ink-2)}
+.use .what b{color:var(--ink)}
+.rhythm{margin-top:48px;padding:28px;background:var(--soft);border-radius:6px 24px 24px 24px}
+.r-title{font-family:var(--serif);font-weight:600;font-size:22px}
+.r-list{margin:20px 0 0;padding:0;list-style:none;display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+@media(max-width:880px){.r-list{grid-template-columns:1fr 1fr}}
+@media(max-width:480px){.r-list{grid-template-columns:1fr}}
+.r-list li{border-top:3px solid var(--coral);padding-top:12px}
+.r-list b{display:block;font-size:16px}
+.r-list span{display:block;margin-top:4px;font-size:14px;color:var(--ink-2);line-height:1.5}
+.r-note{margin-top:18px;font-size:14px;color:var(--muted)}
+
+/* ===== 06. Путь ===== */
+.path{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start}
+@media(max-width:880px){.path{grid-template-columns:1fr;gap:28px}}
+.path .stack p{color:var(--ink-2)}
+.steps-life{margin:0;padding:0;list-style:none;position:relative}
+.steps-life li{position:relative;padding:10px 0 10px 34px;font-family:var(--serif);font-style:italic;font-size:20px;line-height:1.4}
+.steps-life li::before{content:"";position:absolute;left:5px;top:20px;width:12px;height:12px;border-radius:50%;border:2px solid var(--coral);background:var(--white)}
+.steps-life li::after{content:"";position:absolute;left:11px;top:34px;bottom:-12px;width:2px;background:repeating-linear-gradient(var(--line) 0 4px,transparent 4px 8px)}
+.steps-life li:last-child::after{display:none}
+.alone{margin-top:28px;font-family:var(--serif);font-weight:600;font-size:clamp(24px,2.6vw,30px)}
+
+/* ===== 07. Как это будет ===== */
+.flow{margin:48px 0 0;padding:0;list-style:none;display:grid;grid-template-columns:repeat(3,1fr);gap:40px 48px;counter-reset:s}
+@media(max-width:880px){.flow{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.flow{grid-template-columns:1fr;gap:28px}}
+.flow li{counter-increment:s}
+.flow li::before{content:counter(s);display:flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:50%;border:2px solid var(--ink);font-family:var(--serif);font-weight:600;font-size:18px;margin-bottom:14px}
+.flow h3{font-size:22px}
+.flow p{margin-top:8px;color:var(--ink-2);font-size:16px}
+
+/* ===== Кабинет ===== */
+.shots{margin-top:44px;display:flex;gap:22px;overflow-x:auto;scroll-snap-type:x mandatory;padding:4px 24px 18px;margin-left:-24px;margin-right:-24px;scrollbar-width:thin}
+.shot{flex:0 0 clamp(220px,24vw,260px);scroll-snap-align:start;margin:0}
+.shot .ph{border-radius:24px;overflow:hidden;border:6px solid var(--ink);background:var(--ink);aspect-ratio:9/16}
+.shot img{width:100%;height:100%;object-fit:cover;object-position:top;cursor:zoom-in}
+.shot figcaption{margin-top:12px;font-size:14px;color:var(--ink-2);line-height:1.5}
+.swipe{font-family:var(--hand);font-weight:600;font-size:22px;color:var(--muted);margin-top:4px}
+
+/* ===== 08. Хороший ученик ===== */
+.pupil{text-align:center}
+.pupil h2{margin:0 auto}
+.pupil .chips{margin:36px auto 0;max-width:760px;display:flex;flex-wrap:wrap;justify-content:center;gap:10px}
+.pupil .chips span{padding:10px 18px;border-radius:999px;background:var(--white);border:1px solid var(--line);font-size:16px}
+.musts{margin:44px auto 0;max-width:560px;font-family:var(--serif);font-style:italic;font-size:20px;color:var(--muted);line-height:1.6}
+.musts s{text-decoration-color:var(--coral);text-decoration-thickness:2px}
+.breath{margin-top:28px;font-family:var(--serif);font-weight:600;font-size:clamp(26px,3vw,36px)}
+
+/* ===== 09. История ===== */
+.story .stack p{color:var(--ink-2);max-width:var(--measure)}
+.story h3{margin-top:44px;font-size:clamp(22px,2.4vw,28px)}
+.story blockquote{margin:28px 0;padding:22px 26px;background:var(--lemon);border-radius:4px 18px 18px 18px;font-family:var(--serif);font-style:italic;font-size:clamp(19px,2vw,22px);line-height:1.5;max-width:var(--measure)}
+.story-links{margin-top:32px;display:flex;flex-wrap:wrap;gap:12px}
+
+/* ===== 10. Кто такой Макс ===== */
+.max{display:grid;grid-template-columns:.8fr 1.2fr;gap:56px;align-items:start}
+@media(max-width:880px){.max{grid-template-columns:1fr;gap:32px}}
+.max-photo{position:relative}
+.max-photo img{border-radius:6px 28px 28px 28px;width:100%;height:auto;filter:saturate(.9)}
+.max-photo .note{position:absolute;right:-6px;bottom:-22px;background:var(--white);padding:4px 12px;border-radius:8px}
+.max .stack p{color:var(--ink-2)}
+.max .q{font-family:var(--serif);font-weight:600;font-size:clamp(22px,2.4vw,28px);color:var(--ink);line-height:1.3}
+.creds{margin:26px 0 0;padding:20px 0 0;list-style:none;border-top:1px solid var(--line);font-size:14px;color:var(--ink-2)}
+.creds li{padding:4px 0 4px 18px;position:relative}
+.creds li::before{content:"";position:absolute;left:0;top:13px;width:8px;height:2px;background:var(--coral)}
+
+/* ===== 11. Люди ===== */
+.people-grid{margin-top:40px;display:grid;grid-template-columns:1.2fr .8fr 1.2fr;gap:12px}
+.people-grid img{width:100%;height:340px;object-fit:cover;border-radius:6px}
+@media(max-width:760px){.people-grid{grid-template-columns:1fr}.people-grid img{height:240px}}
+
+/* ===== 12. Кому может быть хорошо ===== */
+.who{margin:40px 0 0;padding:0;list-style:none;columns:2;column-gap:56px}
+@media(max-width:760px){.who{columns:1}}
+.who li{break-inside:avoid;padding:12px 0;border-bottom:1px solid var(--line);display:flex;gap:14px;align-items:flex-start}
+.who li svg{flex:none;margin-top:4px;color:var(--coral-deep)}
+.enough{margin-top:36px;font-family:var(--serif);font-weight:600;font-size:clamp(22px,2.4vw,28px)}
+
+/* ===== 13. Чего не будет ===== */
+.wont{margin:40px 0 0;padding:0;list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:0 48px}
+@media(max-width:760px){.wont{grid-template-columns:1fr}}
+.wont li{display:flex;gap:14px;align-items:flex-start;padding:14px 0;border-bottom:1px solid var(--line);font-size:17px}
+.wont li svg{flex:none;margin-top:3px;color:var(--coral-deep)}
+.unbroken{margin-top:48px;padding:32px;border-radius:6px 28px 28px 28px;background:var(--ink);color:var(--white)}
+.unbroken h3{font-size:clamp(26px,3vw,36px);color:var(--lemon)}
+.unbroken p{margin-top:10px;font-size:19px;color:#e8e8e2}
+
+/* ===== Стоимость и вход ===== */
+.price-wrap{display:grid;grid-template-columns:.95fr 1.05fr;gap:48px;align-items:start;margin-top:44px}
+@media(max-width:880px){.price-wrap{grid-template-columns:1fr}}
+.ticket{background:var(--white);border:2px solid var(--ink);border-radius:6px 28px 28px 28px;padding:32px}
+.ticket .t-name{font-family:var(--serif);font-weight:600;font-size:22px}
+.ticket .t-price{margin-top:6px;font-family:var(--serif);font-weight:600;font-size:56px;line-height:1}
+.ticket .t-price small{font-size:20px;font-weight:500;color:var(--ink-2)}
+.ticket .t-sub{margin-top:8px;color:var(--ink-2);font-size:15px}
+.ticket ul{margin:22px 0 26px;padding:22px 0 0;list-style:none;border-top:1px dashed var(--line)}
+.ticket li{display:flex;gap:12px;padding:6px 0;font-size:16px}
+.ticket li svg{flex:none;margin-top:4px;color:var(--coral-deep)}
+.ticket .btn{width:100%}
+.pay h3{font-size:24px}
+.pay>p{margin-top:10px;color:var(--ink-2)}
+.opt{display:flex;gap:16px;padding:18px 0;border-bottom:1px solid var(--line)}
+.opt:first-of-type{border-top:1px solid var(--line);margin-top:18px}
+.opt-ic{flex:none;width:44px;height:44px;border-radius:50%;background:var(--soft);display:flex;align-items:center;justify-content:center}
+.opt h4{margin:0;font-family:var(--serif);font-weight:600;font-size:19px}
+.opt p{margin-top:4px;font-size:15px;color:var(--ink-2)}
+.safe{margin-top:20px;padding:18px 20px;background:var(--lemon);border-radius:4px 16px 16px 16px;font-size:15px}
+.bot-steps{margin-top:64px}
+.bot-steps h3{font-size:clamp(24px,2.6vw,30px)}
+.bot-row{margin-top:24px;display:grid;grid-template-columns:repeat(4,1fr);gap:20px;align-items:start}
+@media(max-width:880px){.bot-row{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;margin:24px -24px 0;padding:0 24px 12px}.bot-row figure{flex:0 0 76%;scroll-snap-align:start}}
+.bot-row figure{margin:0}
+.bot-row .lbl{font-family:var(--hand);font-weight:600;font-size:22px;color:var(--coral-deep);margin-bottom:6px}
+.bot-row img{border-radius:14px;border:1px solid var(--line);cursor:zoom-in}
+.bot-row figcaption{margin-top:10px;font-size:14px;color:var(--ink-2)}
+
+/* ===== FAQ ===== */
+.faq-list{margin-top:40px;border-top:2px solid var(--ink);max-width:860px}
+.faq-list details{border-bottom:1px solid var(--line)}
+.faq-list summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;gap:20px;align-items:center;padding:20px 0;min-height:44px;font-family:var(--serif);font-weight:600;font-size:clamp(18px,1.8vw,21px)}
+.faq-list summary::-webkit-details-marker{display:none}
+.faq-list summary .pm{flex:none;width:32px;height:32px;border-radius:50%;border:1.5px solid var(--ink);position:relative;transition:background-color .2s}
+.faq-list summary .pm::before,.faq-list summary .pm::after{content:"";position:absolute;left:50%;top:50%;width:12px;height:2px;background:var(--ink);transform:translate(-50%,-50%);transition:transform .25s ease}
+.faq-list summary .pm::after{transform:translate(-50%,-50%) rotate(90deg)}
+.faq-list details[open] summary .pm{background:var(--lemon)}
+.faq-list details[open] summary .pm::after{transform:translate(-50%,-50%) rotate(0)}
+.faq-a{padding:0 52px 22px 0;color:var(--ink-2)}
+.faq-a p+p{margin-top:10px}
+
+/* ===== 15. Финал ===== */
+.final{background:var(--ink);color:#ecece6;overflow:hidden}
+.final .wrap{max-width:820px}
+.final h2{color:var(--white);max-width:none}
+.final .stack p{color:#d9d9d2;font-size:18px}
+.final .states{margin-top:24px;display:flex;flex-wrap:wrap;gap:8px}
+.final .states span{padding:8px 16px;border:1px solid #5e5e5a;border-radius:999px;font-size:15px;color:#ecece6}
+.final .human{margin-top:36px;font-family:var(--serif);font-style:italic;font-size:22px;color:var(--white)}
+.final .dialog{margin-top:22px;display:grid;gap:10px;max-width:440px}
+.final .bubble{padding:14px 18px;border-radius:18px 18px 18px 4px;background:#3d3d3b;font-size:17px}
+.final .bubble.me{justify-self:end;border-radius:18px 18px 4px 18px;background:var(--lemon);color:var(--ink);font-weight:600}
+.final .big{margin-top:56px;font-family:var(--serif);font-weight:600;font-size:clamp(40px,7vw,84px);line-height:1;color:var(--white)}
+.final .why-not{margin-top:22px;font-family:var(--hand);font-weight:600;font-size:clamp(28px,3vw,36px);color:var(--lemon)}
+.final .welcome{margin-top:40px;font-family:var(--serif);font-weight:600;font-size:clamp(24px,2.6vw,30px);color:var(--white)}
+.final .cta{margin-top:24px;display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.final .under{color:#b7b7b0}
+.final .under a{color:#e4e4dd}
+.final .btn-line{color:var(--white);border-color:#e4e4dd}
+.final .btn-line:hover{background:var(--white);color:var(--ink)}
+
+/* ===== Подвал ===== */
+footer{padding:44px 0 56px;font-size:13px;color:var(--muted);line-height:1.7;border-top:1px solid var(--line)}
+footer .wrap{display:grid;gap:10px}
+footer a{color:var(--ink-2)}
+footer .f-brand{font-family:var(--serif);font-weight:600;font-size:18px;color:var(--ink)}
+
+/* ===== Окно «Личный кабинет — скоро» и увеличение скриншотов ===== */
+.modal{position:fixed;inset:0;z-index:200;display:none;align-items:center;justify-content:center;padding:20px;background:rgba(47,47,47,.6);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+.modal.open{display:flex}
+.m-card{position:relative;max-width:440px;width:100%;background:var(--white);border-radius:6px 28px 28px 28px;padding:40px 32px 30px;text-align:center;box-shadow:0 30px 80px rgba(0,0,0,.25)}
+.m-card img{width:96px;height:96px;margin:0 auto 6px}
+.m-card .note{font-size:26px}
+.m-card h3{margin-top:8px;font-size:28px}
+.m-card p{margin-top:12px;color:var(--ink-2);font-size:16px}
+.m-card p b{color:var(--ink)}
+.m-actions{margin-top:24px;display:grid;gap:8px}
+.m-close{position:absolute;top:12px;right:12px;width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:var(--white);font-size:22px;line-height:1;cursor:pointer;color:var(--ink)}
+.m-later{background:none;border:none;font:inherit;font-size:15px;color:var(--muted);cursor:pointer;min-height:44px}
+.zoom{position:fixed;inset:0;z-index:210;display:none;align-items:center;justify-content:center;padding:16px;background:rgba(30,30,30,.88);cursor:zoom-out}
+.zoom.open{display:flex}
+.zoom img{max-width:min(520px,100%);max-height:92vh;border-radius:16px}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+
+/* ===== v2: новая драматургия ===== */
+.reasons{margin:36px 0 0;padding:0;list-style:none;max-width:820px}
+.reasons li{font-family:var(--serif);font-style:italic;font-weight:500;font-size:clamp(21px,2.2vw,27px);line-height:1.35;padding:14px 0;border-top:1px solid var(--line)}
+.reasons li:last-child{border-bottom:1px solid var(--line)}
+.stay{background:var(--lemon);padding:clamp(48px,7vw,88px) 0}
+.stay p{font-family:var(--serif);font-weight:600;font-size:clamp(30px,4.6vw,58px);line-height:1.1;max-width:20ch;text-wrap:balance}
+.stay .mark{background:none;padding:0;text-decoration:underline;text-decoration-color:var(--coral);text-decoration-thickness:4px;text-underline-offset:8px}
+.use .when{font-size:17px}
+.month{margin:44px 0 0;padding:0;list-style:none;display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+@media(max-width:960px){.month{grid-template-columns:1fr 1fr}}
+@media(max-width:520px){.month{grid-template-columns:1fr}}
+.month li{background:var(--white);border-radius:6px 22px 22px 22px;padding:26px 24px 28px;border-top:4px solid var(--coral)}
+.m-num{font-family:var(--hand);font-weight:600;font-size:34px;line-height:1;color:var(--coral-deep)}
+.month h3{margin-top:8px;font-size:22px}
+.month p{margin-top:8px;font-size:15px;color:var(--ink-2)}
+.r-note{margin-top:18px;font-size:15px;color:var(--muted)}
+.always{margin-top:40px;padding:28px;border:2px solid var(--ink);border-radius:6px 24px 24px 24px;background:var(--white)}
+.always h3{font-size:24px}
+.always ul{margin:16px 0 0;padding:0;list-style:none;columns:2;column-gap:40px}
+@media(max-width:640px){.always ul{columns:1}}
+.always li{break-inside:avoid;display:flex;gap:12px;padding:6px 0;font-size:16px}
+.always li svg{flex:none;margin-top:4px;color:var(--coral-deep)}
+.route .lead{font-family:var(--serif);font-style:italic;font-size:clamp(20px,2vw,24px);color:var(--ink)}
+.route .stack p{color:var(--ink-2)}
+.flow{grid-template-columns:repeat(4,1fr);gap:32px 36px}
+@media(max-width:960px){.flow{grid-template-columns:1fr 1fr}}
+@media(max-width:520px){.flow{grid-template-columns:1fr}}
+.interlude{padding:clamp(56px,8vw,96px) 0;text-align:center}
+.interlude .i-lines{margin:14px auto 0;max-width:38ch;font-family:var(--serif);font-style:italic;font-size:clamp(20px,2.2vw,26px);line-height:1.5;color:var(--ink-2)}
+.interlude .i-big{margin-top:20px;font-family:var(--serif);font-weight:600;font-size:clamp(30px,4.4vw,52px);line-height:1.1}
+.story .pile{margin-top:24px;font-family:var(--serif);font-style:italic;font-size:clamp(19px,2vw,23px);line-height:1.55;color:var(--ink);max-width:var(--measure)}
+.story blockquote{background:var(--white)}
+.types{margin-top:32px;display:flex;flex-wrap:wrap;gap:10px}
+.types span{padding:10px 18px;border-radius:999px;border:1.5px solid var(--ink);font-size:16px}
+.came-title{margin-top:56px;font-size:clamp(22px,2.4vw,28px)}
+.came-title+.quotes{margin-top:16px}
+.try{margin:-6px 0 22px;padding:16px 18px;background:var(--soft);border-radius:4px 14px 14px 14px;font-size:15px;color:var(--ink-2)}
+.try b{color:var(--ink)}
+.kicker{font-size:15px;font-weight:600;color:var(--coral-deep);margin-bottom:14px}
+.use .what{margin-top:10px;font-size:14px;font-weight:600;color:var(--ink);padding-top:10px;border-top:1px dashed var(--line)}
+.takeaway{margin-top:24px;font-family:var(--serif);font-style:italic;font-size:clamp(18px,1.8vw,21px);color:var(--ink);max-width:var(--measure)}
+.compare{margin-top:16px;font-size:14px;color:var(--ink-2);text-align:center}
+.ask{margin-top:8px;font-size:14px;color:var(--ink-2);text-align:center}
+.ask a{color:var(--coral-deep);font-weight:600}
+.faq-a a{color:var(--coral-deep)}
+</style>
+<link rel="icon" type="image/png" sizes="32x32" href="/new/favicon-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/new/favicon-192.png">
+<link rel="apple-touch-icon" href="/new/apple-touch-icon.png">
+</head>
+<body>
+
+<header class="top" id="top">
+  <div class="wrap">
+    <a href="#" class="brand" aria-label="Клуб #MaxMagia — в начало"><img src="data:image/png;base64,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" alt="" width="44" height="44"><span>Клуб #MaxMagia</span></a>
+    <nav aria-label="Основное меню">
+      <a class="link" href="#inside">Что внутри</a>
+      <a class="link" href="#price">Стоимость</a>
+      <a class="link" href="#faq">Вопросы</a>
+      <a class="btn btn-line btn-small js-cabinet" href="#">Кабинет</a>
+      <a class="btn btn-main btn-small js-join" href="https://t.me/MaxGuschin" target="_blank" rel="noopener">Вступить</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+<!-- 01. ПЕРВЫЙ ЭКРАН -->
+<section class="hero">
+  <div class="wrap">
+    <div>
+      <p class="kicker">Онлайн-клуб психолога Макса Гущина</p>
+      <h1>Не надо сначала <br>чинить себя.</h1>
+      <p class="hero-lines">
+        <span>Иногда вы устали.</span>
+        <span>Иногда не понимаете, чего хотите.</span>
+        <span>Иногда всё знаете, но почему-то продолжаете делать по-старому.</span>
+        <span>А иногда просто хочется, чтобы рядом были нормальные люди.</span>
+      </p>
+      <p class="hero-def"><b>#MaxMagia</b> — закрытый психологический клуб для тех, кто хочет лучше понимать себя, жить осознаннее и чувствовать себя в своей жизни немного лучше.</p>
+      <div class="hero-cta">
+        <a class="btn btn-main" href="#inside">Посмотреть, что внутри</a>
+        <a class="btn btn-line js-join" href="https://t.me/MaxGuschin" target="_blank" rel="noopener">Вступить в клуб</a>
+      </div>
+      <p class="hero-hint">Встречи в Zoom, всё остальное — в Telegram. 2&nbsp;500&nbsp;₽ за 31 день, без обязательств.</p>
+    </div>
+    <div class="hero-art" aria-hidden="true">
+      <svg class="grow" viewBox="0 0 360 440" fill="none">
+        <defs>
+          <pattern id="dots" width="9" height="9" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="1.6" fill="#2f2f2f" opacity=".16"/></pattern>
+        </defs>
+        <circle cx="200" cy="200" r="150" fill="#f6ec6e"/>
+        <circle cx="200" cy="200" r="150" fill="url(#dots)"/>
+        <path d="M40 380 C 100 368, 140 392, 200 380 S 300 368, 330 382" stroke="#2f2f2f" stroke-width="3" stroke-linecap="round"/>
+        <ellipse cx="186" cy="388" rx="14" ry="9" fill="#2f2f2f" transform="rotate(-14 186 388)"/>
+        <path class="stem" pathLength="1" d="M186 380 C 184 330, 204 290, 192 240 S 178 170, 186 132" stroke="#2f2f2f" stroke-width="3.2" stroke-linecap="round"/>
+        <path class="leaf" pathLength="1" d="M190 292 C 214 262, 254 262, 272 276 C 250 300, 214 304, 190 292 Z M190 292 C 222 284, 246 278, 268 277" stroke="#2f2f2f" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"/>
+        <path class="leaf l2" pathLength="1" d="M190 232 C 166 206, 126 206, 108 220 C 130 244, 166 248, 190 232 Z M190 232 C 158 226, 134 222, 112 221" stroke="#2f2f2f" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"/>
+        <g>
+          <g transform="rotate(0 186 131)"><ellipse class="petal" style="--i:0" cx="186" cy="100" rx="15" ry="25" fill="#ef6a5a" stroke="#2f2f2f" stroke-width="2.4"/></g>
+          <g transform="rotate(60 186 131)"><ellipse class="petal" style="--i:1" cx="186" cy="100" rx="15" ry="25" fill="#ef6a5a" stroke="#2f2f2f" stroke-width="2.4"/></g>
+          <g transform="rotate(120 186 131)"><ellipse class="petal" style="--i:2" cx="186" cy="100" rx="15" ry="25" fill="#ef6a5a" stroke="#2f2f2f" stroke-width="2.4"/></g>
+          <g transform="rotate(180 186 131)"><ellipse class="petal" style="--i:3" cx="186" cy="100" rx="15" ry="25" fill="#ef6a5a" stroke="#2f2f2f" stroke-width="2.4"/></g>
+          <g transform="rotate(240 186 131)"><ellipse class="petal" style="--i:4" cx="186" cy="100" rx="15" ry="25" fill="#ef6a5a" stroke="#2f2f2f" stroke-width="2.4"/></g>
+          <g transform="rotate(300 186 131)"><ellipse class="petal" style="--i:5" cx="186" cy="100" rx="15" ry="25" fill="#ef6a5a" stroke="#2f2f2f" stroke-width="2.4"/></g>
+          <circle class="core" cx="186" cy="131" r="16" fill="#f6ec6e" stroke="#2f2f2f" stroke-width="2.4"/>
+        </g>
+        <g class="tag">
+          <text x="236" y="58" font-family="Caveat, cursive" font-weight="600" font-size="30" fill="#c8473a" transform="rotate(-6 236 58)">здесь хорошо</text>
+          <text x="262" y="88" font-family="Caveat, cursive" font-weight="600" font-size="30" fill="#c8473a" transform="rotate(-6 262 88)">быть</text>
+          <path d="M268 100 C 262 118, 246 126, 230 124" stroke="#c8473a" stroke-width="2.4" stroke-linecap="round"/>
+          <path d="M238 116 L 229 124 L 240 129" stroke="#c8473a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+        </g>
+      </svg>
+    </div>
+  </div>
+</section>
+
+
+<!-- 02. У КАЖДОГО СВОЙ ПОВОД -->
+<section class="soft" id="you">
+  <div class="wrap">
+    <h2>У каждого свой повод оказаться здесь</h2>
+    <ul class="reasons">
+      <li>Кто-то приходит, потому что выгорел.</li>
+      <li>Кто-то — потому что никак не научится говорить «нет».</li>
+      <li>Кто-то хочет наконец понять, чего хочет сам.</li>
+      <li>Кто-то ищет людей, среди которых не нужно изображать успешную жизнь.</li>
+      <li>А кто-то приходит просто из любопытства.</li>
+    </ul>
+    <p class="after">Подходит любая причина — <span class="mark">и даже её отсутствие.</span></p>
+  </div>
+</section>
+
+<!-- 03. ПОЧЕМУ КЛУБ -->
+<section id="why">
+  <div class="wrap why">
+    <div>
+      <p class="note">почему клуб, а не курс?</p>
+      <h2 style="margin-top:10px">Потому что жизнь не выдаёт проблемы по одной.</h2>
+      <div class="stack" style="margin-top:28px">
+        <p>Сегодня вам нужен антистресс. Завтра — границы. Через месяц — отношения. Потом — цели.</p>
+        <p>А потом ребёнок, деньги, работа и внезапный вопрос: <b>«А я вообще когда-нибудь собирался жить?»</b></p>
+        <p>И получается странная вещь. Мы покупаем курс за курсом, а потом складываем всё это в папку «Когда-нибудь посмотрю».</p>
+      </div>
+    </div>
+    <div>
+      <div class="folder" aria-label="Папка «Когда-нибудь посмотрю»">
+        <span class="folder-name">когда-нибудь посмотрю</span>
+        <ul>
+          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="6 3 20 12 6 21 6 3"/></svg>курс про самооценку</li>
+          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="6 3 20 12 6 21 6 3"/></svg>курс про деньги</li>
+          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="6 3 20 12 6 21 6 3"/></svg>курс про отношения</li>
+          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="6 3 20 12 6 21 6 3"/></svg>курс про мотивацию</li>
+          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="6 3 20 12 6 21 6 3"/></svg>курс про стресс…</li>
+        </ul>
+      </div>
+      <div class="instead">
+        <h3>Поэтому я не хотел делать программу на 8 недель.</h3>
+        <p>Я хотел сделать другое.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="stay" aria-hidden="true"><div class="wrap"><p>Место, которое остаётся с вами <span class="mark">дольше, чем одна проблема.</span></p></div></div>
+
+<!-- 04. ЧТО ЗДЕСЬ МОЖНО ДЕЛАТЬ -->
+<section id="for">
+  <div class="wrap">
+    <h2>В клубе можно делать совершенно разные вещи</h2>
+    <div class="uses">
+      <div class="use">
+        <div class="use-ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2f2f2f" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12.8 19.6A2 2 0 1 0 14 16H2"/><path d="M17.5 8a2.5 2.5 0 1 1 2 4H2"/><path d="M9.8 4.4A2 2 0 1 1 11 8H2"/></svg></div>
+        <h3>Выдохнуть</h3>
+        <p class="when">Когда нужно не разобраться в себе, а перестать от себя что-то требовать.</p>
+        <p class="what">30+ гипно-медитаций и вечера ANTIстресс</p>
+      </div>
+      <div class="use">
+        <div class="use-ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2f2f2f" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg></div>
+        <h3>Понять</h3>
+        <p class="when">Когда хочется наконец разобраться, почему вы делаете то, что делаете.</p>
+        <p class="what">Тематические эфиры, записи и конспекты</p>
+      </div>
+      <div class="use">
+        <div class="use-ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2f2f2f" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.8-3.8a6 6 0 0 1-7.9 7.9l-6.9 6.9a2.1 2.1 0 0 1-3-3l6.9-6.9a6 6 0 0 1 7.9-7.9l-3.8 3.8z"/></svg></div>
+        <h3>Научиться</h3>
+        <p class="when">Когда «я знаю» уже недостаточно и нужен навык.</p>
+        <p class="what">Практикумы с отработкой</p>
+      </div>
+      <div class="use">
+        <div class="use-ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2f2f2f" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 16v-2.4C4 11.5 2.97 10.5 3 8c.03-2.7 1.5-6 4.5-6C9.37 2 10 3.8 10 5.5c0 3.1-2 5.7-2 8.7V16a2 2 0 1 1-4 0Z"/><path d="M20 20v-2.4c0-2.1 1.03-3.1 1-5.6-.03-2.7-1.5-6-4.5-6C14.63 6 14 7.8 14 9.5c0 3.1 2 5.7 2 8.7V20a2 2 0 1 0 4 0Z"/><path d="M16 17h4"/><path d="M4 13h4"/></svg></div>
+        <h3>Попробовать</h3>
+        <p class="when">Когда пора перестать только думать и сделать первый шаг.</p>
+        <p class="what">Задание недели и практики на каждый день</p>
+      </div>
+      <div class="use">
+        <div class="use-ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2f2f2f" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg></div>
+        <h3>Принести свою ситуацию</h3>
+        <p class="when">Когда хочется спросить живого человека, а не Google.</p>
+        <p class="what">Разбор на АМА-сессии или вопрос мне в чате</p>
+      </div>
+      <div class="use">
+        <div class="use-ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2f2f2f" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+        <h3>Найти своих</h3>
+        <p class="when">Когда понимаешь: психологические инструменты — это хорошо, но человеку всё-таки нужен человек.</p>
+        <p class="what">Закрытая группа и два чата</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 05. ЧТО ВНУТРИ КАЖДЫЙ МЕСЯЦ -->
+<section class="soft" id="inside">
+  <div class="wrap">
+    <h2>А теперь без красивых слов: что происходит внутри каждый месяц</h2>
+    <ol class="month">
+      <li><span class="m-num">1</span><h3>Разбираемся</h3><p>Тематический психологический эфир: как мы устроены, откуда стресс, как работают границы, самооценка и повторяющиеся сценарии.</p></li>
+      <li><span class="m-num">2</span><h3>Отрабатываем</h3><p>Практикум, где навык тренируется прямо в эфире, — или вечер гипно-медитаций ANTIстресс.</p></li>
+      <li><span class="m-num">3</span><h3>Приносим реальную жизнь</h3><p>Разбор ваших ситуаций — АМА-сессия (от англ. Ask Me Anything, «спроси о чём угодно»). Присылаете ситуацию заранее, я разбираю её, не называя имени.</p></li>
+      <li><span class="m-num">4</span><h3>Осваиваем ИИ</h3><p>Нейросети для жизни и работы — без необходимости становиться программистом.</p></li>
+    </ol>
+    <p class="takeaway">С каждого эфира остаются запись, конспект и текстовая расшифровка, а с практикумов — практика, которую можно делать самому.</p>
+    <p class="r-note">Обычно по вторникам в 19:30 по Москве, в Zoom. Не получилось прийти — всё это остаётся в клубе.</p>
+    <div class="always">
+      <h3>И всегда под рукой</h3>
+      <ul>
+        <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>архив всех встреч: записи, конспекты, текстовые расшифровки</li>
+        <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>30+ гипно-медитаций и новые циклы</li>
+        <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>практики самопомощи по темам</li>
+        <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>личный кабинет: расписание, настроение, задание недели</li>
+        <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>авторские ИИ-боты и Flow — бот, который подскажет, что посмотреть по вашему вопросу</li>
+        <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>закрытое сообщество и два чата</li>
+        <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>вопросы мне — в чате и на АМА-сессиях</li>
+      </ul>
+    </div>
+    <div class="shots" aria-label="Скриншоты личного кабинета">
+      <figure class="shot"><div class="ph"><img src="/club/app_home2.jpg" alt="Главный экран личного кабинета" loading="lazy"></div><figcaption>Настроение дня, ближайший эфир в один клик, задание недели</figcaption></figure>
+      <figure class="shot"><div class="ph"><img src="/club/app_schedule.jpg" alt="Расписание встреч" loading="lazy"></div><figcaption>Расписание: ближайшие эфиры и записи прошедших</figcaption></figure>
+      <figure class="shot"><div class="ph"><img src="/club/app_sections2.jpg" alt="Разделы клуба" loading="lazy"></div><figcaption>Разделы практик, чаты, письмо себе и книга «90 шагов»</figcaption></figure>
+      <figure class="shot"><div class="ph"><img src="/club/app_meditations2.jpg" alt="Гипно-медитации" loading="lazy"></div><figcaption>Гипно-медитации: отмечаете пройденное и оставляете заметки</figcaption></figure>
+      <figure class="shot"><div class="ph"><img src="/club/app_tools.jpg" alt="Инструменты клуба" loading="lazy"></div><figcaption>Лаборатория ИИ, архив АМА-сессий и практика дня</figcaption></figure>
+      <figure class="shot"><div class="ph"><img src="/club/app_status.jpg" alt="Моё участие" loading="lazy"></div><figcaption>До какого числа доступ и когда присылать напоминания</figcaption></figure>
+    </div>
+    <p class="swipe">листайте в сторону, нажмите — увеличится</p>
+  </div>
+</section>
+
+<!-- 06. МАРШРУТ -->
+<section>
+  <div class="wrap narrow route">
+    <h2>У клуба нет правильного маршрута</h2>
+    <div class="stack" style="margin-top:24px">
+      <p class="lead">Потому что у вас нет правильного маршрута по жизни.</p>
+      <p>Сегодня вам может быть нужен антистресс. Через месяц — разговор про границы. Через полгода — что-то совершенно другое. Поэтому мы не ведём вас по программе.</p>
+    </div>
+    <p class="alone">Мы собираем инструменты, <span class="mark">а маршрут выбираете вы.</span></p>
+  </div>
+</section>
+
+<!-- 07. ПОСЛЕ ОПЛАТЫ -->
+<section class="soft" id="how">
+  <div class="wrap">
+    <h2>Хорошо. А что произойдёт после оплаты?</h2>
+    <ol class="flow">
+      <li><h3>Оплатили</h3><p>В боте клуба — картой или через СБП.</p></li>
+      <li><h3>Бот открыл доступ</h3><p>Сам видит оплату, обычно за пару минут. Чек — на почту.</p></li>
+      <li><h3>Познакомились с клубом</h3><p>Бот за 10 коротких шагов покажет, где что лежит.</p></li>
+      <li><h3>Зашли в кабинет</h3><p>Расписание, записи, медитации, практики, разделы клуба.</p></li>
+      <li><h3>Посмотрели, что внутри</h3><p>Чат, медитации, ближайший эфир.</p></li>
+      <li><h3>Выбрали первое, что интересно</h3><p>Одну медитацию, один эфир или один вопрос.</p></li>
+      <li><h3>Дальше — живёте</h3><p>И возвращаетесь в клуб, когда он нужен.</p></li>
+    </ol>
+  </div>
+</section>
+
+<!-- ИНТЕРЛЮДИЯ -->
+<section class="interlude">
+  <div class="wrap narrow">
+    <p class="note">кстати</p>
+    <p class="i-lines">Вы можете пропустить эфир. Не сделать практику. Не написать в чат. Исчезнуть на месяц. А потом вернуться.</p>
+    <p class="i-big">Никто не поставит вам двойку.</p>
+  </div>
+</section>
+
+<!-- 09. КАК РОДИЛСЯ КЛУБ -->
+<section class="story soft" id="story">
+  <div class="wrap narrow">
+    <p class="note">как родился клуб</p>
+    <h2 style="margin-top:10px">Я долго не понимал, куда всё это деть.</h2>
+    <p class="pile">11 лет. Тысячи часов работы. Тренинги. Группы. Практики. Ошибки. Собственные проблемы. Чужие истории. И постепенно — огромная куча знаний, которая лежала в разных программах и проектах.</p>
+    <div class="stack" style="margin-top:24px">
+      <p>Я начинал с того, что учился справляться со своим стрессом. Потом — защищать границы. Потом — разговаривать так, чтобы меня действительно слышали. Потом были семья, деньги, цели, привычки, самооценка. Каждая проблема отправляла меня изучать что-то ещё. Одна психологическая группа шла два с половиной года.</p>
+    </div>
+    <h3>А потом я понял, что не хочу создавать ещё одну программу. Я хочу создать место.</h3>
+    <div class="stack" style="margin-top:16px">
+      <p>Весной не стало моей мамы. Она очень много отдавала другим, себя не жалея, и не умела заботиться о себе. Её уход заставил меня особенно остро почувствовать, что время конечно — и что дальше откладывать по-настоящему важное бессмысленно.</p>
+    </div>
+    <h3>16 мая 2026 года я впервые рассказал об этой идее своим людям.</h3>
+    <div class="stack" style="margin-top:16px">
+      <p>Я тогда не знал, нужен ли кому-то такой клуб. Поэтому не стал придумывать за вас — я спросил: каким должно быть такое пространство? Что в нём должно быть, а чего быть не должно? Чего вам не хватает?</p>
+      <p>Из этих разговоров появилась идея #MaxMagia. А <a href="https://t.me/MaxMagia/454" target="_blank" rel="noopener">10 сентября 2026 года клуб открылся</a> — и теперь мы создаём его вместе.</p>
+    </div>
+    <blockquote>«Я знаю много того, чем хочу поделиться. Вы знаете, чего вам не хватает. Давайте попробуем сделать из этого хорошее место».</blockquote>
+    <div class="story-links"><a class="btn btn-line" href="https://t.me/MaxMagia/411" target="_blank" rel="noopener">Послушать то самое аудио</a></div>
+  </div>
+</section>
+
+<!-- 10. КТО ТАКОЙ МАКС -->
+<section id="max">
+  <div class="wrap max">
+    <div class="max-photo">
+      <img src="/psy/photo_main.jpg" alt="Макс Гущин, психолог" width="600" height="750" loading="lazy">
+      <span class="note">это я, Макс</span>
+    </div>
+    <div>
+      <h2>Почему я вообще решил, что могу создать такое место?</h2>
+      <div class="stack" style="margin-top:24px">
+        <p>11 лет практики и больше тысячи проведённых сессий. Собственные программы и тренинги: вечера ANTIстресс, четыре года групп по отработке провокаций, программы по фокусам языка, «Шаг к изобилию», психологическая группа длиной в два с половиной года.</p>
+        <p>И главное — почти всё, что я даю, я сначала прожил на себе. Мне было интересно не коллекционировать сертификаты, а понять: это правда помогает человеку изменить то, что с ним происходит?</p>
+        <p>Но #MaxMagia — не мой монолог. Мне гораздо интереснее <b>исследовать вместе</b>.</p>
+      </div>
+      <ul class="creds">
+        <li>Психолог-консультант (Московский институт психоанализа)</li>
+        <li>Эриксоновская терапия и гипноз (ИГИСП, М. Р. Гинзбург)</li>
+        <li>КПТ, работа с глубинными убеждениями, схема-терапия (СПбГИПСР)</li>
+        <li>Семейный психолог, эмоциональный интеллект (ИМАТОН) · НЛП-практик</li>
+        <li>Больше тысячи проведённых сессий · <a href="/psy/">подробнее обо мне как о психологе</a></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+
+<!-- 11. ЛЮДИ -->
+<section id="people" class="soft">
+  <div class="wrap">
+    <h2>А потом появились они.</h2>
+    <p class="lead" style="margin-top:20px">Когда-то #MaxMagia уже был сообществом. Люди знакомились, учились, проходили сложные штуки вместе и поднимались на вершины с флагом клуба. Потом эта история закончилась. <b>А теперь начинается новая.</b></p>
+    <div class="people-grid">
+      <img src="/club/people_flag.jpg" alt="Участники с флагом #MaxMagia на вершине горы" loading="lazy">
+      <img src="/club/people_roof.jpg" alt="Участники тренинга" loading="lazy">
+      <img src="/club/people_party.jpg" alt="Встреча участников" loading="lazy">
+    </div>
+  </div>
+</section>
+
+
+<!-- 11. РАЗНЫЕ ЛЮДИ -->
+<section>
+  <div class="wrap">
+    <h2>Клуб для очень разных людей</h2>
+    <div class="types">
+      <span>предприниматели</span><span>родители</span><span>психологи и коучи</span><span>специалисты</span><span>люди в переходном периоде</span><span>те, кто устал</span><span>те, кто растёт</span><span>те, кто пока не понимает, чего хочет</span>
+    </div>
+    <p class="after">Не обязательно быть похожими, <span class="mark">чтобы быть своими.</span></p>
+    <h3 class="came-title">С чем сюда приходят</h3>
+    <ul class="quotes">
+      <li>«Я устал, но почему-то не умею отдыхать».</li>
+      <li>«Я постоянно думаю о других и забываю про себя».</li>
+      <li>«Я читаю книги, прохожу курсы — но жизнь почему-то не меняется».</li>
+      <li>«Я вроде нормально справляюсь. Просто иногда хочется лечь на пол и чтобы меня никто не трогал».</li>
+    </ul>
+  </div>
+</section>
+
+<!-- 13. ЧЕГО ЗДЕСЬ НЕ БУДЕТ -->
+<section class="soft">
+  <div class="wrap">
+    <h2>А вот чего здесь не будет</h2>
+    <ul class="wont">
+      <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>«Стань лучшей версией себя за 21 день».</li>
+      <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>Обязательной гонки за результатом.</li>
+      <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>Публичного стыда за пропущенные занятия.</li>
+      <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>Непрошеных советов.</li>
+      <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>«Просто возьми себя в руки».</li>
+      <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>Соревнования, у кого жизнь успешнее.</li>
+      <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>Необходимости рассказывать о себе личное.</li>
+      <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>Идеи, что с вами что-то фундаментально не так и вас срочно нужно починить.</li>
+    </ul>
+    <div class="unbroken">
+      <h3>Потому что вы не сломаны.</h3>
+      <p>Вы просто живой человек. А живым людям иногда бывает трудно.</p>
+    </div>
+  </div>
+</section>
+
+
+<!-- СТОИМОСТЬ И ВХОД -->
+<section id="price">
+  <div class="wrap">
+    <h2>Если хочется попробовать — вот как это работает</h2>
+    <div class="price-wrap">
+      <div class="ticket">
+        <p class="t-name">Участие в клубе</p>
+        <p class="t-price">2 500 <small>₽ за 31 день</small></p>
+        <p class="t-sub">С автопродлением или разово — как удобнее</p>
+        <ul>
+          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>4 живых эфира в месяц и все записи</li>
+          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>30+ гипно-медитаций и новые циклы</li>
+          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Закрытое сообщество и два чата</li>
+          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Личный кабинет в Telegram и бот-подсказчик Flow</li>
+          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Авторские ИИ-боты — открываются постепенно</li>
+          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Ваши вопросы мне в чате и на АМА-сессиях</li>
+          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Консультации со мной — 5&nbsp;000&nbsp;₽/час вместо 7&nbsp;500&nbsp;₽</li>
+        </ul>
+        <p class="try">Можно войти на месяц. Посмотреть, попробовать, понять — ваше это или нет. Не ваше — не продлеваете. <b>Без обязательств.</b></p>
+        <a class="btn btn-main js-join" href="https://t.me/MaxGuschin" target="_blank" rel="noopener">Вступить в клуб</a>
+        <p class="under" style="text-align:center">Оплачивая участие, вы принимаете <a href="/oferta.html">условия участия</a></p>
+        <p class="compare">Для сравнения: один вечер ANTIстресс отдельно стоит 3&nbsp;900&nbsp;₽, одна консультация — 7&nbsp;500&nbsp;₽.</p>
+        <p class="ask">Остались вопросы? <a href="https://t.me/MaxGuschin" target="_blank" rel="noopener">Напишите мне в Telegram</a> — отвечу лично.</p>
+      </div>
+      <div class="pay">
+        <h3>Как проходит оплата</h3>
+        <p>Всё происходит в боте клуба @clubeshnik911_bot. Перед оплатой бот попросит почту — туда придёт чек — и телефон. Дальше выбираете, как удобнее:</p>
+        <div class="opt"><div class="opt-ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2f2f2f" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M16 16h5v5"/></svg></div><div><h4>С автопродлением</h4><p>Оплачиваете картой один раз, и участие само продлевается раз в 31 день. За 3 дня до списания бот напомнит. Отключить автопродление или сменить карту можно в любой момент одной кнопкой (команда /autorenew).</p></div></div>
+        <div class="opt"><div class="opt-ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2f2f2f" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg></div><div><h4>Разово картой</h4><p>Без автопродления. Когда срок будет подходить к концу, бот напомнит.</p></div></div>
+        <div class="opt"><div class="opt-ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2f2f2f" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2" width="12" height="20" rx="2"/><path d="M11 18h2"/></svg></div><div><h4>Разово через СБП</h4><p>Тоже без автопродления — через приложение вашего банка. Ближе к концу срока бот напомнит.</p></div></div>
+        <p class="safe">Оплата проходит на защищённой странице платёжного сервиса Ckassa. Бот сам видит оплату и <b>обычно за пару минут</b> открывает доступ — ничего подтверждать не нужно. Чек придёт на почту.</p>
+        <p class="under">Подробно об оплате и автопродлении — в <a href="/oferta.html">условиях участия</a> (раздел 4).</p>
+      </div>
+    </div>
+    <div class="bot-steps">
+      <h3>Три коротких шага в боте — и вы в клубе</h3>
+      <div class="bot-row">
+        <figure><p class="lbl">начало</p><img src="/club/join_0.jpg" alt="Приветствие бота клуба с кнопкой «Хочу в клуб»" loading="lazy"><figcaption>Бот здоровается и рассказывает, что внутри. Жмёте «Хочу в клуб».</figcaption></figure>
+        <figure><p class="lbl">шаг 1 · условия</p><img src="/club/join_1.jpg" alt="Шаг 1: условия участия и правила клуба" loading="lazy"><figcaption>Знакомитесь с условиями участия и правилами клуба.</figcaption></figure>
+        <figure><p class="lbl">шаг 2 · данные</p><img src="/club/join_2.jpg" alt="Шаг 2: согласие на обработку данных" loading="lazy"><figcaption>Отдельно даёте согласие на обработку данных.</figcaption></figure>
+        <figure><p class="lbl">шаг 3 · оплата</p><img src="/club/join_3.jpg" alt="Шаг 3: три способа оплаты" loading="lazy"><figcaption>Выбираете, как удобнее оплатить.</figcaption></figure>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- 14. ВОПРОСЫ -->
+<section class="soft" id="faq">
+  <div class="wrap">
+    <h2>Что обычно спрашивают</h2>
+    <div class="faq-list">
+      <details><summary>Что происходит после нажатия на кнопку «Вступить»?<span class="pm" aria-hidden="true"></span></summary><div class="faq-a"><p>Откроется Telegram и бот клуба @clubeshnik911_bot. В три коротких шага он покажет условия и правила, отдельно спросит согласие на обработку данных и предложит способ оплаты. Пока вы не оплатили, ничего не происходит, и никто вам не звонит.</p></div></details>
+      <details><summary>Как оплатить и когда откроется доступ?<span class="pm" aria-hidden="true"></span></summary><div class="faq-a"><p>Всё через бот клуба: 2&nbsp;500&nbsp;₽ за 31 день. Можно с автопродлением (картой, раз в 31 день, с напоминанием за 3 дня до списания) или разово — картой или через СБП.</p><p>Оплата идёт на защищённой странице Ckassa. Бот сам видит платёж и обычно через пару минут открывает доступ к кабинету, чатам и записям. Чек приходит на почту.</p></div></details>
+      <details><summary>А если я передумаю с автопродлением?<span class="pm" aria-hidden="true"></span></summary><div class="faq-a"><p>Отключите его в любой момент: команда /autorenew → «Отключить автопродление». Та же кнопка есть в каждом напоминании о списании. Доступ сохранится до конца уже оплаченного срока, дальше списаний не будет.</p></div></details>
+      <details><summary>Как уйти, если не подойдёт?<span class="pm" aria-hidden="true"></span></summary><div class="faq-a"><p>Если платили разово — просто не продлеваете, доступ закончится сам. Если подключено автопродление — отключите его одной кнопкой в /autorenew. Не нужно никому писать и объясняться: уговаривать вас никто не будет.</p></div></details>
+      <details><summary>Гипно-медитации — это что, меня будут гипнотизировать?<span class="pm" aria-hidden="true"></span></summary><div class="faq-a"><p>Это мягкое погружение в расслабление голосом, в эриксоновском стиле: вы всё слышите, всё помните и в любой момент можете открыть глаза. Ближе к глубокой медитации с образами, чем к «гипнозу» из кино.</p></div></details>
+      <details><summary>Нужен ли Telegram?<span class="pm" aria-hidden="true"></span></summary><div class="faq-a"><p>Да: бот, личный кабинет и чаты — в Telegram, встречи — в Zoom по ссылке из кабинета.</p></div></details>
+      <details><summary>Можно сначала просто задать вопрос?<span class="pm" aria-hidden="true"></span></summary><div class="faq-a"><p>Конечно — <a href="https://t.me/MaxGuschin" target="_blank" rel="noopener">напишите мне</a>, расскажу, подойдёт ли клуб под ваш запрос.</p></div></details>
+      <details><summary>А если я интроверт?<span class="pm" aria-hidden="true"></span></summary><div class="faq-a"><p>Можно практически не общаться. Камеру на эфирах включать не нужно, представляться тоже. Можно слушать и читать, пока не захочется иначе.</p></div></details>
+      <details><summary>А если у меня нет времени?<span class="pm" aria-hidden="true"></span></summary><div class="faq-a"><p>Не нужно проходить программу. Берите то, что успеваете. Пропустили эфир — останется запись.</p></div></details>
+      <details><summary>А если я пропущу месяц?<span class="pm" aria-hidden="true"></span></summary><div class="faq-a"><p>Вернётесь, когда захотите. Материалы и записи никуда не денутся.</p></div></details>
+      <details><summary>А если я не знаю, с чего начать?<span class="pm" aria-hidden="true"></span></summary><div class="faq-a"><p>Начните с кабинета. Или с медитации. Или с ближайшего эфира. Или вообще ни с чего. А ещё можно описать свою ситуацию — и мы поможем сориентироваться.</p></div></details>
+      <details><summary>А если мне некомфортно рассказывать о себе?<span class="pm" aria-hidden="true"></span></summary><div class="faq-a"><p>Не рассказывайте. А если захотите разобрать ситуацию, но не публично, — можно написать мне напрямую или прислать её для разбора без имени.</p></div></details>
+      <details><summary>Мой вопрос услышат другие. А если это попадёт в запись?<span class="pm" aria-hidden="true"></span></summary><div class="faq-a"><p>На разборе я не называю имён, а узнаваемые детали можно попросить убрать. Не хотите, чтобы ваш разбор попал в запись, — скажите, и эту часть я выкладывать не буду. В клубе прямое правило: то, что человек рассказал о себе, за пределы клуба не выносится.</p></div></details>
+      <details><summary>А если мне не подойдёт ваш подход?<span class="pm" aria-hidden="true"></span></summary><div class="faq-a"><p>Именно поэтому клуб — хорошая возможность сначала познакомиться с ним через материалы и эфиры. Не ваше — просто не продлеваете (или отключаете автопродление).</p></div></details>
+      <details><summary>Это психотерапия?<span class="pm" aria-hidden="true"></span></summary><div class="faq-a"><p>Нет. Клуб не заменяет индивидуальную психотерапию или медицинскую помощь. Это пространство для знаний, практики, саморефлексии, восстановления и общения. Диагнозы и лечение — не ко мне; если ваш запрос вне моей компетенции, скажу прямо и порекомендую коллегу.</p></div></details>
+      <details><summary>А если я куплю и опять всё брошу?<span class="pm" aria-hidden="true"></span></summary><div class="faq-a"><p>Бросите. А потом можете вернуться. Мы не выдаём медали за идеальную дисциплину.</p></div></details>
+      <details><summary>Какое у вас образование?<span class="pm" aria-hidden="true"></span></summary><div class="faq-a"><p>Московский институт психоанализа — психолог-консультант. ИГИСП — эриксоновская терапия и гипноз (М. Р. Гинзбург). СПбГИПСР — КПТ и работа с глубинными убеждениями, схема-терапия. ИМАТОН — семейный психолог, эмоциональный интеллект. НЛП-практик. Одиннадцать лет практики, больше тысячи проведённых сессий.</p></div></details>
+    </div>
+  </div>
+</section>
+
+
+<!-- 15. ФИНАЛ -->
+<section class="final">
+  <div class="wrap">
+    <h2>Может быть, вам просто не хватает места, где хорошо.</h2>
+    <div class="stack" style="margin-top:24px">
+      <p>Не места, где нужно соответствовать. Не места, где нужно быть успешным. Не места, где нужно постоянно становиться лучше.</p>
+      <p>А места, куда можно прийти таким, какой вы сейчас:</p>
+    </div>
+    <div class="states"><span>уставшим</span><span>запутавшимся</span><span>мотивированным</span><span>разочарованным</span><span>любопытным</span><span>счастливым</span><span>не знающим, чего хочется</span><span>без всякого запроса</span></div>
+    <p class="human">Просто человеком.</p>
+    <div class="stack" style="margin-top:24px">
+      <p>Мне хочется, чтобы #MaxMagia был именно таким местом. Где можно чему-то научиться. Где можно выдохнуть. Где можно встретить своих. Где можно сказать —</p>
+    </div>
+    <div class="dialog" aria-label="Пример разговора в клубе">
+      <div class="bubble">«Ребята, у меня что-то не получается».</div>
+      <div class="bubble me">«Давай разберёмся».</div>
+    </div>
+    <p class="big">Человеку нужен человек.</p>
+    <div class="stack" style="margin-top:24px">
+      <p>И если мы можем создать пространство, в котором людям становится чуть легче жить, чуть интереснее расти и чуть спокойнее быть собой —</p>
+    </div>
+    <p class="why-not">почему бы и да?</p>
+    <p class="welcome">Добро пожаловать в #MaxMagia.</p>
+    <div class="cta">
+      <a class="btn btn-main js-join" href="https://t.me/MaxGuschin" target="_blank" rel="noopener">Хочу быть частью клуба</a>
+      <a class="btn btn-line js-cabinet" href="#">Я уже участник — кабинет</a>
+    </div>
+    <p class="under">2&nbsp;500&nbsp;₽ за 31 день · без обязательств · уйти можно в любой момент. А дальше — посмотрим, куда приведёт этот путь.</p>
+    <p class="under">Остались вопросы? <a href="https://t.me/MaxGuschin" target="_blank" rel="noopener">Напишите мне в Telegram</a> — отвечу лично.</p>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <p class="f-brand">Клуб #MaxMagia</p>
+    <p>Психолог Макс Гущин · онлайн через Zoom и Telegram</p>
+    <p><a href="#" class="js-cabinet">Личный кабинет</a> · <a href="/psy/">Личные консультации</a> · <a href="https://t.me/MaxGuschin" target="_blank" rel="noopener">Telegram @MaxGuschin</a> · <a href="tel:+79516684723">+7 951 668-47-23</a> · <a href="mailto:privacy@maxmagia.ru">privacy@maxmagia.ru</a></p>
+    <p>Гущин Максим Сергеевич, самозанятый (налог на профессиональный доход), ИНН 616616544435. Работаю официально, после оплаты вы получаете чек.</p>
+    <p>Услуги клуба носят информационно-консультационный и психологический характер. Это не медицинская, не психиатрическая и не психотерапевтическая помощь в медицинском смысле: диагнозы не ставятся, лечение не назначается. Если ваше состояние требует помощи врача, обратитесь к профильному специалисту.</p>
+    <p><a href="/oferta.html">Условия участия (оферта)</a> · <a href="/privacy.html">Политика обработки персональных данных</a> · <a href="/consent.html">Согласие на обработку данных</a> · <a href="/rules.html">Правила клуба</a></p>
+    <p>© Клуб #MaxMagia, 2026</p>
+  </div>
+</footer>
+
+<!-- Окно «Личный кабинет — скоро». Когда появится вход на сайте, впишите адрес в CABINET_URL внизу. -->
+<div class="modal" id="cabModal" role="dialog" aria-modal="true" aria-labelledby="cabTitle" aria-hidden="true">
+  <div class="m-card">
+    <button class="m-close" type="button" aria-label="Закрыть">×</button>
+    <img src="data:image/png;base64,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" alt="" width="96" height="96">
+    <p class="note">скоро</p>
+    <h3 id="cabTitle">Личный кабинет скоро появится и на сайте</h3>
+    <p>Сейчас кабинет живёт внутри Telegram. Участники открывают его в боте клуба: кнопка <b>«Личный кабинет»</b> или команда <b>/cabinet</b>.</p>
+    <p>Скоро войти можно будет и отсюда — в том числе через другие соцсети.</p>
+    <div class="m-actions">
+      <a class="btn btn-main" href="https://t.me/clubeshnik911_bot" target="_blank" rel="noopener">Открыть бота клуба</a>
+      <button class="m-later" type="button">Закрыть</button>
+    </div>
+  </div>
+</div>
+<div class="zoom" id="zoom" aria-hidden="true"><img alt=""></div>
+
+<script>
+/* Куда ведут все кнопки «Вступить». */
+const JOIN_URL = 'https://t.me/clubeshnik911_bot?start=join';
+document.querySelectorAll('.js-join').forEach(a => a.href = JOIN_URL);
+
+/* Куда ведут кнопки «Кабинет». Пока пусто — показываем окно «скоро».
+   Когда появится вход, впишите адрес, например: const CABINET_URL = '/cabinet/'; */
+const CABINET_URL = '';
+(function(){
+  const m=document.getElementById('cabModal');let last=null;
+  function open(e){e.preventDefault();last=document.activeElement;m.classList.add('open');m.setAttribute('aria-hidden','false');document.body.style.overflow='hidden';m.querySelector('.m-close').focus()}
+  function close(){m.classList.remove('open');m.setAttribute('aria-hidden','true');document.body.style.overflow='';if(last)last.focus()}
+  document.querySelectorAll('.js-cabinet').forEach(a=>{if(CABINET_URL){a.href=CABINET_URL}else{a.addEventListener('click',open)}});
+  m.querySelector('.m-close').addEventListener('click',close);
+  m.querySelector('.m-later').addEventListener('click',close);
+  m.addEventListener('click',e=>{if(e.target===m)close()});
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&m.classList.contains('open'))close()});
+})();
+
+/* Скриншоты увеличиваются по нажатию */
+(function(){
+  const z=document.getElementById('zoom'),zi=z.querySelector('img');
+  document.querySelectorAll('.shot img,.bot-row img').forEach(i=>i.addEventListener('click',()=>{zi.src=i.src;zi.alt=i.alt;z.classList.add('open')}));
+  z.addEventListener('click',()=>z.classList.remove('open'));
+  document.addEventListener('keydown',e=>{if(e.key==='Escape')z.classList.remove('open')});
+})();
+
+/* Тонкая линия под шапкой после прокрутки */
+const top_=document.getElementById('top');
+addEventListener('scroll',()=>top_.classList.toggle('scrolled',scrollY>10),{passive:true});
+</script>
+</body>
+</html>

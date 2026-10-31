@@ -1,0 +1,1910 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Внешние личные границы: построй свой храм | MaxMagia</title>
+<link rel="stylesheet" href="../fonts/fonts.css">
+<style>
+:root{
+  --bg:#1C1320; --bg2:#251A2A; --bg3:#302236; --wine:#2B1521;
+  --line:rgba(201,165,106,.18); --line2:rgba(201,165,106,.4);
+  --ivory:#F4EDE3; --paper:#F3ECE1; --dim:#C4B7BB; --mute:#978898; --ink:#2A1D2A; --ink2:#6B5B69;
+  --gold:#C9A56A; --gold2:#E6CB94;
+  --z1:#5DAE8B; --z2:#B2A8B0; --z3:#D9955A; --z4:#C25A70;
+  --serif:'Cormorant',Georgia,serif; --sans:'Manrope',system-ui,sans-serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;color:var(--ivory);font-family:var(--sans);font-size:16px;line-height:1.65;-webkit-font-smoothing:antialiased;
+  background:radial-gradient(1200px 700px at 50% -10%,#35243B 0%,rgba(53,36,59,0) 70%),var(--bg);background-color:var(--bg)}
+.wrap{max-width:1160px;margin:0 auto;padding:0 24px}
+h1,h2,h3,h4,h5{font-family:var(--serif);font-weight:600;line-height:1.08;margin:0}
+h1{font-size:clamp(44px,6.6vw,84px);letter-spacing:-.01em}
+h2{font-size:clamp(34px,4.4vw,52px)}
+h3{font-size:clamp(26px,2.8vw,34px)}
+h4{font-size:23px}
+p{margin:0}
+p+p{margin-top:12px}
+a{color:var(--gold2)}
+button,input,textarea,select{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--gold2);outline-offset:3px}
+[hidden]{display:none!important}
+.center{text-align:center}
+.lead{color:var(--dim);font-size:18px;max-width:60ch;margin:0 auto}
+
+.btn-gold{background:linear-gradient(180deg,#E6CB94,#C39F63);color:var(--ink);border:0;border-radius:999px;padding:13px 30px;font-weight:600;cursor:pointer;text-decoration:none;display:inline-block;box-shadow:0 1px 0 rgba(255,255,255,.35) inset,0 8px 24px -10px rgba(201,165,106,.6)}
+.btn-gold:hover{filter:brightness(1.05)}
+.btn-line{background:transparent;border:1px solid var(--line2);border-radius:999px;padding:10px 20px;cursor:pointer;color:var(--ivory)}
+.btn-line:hover{border-color:var(--gold2)}
+.btn-text{background:none;border:0;color:var(--mute);cursor:pointer;text-decoration:underline;text-underline-offset:3px;font-size:14px}
+.btn-text:hover{color:var(--ivory)}
+
+.orn{display:flex;align-items:center;justify-content:center;gap:14px;color:var(--gold);margin-bottom:18px}
+.orn::before,.orn::after{content:"";width:64px;height:1px;background:linear-gradient(90deg,transparent,var(--gold))}
+.orn::after{background:linear-gradient(270deg,transparent,var(--gold))}
+.orn i{width:7px;height:7px;background:var(--gold);transform:rotate(45deg);display:block}
+
+header.hero{padding:72px 0 88px;text-align:center}
+.brand{font-family:var(--serif);font-style:italic;font-size:22px;color:var(--gold2)}
+.hero .brand{margin-bottom:36px}
+.hero h1{max-width:20ch;margin:0 auto}
+.hero .lead{margin:24px auto 34px}
+
+section.sec{padding:96px 0}
+.head{text-align:center;margin-bottom:44px}
+.head h2{margin-bottom:16px}
+
+/* Ticket */
+.ticket{display:grid;grid-template-columns:minmax(0,1fr) 300px;background:var(--paper);color:var(--ink);border-radius:22px;position:relative;box-shadow:0 30px 60px -30px rgba(0,0,0,.6)}
+.ticket::before,.ticket::after{content:"";position:absolute;right:288px;width:24px;height:24px;border-radius:50%;background:var(--bg)}
+.ticket::before{top:-12px}.ticket::after{bottom:-12px}
+.t-main{padding:48px 44px;text-align:center}
+.t-points{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:32px}
+.t-points .n{font-family:var(--serif);font-size:46px;color:#B8914F;line-height:1}
+.t-points h4{margin:8px 0 10px}
+.t-points p{color:var(--ink2);font-size:15px}
+.t-bridge{margin:40px auto 0;font-family:var(--serif);font-size:clamp(22px,2.4vw,28px);line-height:1.3;max-width:36ch}
+.t-stub{border-left:2px dashed #CDBFA8;padding:40px 26px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:14px}
+.t-label{font-family:var(--serif);font-size:24px;font-weight:600}
+.t-stub dl{margin:0;display:grid;grid-template-columns:auto auto;gap:4px 12px;font-size:14px;text-align:left}
+.t-stub dt{color:var(--ink2)}
+.t-stub dd{margin:0;font-weight:600}
+.stamp-slot{width:170px;height:130px;border:1.5px dashed #CDBFA8;border-radius:16px;display:grid;place-items:center;position:relative;color:#B5A68F;font-size:13px}
+.ink-stamp{position:absolute;inset:auto;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:12px 18px;border:3px double #B03A56;border-radius:12px;color:#B03A56;font-family:var(--serif);font-weight:700;opacity:0;transform:rotate(-12deg) scale(2.6);transition:opacity .25s,transform .35s cubic-bezier(.2,1.5,.4,1);mix-blend-mode:multiply;background:rgba(176,58,86,.04)}
+.stamped .slot-ph{opacity:0}
+.ink-stamp span{font-size:21px;text-transform:uppercase;letter-spacing:.06em;line-height:1}
+.ink-stamp small{font-family:var(--sans);font-size:12px;font-weight:600;margin-top:4px}
+.ink-stamp.on{opacity:.92;transform:rotate(-12deg) scale(1)}
+.ticket.shake{animation:shake .35s .25s}
+@keyframes shake{25%{transform:translateY(3px)}60%{transform:translateY(-1px)}}
+.t-go{font-weight:600;color:#8A6A34}
+
+/* Practice */
+.practice{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:40px;align-items:start}
+.scene-box{position:sticky;top:16px}
+#scene{width:100%;height:auto;display:block;border-radius:24px;border:1px solid var(--line)}
+.scene-bar{display:flex;justify-content:center;align-items:center;gap:14px;flex-wrap:wrap;margin-top:12px;text-align:center}
+#cap{font-family:var(--serif);font-size:22px;color:var(--dim);width:100%}
+.views{display:flex;gap:6px}
+.views button{background:transparent;border:1px solid var(--line2);border-radius:999px;padding:4px 14px;cursor:pointer;font-size:13px}
+.views button[aria-pressed="true"]{border-color:var(--gold2);color:var(--gold2)}
+
+.card{background:linear-gradient(180deg,var(--bg2),#211725);border:1px solid var(--line);border-radius:24px;padding:34px 32px 28px;text-align:center}
+.card.appear{animation:rise .55s ease-out}
+@keyframes rise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.card h3{margin-bottom:16px}
+.card p{color:var(--dim)}
+.card p strong{color:var(--ivory);font-weight:600}
+.stepnav{display:flex;flex-direction:column;align-items:center;gap:10px;margin-bottom:22px}
+.stepnav .lbl{font-size:13px;color:var(--gold2);font-weight:600}
+.dots{display:flex;gap:6px;flex-wrap:wrap;justify-content:center}
+.dots button{width:26px;height:26px;border-radius:50%;border:1px solid var(--line2);background:transparent;font-size:11px;color:var(--mute);cursor:pointer;padding:0}
+.dots button:disabled{opacity:.35;cursor:default}
+.dots button.done{background:rgba(201,165,106,.18);color:var(--gold2)}
+.dots button[aria-current="step"]{background:var(--gold);color:var(--ink);border-color:var(--gold)}
+.q{font-family:var(--serif);font-size:26px;line-height:1.2;margin:26px auto 12px;color:var(--ivory);max-width:26ch}
+.zone-tag{display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:600;color:var(--c);margin-top:18px}
+.zone-tag::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--c)}
+details.hint{margin:4px auto 12px;font-size:14px;color:var(--dim);max-width:46ch}
+details.hint summary{cursor:pointer;color:var(--gold2);font-weight:500;list-style:none}
+details.hint summary::-webkit-details-marker{display:none}
+details.hint summary::after{content:" +"}
+details.hint[open] summary::after{content:" −"}
+details.hint p{margin-top:8px;font-size:14px}
+.callout{margin:22px auto 4px;padding:16px 20px;background:rgba(201,165,106,.07);border:1px solid var(--line);border-radius:16px;font-size:15px;color:var(--dim);max-width:52ch}
+.callout b{color:var(--gold2);font-weight:600;display:block;margin-bottom:4px}
+.care{margin:14px auto 0;font-size:14px;color:var(--mute);max-width:46ch;font-style:italic}
+
+.field{display:flex;flex-direction:column;gap:6px;margin:14px auto 0;max-width:460px;text-align:left}
+.field label{font-size:14px;color:var(--dim)}
+input[type=text],input[type=number],textarea,select{background:rgba(0,0,0,.18);border:1px solid var(--line2);border-radius:12px;padding:11px 14px;color:var(--ivory);width:100%}
+input::placeholder,textarea::placeholder{color:#7E6F80}
+textarea{resize:vertical;min-height:72px;line-height:1.5}
+.lb{max-width:480px;margin:0 auto}
+.lb-row{display:flex;gap:6px}
+.lb-row input{flex:1;min-width:0}
+.add{background:var(--ivory);color:var(--ink);border:0;border-radius:12px;padding:0 16px;font-weight:600;cursor:pointer}
+.err{color:#F09AAE;font-size:13px;margin-top:6px}
+.err:empty{display:none}
+.tip{font-size:13px;color:var(--gold2);margin-top:6px}
+.tip:empty{display:none}
+.ideas{margin-top:14px}
+.ideas-lbl{font-size:13px;color:var(--mute);margin-bottom:8px}
+.ideas-list{display:flex;flex-wrap:wrap;gap:6px;justify-content:center}
+.idea{background:transparent;border:1px dashed var(--line2);border-radius:999px;padding:4px 12px;font-size:13px;color:var(--dim);cursor:pointer;animation:rise .5s ease-out}
+.idea:hover{border-color:var(--gold2);color:var(--ivory)}
+.items{list-style:none;margin:14px 0 0;padding:0}
+.items li{display:flex;justify-content:center;align-items:baseline;gap:12px;padding:8px 0;border-bottom:1px solid var(--line);font-family:var(--serif);font-size:21px;line-height:1.3}
+.items li button{background:none;border:0;color:var(--mute);cursor:pointer;font-size:12px;font-family:var(--sans)}
+.items li button:hover{color:#F09AAE}
+.nav{display:flex;justify-content:center;align-items:center;gap:12px;flex-wrap:wrap;margin-top:28px}
+.savestate{font-size:12px;color:var(--mute);margin-top:14px;min-height:18px}
+.banner{background:rgba(93,174,139,.1);border:1px solid rgba(93,174,139,.35);border-radius:14px;padding:12px 16px;font-size:14px;color:var(--ivory);margin-bottom:20px}
+.pick{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:18px}
+.pick button{background:transparent;border:1px solid var(--line2);border-radius:999px;padding:7px 16px;cursor:pointer}
+.pick button[aria-pressed="true"]{background:var(--gold);color:var(--ink);border-color:var(--gold)}
+.tabs{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin:20px 0 4px}
+.tab{background:transparent;border:1px solid var(--line2);border-radius:999px;padding:5px 14px;cursor:pointer;font-size:14px}
+.tab[aria-selected="true"]{border-color:var(--gold2);color:var(--gold2)}
+.tab .cnt{color:var(--mute);font-size:12px;margin-left:5px}
+.row2{display:grid;grid-template-columns:minmax(0,1fr) 120px;gap:12px;max-width:460px;margin:0 auto}
+.row2 .field{margin:14px 0 0}
+.lock{padding:48px 32px}
+.lock .keyhole{width:54px;height:54px;border-radius:50%;border:1px solid var(--line2);display:grid;place-items:center;margin:0 auto 18px;color:var(--gold2);font-family:var(--serif);font-size:26px}
+
+/* Plaques */
+.plaque{background:var(--paper);color:var(--ink);border-radius:220px 220px 22px 22px;padding:70px clamp(20px,5vw,56px) 36px;border:3px solid var(--gold);box-shadow:inset 0 0 0 7px var(--paper),inset 0 0 0 8px #D2BD8E,0 30px 60px -30px rgba(0,0,0,.6);text-align:center}
+.plaque.small{border-radius:140px 140px 20px 20px;padding-top:52px}
+.plaque .pt{font-family:var(--serif);font-size:clamp(28px,3.4vw,40px);font-weight:600;line-height:1.1}
+.plaque.small .pt{font-size:clamp(24px,2.6vw,30px)}
+.plaque .ps{color:var(--ink2);font-size:14px;margin:8px 0 24px}
+.pb{margin-top:20px}
+.pb h5{display:inline-flex;align-items:center;gap:8px;font-size:22px;margin:0 0 6px}
+.pb h5::before{content:"";width:9px;height:9px;border-radius:50%;background:var(--c)}
+.pb ul{list-style:none;margin:0;padding:0}
+.pb li{font-size:15px;line-height:1.5;padding:2px 0}
+.pempty{color:var(--ink2);font-style:italic}
+.results{display:flex;flex-direction:column;gap:48px}
+.res-main{max-width:680px;margin:0 auto;width:100%}
+.res-grid{display:flex;flex-wrap:wrap;justify-content:center;gap:28px}
+.res-grid .res-item{flex:1 1 320px;max-width:540px}
+.res-item{display:flex;flex-direction:column;gap:12px;align-items:center}
+.res-item .plaque{width:100%}
+.res-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.note{font-size:13px;color:var(--dim);min-height:20px;text-align:center}
+.preview img{max-width:100%;border-radius:14px;display:block;margin:10px auto 0}
+
+/* Passport */
+.passport{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));max-width:860px;margin:44px auto 0;background:#5B2437;padding:14px;border-radius:22px;gap:0;box-shadow:0 30px 60px -30px rgba(0,0,0,.7)}
+.pp-page{background:repeating-linear-gradient(135deg,rgba(184,145,79,.07) 0 2px,transparent 2px 9px),var(--paper);color:var(--ink);padding:26px 22px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;position:relative}
+.pp-page:first-child{border-radius:12px 0 0 12px;box-shadow:inset -12px 0 18px -14px rgba(0,0,0,.35)}
+.pp-page:last-child{border-radius:0 12px 12px 0;box-shadow:inset 12px 0 18px -14px rgba(0,0,0,.35)}
+.pp-title{grid-column:1/-1;text-align:center;font-family:var(--serif);font-size:22px;font-weight:600;color:#6E2A40}
+.pp-slot{aspect-ratio:1;border:1.5px dashed #CDBFA8;border-radius:14px;display:grid;place-items:center;position:relative;color:#B5A68F;font-family:var(--serif);font-size:30px}
+.pstamp{position:absolute;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;color:var(--c);border:3px solid var(--c);font-family:var(--serif);opacity:0;transform:rotate(var(--r)) scale(2.4);transition:opacity .2s,transform .35s cubic-bezier(.2,1.5,.4,1);mix-blend-mode:multiply;padding:10px}
+.pstamp.round{width:82%;height:82%;border-radius:50%;box-shadow:inset 0 0 0 4px var(--paper),inset 0 0 0 5px var(--c)}
+.pstamp.rect{width:88%;height:62%;border-radius:8px;border-style:double;border-width:5px}
+.pstamp b{font-size:clamp(14px,1.6vw,19px);line-height:1.05;font-weight:700;overflow-wrap:anywhere}
+.pp-n{transition:opacity .2s}
+.pp-slot.done .pp-n{opacity:0}
+.pstamp small{font-family:var(--sans);font-size:11px;font-weight:600;margin-top:4px;line-height:1.2}
+.pstamp em{font-style:normal;font-family:var(--sans);font-size:10px;font-weight:600;opacity:.8}
+.pstamp.on{opacity:.9;transform:rotate(var(--r)) scale(1)}
+
+.sanctions{max-width:860px;margin:56px auto 0;text-align:center}
+.sanctions .lead{margin-top:14px}
+.ladder{margin:28px auto 0;display:flex;flex-direction:column;gap:10px;text-align:left}
+.lrow{display:grid;grid-template-columns:44px minmax(0,1fr) minmax(0,1.3fr);gap:14px;align-items:center;background:var(--bg2);border:1px solid var(--line);border-radius:16px;padding:12px 16px}
+.lnum{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;font-family:var(--serif);font-size:22px;font-weight:600;color:var(--ink);background:var(--c)}
+.lcountry{font-family:var(--serif);font-size:20px;line-height:1.2}
+.lcountry small{display:block;font-family:var(--sans);font-size:12px;color:var(--mute)}
+.ladder-head{display:grid;grid-template-columns:44px minmax(0,1fr) minmax(0,1.3fr);gap:14px;padding:0 16px;font-size:13px;color:var(--mute)}
+.myrules{margin:22px auto 0;max-width:640px;text-align:center}
+.myrules summary{cursor:pointer;color:var(--gold2);list-style:none;font-weight:500}
+.myrules summary::-webkit-details-marker{display:none}
+.myrules-body{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-top:14px;text-align:left}
+.myrules-body div{background:var(--bg2);border:1px solid var(--line);border-radius:14px;padding:12px 14px;font-size:14px}
+.myrules-body b{display:block;color:var(--c);margin-bottom:4px}
+.myrules-body ul{margin:0;padding-left:16px;color:var(--dim)}
+
+/* Fact check */
+.facts{max-width:980px;margin:0 auto;border:1px solid var(--line2);border-radius:22px;overflow:hidden}
+.frow{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));text-align:center}
+.frow>div{padding:16px 18px;border-top:1px solid var(--line)}
+.frow>div+div{border-left:1px solid var(--line)}
+.frow.fh>div{border-top:0;background:rgba(201,165,106,.08);font-family:var(--serif);font-size:21px;font-weight:600}
+.frow.fh small{display:block;font-family:var(--sans);font-size:12px;font-weight:500;color:var(--mute)}
+.frow .f{color:var(--ivory)}
+.frow .i{color:#E7A4B3}
+.frow .a{color:#9ED3BC}
+.fq{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-top:28px}
+.fq span{border:1px solid var(--line2);border-radius:999px;padding:7px 16px;font-size:15px}
+
+/* Siren */
+.siren{background:linear-gradient(180deg,#34182A,#27121F);border-top:1px solid rgba(194,90,112,.4);border-bottom:1px solid rgba(194,90,112,.4)}
+.siren .orn{color:var(--z4)}
+.siren .orn i{background:var(--z4)}
+.siren .orn::before{background:linear-gradient(90deg,transparent,var(--z4))}
+.siren .orn::after{background:linear-gradient(270deg,transparent,var(--z4))}
+.sir-steps{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:14px;counter-reset:s;list-style:none;margin:0;padding:0}
+.sir-steps li{counter-increment:s;text-align:center;padding:20px 14px;border:1px solid rgba(194,90,112,.3);border-radius:18px;background:rgba(0,0,0,.14)}
+.sir-steps li::before{content:counter(s);display:grid;place-items:center;width:38px;height:38px;margin:0 auto 10px;border-radius:50%;background:var(--z4);color:#fff;font-family:var(--serif);font-size:22px;font-weight:600}
+.sir-steps b{display:block;font-family:var(--serif);font-size:21px;font-weight:600;margin-bottom:4px}
+.sir-steps p{font-size:14px;color:var(--dim)}
+.imsg{margin-top:72px;text-align:center}
+.formula{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin:22px 0}
+.formula span{border:1px solid rgba(230,203,148,.4);border-radius:999px;padding:6px 14px;font-size:14px}
+.formula span b{color:var(--gold2);font-weight:600}
+.examples{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-top:28px}
+.examples blockquote{margin:0;font-family:var(--serif);font-size:21px;line-height:1.35;padding:22px;border:1px solid rgba(194,90,112,.3);border-radius:18px;background:rgba(0,0,0,.14)}
+.builder{max-width:760px;margin:44px auto 0;background:rgba(0,0,0,.18);border:1px solid rgba(230,203,148,.3);border-radius:22px;padding:28px}
+.builder .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px 16px}
+.builder .field{max-width:none;margin-top:12px}
+.builder .full{grid-column:1/-1}
+.bprev{margin-top:22px;font-family:var(--serif);font-size:clamp(22px,2.4vw,28px);line-height:1.35;min-height:40px}
+.bprev.empty{color:var(--mute);font-size:18px}
+.scripts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px;margin-top:64px}
+.script{border:1px solid var(--line2);border-radius:22px;padding:26px;text-align:center}
+.script blockquote{margin:12px 0 0;font-family:var(--serif);font-size:clamp(21px,2.2vw,25px);line-height:1.35}
+.script p{color:var(--dim);font-size:14px;margin-top:12px}
+
+/* Reminders */
+.remind{max-width:1040px;margin:0 auto;border:1px solid var(--line2);border-radius:28px;padding:56px clamp(20px,4vw,56px);position:relative;background:linear-gradient(180deg,rgba(201,165,106,.06),transparent)}
+.remind::before{content:"";position:absolute;inset:8px;border:1px solid var(--line);border-radius:22px;pointer-events:none}
+.rlist{list-style:none;margin:0;padding:0;counter-reset:r;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:34px 48px}
+.rlist li{counter-increment:r;text-align:center}
+.rlist li::before{content:counter(r);display:block;font-family:var(--serif);font-size:42px;color:var(--gold);line-height:1;margin-bottom:6px}
+.rlist h4{margin-bottom:8px}
+.rlist p{color:var(--dim);font-size:15px}
+.rlist li.safety{grid-column:1/-1;border:1px solid rgba(194,90,112,.5);background:rgba(194,90,112,.08);border-radius:18px;padding:24px;max-width:720px;margin:0 auto}
+.rlist li.safety::before{color:var(--z4)}
+
+/* Diary */
+.diary{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:40px;align-items:start}
+.form-card{background:var(--bg2);border:1px solid var(--line);border-radius:24px;padding:28px}
+.form-card .field{max-width:none}
+.feel{display:flex;flex-wrap:wrap;gap:6px}
+.feel button{background:transparent;border:1px solid var(--line2);border-radius:999px;padding:4px 12px;font-size:13px;cursor:pointer}
+.feel button[aria-pressed="true"]{background:var(--z3);border-color:var(--z3);color:var(--ink)}
+input[type=range]{width:100%;accent-color:var(--gold)}
+.entries{display:flex;flex-direction:column;gap:12px}
+.entry{border:1px solid var(--line);border-radius:18px;padding:18px 20px;background:rgba(0,0,0,.1)}
+.entry-h{display:flex;justify-content:space-between;gap:10px;align-items:baseline}
+.entry-h b{font-family:var(--serif);font-size:24px;font-weight:600}
+.entry-h small{color:var(--mute)}
+.entry dl{margin:8px 0 0;display:grid;grid-template-columns:max-content 1fr;gap:4px 12px;font-size:14px}
+.entry dt{color:var(--mute)}
+.entry dd{margin:0}
+.pattern{background:rgba(201,165,106,.08);border:1px solid var(--line);border-radius:14px;padding:12px 16px;font-size:15px;margin-bottom:12px;text-align:center}
+.empty{color:var(--mute);font-style:italic;text-align:center}
+
+/* Links */
+.links{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px}
+.link-card{border:1px solid var(--line);border-radius:22px;padding:26px 22px;text-decoration:none;color:var(--ivory);display:flex;flex-direction:column;align-items:center;text-align:center;gap:10px;background:rgba(0,0,0,.1)}
+a.link-card:hover{border-color:var(--gold2)}
+.link-card p{color:var(--dim);font-size:14px}
+.badge{font-size:12px;border:1px solid var(--line2);border-radius:999px;padding:2px 12px;color:var(--mute)}
+a.link-card .badge{color:var(--gold2);border-color:var(--gold)}
+
+footer.site{padding:44px 0 60px;border-top:1px solid var(--line);color:var(--dim);font-size:14px;display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center}
+#printArea{display:none}
+
+/* Scene states */
+.scene-box{position:sticky;top:16px}
+#scene .ph{transition:opacity .5s}
+#scene.started .ph{opacity:0}
+#church{opacity:0;transform:scale(.06);transform-box:fill-box;transform-origin:50% 100%;transition:transform 1.8s cubic-bezier(.16,.84,.3,1),opacity .6s}
+#scene.started #church{opacity:1;transform:none}
+#rose{opacity:.3;transition:opacity .8s}
+#scene.fence #rose{opacity:1}
+.post{transform:scaleY(0);transform-box:fill-box;transform-origin:50% 100%;transition:transform .45s cubic-bezier(.3,1.5,.5,1) calc(var(--i) * 30ms)}
+#scene.fence .post{transform:none}
+.rail{opacity:0;transition:opacity .4s .6s}
+#scene.fence .rail{opacity:1}
+.leaf{transform-box:fill-box;transition:transform 1s cubic-bezier(.4,0,.2,1)}
+#leafL{transform-origin:0% 50%}#leafR{transform-origin:100% 50%}
+#scene.gateOpen #leafL,#scene.gateOpen #leafR{transform:scaleX(.26)}
+.fig{opacity:0;transform:translateY(14px);transition:opacity .6s,transform .6s}
+.fig.on{opacity:1;transform:none}
+.win{fill:#2B1F33;transition:fill .8s}
+.win.lit{fill:#F0C979}
+#halo{opacity:0;transition:opacity 1s}
+#scene.final #halo{opacity:.9}
+
+.vg{opacity:0;pointer-events:none;transition:opacity .7s,transform 1s cubic-bezier(.4,0,.2,1)}
+#outside{transform-origin:400px 500px;transform:scale(1.8)}
+#yard{transform-origin:400px 440px}
+#inside{transform-origin:400px 430px}
+#altarRoom{transform-origin:400px 420px;transform:scale(.7)}
+#scene.v-out #yard,#scene.v-out #inside,#scene.v-yard #inside{transform:scale(.7)}
+#scene.v-in #yard,#scene.v-altar #yard,#scene.v-altar #inside{transform:scale(1.8)}
+#scene.v-out #outside,#scene.v-yard #yard,#scene.v-in #inside,#scene.v-altar #altarRoom{opacity:1;pointer-events:auto;transform:none}
+#scene:not(.v-out) #outside .sign,#scene:not(.v-yard) #yard .sign{pointer-events:none!important}
+
+.sign{cursor:pointer;outline:none;opacity:0;transform:scale(.4);transform-box:fill-box;transform-origin:50% 100%;transition:opacity .45s,transform .6s cubic-bezier(.3,1.5,.5,1);pointer-events:none}
+.sign.on{opacity:1;transform:none;pointer-events:auto}
+.sign:hover .face,.sign:focus-visible .face{filter:brightness(1.12)}
+.sign:focus-visible .ring{stroke:#E6CB94;stroke-width:3}
+.ping{fill:#E6CB94}
+.ping-r{fill:none;stroke:#E6CB94;stroke-width:2;transform-box:fill-box;transform-origin:center}
+#sgRules{opacity:.45;transform:none;pointer-events:none}
+#sgRules.on{opacity:1;pointer-events:auto}
+#sgRules .rl{opacity:0;transition:opacity .5s}
+#sgRules.on .rl{opacity:1}
+.cd .flame,.cd .cglow{opacity:0;transition:opacity .6s}
+.cd.lit .flame{opacity:1}
+.cd.lit .cglow{opacity:.22}
+.cd.lit .cglow.big{opacity:.55}
+#bookGlow{opacity:0;transition:opacity 1s}
+#scene.book #bookGlow{opacity:.5}
+#aglow,#arays{opacity:0;transition:opacity 1s}
+#scene.altarOpen #aglow{opacity:.85}
+#scene.altarOpen #arays{opacity:.7}
+#roomWarm{opacity:0;transition:opacity 1s}
+#scene.warm1 #roomWarm{opacity:.35}
+#scene.warm2 #roomWarm{opacity:.6}
+@media (prefers-reduced-motion:no-preference){
+  .flame{animation:flick 1.8s ease-in-out infinite;transform-box:fill-box;transform-origin:50% 100%}
+  .cd:nth-child(2n) .flame{animation-delay:.6s}
+  @keyframes flick{0%,100%{transform:scale(1)}50%{transform:scale(.85,1.12)}}
+  .ping-r{animation:ping 2.2s ease-out infinite}
+  @keyframes ping{0%{transform:scale(.6);opacity:.9}80%,100%{transform:scale(2.2);opacity:0}}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{transition:none!important;animation:none!important}
+  html{scroll-behavior:auto}
+}
+.scene-hint{font-size:13px;color:var(--gold2);width:100%;min-height:18px}
+.pop{position:absolute;left:50%;top:14px;transform:translateX(-50%);width:min(360px,calc(100% - 24px));max-height:70%;overflow:auto;background:var(--paper);color:var(--ink);border-radius:18px;padding:22px 22px 18px;box-shadow:0 24px 50px -16px rgba(0,0,0,.7);z-index:20;text-align:center;border:2px solid var(--gold);animation:rise .3s ease-out}
+.pop h4{font-size:26px;margin-bottom:10px;padding:0 24px}
+.pop ul{list-style:none;margin:0;padding:0}
+.pop li{padding:5px 0;border-bottom:1px solid #E2D6C2;font-size:15px}
+.pop .psub{margin-top:12px}
+.pop-x{position:absolute;right:10px;top:8px;background:none;border:0;font-size:26px;line-height:1;color:var(--ink2);cursor:pointer;padding:4px 8px}
+.pop-empty{color:var(--ink2);font-style:italic}
+
+.pcols{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;margin-top:4px}
+.pcols .pb{margin-top:14px}
+.psub{font-size:13px;color:var(--ink2);font-style:italic;margin:10px 0 2px}
+.pdiv{margin:34px 0 4px;display:flex;align-items:center;gap:14px;color:#B8914F;font-family:var(--serif);font-size:24px;font-weight:600}
+.pdiv::before,.pdiv::after{content:"";flex:1;height:1px;background:#D2BD8E}
+.special-row{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) auto;gap:8px;max-width:760px;margin:16px auto 0}
+.special-row select,.special-row input{min-width:0}
+select option,select optgroup{background:#251A2A;color:var(--ivory)}
+.special-list{list-style:none;margin:16px auto 0;padding:0;max-width:760px}
+.special-list li{display:flex;justify-content:center;gap:12px;align-items:baseline;padding:9px 0;border-bottom:1px solid var(--line);font-size:16px}
+.special-list li b{font-weight:600}
+.special-list li button{background:none;border:0;color:var(--mute);cursor:pointer;font-size:12px}
+.feelings{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin:18px auto}
+.feelings span{border:1px solid rgba(194,90,112,.5);color:#EBA9B8;border-radius:999px;padding:6px 16px;font-size:15px}
+.views{flex-wrap:wrap;justify-content:center}
+@media (max-width:900px){
+  .scene-box{position:sticky;top:0;z-index:5;background:var(--bg);padding:8px 0;border-bottom:1px solid var(--line)}
+  .special-row{grid-template-columns:minmax(0,1fr)}
+  .pcols{grid-template-columns:minmax(0,1fr)}
+}
+
+@media (max-width:980px){
+  .sir-steps{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .sir-steps li:last-child{grid-column:1/-1}
+  .links{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .examples{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:900px){
+  .practice,.diary,.scripts,.res-grid{grid-template-columns:minmax(0,1fr)}
+  .ticket{grid-template-columns:minmax(0,1fr)}
+  .ticket::before,.ticket::after{display:none}
+  .t-stub{border-left:0;border-top:2px dashed #CDBFA8}
+  .t-points{grid-template-columns:minmax(0,1fr);gap:28px}
+  .t-main{padding:36px 22px}
+  .scene-box{z-index:5;background:var(--bg);padding:8px 0;border-bottom:1px solid var(--line)}
+  #scene{max-height:30vh;width:auto;max-width:100%;margin:0 auto}
+  #cap{font-size:17px}
+  .scene-bar{margin-top:6px}
+  .rlist{grid-template-columns:minmax(0,1fr)}
+  .lrow,.ladder-head{grid-template-columns:40px minmax(0,1fr)}
+  .lrow input{grid-column:1/-1}
+  .ladder-head span:last-child{display:none}
+  .myrules-body{grid-template-columns:minmax(0,1fr)}
+  .frow{grid-template-columns:minmax(0,1fr)}
+  .frow>div+div{border-left:0}
+  .frow.fh{display:none}
+  .frow>div::before{display:block;font-size:11px;color:var(--mute);margin-bottom:2px}
+  .frow .f::before{content:"Факт"}.frow .i::before{content:"Интерпретация"}.frow .a{}
+  .frow .a::before{content:"Что ещё может быть"}
+  .builder .grid{grid-template-columns:minmax(0,1fr)}
+  .passport{padding:10px}
+  .pp-page{padding:18px 12px;gap:10px}
+  .card{padding:28px 18px 24px}
+}
+@media (max-width:560px){
+  .passport{grid-template-columns:minmax(0,1fr)}
+  .pp-page:first-child{border-radius:12px 12px 0 0}
+  .pp-page:last-child{border-radius:0 0 12px 12px}
+  .links{grid-template-columns:minmax(0,1fr)}
+  .row2{grid-template-columns:minmax(0,1fr)}
+  .plaque{border-radius:120px 120px 20px 20px;padding-top:52px}
+}
+@media print{
+  body{background:#fff!important}
+  body>*:not(#printArea){display:none!important}
+  #printArea{display:block!important}
+  #printArea .plaque{box-shadow:none;break-inside:avoid;page-break-after:always;margin:0 auto 20px;max-width:680px}
+}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+<header class="hero">
+  <div class="brand">MaxMagia</div>
+  <h1>Внешние личные границы: построй свой храм</h1>
+  <p class="lead">Практика для тех, кто устал терпеть, уступать, а потом злиться на себя. Шаг за шагом ты сформулируешь свои правила: кого впускать в свою жизнь, что другим можно, что нельзя и что будет за нарушение.</p>
+  <a class="btn-gold" href="#theory">Начать с мини-теории</a>
+</header>
+</div>
+
+<section class="sec" id="theory">
+<div class="wrap">
+  <div class="head">
+    <div class="orn"><i></i></div>
+    <h2>Мини-теория</h2>
+    <p class="lead">Три мысли, на которых держится вся практика. Прочитай их и поставь печать: после этого откроется практика.</p>
+  </div>
+  <div class="ticket" id="ticket">
+    <div class="t-main">
+      <div class="t-points">
+        <article><div class="n">1</div><h4>Границы — это твои правила</h4><p>Это правила о том, кого ты впускаешь в свою жизнь и что этим людям можно, а что нельзя. Они берегут твою безопасность, силы и то, что для тебя ценно. У каждого человека правила свои, и это нормально.</p></article>
+        <article><div class="n">2</div><h4>Бывают внешние и внутренние</h4><p>Внешние границы определяют, как с тобой обращаются другие люди. Внутренние — как ты сам обращаешься с собой: со своими «надо», усталостью и ошибками. Здесь мы строим внешние.</p></article>
+        <article><div class="n">3</div><h4>Чувства показывают, где граница</h4><p>Когда кто-то нарушает твоё правило, внутри включается сирена: неудобство, раздражение, гнев, злость. Это не «плохие» чувства, а сигнал «со мной так нельзя». Если его игнорировать, злость разворачивается на себя и превращается в обиду и вину.</p></article>
+      </div>
+    </div>
+    <div class="t-stub">
+      <div class="t-label">Посадочный талон</div>
+      <dl><dt>Пассажир</dt><dd id="tName">Ты</dd><dt>Рейс</dt><dd>К себе</dd><dt>Выход</dt><dd>Практика</dd></dl>
+      <div class="stamp-slot"><span class="slot-ph">место для печати</span>
+        <div class="ink-stamp" id="ticketStamp" aria-hidden="true"><span>Ознакомлен</span><small id="theoryDate"></small></div>
+      </div>
+      <button type="button" class="btn-gold" id="theoryBtn">Теория усвоена</button>
+      <a class="t-go" id="theoryGo" href="#practice" hidden>Перейти к практике</a>
+    </div>
+  </div>
+</div>
+</section>
+
+<section class="sec" id="practice">
+<div class="wrap">
+  <div class="head">
+    <div class="orn"><i></i></div>
+    <h2>Практика: построй свой храм</h2>
+    <p class="lead">Тринадцать коротких шагов. Не всё осознаётся сразу, поэтому можно прерваться и вернуться позже: ответы сохраняются, а к любому пройденному шагу можно вернуться и дописать.</p>
+  </div>
+
+  <div class="practice" id="practiceGrid">
+    <div class="scene-box">
+      <svg id="scene" class="v-out" viewBox="0 0 800 600" role="img" aria-labelledby="sct scd">
+        <title id="sct">Твой храм</title>
+        <desc id="scd">Иллюстрация храма, которая достраивается по ходу практики: забор со знаками, внутренний двор, зал со свечами и алтарная.</desc>
+        <defs>
+          <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#34233B"/><stop offset="1" stop-color="#1E1422"/></linearGradient>
+          <linearGradient id="goldG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#EBD29E"/><stop offset="1" stop-color="#BE9A5E"/></linearGradient>
+          <radialGradient id="candleG"><stop offset="0" stop-color="#FFD27A" stop-opacity=".9"/><stop offset="1" stop-color="#FFD27A" stop-opacity="0"/></radialGradient>
+          <radialGradient id="warmG" cx="50%" cy="60%" r="55%"><stop offset="0" stop-color="#FFD27A" stop-opacity=".55"/><stop offset="1" stop-color="#FFD27A" stop-opacity="0"/></radialGradient>
+        </defs>
+        <rect width="800" height="600" fill="url(#sky)"/>
+        <g fill="#F4EDE3" opacity=".5">
+          <circle cx="60" cy="50" r="1.5"/><circle cx="170" cy="150" r="1"/><circle cx="260" cy="40" r="1.2"/><circle cx="320" cy="120" r="1"/>
+          <circle cx="560" cy="60" r="1.4"/><circle cx="660" cy="140" r="1"/><circle cx="740" cy="40" r="1.2"/><circle cx="700" cy="220" r="1"/><circle cx="40" cy="240" r="1"/>
+        </g>
+        <circle cx="690" cy="96" r="24" fill="#F4EDE3" opacity=".92"/>
+        <circle cx="679" cy="89" r="22" fill="#2F2036"/>
+        <rect x="0" y="540" width="800" height="60" fill="#150E17"/>
+        <g class="ph">
+          <rect x="250" y="290" width="300" height="250" rx="16" fill="none" stroke="#5A4760" stroke-width="2" stroke-dasharray="8 7"/>
+          <text x="400" y="420" text-anchor="middle" fill="#978898" font-family="Cormorant, Georgia, serif" font-size="24">Здесь появится твой храм</text>
+        </g>
+
+        <!-- OUTSIDE -->
+        <g id="outside" class="vg">
+          <g id="church">
+            <g id="halo" stroke="#F0C979" stroke-width="2.5" stroke-linecap="round">
+              <line x1="400" y1="20" x2="400" y2="8"/><line x1="360" y1="40" x2="350" y2="30"/><line x1="440" y1="40" x2="450" y2="30"/>
+              <line x1="348" y1="80" x2="334" y2="78"/><line x1="452" y1="80" x2="466" y2="78"/><line x1="366" y1="112" x2="354" y2="120"/><line x1="434" y1="112" x2="446" y2="120"/>
+            </g>
+            <rect x="380" y="126" width="40" height="56" fill="#EBE1CF" stroke="#CDB98F" stroke-width="2"/>
+            <path d="M374 132 C374 102 400 98 400 66 C400 98 426 102 426 132 Z" fill="url(#goldG)"/>
+            <g stroke="#D8B878" stroke-width="3" stroke-linecap="round">
+              <line x1="400" y1="30" x2="400" y2="66"/><line x1="391" y1="40" x2="409" y2="40"/><line x1="394" y1="58" x2="406" y2="52"/>
+            </g>
+            <polygon points="204,266 400,170 596,266" fill="#A98E62" stroke="#86704C" stroke-width="2"/>
+            <circle cx="400" cy="228" r="25" fill="#2B1F33" stroke="#D8B878" stroke-width="2.5"/>
+            <g id="rose">
+              <circle cx="400" cy="215" r="6" fill="#C25A70"/><circle cx="413" cy="228" r="6" fill="#5DAE8B"/>
+              <circle cx="400" cy="241" r="6" fill="#C25A70"/><circle cx="387" cy="228" r="6" fill="#5DAE8B"/>
+              <circle cx="409" cy="219" r="4" fill="#D8B878"/><circle cx="409" cy="237" r="4" fill="#D8B878"/>
+              <circle cx="391" cy="237" r="4" fill="#D8B878"/><circle cx="391" cy="219" r="4" fill="#D8B878"/>
+              <circle cx="400" cy="228" r="4" fill="#F4EDE3"/>
+            </g>
+            <rect x="226" y="264" width="348" height="276" fill="#EBE1CF" stroke="#CDB98F" stroke-width="2"/>
+            <path class="win" id="w0" d="M252 352 V307 a15 15 0 0 1 30 0 V352 Z" stroke="#CDB98F" stroke-width="2"/>
+            <path class="win" id="w1" d="M302 352 V307 a15 15 0 0 1 30 0 V352 Z" stroke="#CDB98F" stroke-width="2"/>
+            <path class="win" id="w2" d="M468 352 V307 a15 15 0 0 1 30 0 V352 Z" stroke="#CDB98F" stroke-width="2"/>
+            <path class="win" id="w3" d="M518 352 V307 a15 15 0 0 1 30 0 V352 Z" stroke="#CDB98F" stroke-width="2"/>
+            <path d="M372 540 V458 a28 28 0 0 1 56 0 V540 Z" fill="#5A3B2A" stroke="#D8B878" stroke-width="2"/>
+            <line x1="400" y1="432" x2="400" y2="540" stroke="#3E2819" stroke-width="2"/>
+          </g>
+
+          <g id="figs">
+            <g class="fig"><circle cx="258" cy="500" r="7" fill="#5DAE8B"/><path d="M258 508 V526 M258 526 L253 540 M258 526 L263 540" stroke="#5DAE8B" stroke-width="4" stroke-linecap="round" fill="none"/></g>
+            <g class="fig"><circle cx="296" cy="502" r="6" fill="#E6CB94"/><path d="M296 509 V526 M296 526 L292 540 M296 526 L300 540" stroke="#E6CB94" stroke-width="4" stroke-linecap="round" fill="none"/></g>
+            <g class="fig"><circle cx="530" cy="500" r="7" fill="#C25A70"/><path d="M530 508 V526 M530 526 L525 540 M530 526 L535 540" stroke="#C25A70" stroke-width="4" stroke-linecap="round" fill="none"/></g>
+            <g class="fig"><circle cx="560" cy="500" r="7" fill="#B2A8B0"/><path d="M560 508 V526 M560 526 L555 540 M560 526 L565 540" stroke="#B2A8B0" stroke-width="4" stroke-linecap="round" fill="none"/></g>
+            <g class="fig"><circle cx="240" cy="504" r="5" fill="#D9955A"/><path d="M240 510 V527 M240 527 L236 540 M240 527 L244 540" stroke="#D9955A" stroke-width="3.5" stroke-linecap="round" fill="none"/></g>
+            <g class="fig"><circle cx="512" cy="500" r="7" fill="#9C8BD0"/><path d="M512 508 V526 M512 526 L507 540 M512 526 L517 540" stroke="#9C8BD0" stroke-width="4" stroke-linecap="round" fill="none"/></g>
+          </g>
+
+          <g id="fence">
+            <g fill="#8C8196">
+              <rect class="post" style="--i:0" x="22" y="470" width="7" height="70" rx="2"/><rect class="post" style="--i:1" x="44" y="470" width="7" height="70" rx="2"/>
+              <rect class="post" style="--i:2" x="66" y="470" width="7" height="70" rx="2"/><rect class="post" style="--i:3" x="88" y="470" width="7" height="70" rx="2"/>
+              <rect class="post" style="--i:4" x="110" y="470" width="7" height="70" rx="2"/><rect class="post" style="--i:5" x="132" y="470" width="7" height="70" rx="2"/>
+              <rect class="post" style="--i:6" x="154" y="470" width="7" height="70" rx="2"/><rect class="post" style="--i:7" x="176" y="470" width="7" height="70" rx="2"/>
+              <rect class="post" style="--i:8" x="198" y="470" width="7" height="70" rx="2"/><rect class="post" style="--i:9" x="220" y="470" width="7" height="70" rx="2"/>
+              <rect class="post" style="--i:10" x="242" y="470" width="7" height="70" rx="2"/><rect class="post" style="--i:11" x="264" y="470" width="7" height="70" rx="2"/>
+              <rect class="post" style="--i:12" x="286" y="470" width="7" height="70" rx="2"/><rect class="post" style="--i:13" x="308" y="470" width="7" height="70" rx="2"/>
+              <rect class="post" style="--i:14" x="330" y="470" width="7" height="70" rx="2"/>
+              <rect class="post" style="--i:15" x="352" y="448" width="12" height="92" rx="2" fill="#B2A8B0"/>
+              <rect class="post" style="--i:15" x="436" y="448" width="12" height="92" rx="2" fill="#B2A8B0"/>
+              <circle class="post" style="--i:15" cx="358" cy="446" r="6" fill="#D8B878"/><circle class="post" style="--i:15" cx="442" cy="446" r="6" fill="#D8B878"/>
+              <rect class="post" style="--i:16" x="463" y="470" width="7" height="70" rx="2"/><rect class="post" style="--i:17" x="485" y="470" width="7" height="70" rx="2"/>
+              <rect class="post" style="--i:18" x="507" y="470" width="7" height="70" rx="2"/><rect class="post" style="--i:19" x="529" y="470" width="7" height="70" rx="2"/>
+              <rect class="post" style="--i:20" x="551" y="470" width="7" height="70" rx="2"/><rect class="post" style="--i:21" x="573" y="470" width="7" height="70" rx="2"/>
+              <rect class="post" style="--i:22" x="595" y="470" width="7" height="70" rx="2"/><rect class="post" style="--i:23" x="617" y="470" width="7" height="70" rx="2"/>
+              <rect class="post" style="--i:24" x="639" y="470" width="7" height="70" rx="2"/><rect class="post" style="--i:25" x="661" y="470" width="7" height="70" rx="2"/>
+              <rect class="post" style="--i:26" x="683" y="470" width="7" height="70" rx="2"/><rect class="post" style="--i:27" x="705" y="470" width="7" height="70" rx="2"/>
+              <rect class="post" style="--i:28" x="727" y="470" width="7" height="70" rx="2"/><rect class="post" style="--i:29" x="749" y="470" width="7" height="70" rx="2"/>
+              <rect class="post" style="--i:30" x="771" y="470" width="7" height="70" rx="2"/>
+            </g>
+            <g fill="#6E6376">
+              <rect class="rail" x="18" y="486" width="334" height="6"/><rect class="rail" x="448" y="486" width="334" height="6"/>
+              <rect class="rail" x="18" y="516" width="334" height="6"/><rect class="rail" x="448" y="516" width="334" height="6"/>
+            </g>
+            <g class="rail">
+              <g id="leafL" class="leaf"><rect x="364" y="474" width="36" height="64" fill="#7A6E84" stroke="#D8B878" stroke-width="1.5"/><g stroke="#B2A8B0" stroke-width="3"><line x1="373" y1="478" x2="373" y2="534"/><line x1="382" y1="478" x2="382" y2="534"/><line x1="391" y1="478" x2="391" y2="534"/></g></g>
+              <g id="leafR" class="leaf"><rect x="400" y="474" width="36" height="64" fill="#7A6E84" stroke="#D8B878" stroke-width="1.5"/><g stroke="#B2A8B0" stroke-width="3"><line x1="409" y1="478" x2="409" y2="534"/><line x1="418" y1="478" x2="418" y2="534"/><line x1="427" y1="478" x2="427" y2="534"/></g></g>
+            </g>
+          </g>
+
+          <!-- Signs -->
+          <g id="sgBrick" class="sign" data-sign="brick" role="button" aria-label="Знак «Запрещено»: показать список">
+            <rect x="120" y="440" width="5" height="100" fill="#A9A1AE"/>
+            <g class="face"><circle class="ring" cx="122.5" cy="414" r="27" fill="#C8323C" stroke="#F4EDE3" stroke-width="3"/><rect x="105" y="408.5" width="35" height="11" rx="1" fill="#F4EDE3"/></g>
+            <circle class="ping" cx="146" cy="392" r="4"/><circle class="ping-r" cx="146" cy="392" r="4"/>
+          </g>
+          <g id="sgYes" class="sign" data-sign="yes" role="button" aria-label="Знак «Можно войти»: показать список">
+            <rect x="470" y="396" width="4" height="144" fill="#A9A1AE"/>
+            <g class="face"><rect class="ring" x="450" y="352" width="44" height="44" rx="5" fill="#2A62A6" stroke="#F4EDE3" stroke-width="2.5"/>
+              <circle cx="472" cy="363" r="4.5" fill="#F4EDE3"/>
+              <path d="M472 369 V382 M472 382 L466 391 M472 382 L478 391 M463 374 L481 374" stroke="#F4EDE3" stroke-width="3" stroke-linecap="round" fill="none"/></g>
+            <circle class="ping" cx="496" cy="352" r="4"/><circle class="ping-r" cx="496" cy="352" r="4"/>
+          </g>
+          <g id="sgNo" class="sign" data-sign="no" role="button" aria-label="Знак «Вход закрыт»: показать список">
+            <g class="face"><rect class="ring" x="450" y="400" width="44" height="44" rx="5" fill="#F4EDE3" stroke="#C8323C" stroke-width="3"/>
+              <circle cx="472" cy="411" r="4.5" fill="#2A1D2A"/>
+              <path d="M472 417 V430 M472 430 L466 439 M472 430 L478 439 M463 422 L481 422" stroke="#2A1D2A" stroke-width="3" stroke-linecap="round" fill="none"/>
+              <line x1="455" y1="405" x2="489" y2="439" stroke="#C8323C" stroke-width="4" stroke-linecap="round"/></g>
+            <circle class="ping" cx="496" cy="402" r="4"/><circle class="ping-r" cx="496" cy="402" r="4"/>
+          </g>
+          <g id="sgSanc" class="sign" data-sign="sanc" role="button" aria-label="Знак «Последствия»: показать список">
+            <rect x="326" y="428" width="4" height="112" fill="#A9A1AE"/>
+            <g class="face"><path class="ring" d="M328 380 L356 428 L300 428 Z" fill="#E8B84A" stroke="#2A1D2A" stroke-width="2.5" stroke-linejoin="round"/>
+              <rect x="325.5" y="396" width="5" height="17" rx="2" fill="#2A1D2A"/><circle cx="328" cy="420" r="3" fill="#2A1D2A"/></g>
+            <circle class="ping" cx="352" cy="384" r="4"/><circle class="ping-r" cx="352" cy="384" r="4"/>
+          </g>
+        </g>
+
+        <!-- YARD -->
+        <g id="yard" class="vg">
+          <rect x="0" y="540" width="800" height="60" fill="#1E2A22"/>
+          <polygon points="266,550 534,550 640,600 160,600" fill="#8A7D6C"/>
+          <polygon points="266,550 534,550 540,556 260,556" fill="#A89A86"/>
+          <rect x="120" y="60" width="560" height="14" fill="#A98E62"/>
+          <rect x="130" y="74" width="540" height="466" fill="#EBE1CF" stroke="#CDB98F" stroke-width="2"/>
+          <path class="win" id="yw0" d="M180 240 V170 a20 20 0 0 1 40 0 V240 Z" stroke="#CDB98F" stroke-width="2"/>
+          <path class="win" id="yw1" d="M580 240 V170 a20 20 0 0 1 40 0 V240 Z" stroke="#CDB98F" stroke-width="2"/>
+          <path d="M372 206 V150 a28 28 0 0 1 56 0 V206 Z" fill="url(#goldG)"/>
+          <path d="M381 198 V152 a19 19 0 0 1 38 0 V198 Z" fill="#3F2F48"/>
+          <circle cx="400" cy="160" r="8" fill="#E6CB94" opacity=".7"/>
+          <path d="M292 540 V330 a108 100 0 0 1 216 0 V540 Z" fill="#DCCFB6" stroke="#CDB98F" stroke-width="2"/>
+          <path d="M324 540 V342 a76 72 0 0 1 152 0 V540 Z" fill="#5A3B2A" stroke="#D8B878" stroke-width="2.5"/>
+          <line x1="400" y1="270" x2="400" y2="540" stroke="#3E2819" stroke-width="2"/>
+          <g stroke="#3E2819" stroke-width="1.5" fill="none" opacity=".7">
+            <rect x="338" y="360" width="50" height="70" rx="3"/><rect x="412" y="360" width="50" height="70" rx="3"/>
+            <rect x="338" y="450" width="50" height="70" rx="3"/><rect x="412" y="450" width="50" height="70" rx="3"/>
+          </g>
+          <circle cx="390" cy="445" r="4" fill="#D8B878"/><circle cx="410" cy="445" r="4" fill="#D8B878"/>
+          <rect x="276" y="536" width="248" height="8" fill="#CDB98F"/><rect x="262" y="544" width="276" height="7" fill="#BFAE8C"/>
+          <rect x="58" y="360" width="13" height="185" fill="#4A3526"/>
+          <circle cx="64" cy="330" r="50" fill="#2F4A36"/><circle cx="34" cy="352" r="30" fill="#365641"/><circle cx="96" cy="350" r="32" fill="#2A4331"/>
+          <ellipse cx="120" cy="570" rx="96" ry="22" fill="#2F4A36"/>
+          <ellipse cx="680" cy="570" rx="96" ry="22" fill="#2F4A36"/>
+          <g>
+            <circle cx="60" cy="566" r="6" fill="#C25A70"/><circle cx="84" cy="558" r="5" fill="#E6CB94"/><circle cx="108" cy="570" r="6" fill="#F4EDE3"/><circle cx="132" cy="560" r="5" fill="#9C8BD0"/>
+            <circle cx="156" cy="572" r="6" fill="#C25A70"/><circle cx="180" cy="562" r="5" fill="#E6CB94"/><circle cx="96" cy="580" r="4" fill="#9C8BD0"/><circle cx="146" cy="582" r="4" fill="#F4EDE3"/>
+            <circle cx="620" cy="562" r="5" fill="#E6CB94"/><circle cx="644" cy="572" r="6" fill="#C25A70"/><circle cx="668" cy="558" r="5" fill="#F4EDE3"/><circle cx="692" cy="570" r="6" fill="#9C8BD0"/>
+            <circle cx="716" cy="560" r="5" fill="#C25A70"/><circle cx="740" cy="572" r="6" fill="#E6CB94"/><circle cx="660" cy="582" r="4" fill="#9C8BD0"/><circle cx="708" cy="582" r="4" fill="#F4EDE3"/>
+          </g>
+          <g>
+            <line x1="694" y1="480" x2="688" y2="548" stroke="#B8914F" stroke-width="4"/><line x1="770" y1="480" x2="776" y2="548" stroke="#B8914F" stroke-width="4"/>
+            <rect x="686" y="364" width="92" height="116" rx="4" fill="rgba(255,255,255,.04)" stroke="url(#goldG)" stroke-width="6"/>
+            <circle cx="690" cy="366" r="6" fill="#C25A70"/><circle cx="706" cy="360" r="5" fill="#F4EDE3"/><circle cx="724" cy="362" r="6" fill="#E6CB94"/>
+            <circle cx="742" cy="360" r="5" fill="#C25A70"/><circle cx="760" cy="362" r="6" fill="#F4EDE3"/><circle cx="776" cy="366" r="6" fill="#9C8BD0"/>
+            <text x="732" y="428" text-anchor="middle" font-family="Cormorant, Georgia, serif" font-style="italic" font-size="18" fill="#E6CB94">фотозона</text>
+          </g>
+          <g id="sgRules" class="sign" data-sign="rules" role="button" aria-label="Табличка «Правила посещения»: показать список">
+            <rect x="540" y="488" width="5" height="56" fill="#6B4632"/><rect x="596" y="488" width="5" height="56" fill="#6B4632"/>
+            <g class="face"><rect class="ring" x="516" y="376" width="110" height="114" rx="5" fill="#F3ECE1" stroke="#D9955A" stroke-width="3"/>
+              <text x="571" y="400" text-anchor="middle" font-family="Manrope, sans-serif" font-size="13" font-weight="600" fill="#2A1D2A">Правила</text>
+              <text x="571" y="416" text-anchor="middle" font-family="Manrope, sans-serif" font-size="13" font-weight="600" fill="#2A1D2A">посещения</text>
+              <g class="rl" stroke="#B9AB96" stroke-width="3" stroke-linecap="round"><line x1="530" y1="434" x2="612" y2="434"/><line x1="530" y1="448" x2="600" y2="448"/><line x1="530" y1="462" x2="608" y2="462"/><line x1="530" y1="476" x2="590" y2="476"/></g></g>
+            <g class="rl"><circle class="ping" cx="626" cy="378" r="4"/><circle class="ping-r" cx="626" cy="378" r="4"/></g>
+          </g>
+        </g>
+
+        <!-- INSIDE (nave) -->
+        <g id="inside" class="vg">
+          <path d="M90 540 V210 Q400 60 710 210 V540 Z" fill="#2B1F33" stroke="#EBE1CF" stroke-width="10"/>
+          <rect x="95" y="528" width="610" height="12" fill="#3A2B42"/>
+          <g fill="#D8B878">
+            <path d="M126 290 V244 a17 17 0 0 1 34 0 V290 Z"/><path d="M176 290 V244 a17 17 0 0 1 34 0 V290 Z"/><path d="M226 290 V244 a17 17 0 0 1 34 0 V290 Z"/>
+            <path d="M540 290 V244 a17 17 0 0 1 34 0 V290 Z"/><path d="M590 290 V244 a17 17 0 0 1 34 0 V290 Z"/><path d="M640 290 V244 a17 17 0 0 1 34 0 V290 Z"/>
+          </g>
+          <g fill="#3F2F48">
+            <path d="M132 284 V246 a11 11 0 0 1 22 0 V284 Z"/><path d="M182 284 V246 a11 11 0 0 1 22 0 V284 Z"/><path d="M232 284 V246 a11 11 0 0 1 22 0 V284 Z"/>
+            <path d="M546 284 V246 a11 11 0 0 1 22 0 V284 Z"/><path d="M596 284 V246 a11 11 0 0 1 22 0 V284 Z"/><path d="M646 284 V246 a11 11 0 0 1 22 0 V284 Z"/>
+          </g>
+          <path d="M300 452 V262 a100 82 0 0 1 200 0 V452 Z" fill="#3F2F48" stroke="#D8B878" stroke-width="2"/>
+          <g fill="#D8B878">
+            <path d="M318 356 V314 a12 12 0 0 1 24 0 V356 Z"/><path d="M458 356 V314 a12 12 0 0 1 24 0 V356 Z"/><path d="M388 262 V224 a12 12 0 0 1 24 0 V262 Z"/>
+          </g>
+          <g id="arays" stroke="#F0C979" stroke-width="2" stroke-linecap="round">
+            <line x1="400" y1="366" x2="400" y2="340"/><line x1="372" y1="374" x2="356" y2="356"/><line x1="428" y1="374" x2="444" y2="356"/>
+          </g>
+          <path d="M362 452 V396 a38 30 0 0 1 76 0 V452 Z" fill="#5A3B2A" stroke="#D8B878" stroke-width="2"/>
+          <path id="aglow" d="M362 452 V396 a38 30 0 0 1 76 0 V452 Z" fill="#F0C979"/>
+          <line x1="400" y1="368" x2="400" y2="452" stroke="#3E2819" stroke-width="2"/>
+          <g fill="#D8B878">
+            <rect x="170" y="462" width="90" height="6"/><rect x="212" y="468" width="6" height="60"/><rect x="198" y="522" width="34" height="6"/>
+            <rect x="540" y="462" width="90" height="6"/><rect x="582" y="468" width="6" height="60"/><rect x="568" y="522" width="34" height="6"/>
+            <rect x="396" y="474" width="8" height="50"/><rect x="384" y="522" width="32" height="6"/>
+          </g>
+          <g id="lectern">
+            <circle id="bookGlow" cx="330" cy="476" r="26" fill="#F0C979"/>
+            <rect x="327" y="486" width="6" height="42" fill="#5A3B2A"/><rect x="316" y="522" width="28" height="6" fill="#5A3B2A"/>
+            <polygon points="310,488 350,488 346,478 314,478" fill="#6B4632"/>
+            <path d="M314 478 Q322 470 330 476 Q338 470 346 478 Z" fill="#F4EDE3"/>
+          </g>
+          <g id="candles">
+            <g class="cd"><rect x="180" y="440" width="5" height="22" fill="#F4EDE3"/><circle class="cglow" cx="182.5" cy="432" r="11" fill="#FFD27A"/><ellipse class="flame" cx="182.5" cy="434" rx="3" ry="5.5" fill="#FFD27A"/></g>
+            <g class="cd"><rect x="212" y="436" width="5" height="26" fill="#F4EDE3"/><circle class="cglow" cx="214.5" cy="428" r="11" fill="#FFD27A"/><ellipse class="flame" cx="214.5" cy="430" rx="3" ry="5.5" fill="#FFD27A"/></g>
+            <g class="cd"><rect x="244" y="440" width="5" height="22" fill="#F4EDE3"/><circle class="cglow" cx="246.5" cy="432" r="11" fill="#FFD27A"/><ellipse class="flame" cx="246.5" cy="434" rx="3" ry="5.5" fill="#FFD27A"/></g>
+            <g class="cd"><rect x="397" y="452" width="6" height="22" fill="#F4EDE3"/><circle class="cglow" cx="400" cy="444" r="12" fill="#FFD27A"/><ellipse class="flame" cx="400" cy="446" rx="3.2" ry="6" fill="#FFD27A"/></g>
+            <g class="cd"><rect x="550" y="440" width="5" height="22" fill="#F4EDE3"/><circle class="cglow" cx="552.5" cy="432" r="11" fill="#FFD27A"/><ellipse class="flame" cx="552.5" cy="434" rx="3" ry="5.5" fill="#FFD27A"/></g>
+            <g class="cd"><rect x="582" y="436" width="5" height="26" fill="#F4EDE3"/><circle class="cglow" cx="584.5" cy="428" r="11" fill="#FFD27A"/><ellipse class="flame" cx="584.5" cy="430" rx="3" ry="5.5" fill="#FFD27A"/></g>
+            <g class="cd"><rect x="614" y="440" width="5" height="22" fill="#F4EDE3"/><circle class="cglow" cx="616.5" cy="432" r="11" fill="#FFD27A"/><ellipse class="flame" cx="616.5" cy="434" rx="3" ry="5.5" fill="#FFD27A"/></g>
+          </g>
+          <circle cx="272" cy="474" r="9" fill="#F4EDE3"/>
+          <path d="M272 484 V508 M272 508 L265 528 M272 508 L279 528 M272 492 L260 500" fill="none" stroke="#F4EDE3" stroke-width="5" stroke-linecap="round"/>
+          <circle cx="508" cy="474" r="9" fill="#F4EDE3"/>
+          <path d="M508 484 V508 M508 508 L501 528 M508 508 L515 528 M508 492 L524 486" fill="none" stroke="#F4EDE3" stroke-width="5" stroke-linecap="round"/>
+          <rect x="523" y="472" width="3" height="14" fill="#F4EDE3"/>
+          <ellipse cx="524.5" cy="468" rx="2.2" ry="4" fill="#FFD27A"/>
+        </g>
+
+        <!-- ALTAR ROOM -->
+        <g id="altarRoom" class="vg">
+          <rect width="800" height="600" fill="#241A2C"/>
+          <rect width="800" height="470" fill="#2B1F33"/>
+          <rect y="410" width="800" height="4" fill="#3F2F48"/>
+          <rect y="470" width="800" height="130" fill="#352740"/>
+          <ellipse cx="400" cy="545" rx="280" ry="42" fill="#5B2437" stroke="#B8914F" stroke-width="2" opacity=".9"/>
+          <path d="M110 330 V170 a50 50 0 0 1 100 0 V330 Z" fill="#1A1330" stroke="#CDB98F" stroke-width="4"/>
+          <line x1="160" y1="122" x2="160" y2="330" stroke="#CDB98F" stroke-width="3"/><line x1="110" y1="230" x2="210" y2="230" stroke="#CDB98F" stroke-width="3"/>
+          <circle cx="186" cy="176" r="12" fill="#F4EDE3" opacity=".85"/><circle cx="180" cy="172" r="11" fill="#1A1330"/>
+          <g>
+            <rect x="606" y="150" width="110" height="190" fill="#3F2F48" stroke="#6B4632" stroke-width="4"/>
+            <rect x="606" y="208" width="110" height="5" fill="#6B4632"/><rect x="606" y="270" width="110" height="5" fill="#6B4632"/>
+            <rect x="616" y="168" width="10" height="40" fill="#C25A70"/><rect x="628" y="174" width="8" height="34" fill="#B8914F"/><rect x="638" y="164" width="12" height="44" fill="#5DAE8B"/><rect x="652" y="172" width="9" height="36" fill="#9C8BD0"/>
+            <rect x="616" y="232" width="12" height="38" fill="#B8914F"/><rect x="630" y="228" width="9" height="42" fill="#C25A70"/><rect x="660" y="236" width="30" height="34" rx="3" fill="#E6CB94" opacity=".7"/>
+            <rect x="616" y="296" width="40" height="44" rx="3" fill="#6B4632"/><rect x="664" y="300" width="10" height="40" fill="#5DAE8B"/><rect x="676" y="294" width="9" height="46" fill="#9C8BD0"/>
+          </g>
+          <path d="M346 280 V178 a54 54 0 0 1 108 0 V280 Z" fill="url(#goldG)"/>
+          <path d="M358 270 V180 a42 42 0 0 1 84 0 V270 Z" fill="#3F2F48"/>
+          <circle cx="400" cy="196" r="17" fill="#E6CB94" opacity=".55"/>
+          <circle cx="400" cy="198" r="9" fill="#F4EDE3" opacity=".85"/>
+          <path d="M384 262 Q400 212 416 262 Z" fill="#8A6A8E"/>
+          <line x1="400" y1="280" x2="400" y2="300" stroke="#B8914F" stroke-width="1.5"/>
+          <circle cx="400" cy="306" r="14" fill="#C25A70" opacity=".3"/>
+          <path d="M392 300 H408 L404 312 H396 Z" fill="#C25A70"/>
+          <rect id="roomWarm" x="0" y="0" width="800" height="600" fill="url(#warmG)"/>
+          <rect x="176" y="330" width="10" height="190" rx="3" fill="#6B4632"/>
+          <circle cx="181" cy="326" r="7" fill="#B8914F"/>
+          <rect x="176" y="432" width="84" height="11" rx="3" fill="#7A5238"/>
+          <rect x="250" y="443" width="8" height="78" fill="#6B4632"/>
+          <rect x="614" y="330" width="10" height="190" rx="3" fill="#6B4632"/>
+          <circle cx="619" cy="326" r="7" fill="#B8914F"/>
+          <rect x="540" y="432" width="84" height="11" rx="3" fill="#7A5238"/>
+          <rect x="542" y="443" width="8" height="78" fill="#6B4632"/>
+          <rect x="296" y="428" width="10" height="94" fill="#6B4632"/><rect x="494" y="428" width="10" height="94" fill="#6B4632"/>
+          <rect x="274" y="402" width="252" height="36" rx="3" fill="#5B2437" stroke="#B8914F" stroke-width="1.5"/>
+          <rect x="268" y="398" width="264" height="8" rx="2" fill="#7A5238"/>
+          <path d="M366 398 Q383 386 400 392 Q417 386 434 398 Z" fill="#F4EDE3"/>
+          <line x1="400" y1="392" x2="400" y2="398" stroke="#B8914F"/>
+          <g class="cd" id="cdA"><circle class="cglow big" cx="323" cy="352" r="46" fill="url(#candleG)"/><rect x="318" y="360" width="10" height="38" rx="2" fill="#F4EDE3"/><rect x="312" y="394" width="22" height="5" fill="#B8914F"/><ellipse class="flame" cx="323" cy="352" rx="4" ry="7.5" fill="#FFD27A"/></g>
+          <g class="cd" id="cdB"><circle class="cglow big" cx="477" cy="352" r="46" fill="url(#candleG)"/><rect x="472" y="360" width="10" height="38" rx="2" fill="#F4EDE3"/><rect x="466" y="394" width="22" height="5" fill="#B8914F"/><ellipse class="flame" cx="477" cy="352" rx="4" ry="7.5" fill="#FFD27A"/></g>
+        </g>
+      </svg>
+      <div class="pop" id="pop" hidden role="dialog" aria-labelledby="popT">
+        <button type="button" class="pop-x" id="popX" aria-label="Закрыть">×</button>
+        <h4 id="popT"></h4>
+        <div id="popB"></div>
+      </div>
+      <div class="scene-bar">
+        <div id="cap">Здесь появится твой храм</div>
+        <div class="scene-hint" id="sceneHint"></div>
+        <div class="views" id="views" hidden></div>
+      </div>
+    </div>
+    <div id="wizard"></div>
+  </div>
+</div>
+</section>
+
+<section class="sec" id="state">
+<div class="wrap">
+  <div class="head">
+    <div class="orn"><i></i></div>
+    <h2>Ты ещё и государство</h2>
+    <p class="lead">Люди путешествуют по миру в поисках приключений и новых впечатлений. А ты — целое отдельное государство с множеством «плюшек» и интересных «артефактов». Поэтому люди, хотя бы из любопытства, отправляются в твою красивую и богатую страну.</p>
+    <p class="lead" style="margin-top:14px">И пока ты не познакомишь этих туристов со своими законами, хотя бы с самыми важными, они обязательно будут их нарушать. Не потому, что хотят тебе вреда или боли, а потому, что даже не догадываются: у чужой страны есть свои законы, которые стоит изучить.</p>
+    <p class="lead" style="margin-top:14px">В детстве нас не учили, что у каждого человека свои правила жизни и их нужно узнавать. Поэтому важно привыкнуть самому знакомить туристов, прилетающих в твою жизнь, со своими законами. <strong style="color:var(--ivory)">Это только твоя ответственность.</strong></p>
+  </div>
+
+  <div class="passport" aria-label="Паспорт туриста">
+    <div class="pp-page">
+      <div class="pp-title">Паспорт туриста</div>
+      <div class="pp-slot"><span class="pp-n">1</span><div class="pstamp round" id="ps1" style="--c:#8A6A34;--r:-10deg"><em>Шаг 1</em><b>Въезд</b><small>цель визита прояснена</small></div></div>
+      <div class="pp-slot"><span class="pp-n">2</span><div class="pstamp rect" id="ps2" style="--c:#2F7A5C;--r:6deg"><em>Шаг 2</em><b>Контроль</b><small>законы разъяснены</small></div></div>
+    </div>
+    <div class="pp-page">
+      <div class="pp-title">Отметки</div>
+      <div class="pp-slot"><span class="pp-n">3</span><div class="pstamp rect" id="ps3" style="--c:#B0662C;--r:-5deg"><em>Шаг 3</em><b>Штраф</b><small>санкция применена</small></div></div>
+      <div class="pp-slot"><span class="pp-n">4</span><div class="pstamp round" id="ps4" style="--c:#A43A55;--r:12deg"><em>Шаг 4</em><b>Факап</b><small>въезд закрыт</small></div></div>
+    </div>
+  </div>
+  <div class="center" style="margin-top:28px">
+    <button type="button" class="btn-gold" id="pass1Btn">Понял</button>
+  </div>
+
+  <div class="sanctions" id="sanctions" hidden>
+    <div class="orn"><i></i></div>
+    <h3>За нарушение законов всегда следует наказание</h3>
+    <p class="lead">В любой уважающей себя стране есть наказания: от административных до уголовных. Так и ты должен заранее знать, что последует за тот или иной проступок туриста.</p>
+    <p class="lead" style="margin-top:12px">Посмотри на свои правила: «Категорически недопустимо», «Неприятно», «Вызывает осадок» и «Сильно задевает». Подумай, какие последствия ты будешь применять и в какой последовательности.</p>
+    <details class="myrules"><summary>Посмотреть мои правила</summary><div class="myrules-body" id="myRules"></div></details>
+    <div class="callout"><b>Граница — это твоё действие, а не требование к другому</b>Управлять чужим поведением ты не можешь, а своим можешь. Не «ты не должен давать советы», а «если ты дашь совет без запроса, я скажу, что не готов это обсуждать, и сменю тему».</div>
+    <div class="ladder">
+      <div class="ladder-head"><span></span><span>Как обычно в государствах</span><span>Как это будет у тебя</span></div>
+      <div id="ladder"></div>
+    </div>
+    <div class="callout"><b>Соразмерность</b>Лёгкое нарушение — ступени 1–2. Серьёзное — ступени 3–4. Недопустимое — сразу ступень 5. За опоздание из жизни не вычёркивают.</div>
+    <div class="nav"><button type="button" class="btn-gold" id="pass2Btn">Закрепить санкции</button></div>
+    <div class="err center" id="pass2Err"></div>
+
+    <div id="specialBox" hidden style="margin-top:56px">
+      <div class="orn"><i></i></div>
+      <h3>Есть ли особые последствия для отдельных правил?</h3>
+      <p class="lead" style="margin-top:12px">Выбери правило из своего списка и назначь за его нарушение отдельное последствие.</p>
+      <div class="special-row">
+        <select id="spRule" aria-label="Правило"></select>
+        <input type="text" id="spSanc" placeholder="Что сделаю я: ухожу, не дожидаясь" aria-label="Последствие">
+        <button type="button" class="add" id="spAdd">Добавить</button>
+      </div>
+      <div class="err center" id="spErr"></div>
+      <ul class="special-list" id="spList"></ul>
+      <div class="nav"><button type="button" class="btn-gold" id="spSave">Запомнить</button></div>
+      <p class="note" id="spNote" aria-live="polite"></p>
+    </div>
+  </div>
+</div>
+</section>
+
+<section class="sec" id="facts" style="padding-top:40px">
+<div class="wrap">
+  <div class="head">
+    <div class="orn"><i></i></div>
+    <h2>Важно: перед санкцией проверь</h2>
+    <p class="lead">Когда наши границы нарушает другой человек или мы сами своим бездействием, внутри часто поднимается одно из чувств:</p>
+    <div class="feelings"><span>Рассерженность</span><span>Сильная раздражительность</span><span>Гнев</span><span>Злость</span><span>«Бесит»</span><span>Ярость</span></div>
+    <p class="lead">И бывает, что эта эмоциональная сирена срабатывает не на то, что произошло, а на то, что мы сами додумали. Поэтому так важно спрашивать себя: «То, что произошло, — это факт или только моя интерпретация?»</p>
+    <p class="lead" style="margin-top:14px">Факт можно увидеть и услышать. Интерпретация — это догадка о чужих мыслях и намерениях. Посмотри на примеры:</p>
+  </div>
+  <div class="facts">
+    <div class="frow fh"><div>Факт<small>что видно и слышно</small></div><div>Интерпретация<small>что я додумал</small></div><div>Что ещё может быть<small>другие объяснения</small></div></div>
+    <div class="frow"><div class="f">Муж не отвечает на сообщение три часа</div><div class="i">«Ему на меня плевать»</div><div class="a">Совещание, телефон на беззвучном, сел аккумулятор</div></div>
+    <div class="frow"><div class="f">Коллега не поздоровался утром</div><div class="i">«Он на меня обиделся»</div><div class="a">Задумался, торопился, не заметил</div></div>
+    <div class="frow"><div class="f">Друг отменил встречу за час</div><div class="i">«Я для него не важен»</div><div class="a">Заболел ребёнок, аврал на работе, плохо себя чувствует</div></div>
+    <div class="frow"><div class="f">Мама спросила, когда я займусь здоровьем</div><div class="i">«Она считает, что я выгляжу плохо»</div><div class="a">Переживает за меня и не умеет говорить об этом мягко</div></div>
+    <div class="frow"><div class="f">Партнёр принял решение без меня</div><div class="i">«Он хочет меня выдавить»</div><div class="a">Не знал, что для меня это важно: мы об этом не договорились</div></div>
+    <div class="frow"><div class="f">Ребёнок хлопнул дверью</div><div class="i">«Он меня не уважает»</div><div class="a">Злится и пока не умеет выразить это словами</div></div>
+  </div>
+  <div class="fq">
+    <span>Что я точно видел и слышал?</span><span>Что я додумал?</span><span>Какие ещё есть объяснения?</span><span>Могу ли я просто спросить?</span>
+  </div>
+</div>
+</section>
+
+<section class="sec siren" id="siren">
+<div class="wrap">
+  <div class="head">
+    <div class="orn"><i></i></div>
+    <h2>Когда сработала сирена</h2>
+    <p class="lead">Пять шагов, которые помогают защитить границы спокойно, без взрыва и без молчаливого терпения.</p>
+  </div>
+  <ol class="sir-steps">
+    <li><b>Заметь чувство</b><p>Неудобство, гнев или злость подсказывают, что правило задели.</p></li>
+    <li><b>Отдели факт от догадки</b><p>Что произошло на самом деле? Что ты додумал?</p></li>
+    <li><b>Определи зону</b><p>Это неприятно или недопустимо? От этого зависит, нужен разговор или выход.</p></li>
+    <li><b>Скажи сразу</b><p>Не копи: терпение до переполненной чаши заканчивается яростью и разрывом.</p></li>
+    <li><b>Действуй и фиксируй</b><p>Выполни последствие, о котором предупреждал. С партнёрами по делу договаривайся письменно.</p></li>
+  </ol>
+
+  <div class="imsg">
+    <div class="orn"><i></i></div>
+    <h3>Я-сообщение</h3>
+    <p class="lead" style="margin-top:14px">Способ сказать о нарушенной границе так, чтобы тебя услышали, а не начали защищаться. Ты говоришь о своих чувствах, а не о характере человека: не «ты эгоист», а «мне обидно».</p>
+    <div class="formula">
+      <span><b>1.</b> Когда ты… <small>(факт)</small></span>
+      <span><b>2.</b> я чувствую… <small>(чувство)</small></span>
+      <span><b>3.</b> потому что мне важно… <small>(ценность)</small></span>
+      <span><b>4.</b> Я прошу… <small>(просьба)</small></span>
+      <span><b>5.</b> Если это повторится, я… <small>(твоё действие)</small></span>
+    </div>
+    <div class="examples">
+      <blockquote>«Когда ты перебиваешь меня на встрече, я чувствую раздражение, потому что мне важно договорить мысль. Я прошу дослушивать меня до конца».</blockquote>
+      <blockquote>«Когда ты шутишь про мой вес при гостях, мне обидно, потому что мне важно уважение при других. Я прошу так больше не шутить. Если это повторится, я уйду».</blockquote>
+      <blockquote>«Когда ты меняешь договорённость и не предупреждаешь, я злюсь, потому что мне важна предсказуемость в деле. Я прошу любые изменения согласовывать письменно».</blockquote>
+    </div>
+    <div class="builder">
+      <h4>Собери своё Я-сообщение</h4>
+      <div class="grid">
+        <div class="field"><label for="im-when">Когда ты…</label><input type="text" id="im-when" placeholder="опаздываешь без предупреждения"></div>
+        <div class="field"><label for="im-feel">я чувствую…</label><input type="text" id="im-feel" placeholder="раздражение"></div>
+        <div class="field"><label for="im-because">потому что мне важно…</label><input type="text" id="im-because" placeholder="моё время"></div>
+        <div class="field"><label for="im-ask">Я прошу…</label><input type="text" id="im-ask" placeholder="писать, если задерживаешься"></div>
+        <div class="field full"><label for="im-then">Если это повторится, я… (необязательно)</label><input type="text" id="im-then" placeholder="не буду ждать дольше 15 минут"></div>
+      </div>
+      <p class="bprev empty" id="imPrev" aria-live="polite">Заполни поля, и здесь появится твоя фраза</p>
+      <div class="nav" style="margin-top:14px"><button type="button" class="btn-line" id="imCopy">Скопировать фразу</button></div>
+      <p class="note" id="imNote"></p>
+    </div>
+  </div>
+
+  <div class="scripts">
+    <div class="script">
+      <div class="zone-tag" style="--c:var(--z3);margin-top:0">Если неприятно</div>
+      <blockquote>«Я тебя люблю, уважаю и ценю. Но в моей жизни есть правило: когда ты делаешь так, мне неприятно. Давай договоримся, как нам быть дальше».</blockquote>
+      <p>Назови поведение, а не человека. Скажи, что сделаешь ты, если это повторится.</p>
+    </div>
+    <div class="script">
+      <div class="zone-tag" style="--c:var(--z4);margin-top:0">Если недопустимо</div>
+      <blockquote>«Я благодарен за то хорошее, что между нами было. Но то, что произошло, для меня недопустимо. Я прекращаю наше общение. Это моё решение, и обсуждать его я не буду».</blockquote>
+      <p>Говори спокойно и коротко. Оправдываться и что-то доказывать не нужно.</p>
+    </div>
+  </div>
+</div>
+</section>
+
+<section class="sec" id="results">
+<div class="wrap">
+  <div class="head">
+    <div class="orn"><i></i></div>
+    <h2>Твои границы</h2>
+    <p class="lead">Общие законы храма и отдельные правила для важных людей. Сохрани их картинками или распечатай и повесь на видное место.</p>
+  </div>
+  <div id="resultsBox" class="results"></div>
+</div>
+</section>
+
+<section class="sec" id="remind">
+<div class="wrap">
+  <div class="remind">
+    <div class="head" style="margin-bottom:40px">
+      <div class="orn"><i></i></div>
+      <h2>Важно помнить</h2>
+      <p class="lead">Семь мыслей, к которым стоит возвращаться, пока навык только формируется.</p>
+    </div>
+    <ol class="rlist">
+      <li><h4>Границы — это база</h4><p>Это правила, которые ты создаёшь для себя и других, чтобы жить в безопасности и комфорте. У каждого они свои. Понять свои — первый шаг.</p></li>
+      <li><h4>Граница — это твоё действие</h4><p>Ты управляешь своим поведением, а не чужим. «Если ты дашь совет без запроса, я скажу, что не готов это обсуждать, и сменю тему».</p></li>
+      <li><h4>Помни про взаимность</h4><p>У другого человека тоже есть храм и свои правила. Не бойся спросить: «А какие правила у тебя?» Так вы поймёте друг друга заранее, а не после ссоры.</p></li>
+      <li><h4>Злость зовёт защитить себя</h4><p>Рассерженность, гнев и злость часто сигналят, что границы нарушают. Если ты позволишь нарушение, придут вина и обида. И обида будет не столько на другого, сколько на себя: за то, что позволил нарушить собственные правила.</p></li>
+      <li><h4>Вина — не знак, что ты неправ</h4><p>Если в детстве тебя учили быть удобным, после отстаивания границ может прийти вина: кажется, что перегнул палку. Это старая привычка. Такая вина подсказывает другое: ты не выбираешь себя и ценишь других больше, чем себя.</p></li>
+      <li><h4>Начинай с малого</h4><p>Сначала отстаивай правила в лёгких ситуациях: с кассиром, с малознакомым коллегой. Когда появится уверенность, переходи к значимым людям.</p></li>
+      <li class="safety"><h4>Безопасность прежде всего</h4><p>Если в отношениях есть насилие, угрозы или ты боишься за себя и близких, разговор о правилах — не тот инструмент. Сначала позаботься о безопасности и обратись к специалисту. В экстренной ситуации звони 112.</p></li>
+    </ol>
+  </div>
+</div>
+</section>
+
+<section class="sec" id="diary">
+<div class="wrap">
+  <div class="head">
+    <div class="orn"><i></i></div>
+    <h2>Дневник самонаблюдения</h2>
+    <p class="lead">Записывай случаи, когда твои границы нарушали. Через пару недель станет видно, кто и в каких ситуациях делает это чаще всего и как ты обычно реагируешь.</p>
+  </div>
+  <div class="diary">
+    <form class="form-card" id="diaryForm" novalidate>
+      <div class="field"><label for="d-who">Кто нарушил мои границы</label><input type="text" id="d-who" placeholder="Мама, коллега Олег"></div>
+      <div class="field"><label for="d-what">Что он или она сделали</label><textarea id="d-what" placeholder="При гостях пошутила про мой вес"></textarea></div>
+      <div class="field"><label for="d-zone">Какая это зона</label>
+        <select id="d-zone"><option value="bad">Неприятно</option><option value="no">Недопустимо</option><option value="unsure">Пока не понимаю</option></select></div>
+      <div class="field"><label>Что я почувствовал(а)</label><div class="feel" id="d-feel"></div></div>
+      <div class="field"><label for="d-int">Насколько сильно: <span id="d-int-v">5</span> из 10</label><input type="range" id="d-int" min="0" max="10" step="1" value="5"></div>
+      <div class="field"><label for="d-fact">Факт или моя догадка? Что я додумал(а)</label><textarea id="d-fact" placeholder="Факт: пошутила при всех. Догадка: хотела меня унизить"></textarea></div>
+      <div class="field"><label for="d-react">Как я отреагировал(а)</label><textarea id="d-react" placeholder="Промолчал(а) и улыбнулся(ась)"></textarea></div>
+      <div class="field"><label for="d-end">Чем всё закончилось</label><textarea id="d-end" placeholder="Весь вечер было обидно"></textarea></div>
+      <div class="field"><label for="d-better">Как стоило защитить границы корректнее</label><textarea id="d-better" placeholder="Спокойно сказать: «Мне неприятны такие шутки, давай без них»"></textarea></div>
+      <div class="nav"><button type="submit" class="btn-gold">Сохранить запись</button></div>
+      <div class="err center" id="d-err"></div>
+    </form>
+    <div>
+      <div id="pattern"></div>
+      <div class="entries" id="entries"></div>
+      <div class="nav"><button type="button" class="btn-line" id="diaryExport">Скачать дневник</button></div>
+      <p class="note" id="diaryNote" aria-live="polite"></p>
+    </div>
+  </div>
+</div>
+</section>
+
+<section class="sec" id="more">
+<div class="wrap">
+  <div class="head">
+    <div class="orn"><i></i></div>
+    <h2>Другие практики</h2>
+    <p class="lead">Внешние границы — только часть работы. Эти практики её дополняют.</p>
+  </div>
+  <div class="links">
+    <div class="link-card"><span class="badge">Скоро</span><h4>Внутренние личные границы</h4><p>Как ты сам обращаешься с собой: свои «надо», самокритика, отдых и право на ошибку.</p></div>
+    <a class="link-card" href="/practices/lyubov-k-sebe/" target="_blank" rel="noopener"><span class="badge">Открыть</span><h4>Любовь к себе</h4><p>Практика о том, как ценить себя и опираться на эту ценность.</p></a>
+    <div class="link-card"><span class="badge">Скоро</span><h4>Самоподдержка</h4><p>Что делать, если отстоять себя не получилось, и как не ругать себя за это.</p></div>
+    <a class="link-card" href="/practices/otnosheniya/" target="_blank" rel="noopener"><span class="badge">Открыть</span><h4>Отношения как выбор машины</h4><p>Метафора, которая помогает подходить к отношениям осознанно.</p></a>
+  </div>
+</div>
+</section>
+
+<div class="wrap">
+<footer class="site">
+  <div class="brand">MaxMagia</div>
+  <div>Разобрать свои границы с психологом: <a href="https://t.me/MaxGuschin" target="_blank" rel="noopener">Максим Гущин в Telegram</a></div>
+</footer>
+</div>
+
+<div id="printArea"></div>
+
+
+<script>
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+const low = t => t ? t.charAt(0).toLowerCase() + t.slice(1) : t;
+const up = t => t ? t.charAt(0).toUpperCase() + t.slice(1) : t;
+const RM = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const yw = n => { n = n || 0; const a = n % 100, b = n % 10; if (a > 10 && a < 20) return 'лет'; if (b === 1) return 'год'; if (b > 1 && b < 5) return 'года'; return 'лет'; };
+const C = {z1:'#4E9C7B', z3:'#C98545', z4:'#B04B63', gold:'#B8914F'};
+const TOTAL = 13, FINAL = 14;
+
+const PEOPLE = [
+  {id:'partner', label:'Супруг(а) или партнёр', ok:['Обнимать без повода','Спрашивать, как прошёл день','Планировать со мной выходные'], bad:['Решать за меня','Проверять мой телефон','Обесценивать мою работу'], no:['Измена','Унижать меня при детях']},
+  {id:'kids', label:'Дети', ok:['Делиться новостями','Звать поиграть','Просить совета'], bad:['Входить без стука','Грубить','Брать мои вещи без спроса'], no:['Поднимать руку на младших']},
+  {id:'mom', label:'Мама', ok:['Звонить поболтать','Рассказывать истории из детства'], bad:['Критиковать мои решения','Советовать, как воспитывать детей','Приходить без звонка'], no:['Настраивать детей против меня']},
+  {id:'dad', label:'Папа', ok:['Звать на рыбалку','Делиться опытом, когда я прошу'], bad:['Сравнивать меня с другими','Давить своим мнением'], no:['Оскорблять мою семью']},
+  {id:'sib', label:'Брат или сестра', ok:['Поддерживать в трудное время','Звать в гости'], bad:['Подшучивать при других','Занимать и не отдавать'], no:['Поднимать на меня руку']},
+  {id:'friends', label:'Друзья', ok:['Звать куда-то вместе','Говорить честно'], bad:['Отменять встречи в последний момент','Пропадать, когда мне нужна помощь'], no:['Выдавать мои секреты']},
+  {id:'colleagues', label:'Коллеги', ok:['Предлагать помощь','Говорить спасибо'], bad:['Перекладывать свою работу на меня','Писать в выходные без срочности'], no:['Присваивать мои результаты']},
+  {id:'biz', label:'Партнёры по бизнесу', ok:['Фиксировать договорённости письменно','Отчитываться о результатах'], bad:['Менять договорённости устно','Принимать решения без меня'], no:['Скрывать деньги','Уводить клиентов']},
+  {id:'staff', label:'Сотрудники', ok:['Приходить с решением, а не только с проблемой','Предупреждать о рисках заранее'], bad:['Срывать сроки без предупреждения','Скрывать ошибки'], no:['Воровать','Сливать информацию конкурентам']}
+];
+const LEVELS = [
+  {c:'Словесное предупреждение', ph:'Спокойно говорю о своём правиле и прошу так не делать', col:'#E6CB94'},
+  {c:'Штраф', ph:'Заканчиваю разговор и ухожу', col:'#D9B06B'},
+  {c:'Арест с исправительными работами', s:'и штраф выше', ph:'Беру паузу в общении на неделю', col:'#D9955A'},
+  {c:'Долгий арест', ph:'Перестаю помогать и делиться личным', col:'#C9765E'},
+  {c:'Пожизненное заключение', s:'за самое тяжкое', ph:'Навсегда прекращаю общение', col:'#C25A70'}
+];
+const BAD_GROUPS = [
+  ['badLight', 'Неприятно', 'Раздражает и вызывает гнев'],
+  ['badHeavy', 'Вызывает осадок', 'Оставляет осадок и разочарование'],
+  ['badAnger', 'Сильно задевает', 'Злит и обижает'],
+  ['badTolerate', 'Терплю, но не хочу терпеть', 'Терплю, но не хочу терпеть']
+];
+const FEELINGS = ['Неудобство','Раздражение','Гнев','Злость','Ярость','Обида','Страх','Разочарование','Вина','Стыд','Грусть'];
+const KEY = 'maxmagia-boundaries-v4', V3_KEY = 'maxmagia-boundaries-v3', V2_KEY = 'maxmagia-boundaries-v2';
+
+const store = {
+  async get(k){
+    if (window.storage) { try { const r = await window.storage.get(k, false); return r && r.value ? r.value : null; } catch(e) { return null; } }
+    try { return localStorage.getItem(k); } catch(e) { return null; }
+  },
+  async set(k, v){
+    if (window.storage) { try { await window.storage.set(k, v, false); return true; } catch(e) { return false; } }
+    try { localStorage.setItem(k, v); return true; } catch(e) { return false; }
+  }
+};
+
+function blank(){
+  return {v:4, theory:false, theoryDate:'', name:'', age:null, cur:0, max:0, view:null,
+    inYes:[], inNo:[], no:[], badLight:[], badHeavy:[], badAnger:[], badTolerate:[], ok:[], altarWho:[], altarRules:[],
+    sel:[], custom:[], people:{}, repair:[], lv:['','','','',''], special:[], pass1:false, pass2:false,
+    imsg:{when:'', feel:'', because:'', ask:'', then:''}, diary:[]};
+}
+let S = blank();
+let welcome = '';
+let saveTimer;
+function save(){
+  clearTimeout(saveTimer);
+  setSaveState('Сохраняю…');
+  saveTimer = setTimeout(async () => {
+    const ok = await store.set(KEY, JSON.stringify(S));
+    setSaveState(ok ? 'Ответы сохранены. Можно вернуться и продолжить в любой момент' : 'Сохранить не получилось. Скачай таблички, чтобы не потерять ответы');
+  }, 400);
+  scheduleResults();
+}
+function setSaveState(t){ $$('.savestate').forEach(e => e.textContent = t); }
+function pData(id){ if (!S.people[id]) S.people[id] = {ok:[], bad:[], no:[]}; return S.people[id]; }
+function pDef(id){ return PEOPLE.find(p => p.id === id) || S.custom.find(c => c.id === id) || {id, label:''}; }
+function pCount(id){ const d = S.people[id]; return d ? d.ok.length + d.bad.length + d.no.length : 0; }
+const allBad = () => [...S.badLight, ...S.badHeavy, ...S.badAnger, ...S.badTolerate];
+
+/* ---------- Migration ---------- */
+function fromV2(d){
+  const b = {name:d.name || '', age:d.age || null, inYes:d.inYes || [], inNo:d.inNo || [], no:d.no || [], badLight:d.bad || [],
+    ok:d.ok || [], altarWho:d.altarWho || [], altarRules:d.altarRules || [], diary:d.diary || [], people:{}, sel:[], special:[]};
+  if (d.sanc) { b.lv = [d.sanc.s1 || '', d.sanc.s2 || '', d.sanc.s3 || '', '', '']; b.special = d.sanc.special || []; }
+  if (d.people) for (const id in d.people) { const x = d.people[id]; if (x && (x.ok.length + x.bad.length + x.no.length + x.repair.length)) { b.people[id] = x; b.sel.push(id); } }
+  b.max = d.name && d.step >= 9 ? 12 : (d.name && d.step >= 1 ? 1 : 0);
+  b.cur = b.max ? (b.max >= 12 ? 6 : 1) : 0;
+  return b;
+}
+function fromV3(d){
+  const b = Object.assign(blank(), d, {v:4});
+  const map = k => !k ? 0 : k <= 6 ? k : k <= 11 ? k + 1 : FINAL;
+  b.max = map(d.max || 0); b.cur = map(d.cur || 0);
+  const rep = new Set();
+  b.people = {};
+  for (const id in (d.people || {})) {
+    const x = d.people[id] || {};
+    (x.repair || []).forEach(r => rep.add(r));
+    b.people[id] = {ok:x.ok || [], bad:x.bad || [], no:x.no || []};
+  }
+  b.repair = [...rep];
+  b.special = (d.special || []).map(x => typeof x === 'string' ? {rule:'', sanction:x} : x);
+  b.imsg = Object.assign(blank().imsg, d.imsg || {});
+  b.view = null;
+  if (b.max >= 8) {
+    b.cur = 7;
+    welcome = `Ответы из прошлой версии перенесены. Появились новые шаги: 7${b.max >= FINAL ? ' и 13' : ''}. Начнём с шага 7.`;
+  } else if (b.max) welcome = 'Ответы из прошлой версии перенесены. Продолжаем с того места, где ты остановился.';
+  return b;
+}
+async function load(){
+  const raw = await store.get(KEY);
+  if (raw) {
+    try { const d = JSON.parse(raw); S = Object.assign(blank(), d); S.imsg = Object.assign(blank().imsg, d.imsg || {}); } catch(e) {}
+    if (S.name && S.cur > 0) welcome = `С возвращением, ${S.name}! Продолжаем с того места, где ты остановился.`;
+  } else {
+    try {
+      const v3 = await store.get(V3_KEY);
+      if (v3) { S = fromV3(JSON.parse(v3)); save(); }
+      else {
+        const v2 = await store.get(V2_KEY);
+        if (v2) { S = fromV3(fromV2(JSON.parse(v2))); save(); }
+      }
+    } catch(e) {}
+  }
+  if (S.name) $('#tName').textContent = S.name;
+  initTheory(); renderWizard(false); initSigns(); initState(); initImsg(); initDiary(); renderResults(); updateScene();
+}
+
+/* ---------- Idea hints ---------- */
+const hintTimers = {};
+function clearHints(group){ (hintTimers[group] || []).forEach(clearTimeout); hintTimers[group] = []; }
+function listBox({get, ph, label, hints = [], group = 'wiz', stagger = 0, onChange, onAdd}){
+  const w = document.createElement('div');
+  w.className = 'lb';
+  w.innerHTML = `<div class="lb-row"><input type="text" placeholder="${esc(ph)}" aria-label="${esc(label)}"><button type="button" class="add">Добавить</button></div>
+    <div class="err" aria-live="polite"></div><div class="tip" aria-live="polite"></div>
+    ${hints.length ? '<div class="ideas" hidden><div class="ideas-lbl">Если мысли не идут, вот идеи. Нажми на любую и перепиши под себя</div><div class="ideas-list"></div></div>' : ''}
+    <ul class="items"></ul>`;
+  const inp = $('input', w), err = $('.err', w), tip = $('.tip', w), ul = $('.items', w), ideas = $('.ideas', w);
+  const changed = () => { save(); if (onChange) onChange(); updateScene(); };
+  const draw = () => {
+    const a = get();
+    ul.innerHTML = a.map((t, i) => `<li><span>${esc(t)}</span><button type="button" data-i="${i}" aria-label="Убрать «${esc(t)}»">убрать</button></li>`).join('');
+    $$('button', ul).forEach(b => b.onclick = () => { get().splice(+b.dataset.i, 1); draw(); changed(); });
+    if (ideas) $$('.idea', ideas).forEach(b => { if (a.includes(b.dataset.t)) b.remove(); });
+  };
+  const add = () => {
+    const v = inp.value.trim();
+    if (!v) { err.textContent = 'Сначала впиши пункт'; inp.focus(); return; }
+    if (get().includes(v)) { err.textContent = 'Такой пункт уже есть'; return; }
+    const first = get().length === 0;
+    get().push(v); inp.value = ''; err.textContent = ''; tip.textContent = ''; draw(); changed(); inp.focus();
+    if (onAdd) onAdd(first);
+  };
+  $('.add', w).onclick = add;
+  inp.onkeydown = e => { if (e.key === 'Enter') { e.preventDefault(); add(); } };
+  if (ideas) {
+    const pool = hints.filter(h => !get().includes(h));
+    let shown = 0, t = null, started = false;
+    const list = $('.ideas-list', ideas);
+    const schedule = d => { clearTimeout(t); t = setTimeout(reveal, d); (hintTimers[group] = hintTimers[group] || []).push(t); };
+    const reveal = () => {
+      if (!document.body.contains(w) || shown >= pool.length) return;
+      const h = pool[shown++];
+      if (get().includes(h)) { schedule(200); return; }
+      ideas.hidden = false;
+      const b = document.createElement('button');
+      b.type = 'button'; b.className = 'idea'; b.dataset.t = h; b.textContent = h;
+      b.onclick = () => { inp.value = h; inp.focus(); inp.setSelectionRange(h.length, h.length); err.textContent = ''; tip.textContent = 'Перепиши под себя и нажми «Добавить»'; };
+      list.appendChild(b);
+      schedule(5000);
+    };
+    inp.addEventListener('input', () => { err.textContent = ''; if (started && shown < pool.length) schedule(10000); });
+    const io = new IntersectionObserver(es => {
+      if (es.some(e => e.isIntersecting) && !started) { started = true; schedule(10000 + stagger); io.disconnect(); }
+    }, {threshold:.2});
+    io.observe(w);
+  } else inp.addEventListener('input', () => { err.textContent = ''; });
+  draw();
+  return w;
+}
+
+/* ---------- Theory ---------- */
+function initTheory(){
+  const btn = $('#theoryBtn'), st = $('#ticketStamp');
+  if (S.theory) { st.classList.add('on'); st.parentElement.classList.add('stamped'); $('#theoryDate').textContent = S.theoryDate; btn.hidden = true; $('#theoryGo').hidden = false; }
+  btn.onclick = () => {
+    S.theory = true; S.theoryDate = new Date().toLocaleDateString('ru-RU', {day:'numeric', month:'long', year:'numeric'}); save();
+    $('#theoryDate').textContent = S.theoryDate;
+    st.classList.add('on'); st.parentElement.classList.add('stamped'); $('#ticket').classList.add('shake');
+    btn.hidden = true; $('#theoryGo').hidden = false;
+    renderWizard(false); updateScene();
+  };
+}
+
+/* ---------- Steps ---------- */
+const HINT_WHY = '<details class="hint"><summary>Подсказка</summary><p>{t}</p></details>';
+const hint = t => HINT_WHY.replace('{t}', t);
+const STEPS = {
+  1:{title:() => `${esc(S.name)}, это твой храм`, next:'Поставить забор',
+    html:() => `<p>Представь, что этот храм — образ твоего тела и души, а ещё иллюстрация твоей жизни. Твоему храму <strong>${S.age} ${yw(S.age)}</strong>, столько же, сколько тебе.</p>
+      <p>У него свой неповторимый дизайн и своя уникальная история, полная разных катастроф и чудес. А ещё свои личные иконы — твои ценности. Второго такого храма в мире не существует.</p>
+      <p class="q">Ты ведь не дашь миру его разрушить?</p>`},
+  2:{title:'Кого ты хочешь впустить', next:'Открыть им ворота',
+    html:() => `<p>Ты в этом мире не для всех. Есть люди, достойные твоего внимания и времени, а есть и другие.</p>
+      <p>Твой забор прочно стоит и защищает храм, а в нём есть ворота. Открывать их или нет, решаешь только ты. Давай определимся: каких людей тебе хочется видеть рядом по жизни?</p>
+      <div class="zone-tag" style="--c:var(--z1)">Знак «Можно войти»</div>
+      <p class="q">Людей с какими качествами и намерениями ты впустишь в свою жизнь?</p><div class="slot"></div>`,
+    lists:[{get:() => S.inYes, label:'Кого впускаю', ph:'Например: честных',
+      hints:['Тех, кто держит слово','Тех, кто интересуется мной','Тех, кто умеет договариваться','С чувством юмора','Тех, кто уважает моё время','Тех, кто радуется моим успехам']}],
+    need:() => S.inYes.length ? '' : 'Добавь хотя бы одно качество'},
+  3:{title:'Кому вход закрыт', next:'Повесить табличку на ворота',
+    html:() => `<p>В твоей жизни уже было немало людей, которые больно тебя ранили. Кто-то случайно, кто-то сильно, кто-то специально. Кто-то из зависти, а кто-то по глупости.</p>
+      <p>И ты точно знаешь, каких людей впускать в свою жизнь не стоит: им лучше остаться за забором твоего храма.</p>
+      <div class="zone-tag" style="--c:var(--z4)">Знак «Вход закрыт»</div>
+      <p class="q">Людей с какими качествами и намерениями ты не впустишь?</p><div class="slot"></div>`,
+    lists:[{get:() => S.inNo, label:'Кого не впускаю', ph:'Например: завистливых',
+      hints:['Кто общается ради выгоды','Кто давит и манипулирует','Кто всё обесценивает','Кто не отвечает за свои слова','Кто любит унижать других']}],
+    need:() => S.inNo.length ? '' : 'Добавь хотя бы одно качество'},
+  4:{title:'Что категорически недопустимо', next:'Повесить знак «Запрещено»',
+    html:() => `<p>Люди, которым вход закрыт, когда-то причинили тебе сильную боль. Чтобы этот опыт не повторился, запиши, какие их действия в твою сторону категорически недопустимы. За них человек покидает твою территорию навсегда.</p>
+      <div class="zone-tag" style="--c:var(--z4)">Знак «Запрещено»</div>
+      <p class="q">Что другим людям категорически нельзя делать в твоей жизни?</p>
+      ${hint('Вспомни людей, которых ты вычеркнул из жизни раз и навсегда, потому что перестал им доверять. Или тех, с кем больше никогда не станешь здороваться и общаться. Что именно они сделали? Какое их поведение стало последней каплей?')}
+      <div class="slot"></div>
+      <p class="care">Не погружайся в тяжёлые воспоминания глубоко: достаточно назвать само действие. Если становится слишком тяжело, сделай паузу и вернись позже.</p>`,
+    lists:[{get:() => S.no, label:'Категорически недопустимо', ph:'Впиши действие',
+      hints:['Поднимать на меня руку','Воровать и брать без спроса','Выдавать мои секреты','Врать о важном','Унижать меня при других','Угрожать мне или близким','Менять договорённости за моей спиной']}],
+    need:() => S.no.length ? '' : 'Добавь хотя бы одно правило'},
+  5:{title:'Что задевает струнки твоей души #1', next:'Утвердить правила',
+    html:() => `<p>У всех нас разное воспитание, разные ценности и привычки. Даже приятные люди, которых ты впустил, могут случайно сделать тебе неприятно.</p>
+      <p>Поэтому нужны правила посещения, которые мы повесим у входа в храм. Начнём с лёгкого.</p>
+      <div class="zone-tag" style="--c:var(--z3)">Правила посещения</div>
+      <p class="q">Какое поведение людей вызывает у тебя раздражение, негодование или гнев?</p>
+      ${hint('Вспомни ситуации, после которых было досадно, внутри закипало или просто бесило. Что тогда сделал другой человек?')}
+      <div class="slot"></div>`,
+    lists:[{get:() => S.badLight, label:'Неприятно', ph:'Впиши поведение',
+      hints:['Опаздывать без предупреждения','Перебивать','Давать советы без запроса','Звонить поздно по работе','Говорить со мной свысока','Трогать мои вещи без спроса']}],
+    need:() => S.badLight.length ? '' : 'Добавь хотя бы один пункт'},
+  6:{title:'Что задевает струнки твоей души #2', next:'Утвердить правила',
+    html:() => `<p>Теперь о поведении, которое ранит глубже. Это не повод сразу закрывать ворота, но такое поведение требует разговора и понятных последствий.</p>
+      <div class="zone-tag" style="--c:var(--z3)">Правила посещения</div>
+      <p class="q">Какое поведение оставляет у тебя осадок или разочарование?</p>
+      ${hint('Вспомни, когда после общения было грустно или обидно, хотя вслух ты ничего не сказал. Что сделал человек?')}
+      <div class="slot"></div>`,
+    lists:[{get:() => S.badHeavy, label:'Вызывает осадок', ph:'Впиши поведение',
+      hints:['Не выполнять обещания','Забывать о важном для меня','Обесценивать мои чувства','Пропадать без объяснений','Не поддержать, когда мне трудно','Обсуждать меня за спиной']}],
+    need:() => S.badHeavy.length ? '' : 'Добавь хотя бы один пункт'},
+  7:{title:'Что задевает струнки твоей души #3', next:'Утвердить и войти в храм',
+    html:() => `<p>Есть ещё особенные люди — манипуляторы, которые умеют перевернуть всё с ног на голову. Они мастера игры в слова, и часто они очень бесят.</p>
+      <div class="zone-tag" style="--c:var(--z3)">Правила посещения</div>
+      <p class="q">Какое поведение вызывает у тебя злость или обиду?</p>
+      ${hint('Вспомни разговоры, после которых ты чувствовал себя виноватым, хотя ничего плохого не сделал. Что говорил или делал другой человек?')}
+      <div class="slot"></div>
+      <p class="q">Какое поведение ты терпишь, но не хотел бы терпеть?</p>
+      ${hint('Подумай, на что ты обычно машешь рукой: «ладно, проще промолчать». Что это за ситуации?')}
+      <div class="slot"></div>`,
+    lists:[
+      {get:() => S.badAnger, label:'Сильно задевает', ph:'Впиши поведение',
+        hints:['Перекладывать на меня вину','Давить на жалость','Говорить «ты всё не так понял»','Делать вид, что ничего не было','Шутить, а потом говорить «ты что, обиделся?»','Переворачивать мои слова']},
+      {get:() => S.badTolerate, label:'Терплю, но не хочу терпеть', ph:'Впиши поведение', stagger:5000,
+        hints:['Звонки в любое время','Просьбы поработать бесплатно «по дружбе»','Критику под видом заботы','Постоянные опоздания','Долги, которые не возвращают']}],
+    need:() => (S.badAnger.length || S.badTolerate.length) ? '' : 'Добавь хотя бы один пункт'},
+  8:{title:'Внутри храма: что тебя наполняет', next:'Зажечь все свечи',
+    html:() => `<p>Внутри храма красиво и величественно. Некоторые гости не вызывают у тебя особых чувств: спокойно общаются с другими, внимательно рассматривают твои иконы, сидят в тишине и думают о своём. Они безопасны.</p>
+      <p>А есть и такие, чьё поведение наполняет тебя радостью и даёт силы. Каждое приятное действие зажигает свечу в храме.</p>
+      <div class="zone-tag" style="--c:var(--z1)">Зона «приятно»</div>
+      <p class="q">Что другие люди могут делать, чтобы тебе становилось приятно, радостно и хорошо?</p><div class="slot"></div>`,
+    lists:[{get:() => S.ok, label:'Приятно', ph:'Впиши, что тебя радует',
+      hints:['Говорить комплименты','Дарить подарки','Спрашивать о моих желаниях','Помогать с задачами','Благодарить','Поддерживать, когда трудно','Уважать мои решения']}],
+    need:() => S.ok.length ? '' : 'Добавь хотя бы один пункт'},
+  9:{title:'Проверь себя: что ещё вспомнилось', next:'Записать в книгу правил',
+    html:() => `<p>Пока ты здесь, внутри, в тишине, прислушайся к себе. Часто именно сейчас вспоминается что-то важное. Ниже твои списки: их можно дополнить.</p>
+      <div class="zone-tag" style="--c:var(--z4)">Категорически недопустимо</div>
+      <p class="q">Есть ли ещё что-то, что другим делать недопустимо?</p><div class="slot"></div>
+      <div class="zone-tag" style="--c:var(--z3)">Неприятно</div>
+      <p class="q">А что ещё тебе может быть неприятно?</p><div class="slot"></div>`,
+    lists:[
+      {get:() => S.no, label:'Категорически недопустимо', ph:'Впиши, если вспомнилось', hints:['Читать мою переписку','Распускать обо мне слухи','Решать за меня важное']},
+      {get:() => S.badLight, label:'Неприятно', ph:'Впиши, если вспомнилось', hints:['Не отвечать на важные сообщения','Навязывать свою помощь','Отменять планы в последний момент'], stagger:5000}]},
+  10:{title:'Кого ты впускаешь в свою душу', next:'Утвердить',
+    html:() => `<p>В каждом храме есть алтарь — место, куда попадают лишь избранные. Это часть твоей души, где ты снимаешь все маски: здесь твои страхи, настоящие мечты и полная уязвимость.</p>
+      <p>Сюда стоит впускать только тех, кому ты по-настоящему доверяешь, и по особым правилам.</p>
+      <p class="q">Кого ты готов впустить в алтарь?</p><div class="slot"></div>
+      <p class="q">Какие правила действуют в алтарной?</p><div class="slot"></div>`,
+    lists:[
+      {get:() => S.altarWho, label:'Кого впускаю в алтарь', ph:'Имя или роль', hints:['Супруга или супруг','Лучший друг','Мой психолог']},
+      {get:() => S.altarRules, label:'Правила алтарной', ph:'Впиши правило', stagger:5000, hints:['Хранить мои секреты','Не использовать мои слабости против меня','Не смеяться над моими мечтами','Быть бережным, когда я открываюсь']}],
+    need:() => (S.altarWho.length && S.altarRules.length) ? '' : 'Добавь хотя бы одного человека и одно правило'},
+  11:{title:'Нотки индивидуальности', next:'Дальше', custom:'select',
+    need:() => S.sel.length ? '' : 'Выбери хотя бы одного человека или пропусти шаг'},
+  12:{title:'Правила для важных людей', next:'Перейти к раскаянию', custom:'people'},
+  13:{title:'Как восстановить отношения после нарушения', next:'Завершить работу',
+    html:() => `<p>Каждый человек имеет право на ошибку, и в твоей власти дать людям из своей жизни хотя бы одну попытку. Реши для себя, какое поведение после ошибки поможет тебе снова доверять человеку.</p>
+      <div class="callout"><b>Соразмерность и восстановление</b>С близкими «навсегда» срабатывает редко. Важнее путь восстановления: человек признаёт, что нарушил правило, извиняется, и вы договариваетесь, как дальше. С детьми последствия всегда соответствуют возрасту и не означают исключения из твоей жизни.</div>
+      <p class="q">Что может сделать ошибившийся, чтобы твоё доверие к нему вернулось?</p><div class="slot"></div>`,
+    lists:[{get:() => S.repair, label:'Как восстановить доверие', ph:'Впиши, что тебе поможет',
+      hints:['Самостоятельно признать, что нарушил правило','Искренне извиниться','Договориться, как будем взаимодействовать дальше','Дать мне время всё пережить и потом поговорить','Написать расписку']}],
+    need:() => S.repair.length ? '' : 'Добавь хотя бы один пункт'},
+  14:{title:'Правила написаны', custom:'final'}
+};
+
+function renderWizard(animate){
+  clearHints('wiz');
+  closePop();
+  const box = $('#wizard');
+  box.innerHTML = '';
+  const card = document.createElement('article');
+  card.className = 'card' + (animate ? ' appear' : '');
+  box.appendChild(card);
+  if (!S.theory) {
+    card.classList.add('lock');
+    card.innerHTML = `<div class="keyhole">✦</div><h3>Практика откроется после теории</h3>
+      <p>Прочитай мини-теорию и поставь печать «Ознакомлен». Так главные мысли лучше отложатся в голове.</p>
+      <div class="nav"><a class="btn-gold" href="#theory">К мини-теории</a></div>`;
+    return;
+  }
+  if (!S.name || S.cur === 0) { introCard(card); return; }
+  const n = S.cur, st = STEPS[n];
+  let head = '';
+  if (welcome) { head += `<div class="banner">${esc(welcome)}</div>`; welcome = ''; }
+  const dots = Array.from({length:TOTAL}, (_, i) => {
+    const k = i + 1;
+    const enabled = k <= S.max && !(k === 12 && !S.sel.length);
+    return `<button type="button" data-k="${k}" ${enabled ? '' : 'disabled'} class="${k < S.max ? 'done' : ''}" ${k === n ? 'aria-current="step"' : ''} aria-label="Шаг ${k}">${k}</button>`;
+  }).join('');
+  head += `<div class="stepnav"><div class="lbl">${n <= TOTAL ? `Шаг ${n} из ${TOTAL}` : 'Финал'}</div><div class="dots">${dots}</div></div>`;
+  const title = typeof st.title === 'function' ? st.title() : st.title;
+  card.innerHTML = head + `<h3>${title}</h3>` + (st.html ? st.html() : '<div class="custom"></div>');
+  $$('.dots button', card).forEach(b => b.onclick = () => goStep(+b.dataset.k));
+  if (st.lists) {
+    const slots = $$('.slot', card);
+    st.lists.forEach((l, i) => slots[i].replaceWith(listBox(l)));
+  }
+  if (st.custom === 'select') customSelect($('.custom', card));
+  if (st.custom === 'people') customPeople($('.custom', card));
+  if (st.custom === 'final') customFinal($('.custom', card));
+
+  if (st.custom !== 'final') {
+    const nav = document.createElement('div');
+    nav.className = 'nav';
+    const err = document.createElement('div'); err.className = 'err';
+    if (n > 1) {
+      const back = document.createElement('button');
+      back.type = 'button'; back.className = 'btn-line'; back.textContent = 'Назад';
+      back.onclick = () => goStep(n === 13 && !S.sel.length ? 11 : n - 1);
+      nav.appendChild(back);
+    }
+    const next = document.createElement('button');
+    next.type = 'button'; next.className = 'btn-gold'; next.textContent = st.next;
+    next.onclick = () => {
+      const m = st.need ? st.need() : '';
+      if (m) { err.textContent = m; return; }
+      const target = n + 1;
+      S.max = Math.max(S.max, target);
+      goStep(target);
+    };
+    nav.appendChild(next);
+    card.appendChild(nav);
+    if (n === 11) {
+      const skip = document.createElement('div'); skip.className = 'nav'; skip.style.marginTop = '10px';
+      skip.innerHTML = '<button type="button" class="btn-text">Пропустить этот шаг</button>';
+      $('button', skip).onclick = () => { S.max = Math.max(S.max, 13); goStep(13); };
+      card.appendChild(skip);
+    }
+    card.appendChild(err);
+  }
+  const foot = document.createElement('div');
+  foot.innerHTML = `<p class="savestate"></p><button type="button" class="btn-text restart">Начать практику заново</button>`;
+  $('.restart', foot).onclick = restart;
+  card.appendChild(foot);
+}
+function goStep(k){
+  if (k === 12 && !S.sel.length) k = 11;
+  if (k > S.max) return;
+  S.cur = k; S.view = null; save();
+  renderWizard(true); updateScene();
+  const top = $('#wizard').getBoundingClientRect().top;
+  if (top < 0 || top > innerHeight * .7 || innerWidth <= 900) $('#practiceGrid').scrollIntoView({behavior:RM ? 'auto' : 'smooth', block:'start'});
+}
+function restart(){
+  if (!confirm('Стереть ответы практики, санкции и таблички и начать заново? Дневник и печать теории сохранятся.')) return;
+  const keep = {theory:S.theory, theoryDate:S.theoryDate, diary:S.diary, imsg:S.imsg};
+  S = Object.assign(blank(), keep); save();
+  renderWizard(true); renderState(); updateScene();
+  $('#practiceGrid').scrollIntoView({behavior:RM ? 'auto' : 'smooth'});
+}
+
+function introCard(card){
+  card.innerHTML = `<h3>Давай познакомимся</h3>
+    <p>Храм будет твоим, поэтому начнём с тебя.</p>
+    <div class="row2">
+      <div class="field"><label for="nm">Как тебя зовут?</label><input type="text" id="nm" autocomplete="given-name" placeholder="Имя" value="${esc(S.name)}"></div>
+      <div class="field"><label for="ag">Сколько тебе лет?</label><input type="number" id="ag" min="1" max="120" step="1" placeholder="35" value="${S.age || ''}"></div>
+    </div>
+    <div class="nav"><button type="button" class="btn-gold" id="go">Создать внешние личные границы</button></div>
+    <div class="err" id="goErr" aria-live="polite"></div>
+    <div class="nav" style="margin-top:14px"><button type="button" class="btn-text" id="exBtn" aria-expanded="false">Посмотреть пример таблички</button></div>
+    <div id="exBox" hidden style="margin-top:16px"></div>`;
+  const nm = $('#nm', card), ag = $('#ag', card), er = $('#goErr', card);
+  [nm, ag].forEach(i => i.oninput = () => er.textContent = '');
+  $('#go', card).onclick = () => {
+    const name = nm.value.trim(), age = Number(ag.value);
+    if (!name) { er.textContent = 'Впиши своё имя'; nm.focus(); return; }
+    if (!Number.isInteger(age) || age < 1 || age > 120) { er.textContent = 'Впиши возраст целым числом от 1 до 120'; ag.focus(); return; }
+    S.name = name; S.age = age; S.max = Math.max(S.max, 1); S.cur = 1;
+    $('#tName').textContent = name;
+    save(); renderWizard(true); updateScene();
+  };
+  $('#exBtn', card).onclick = e => {
+    const box = $('#exBox', card), open = box.hidden;
+    box.hidden = !open; e.target.setAttribute('aria-expanded', open);
+    e.target.textContent = open ? 'Скрыть пример' : 'Посмотреть пример таблички';
+    if (open && !box.innerHTML) box.innerHTML = plaqueHTML('Законы моей жизни', 'Анна, 34 года. Пример', EXAMPLE_BLOCKS);
+  };
+}
+
+function customSelect(box){
+  box.innerHTML = `<p>Базовая версия законов готова. Но с каждым человеком ты немного разный, а значит, разным людям можно разное: супругу можно то, что нельзя детям, а детям то, что нельзя самому близкому другу.</p>
+    <p>Выбери людей, для которых хочешь добавить отдельные важные правила и детализировать свои границы.</p>
+    <div class="pick"></div>
+    <p class="q" style="font-size:22px">Нет нужного человека?</p>
+    <div class="lb"><div class="lb-row"><input type="text" placeholder="Имя или роль: тренер, свекровь" aria-label="Добавить человека"><button type="button" class="add">Добавить</button></div><div class="err"></div></div>`;
+  const pick = $('.pick', box);
+  const all = () => [...PEOPLE, ...S.custom];
+  const draw = () => {
+    pick.innerHTML = all().map(p => `<button type="button" data-id="${p.id}" aria-pressed="${S.sel.includes(p.id)}">${esc(p.label)}</button>`).join('');
+    $$('button', pick).forEach(b => b.onclick = () => {
+      const id = b.dataset.id;
+      S.sel = S.sel.includes(id) ? S.sel.filter(x => x !== id) : [...S.sel, id];
+      save(); draw(); updateScene();
+      const ce = $('#wizard .card > .err'); if (ce) ce.textContent = '';
+      const d = $('.dots button[data-k="12"]'); if (d) d.disabled = !(S.sel.length && S.max >= 12);
+    });
+  };
+  const inp = $('input', box), err = $('.err', box);
+  const add = () => {
+    const v = inp.value.trim();
+    if (!v) { err.textContent = 'Впиши имя или роль'; return; }
+    if (all().some(p => p.label.toLowerCase() === v.toLowerCase())) { err.textContent = 'Такой человек уже есть в списке'; return; }
+    const id = 'c' + Date.now();
+    S.custom.push({id, label:v}); S.sel.push(id); inp.value = ''; err.textContent = '';
+    const ce = $('#wizard .card > .err'); if (ce) ce.textContent = '';
+    save(); draw(); updateScene();
+  };
+  $('.add', box).onclick = add;
+  inp.onkeydown = e => { if (e.key === 'Enter') { e.preventDefault(); add(); } };
+  inp.oninput = () => err.textContent = '';
+  draw();
+}
+
+function customPeople(box){
+  box.innerHTML = `<p>Добавь детали для каждого выбранного человека. Не обязательно заполнять всё: пиши то, что откликается.</p>
+    <div class="tabs" role="tablist" aria-label="Важные люди"></div><div class="ptab"></div>`;
+  const tabs = $('.tabs', box), panel = $('.ptab', box);
+  let cur = S.sel[0];
+  const drawTabs = () => {
+    tabs.innerHTML = S.sel.map(id => `<button type="button" class="tab" role="tab" aria-selected="${id === cur}" data-id="${id}">${esc(pDef(id).label)}${pCount(id) ? `<span class="cnt">${pCount(id)}</span>` : ''}</button>`).join('');
+    $$('.tab', tabs).forEach(b => b.onclick = () => { cur = b.dataset.id; clearHints('wiz'); drawTabs(); drawPanel(); });
+  };
+  const drawPanel = () => {
+    const p = pDef(cur), d = pData(cur), L = p.label;
+    panel.innerHTML = `
+      <div class="zone-tag" style="--c:var(--z1)">Можно, и мне приятно</div><div class="s1"></div>
+      <div class="zone-tag" style="--c:var(--z3)">Неприятно</div><div class="s2"></div>
+      <div class="zone-tag" style="--c:var(--z4)">Категорически недопустимо</div><div class="s3"></div>`;
+    $('.s1', panel).replaceWith(listBox({get:() => d.ok, label:L + ': приятно', ph:'Впиши поведение', hints:p.ok || [], onChange:drawTabs}));
+    $('.s2', panel).replaceWith(listBox({get:() => d.bad, label:L + ': неприятно', ph:'Впиши поведение', hints:p.bad || [], stagger:4000, onChange:drawTabs}));
+    $('.s3', panel).replaceWith(listBox({get:() => d.no, label:L + ': категорически недопустимо', ph:'Впиши поведение', hints:p.no || [], stagger:8000, onChange:drawTabs}));
+  };
+  drawTabs(); drawPanel();
+}
+
+function customFinal(box){
+  box.innerHTML = `<p>${esc(S.name)}, теперь у твоего храма есть забор, защищающий от нападок, ворота со знаками, кому можно входить, а кому нет, правила посещения, которые важно чтить, и своя книга понятных правил.</p>
+    <p>Но законы работают только тогда, когда за их нарушение что-то следует. Следующий шаг — государство и последствия.</p>
+    <div class="callout"><b>И про взаимность</b>Спроси близкого человека: «А какие правила у тебя?» Так вы узнаете храмы друг друга заранее, а не после ссоры.</div>
+    <div class="nav">
+      <button type="button" class="btn-line back">Назад</button>
+      <a class="btn-gold" href="#state">Перейти к последствиям</a>
+    </div>`;
+  $('.back', box).onclick = () => goStep(13);
+}
+
+/* ---------- Scene ---------- */
+const VIEWS = [['out','Снаружи',1],['yard','Двор',5],['in','Зал',8],['altar','Алтарная',10]];
+function autoView(c){ return c >= 5 && c <= 7 ? 'yard' : c >= 8 && c <= 9 ? 'in' : c === 10 ? 'altar' : 'out'; }
+function signOn(id, on){
+  const el = document.getElementById(id);
+  el.classList.toggle('on', !!on);
+  el.setAttribute('tabindex', on ? '0' : '-1');
+}
+function updateScene(){
+  const sc = $('#scene'), started = S.theory && S.name && S.max >= 1, m = started ? S.max : 0, c = started ? S.cur : 0;
+  let view = S.view || autoView(c);
+  const avail = VIEWS.filter(v => m >= v[2]).map(v => v[0]);
+  if (!avail.includes(view)) view = 'out';
+  ['out','yard','in','altar'].forEach(v => sc.classList.toggle('v-' + v, v === view));
+  const tg = (k, on) => sc.classList.toggle(k, !!on);
+  tg('started', m >= 1); tg('fence', m >= 2);
+  tg('gateOpen', m >= 2 && S.inYes.length && !(m >= 3 && S.inNo.length));
+  tg('book', m >= 10);
+  tg('altarOpen', m >= 11);
+  tg('final', m >= FINAL);
+  tg('warm1', m >= 10 && (S.altarWho.length || S.altarRules.length));
+  tg('warm2', m >= 10 && S.altarWho.length && S.altarRules.length);
+
+  signOn('sgYes', m >= 2 && S.inYes.length);
+  signOn('sgNo', m >= 3 && S.inNo.length);
+  signOn('sgBrick', m >= 4 && S.no.length);
+  signOn('sgSanc', S.pass2 && S.lv.some(Boolean));
+  signOn('sgRules', m >= 5 && allBad().length);
+
+  const bad = allBad();
+  const total = S.inYes.length + S.inNo.length + S.no.length + bad.length + S.ok.length + S.altarWho.length + S.altarRules.length;
+  const lw = m >= FINAL ? 4 : Math.min(4, Math.floor(total / 4));
+  for (let i = 0; i < 4; i++) document.getElementById('w' + i).classList.toggle('lit', i < lw);
+  ['yw0','yw1'].forEach((id, i) => document.getElementById(id).classList.toggle('lit', i < Math.ceil(lw / 2)));
+  const lc = m >= 9 ? 7 : Math.min(7, S.ok.length);
+  $$('#candles .cd').forEach((g, i) => g.classList.toggle('lit', i < lc));
+  $('#cdA').classList.toggle('lit', m >= 10 && S.altarWho.length > 0);
+  $('#cdB').classList.toggle('lit', m >= 10 && S.altarRules.length > 0);
+  const figs = m >= 11 ? Math.min(6, S.sel.length) : 0;
+  $$('#figs .fig').forEach((f, i) => f.classList.toggle('on', i < figs));
+
+  const views = $('#views');
+  views.hidden = avail.length < 2;
+  views.innerHTML = VIEWS.filter(v => avail.includes(v[0])).map(v => `<button type="button" data-v="${v[0]}" aria-pressed="${v[0] === view}">${v[1]}</button>`).join('');
+  $$('button', views).forEach(b => b.onclick = () => { S.view = b.dataset.v; closePop(); save(); updateScene(); });
+
+  const altarLit = (S.altarWho.length ? 1 : 0) + (S.altarRules.length ? 1 : 0);
+  const byStep = {
+    0:'Здесь появится твой храм',
+    1:`Храму ${S.age} ${yw(S.age)}, как и тебе`,
+    2:S.inYes.length ? 'Ворота открыты для своих' : 'Ворота ждут твоего решения',
+    3:S.inNo.length ? 'Ворота закрыты для чужих' : 'Кому вход закрыт',
+    4:'Знак «Запрещено»',
+    5:'Внутренний двор храма', 6:'Внутренний двор храма', 7:'Внутренний двор храма',
+    8:`Горит свечей: ${lc} из 7`, 9:'Книга правил храма',
+    10:`Алтарная. Горит свечей: ${altarLit} из 2`,
+    11:'Особые гости', 12:'Особые гости', 13:'Путь к восстановлению доверия', 14:'Твой храм под защитой'
+  };
+  const byView = {out:'Храм снаружи', yard:'Внутренний двор', in:`Зал храма. Горит свечей: ${lc} из 7`, altar:`Алтарная. Горит свечей: ${altarLit} из 2`};
+  $('#cap').textContent = S.view && S.view !== autoView(c) ? byView[view] : (byStep[c] || byStep[0]);
+  const anySign = ['sgYes','sgNo','sgBrick','sgSanc'].some(id => document.getElementById(id).classList.contains('on'));
+  $('#sceneHint').textContent = view === 'out' && anySign ? 'Нажми на знак, чтобы увидеть список'
+    : view === 'yard' && bad.length ? 'Нажми на табличку «Правила посещения»' : '';
+}
+
+/* ---------- Sign popover ---------- */
+const SIGNS = {
+  yes:() => ({t:'Можно войти', groups:[['', S.inYes]]}),
+  no:() => ({t:'Вход закрыт', groups:[['', S.inNo]]}),
+  brick:() => ({t:'Запрещено', groups:[['', S.no]]}),
+  rules:() => ({t:'Правила посещения', groups:BAD_GROUPS.map(g => [g[2], S[g[0]]])}),
+  sanc:() => ({t:'Последствия', groups:[['По нарастающей', S.lv.map((v, i) => v && `${i + 1}. ${up(v)}`).filter(Boolean)], ['Особые', S.special.map(specialText)]]})
+};
+let popFrom = null;
+function openPop(key, from){
+  const d = SIGNS[key]();
+  $('#popT').textContent = d.t;
+  const groups = d.groups.filter(g => g[1].length);
+  $('#popB').innerHTML = groups.length ? groups.map(g => `${g[0] ? `<div class="psub">${esc(g[0])}</div>` : ''}<ul>${g[1].map(t => `<li>${esc(t)}</li>`).join('')}</ul>`).join('') : '<p class="pop-empty">Пока пусто</p>';
+  $('#pop').hidden = false;
+  popFrom = from;
+  $('#popX').focus();
+}
+function closePop(){
+  const p = $('#pop'); if (!p || p.hidden) return;
+  p.hidden = true;
+  if (popFrom && popFrom.classList.contains('on')) popFrom.focus();
+  popFrom = null;
+}
+function initSigns(){
+  $$('[data-sign]').forEach(el => {
+    el.setAttribute('tabindex', '-1');
+    const open = () => { if (el.classList.contains('on')) openPop(el.dataset.sign, el); };
+    el.addEventListener('click', e => { e.stopPropagation(); open(); });
+    el.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(); } });
+  });
+  $('#popX').onclick = closePop;
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closePop(); });
+  document.addEventListener('click', e => { if (!$('#pop').hidden && !e.target.closest('#pop')) closePop(); });
+}
+
+/* ---------- State: passport, sanctions, special ---------- */
+function stampOn(id, on){ const e = $('#' + id); e.classList.toggle('on', on); e.parentElement.classList.toggle('done', on); }
+function stampPass(ids){ ids.forEach((id, i) => setTimeout(() => stampOn(id, true), RM ? 0 : i * 500)); }
+const specialText = x => x.rule ? `${up(x.rule)} → ${low(x.sanction)}` : up(x.sanction);
+function initState(){
+  $('#pass1Btn').onclick = () => {
+    S.pass1 = true; save(); stampPass(['ps1','ps2']);
+    $('#pass1Btn').hidden = true; $('#sanctions').hidden = false;
+    renderRulesSummary();
+    setTimeout(() => $('#sanctions').scrollIntoView({behavior:RM ? 'auto' : 'smooth', block:'start'}), RM ? 0 : 1300);
+  };
+  $('#pass2Btn').onclick = () => {
+    if (!S.lv[0].trim() || !S.lv[1].trim() || !S.lv[4].trim()) { $('#pass2Err').textContent = 'Заполни хотя бы ступени 1, 2 и 5'; return; }
+    $('#pass2Err').textContent = '';
+    const firstTime = !S.pass2;
+    S.pass2 = true; save(); stampPass(['ps3','ps4']); updateScene();
+    $('#pass2Btn').textContent = 'Санкции закреплены';
+    $('#specialBox').hidden = false; drawSpecial();
+    if (firstTime) setTimeout(() => $('.passport').scrollIntoView({behavior:RM ? 'auto' : 'smooth', block:'center'}), RM ? 0 : 200);
+  };
+  $('#spAdd').onclick = () => {
+    const rule = $('#spRule').value, sanc = $('#spSanc').value.trim();
+    if (!rule) { $('#spErr').textContent = 'Выбери правило из списка'; return; }
+    if (!sanc) { $('#spErr').textContent = 'Впиши, что ты сделаешь при нарушении'; $('#spSanc').focus(); return; }
+    S.special.push({rule, sanction:sanc}); $('#spSanc').value = ''; $('#spErr').textContent = ''; $('#spNote').textContent = '';
+    save(); drawSpecial(); updateScene();
+  };
+  $('#spSanc').onkeydown = e => { if (e.key === 'Enter') { e.preventDefault(); $('#spAdd').click(); } };
+  $('#spSanc').oninput = $('#spRule').onchange = () => $('#spErr').textContent = '';
+  $('#spSave').onclick = () => { save(); $('#spNote').textContent = S.special.length ? 'Особые последствия запомнены' : 'Пока нечего запоминать: добавь хотя бы одно последствие'; };
+  $('#state details.myrules').addEventListener('toggle', e => { if (e.target.open) renderRulesSummary(); });
+  renderState();
+}
+function renderRulesSummary(){
+  const block = (title, col, items) => `<div style="--c:${col}"><b>${title}</b>${items.length ? `<ul>${items.map(t => `<li>${esc(t)}</li>`).join('')}</ul>` : '<span class="empty">Пока пусто</span>'}</div>`;
+  $('#myRules').innerHTML = block('Категорически недопустимо', 'var(--z4)', S.no) + BAD_GROUPS.map(g => block(g[1], 'var(--z3)', S[g[0]])).join('');
+}
+function drawSpecial(){
+  const sel = $('#spRule');
+  const groups = [['Категорически недопустимо', S.no], ...BAD_GROUPS.map(g => [g[1], S[g[0]]])].filter(g => g[1].length);
+  sel.innerHTML = `<option value="">${groups.length ? 'Выбери правило' : 'Сначала заполни правила в практике'}</option>` +
+    groups.map(g => `<optgroup label="${esc(g[0])}">${g[1].map(t => `<option value="${esc(t)}">${esc(t)}</option>`).join('')}</optgroup>`).join('');
+  const ul = $('#spList');
+  ul.innerHTML = S.special.length ? S.special.map((x, i) => `<li><span>${x.rule ? `<b>${esc(up(x.rule))}</b> → ${esc(low(x.sanction))}` : esc(up(x.sanction))}</span><button type="button" data-i="${i}" aria-label="Убрать">убрать</button></li>`).join('')
+    : '<li class="empty">Особых последствий пока нет</li>';
+  $$('button', ul).forEach(b => b.onclick = () => { S.special.splice(+b.dataset.i, 1); save(); drawSpecial(); updateScene(); });
+}
+function renderState(){
+  stampOn('ps1', S.pass1); stampOn('ps2', S.pass1); stampOn('ps3', S.pass2); stampOn('ps4', S.pass2);
+  $('#pass1Btn').hidden = S.pass1;
+  $('#sanctions').hidden = !S.pass1;
+  $('#specialBox').hidden = !S.pass2;
+  $('#pass2Btn').textContent = S.pass2 ? 'Санкции закреплены' : 'Закрепить санкции';
+  const lad = $('#ladder');
+  lad.innerHTML = LEVELS.map((l, i) => `<div class="lrow" style="--c:${l.col}"><div class="lnum">${i + 1}</div>
+    <div class="lcountry">${l.c}${l.s ? `<small>${l.s}</small>` : ''}</div>
+    <input type="text" data-i="${i}" aria-label="Ступень ${i + 1}: как это будет у тебя" placeholder="${esc(l.ph)}" value="${esc(S.lv[i])}"></div>`).join('');
+  $$('input', lad).forEach(inp => inp.oninput = () => { S.lv[+inp.dataset.i] = inp.value; $('#pass2Err').textContent = ''; save(); updateScene(); });
+  renderRulesSummary();
+  drawSpecial();
+}
+
+/* ---------- I-message ---------- */
+function initImsg(){
+  const keys = ['when','feel','because','ask','then'];
+  const draw = () => {
+    const m = S.imsg, p = $('#imPrev');
+    if (!m.when && !m.feel && !m.because && !m.ask) { p.textContent = 'Заполни поля, и здесь появится твоя фраза'; p.classList.add('empty'); return; }
+    const parts = [];
+    let first = '';
+    if (m.when) first += `Когда ты ${m.when}`;
+    if (m.feel) first += `${m.when ? ', я чувствую' : 'Я чувствую'} ${m.feel}`;
+    if (m.because) first += `${first ? ', потому что' : 'Потому что'} мне важно ${m.because}`;
+    if (first) parts.push(first + '.');
+    if (m.ask) parts.push(`Я прошу ${m.ask}.`);
+    if (m.then) parts.push(`Если это повторится, я ${m.then}.`);
+    p.textContent = '«' + parts.join(' ') + '»';
+    p.classList.remove('empty');
+  };
+  keys.forEach(k => { const i = $('#im-' + k); i.value = S.imsg[k] || ''; i.oninput = () => { S.imsg[k] = i.value.trim(); save(); draw(); }; });
+  $('#imCopy').onclick = async () => {
+    const p = $('#imPrev');
+    if (p.classList.contains('empty')) { $('#imNote').textContent = 'Сначала заполни поля'; return; }
+    try { await navigator.clipboard.writeText(p.textContent); $('#imNote').textContent = 'Фраза скопирована'; }
+    catch(e) { $('#imNote').textContent = 'Не получилось скопировать. Выдели фразу вручную'; }
+  };
+  draw();
+}
+
+/* ---------- Plaques ---------- */
+const EXAMPLE_BLOCKS = [
+  {type:'cols', cols:[{t:'Кого впускаю', c:C.z1, items:['Честных','Тех, кто держит слово']}, {t:'Кого не впускаю', c:C.z4, items:['Кто давит и манипулирует','Завистливых']}]},
+  {type:'list', t:'Приятно', c:C.z1, items:['Спрашивать о моих желаниях','Поддерживать, когда трудно']},
+  {type:'groups', t:'Неприятно', c:C.z3, groups:[['Раздражает и вызывает гнев', ['Опаздывать без предупреждения','Давать советы без запроса']], ['Оставляет осадок и разочарование', ['Не выполнять обещания']]]},
+  {type:'list', t:'Категорически недопустимо', c:C.z4, items:['Поднимать на меня руку','Выдавать мои секреты']},
+  {type:'list', t:'Последствия', c:C.gold, items:['1. Спокойно говорю о своём правиле','2. Заканчиваю встречу и ухожу','5. Навсегда прекращаю общение']},
+  {type:'list', t:'Как восстанавливать доверие', c:C.gold, items:['Искренне извиниться','Договориться, как будем дальше']},
+  {type:'div', t:'PS'},
+  {type:'list', t:'Алтарная открыта для', c:C.gold, items:['Муж','Лучшая подруга']}
+];
+function generalBlocks(){
+  const B = [];
+  const list = (t, c, items) => { items = (items || []).filter(Boolean); if (items.length) B.push({type:'list', t, c, items}); };
+  if (S.inYes.length || S.inNo.length) B.push({type:'cols', cols:[{t:'Кого впускаю', c:C.z1, items:S.inYes}, {t:'Кого не впускаю', c:C.z4, items:S.inNo}]});
+  list('Приятно', C.z1, S.ok);
+  const g = BAD_GROUPS.map(x => [x[2], S[x[0]]]).filter(x => x[1].length);
+  if (g.length) B.push({type:'groups', t:'Неприятно', c:C.z3, groups:g});
+  list('Категорически недопустимо', C.z4, S.no);
+  list('Последствия', C.gold, S.lv.map((v, i) => v && `${i + 1}. ${up(v)}`));
+  list('Особые последствия', C.gold, S.special.map(specialText));
+  list('Как восстанавливать доверие', C.gold, S.repair);
+  if (S.altarWho.length || S.altarRules.length) {
+    B.push({type:'div', t:'PS'});
+    list('Алтарная открыта для', C.gold, S.altarWho);
+    list('Правила алтарной', C.gold, S.altarRules);
+  }
+  return B;
+}
+function personBlocks(id){
+  const d = S.people[id] || {ok:[], bad:[], no:[]}, B = [];
+  const list = (t, c, items) => { if (items && items.length) B.push({type:'list', t, c, items}); };
+  list('Можно, и мне приятно', C.z1, d.ok);
+  list('Неприятно', C.z3, d.bad);
+  list('Категорически недопустимо', C.z4, d.no);
+  return B;
+}
+const ulHTML = items => `<ul>${items.map(t => `<li>${esc(t)}</li>`).join('')}</ul>`;
+function blockHTML(b){
+  if (b.type === 'div') return `<div class="pdiv">${esc(b.t)}</div>`;
+  if (b.type === 'cols') return `<div class="pcols">${b.cols.map(c => `<div class="pb" style="--c:${c.c}"><h5>${esc(c.t)}</h5>${c.items.length ? ulHTML(c.items) : '<p class="pempty">Пока пусто</p>'}</div>`).join('')}</div>`;
+  if (b.type === 'groups') return `<div class="pb" style="--c:${b.c}"><h5>${esc(b.t)}</h5>${b.groups.map(g => `<div class="psub">${esc(g[0])}</div>${ulHTML(g[1])}`).join('')}</div>`;
+  return `<div class="pb" style="--c:${b.c}"><h5>${esc(b.t)}</h5>${ulHTML(b.items)}</div>`;
+}
+function plaqueHTML(title, sub, blocks, small){
+  const body = blocks.length ? blocks.map(blockHTML).join('') : '<p class="pempty">Табличка пока пустая</p>';
+  return `<div class="plaque${small ? ' small' : ''}"><div class="pt">${esc(title)}</div><div class="ps">${esc(sub)}</div>${body}</div>`;
+}
+function blocksText(blocks){
+  return blocks.map(b => {
+    if (b.type === 'div') return '— ' + b.t + ' —';
+    if (b.type === 'cols') return b.cols.filter(c => c.items.length).map(c => c.t + '\n' + c.items.map(t => '  — ' + t).join('\n')).join('\n\n');
+    if (b.type === 'groups') return b.t + '\n' + b.groups.map(g => '  ' + g[0] + ':\n' + g[1].map(t => '    — ' + t).join('\n')).join('\n');
+    return b.t + '\n' + b.items.map(t => '  — ' + t).join('\n');
+  }).join('\n\n');
+}
+function allPlaques(){
+  const who = S.name ? `${S.name}${S.age ? `, ${S.age} ${yw(S.age)}` : ''}` : '';
+  const list = [{title:'Законы моей жизни', sub:who, blocks:generalBlocks(), file:'zakony-moej-zhizni.png', main:true}];
+  S.sel.forEach((id, i) => {
+    const b = personBlocks(id);
+    if (b.length) list.push({title:pDef(id).label, sub:`Особые правила${who ? '. ' + who : ''}`, blocks:b, file:`pravila-${i + 1}.png`});
+  });
+  return list;
+}
+let resTimer;
+function scheduleResults(){ clearTimeout(resTimer); resTimer = setTimeout(renderResults, 250); }
+function renderResults(){
+  const box = $('#resultsBox');
+  const P = allPlaques();
+  if (!P[0].blocks.length) {
+    box.innerHTML = `<p class="empty">Здесь появятся твои границы, когда ты начнёшь практику.</p><div class="nav"><a class="btn-line" href="#practice">К практике</a></div>`;
+    return;
+  }
+  const item = (p, i) => `<div class="res-item">${plaqueHTML(p.title, p.sub, p.blocks, !p.main)}
+    ${p.main ? `<div class="res-actions"><button type="button" class="btn-gold" data-img="0">Сохранить картинкой</button><button type="button" class="btn-line" id="printAll">Распечатать всю табличку</button><button type="button" class="btn-line" id="txtAll">Скачать текстом</button></div>`
+      : `<div class="res-actions"><button type="button" class="btn-line" data-img="${i}">Сохранить картинкой</button></div>`}
+    <p class="note" id="rn-${i}"></p><div class="preview" id="rp-${i}"></div></div>`;
+  box.innerHTML = `<div class="res-main">${item(P[0], 0)}</div>
+    ${P.length > 1 ? `<div class="head" style="margin:0"><h3>Правила для важных людей</h3></div><div class="res-grid">${P.slice(1).map((p, i) => item(p, i + 1)).join('')}</div>` : ''}`;
+  $$('[data-img]', box).forEach(b => b.onclick = () => { const i = +b.dataset.img; exportImage(P[i], $('#rn-' + i), $('#rp-' + i)); });
+  $('#printAll').onclick = () => { $('#printArea').innerHTML = P.map(p => plaqueHTML(p.title, p.sub, p.blocks)).join(''); window.print(); };
+  $('#txtAll').onclick = () => {
+    download('moi-granitsy.txt', P.map(p => `${p.title}\n${p.sub}\n\n${blocksText(p.blocks)}`).join('\n\n\n'), $('#rn-0'));
+  };
+}
+let dlNs = null;
+(async () => { try { if (window.claude && typeof window.claude.use === 'function') dlNs = await window.claude.use('downloads'); } catch(e) { dlNs = null; } })();
+async function saveFile(name, data, note, fallbackMsg){
+  if (dlNs) {
+    try { await dlNs.save({filename:name, data}); if (note) note.textContent = 'Файл сохранён'; return; }
+    catch(e) {
+      const code = e && e.code;
+      if (note) note.textContent = code === 'declined' ? 'Сохранение отменено' : code === 'rate_limited' ? 'Окно сохранения уже открыто, попробуй чуть позже' : (fallbackMsg || 'Не получилось сохранить файл');
+      return;
+    }
+  }
+  try {
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(typeof data === 'string' ? new Blob([data], {type:'text/plain;charset=utf-8'}) : data);
+    a.download = name; document.body.appendChild(a); a.click(); a.remove();
+    if (note) note.textContent = fallbackMsg || 'Файл скачан';
+  } catch(e) { if (note) note.textContent = fallbackMsg || 'Не получилось сохранить файл'; }
+}
+function download(name, text, note){ return saveFile(name, text, note); }
+async function exportImage(p, note, preview){
+  note.textContent = 'Рисую табличку…';
+  try { await document.fonts.ready; } catch(e) {}
+  const W = 1080, M = 110, IW = W - 2 * M;
+  const serif = 'Cormorant, Georgia, serif', sans = 'Manrope, Arial, sans-serif';
+  const F = {title:`600 60px ${serif}`, h:`600 36px ${serif}`, item:`400 26px ${sans}`, sub:`italic 500 22px ${sans}`, div:`600 32px ${serif}`};
+  const c = document.createElement('canvas'), x = c.getContext('2d');
+  const wrap = (t, font, maxW) => {
+    x.font = font; const out = []; let line = '';
+    String(t).split(' ').forEach(w => { const s = line ? line + ' ' + w : w; if (x.measureText(s).width > maxW && line) { out.push(line); line = w; } else line = s; });
+    if (line) out.push(line); return out;
+  };
+  const ops = [];
+  const titleLines = wrap(p.title, F.title, IW - 60);
+  let y = 200 + (titleLines.length - 1) * 64 + 136;
+  const listOps = (items, cx, maxW, y0) => {
+    let yy = y0;
+    items.forEach(it => { wrap(it, F.item, maxW).forEach(l => { ops.push({k:'t', f:F.item, col:'#2A1D2A', t:l, x:cx, y:yy}); yy += 36; }); yy += 4; });
+    return yy;
+  };
+  p.blocks.forEach(b => {
+    if (b.type === 'div') { ops.push({k:'div', t:b.t, y:y + 6}); y += 64; return; }
+    if (b.type === 'cols') {
+      const cw = IW / 2 - 16; let maxY = y;
+      b.cols.forEach((col, i) => {
+        const cx = M + cw / 2 + i * (IW / 2 + 16);
+        ops.push({k:'h', t:col.t, c:col.c, x:cx, y});
+        const ey = listOps(col.items.length ? col.items : ['—'], cx, cw, y + 46);
+        maxY = Math.max(maxY, ey);
+      });
+      y = maxY + 30; return;
+    }
+    ops.push({k:'h', t:b.t, c:b.c, x:W / 2, y}); y += 46;
+    if (b.type === 'groups') {
+      b.groups.forEach(g => { ops.push({k:'t', f:F.sub, col:'#6B5B69', t:g[0], x:W / 2, y:y + 4}); y += 38; y = listOps(g[1], W / 2, IW - 40, y); y += 6; });
+    } else y = listOps(b.items, W / 2, IW - 40, y);
+    y += 30;
+  });
+  const H = y + 130;
+  c.width = W; c.height = H;
+  x.fillStyle = '#1C1320'; x.fillRect(0, 0, W, H);
+  const px = 40, pw = W - 80, archY = 250, top = 40;
+  const shape = inset => {
+    x.beginPath();
+    x.moveTo(px + inset, H - 60 - inset);
+    x.lineTo(px + inset, archY);
+    x.ellipse(W / 2, archY, pw / 2 - inset, archY - top - inset, 0, Math.PI, 2 * Math.PI);
+    x.lineTo(px + pw - inset, H - 60 - inset);
+    x.quadraticCurveTo(px + pw - inset, H - 40 - inset, px + pw - 20 - inset, H - 40 - inset);
+    x.lineTo(px + 20 + inset, H - 40 - inset);
+    x.quadraticCurveTo(px + inset, H - 40 - inset, px + inset, H - 60 - inset);
+    x.closePath();
+  };
+  shape(0); x.fillStyle = '#F3ECE1'; x.fill(); x.lineWidth = 6; x.strokeStyle = '#C9A56A'; x.stroke();
+  shape(16); x.lineWidth = 1.5; x.strokeStyle = '#D2BD8E'; x.stroke();
+  x.textAlign = 'center'; x.fillStyle = '#2A1D2A'; x.font = F.title;
+  titleLines.forEach((l, i) => x.fillText(l, W / 2, 200 + i * 64));
+  x.font = `500 24px ${sans}`; x.fillStyle = '#6B5B69';
+  x.fillText(p.sub, W / 2, 200 + (titleLines.length - 1) * 64 + 50);
+  ops.forEach(o => {
+    if (o.k === 'h') {
+      x.font = F.h; const tw = x.measureText(o.t).width;
+      x.fillStyle = o.c; x.beginPath(); x.arc(o.x - tw / 2 - 16, o.y - 11, 7, 0, Math.PI * 2); x.fill();
+      x.fillStyle = '#2A1D2A'; x.fillText(o.t, o.x + 4, o.y);
+    } else if (o.k === 'div') {
+      x.font = F.div; const tw = x.measureText(o.t).width;
+      x.strokeStyle = '#D2BD8E'; x.lineWidth = 1.5;
+      x.beginPath(); x.moveTo(M, o.y - 10); x.lineTo(W / 2 - tw / 2 - 20, o.y - 10); x.moveTo(W / 2 + tw / 2 + 20, o.y - 10); x.lineTo(W - M, o.y - 10); x.stroke();
+      x.fillStyle = '#B8914F'; x.fillText(o.t, W / 2, o.y);
+    } else { x.font = o.f; x.fillStyle = o.col; x.fillText(o.t, o.x, o.y); }
+  });
+  x.fillStyle = '#B8914F'; x.font = `italic 500 30px ${serif}`; x.fillText('MaxMagia', W / 2, H - 84);
+  const url = c.toDataURL('image/png');
+  preview.innerHTML = `<img src="${url}" alt="${esc(p.title)}">`;
+  const blob = await new Promise(r => c.toBlob(r, 'image/png'));
+  const manual = 'Если файл не сохранился, сохрани картинку ниже: правый клик или долгое нажатие';
+  if (!blob) { note.textContent = manual; return; }
+  await saveFile(p.file, blob, note, manual);
+}
+
+/* ---------- Diary ---------- */
+const ZONE_NAME = {bad:'Неприятно', no:'Недопустимо', unsure:'Пока не понимаю'};
+const fmtDate = iso => new Date(iso).toLocaleDateString('ru-RU', {day:'numeric', month:'long', hour:'2-digit', minute:'2-digit'});
+function initDiary(){
+  const feel = $('#d-feel'); let picked = [];
+  feel.innerHTML = FEELINGS.map(f => `<button type="button" aria-pressed="false">${f}</button>`).join('');
+  $$('button', feel).forEach(b => b.onclick = () => {
+    const on = b.getAttribute('aria-pressed') !== 'true';
+    b.setAttribute('aria-pressed', on);
+    picked = on ? [...picked, b.textContent] : picked.filter(x => x !== b.textContent);
+  });
+  const rng = $('#d-int'); rng.oninput = () => $('#d-int-v').textContent = rng.value;
+  const ids = ['d-who','d-what','d-fact','d-react','d-end','d-better'];
+  ids.forEach(id => $('#' + id).addEventListener('input', () => $('#d-err').textContent = ''));
+  $('#diaryForm').onsubmit = e => {
+    e.preventDefault();
+    const v = id => $('#' + id).value.trim();
+    if (!v('d-who') || !v('d-what')) { $('#d-err').textContent = 'Заполни хотя бы, кто нарушил границы и что сделал'; return; }
+    S.diary.unshift({date:new Date().toISOString(), who:v('d-who'), what:v('d-what'), zone:$('#d-zone').value,
+      feel:picked.slice(), intensity:+rng.value, fact:v('d-fact'), react:v('d-react'), end:v('d-end'), better:v('d-better')});
+    save();
+    ids.forEach(id => $('#' + id).value = '');
+    picked = []; $$('button', feel).forEach(b => b.setAttribute('aria-pressed', 'false'));
+    rng.value = 5; $('#d-int-v').textContent = '5';
+    drawDiary(); $('#diaryNote').textContent = 'Запись сохранена';
+  };
+  $('#diaryExport').onclick = () => {
+    if (!S.diary.length) { $('#diaryNote').textContent = 'Дневник пока пустой'; return; }
+    download('dnevnik-granic.txt', S.diary.map(e => [`${fmtDate(e.date)}. ${e.who}`, `Что сделал(а): ${e.what}`, `Зона: ${ZONE_NAME[e.zone]}`,
+      e.feel.length && `Чувства: ${e.feel.join(', ')} (${e.intensity} из 10)`, e.fact && `Факт или догадка: ${e.fact}`,
+      e.react && `Моя реакция: ${e.react}`, e.end && `Чем кончилось: ${e.end}`, e.better && `Как стоило: ${e.better}`].filter(Boolean).join('\n')).join('\n\n———\n\n'), $('#diaryNote'));
+  };
+  drawDiary();
+}
+function drawDiary(){
+  const box = $('#entries'), pat = $('#pattern');
+  if (!S.diary.length) { box.innerHTML = '<p class="empty">Записей пока нет. Первая появится здесь.</p>'; pat.innerHTML = ''; return; }
+  const counts = {};
+  S.diary.forEach(e => { const k = e.who.toLowerCase(); counts[k] = counts[k] || {n:0, name:e.who}; counts[k].n++; });
+  const top = Object.values(counts).sort((a, b) => b.n - a.n)[0];
+  const fc = {}; S.diary.forEach(e => e.feel.forEach(f => fc[f] = (fc[f] || 0) + 1));
+  const topF = Object.entries(fc).sort((a, b) => b[1] - a[1])[0];
+  pat.innerHTML = S.diary.length >= 2 ? `<div class="pattern">Записей: ${S.diary.length}. ${top.n > 1 ? `Чаще всего границы нарушает: <b>${esc(up(top.name))}</b> (${top.n}).` : ''} ${topF ? `Самое частое чувство: <b>${esc(topF[0].toLowerCase())}</b>.` : ''}</div>` : '';
+  box.innerHTML = S.diary.map((e, i) => `<div class="entry"><div class="entry-h"><b>${esc(e.who)}</b><small>${fmtDate(e.date)}</small></div>
+    <dl><dt>Что сделал(а)</dt><dd>${esc(e.what)}</dd><dt>Зона</dt><dd>${ZONE_NAME[e.zone]}</dd>
+    ${e.feel.length ? `<dt>Чувства</dt><dd>${esc(e.feel.join(', '))}, ${e.intensity} из 10</dd>` : ''}
+    ${e.fact ? `<dt>Факт или догадка</dt><dd>${esc(e.fact)}</dd>` : ''}
+    ${e.react ? `<dt>Моя реакция</dt><dd>${esc(e.react)}</dd>` : ''}
+    ${e.end ? `<dt>Чем кончилось</dt><dd>${esc(e.end)}</dd>` : ''}
+    ${e.better ? `<dt>Как стоило</dt><dd>${esc(e.better)}</dd>` : ''}</dl>
+    <button type="button" class="btn-text" data-i="${i}">Удалить запись</button></div>`).join('');
+  $$('[data-i]', box).forEach(b => b.onclick = () => { if (!confirm('Удалить эту запись?')) return; S.diary.splice(+b.dataset.i, 1); save(); drawDiary(); });
+}
+
+load();
+</script>
+</body>
+</html>

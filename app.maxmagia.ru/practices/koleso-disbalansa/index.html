@@ -1,0 +1,1140 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<script src="/practices/lib/mm-sync.js?v=3"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Колесо дисбаланса | Клуб #MaxMagia</title>
+<style>
+
+:root{
+  --bg:#FFFFFF; --bg2:#F4F3EF; --card:#F4F3EF; --ink:#2F2F2F; --dim:#4D4D4D; --mute:#696969; --num:#E4E1DA;
+  --line:rgba(47,47,47,.12); --line2:rgba(47,47,47,.24);
+  --acc:#9A6A2E; --acc-fill:#D4B48A; --on-fill:#141414; --mark:#F6EC6E; --hot:#B23A2E;
+  --glow:rgba(212,180,138,.22); --tile:#2F2F2F; --tile-line:rgba(212,180,138,.6);
+  --gem-base:#8C8680; --gem-lit:#D4A86A;
+  --band1:#2A2420; --band2:#0C0C0E; --band-ink:#F0ECE4; --band-hot:#F49385; --yel:#2F2F2F; --yel-bg:#F6EC6E; --strike:#D2402F;
+  --serif:'Cormorant Garamond',Georgia,'Times New Roman',serif;
+  --sans:'Manrope',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --ease:cubic-bezier(.2,.8,.2,1);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --yel:#F3E37C; --yel-bg:transparent; --strike:#EF5A47;
+    --bg:#0C0C0E; --bg2:#0F0F11; --card:#18181A; --ink:#F0ECE4; --dim:#B9B2A8; --mute:#9C958C; --num:#232326;
+    --line:rgba(240,236,228,.08); --line2:rgba(240,236,228,.16);
+    --acc:#D4B48A; --acc-fill:#D4B48A; --on-fill:#0C0C0E; --mark:rgba(212,180,138,.26); --hot:#EF7A6B;
+    --glow:rgba(212,180,138,.12); --tile:#18181A; --tile-line:rgba(212,180,138,.4);
+    --gem-base:#2C2730; --gem-lit:#E2C79C;
+  }
+}
+:root[data-theme="dark"]{
+  --yel:#F3E37C; --yel-bg:transparent; --strike:#EF5A47;
+  --bg:#0C0C0E; --bg2:#0F0F11; --card:#18181A; --ink:#F0ECE4; --dim:#B9B2A8; --mute:#9C958C; --num:#232326;
+  --line:rgba(240,236,228,.08); --line2:rgba(240,236,228,.16);
+  --acc:#D4B48A; --acc-fill:#D4B48A; --on-fill:#0C0C0E; --mark:rgba(212,180,138,.26); --hot:#EF7A6B;
+  --glow:rgba(212,180,138,.12); --tile:#18181A; --tile-line:rgba(212,180,138,.4);
+  --gem-base:#2C2730; --gem-lit:#E2C79C;
+}
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px);scroll-behavior:smooth}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.7;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+h1,h2,h3{font-family:var(--serif);font-weight:500;margin:0;line-height:1.08;text-wrap:balance}
+p{margin:0}
+button,input{font:inherit;color:inherit;touch-action:manipulation}
+:focus-visible{outline:2px solid var(--acc);outline-offset:4px;border-radius:6px}
+[hidden]{display:none!important}
+.wrap{max-width:1200px;margin:0 auto;padding:0 clamp(20px,4vw,48px)}
+.center{text-align:center}
+.col{max-width:780px;margin-left:auto;margin-right:auto}
+.sec{--gap:clamp(72px,11vh,128px);padding:var(--gap) 0}
+.sec.orn-top{padding-top:0}
+.sec.orn-top > .wrap > .rule-orn{margin:0 auto var(--gap)}
+.label{display:block;font-size:13px;font-weight:600;letter-spacing:.28em;text-transform:uppercase;color:var(--acc);margin-bottom:22px}
+h2{font-size:clamp(38px,5vw,68px);font-weight:400;max-width:20ch;margin:0 auto}
+h2 em{font-style:italic;color:var(--acc)}
+.lede{font-size:clamp(18px,1.4vw,20px);color:var(--dim);max-width:58ch;margin:24px auto 0}
+mark{background:linear-gradient(transparent 60%,var(--mark) 60%);color:inherit;padding:0 .06em}
+.rule-orn{display:flex;align-items:center;justify-content:center;gap:14px;margin:0 auto 26px;color:var(--acc)}
+.rule-orn::before,.rule-orn::after{content:"";width:56px;height:1px;background:linear-gradient(90deg,transparent,var(--acc))}
+.rule-orn::after{transform:scaleX(-1)}
+.rule-orn i{width:6px;height:6px;background:var(--acc);transform:rotate(45deg)}
+
+/* Hero */
+.hero{min-height:100vh;min-height:100svh;display:grid;place-items:center;text-align:center;padding:clamp(40px,8vh,80px) 0;position:relative;overflow:hidden}
+.hero::before{content:"";position:absolute;left:50%;top:40%;width:min(110vw,980px);aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(circle,var(--glow),transparent 64%);pointer-events:none}
+.hero > div{position:relative;width:100%;min-width:0}
+.badge{width:clamp(112px,13vw,144px);aspect-ratio:1;border-radius:50%;margin:0 auto;display:grid;place-items:center;background:#F7F4EE;box-shadow:0 0 0 1px var(--line2),0 24px 60px -24px rgba(0,0,0,.45);animation:rise 1s var(--ease) both}
+.badge img{width:52%;height:auto;display:block}
+.hero .label{margin:30px 0 0;animation:rise 1s .1s var(--ease) both}
+.hero h1{font-size:clamp(38px,11.4vw,132px);font-weight:400;line-height:.95;margin-top:18px;animation:rise 1s .18s var(--ease) both}
+.hero .sub{font-family:var(--serif);font-size:clamp(22px,2.3vw,31px);line-height:1.38;color:var(--dim);margin:30px auto 0;animation:rise 1s .26s var(--ease) both}
+.hero .sub b{font-style:italic;font-weight:600;color:var(--ink)}
+.hero .go{display:inline-flex;flex-direction:column;align-items:center;gap:10px;margin-top:48px;color:var(--mute);font-size:13px;letter-spacing:.2em;text-transform:uppercase;text-decoration:none;animation:rise 1s .34s var(--ease) both}
+.hero .go i{width:1px;height:40px;background:linear-gradient(var(--acc),transparent)}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+
+/* Statement typography */
+.big{font-family:var(--serif);font-size:clamp(26px,2.8vw,38px);line-height:1.28;max-width:30ch;margin:34px auto 0}
+.body{font-size:clamp(18px,1.4vw,20px);color:var(--dim);max-width:60ch;margin:22px auto 0}
+
+/* Cards (landing style) */
+.cards{display:grid;gap:4px;margin-top:clamp(44px,7vh,72px)}
+.cards.c2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.cards.c3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.cards.c4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.card{position:relative;background:var(--card);padding:clamp(34px,4.5vw,56px) clamp(22px,3vw,40px) clamp(34px,4vw,48px);text-align:center}
+.card::before{content:"";position:absolute;left:0;right:0;top:0;height:2px;background:linear-gradient(90deg,var(--acc),transparent)}
+.card .num{display:block;font-family:var(--serif);font-weight:600;font-size:clamp(56px,6vw,84px);line-height:.9;color:var(--num);margin-bottom:12px;font-variant-numeric:oldstyle-nums}
+.card .label{margin-bottom:14px}
+.card h3{font-size:clamp(26px,2.4vw,34px);font-weight:500}
+.card p{color:var(--dim);margin-top:12px}
+.callout{margin-top:4px;background:var(--card);border-left:2px solid var(--acc);padding:clamp(24px,3vw,36px) clamp(24px,4vw,56px);color:var(--dim);font-size:clamp(17px,1.3vw,19px)}
+.callout b{color:var(--acc);font-weight:600}
+
+/* Ways grid */
+.ways{list-style:none;margin:clamp(44px,7vh,72px) 0 0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px;counter-reset:w}
+.ways li{counter-increment:w;position:relative;background:var(--card);padding:28px 18px 26px;text-align:center;font-family:var(--serif);font-size:clamp(20px,1.7vw,24px);line-height:1.2;min-height:150px;display:flex;flex-direction:column;justify-content:flex-end;align-items:center}
+.ways li::before{content:counter(w,decimal-leading-zero);font-family:var(--serif);font-weight:600;font-size:50px;line-height:.9;color:var(--num);margin-bottom:auto;padding-bottom:12px;font-variant-numeric:oldstyle-nums}
+.ways li.span2{grid-column:span 2;font-style:italic;color:var(--acc);font-size:clamp(21px,1.9vw,26px)}
+.ways li.span2::before{content:"…";color:var(--num)}
+.examples{list-style:none;margin:clamp(48px,8vh,80px) auto 0;padding:0;max-width:820px}
+.examples li{font-family:var(--serif);font-size:clamp(25px,2.8vw,38px);line-height:1.2;padding:12px 0;text-align:center}
+.examples li span{color:var(--mute);font-style:italic}
+.examples li.last{color:var(--acc);font-style:italic}
+.whole{margin:clamp(40px,6vh,60px) auto 0}
+
+/* Cinematic band */
+.band{position:relative;overflow:hidden;padding:clamp(110px,20vh,220px) 0;text-align:center;color:var(--band-ink);background:radial-gradient(ellipse 70% 90% at 72% 60%,var(--band1),var(--band2) 70%)}
+.band::before{content:"";position:absolute;inset:-20%;background:radial-gradient(circle at 30% 40%,rgba(212,180,138,.14),transparent 40%),radial-gradient(circle at 75% 65%,rgba(239,122,107,.12),transparent 38%);animation:drift 18s ease-in-out infinite alternate}
+.band::after{content:"";position:absolute;inset:0;opacity:.09;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+.band .fade-top,.band .fade-bot{position:absolute;left:0;right:0;height:30%;pointer-events:none;z-index:1}
+.band .fade-top{top:0;background:linear-gradient(var(--bg),transparent)}
+.band .fade-bot{bottom:0;background:linear-gradient(transparent,var(--bg))}
+.band .in{position:relative;z-index:2}
+.band p{font-family:var(--serif);font-style:italic;font-size:clamp(26px,3.2vw,46px);line-height:1.5;opacity:0;transform:translateY(12px);transition:opacity 1.2s var(--ease),transform 1.2s var(--ease)}
+.band.seen p{opacity:.92;transform:none}
+.band.seen p:nth-child(2){transition-delay:.5s}
+.band.seen p:nth-child(3){transition-delay:1.2s}
+.band p.hot{color:var(--band-hot);font-size:clamp(46px,6.4vw,92px);line-height:1.2;margin-top:12px;opacity:0}
+.band.seen p.hot{opacity:1}
+@keyframes drift{from{transform:translate(-3%,-2%)}to{transform:translate(3%,2%)}}
+
+.ghost{min-height:44px;padding:0 20px;border-radius:999px;border:1px solid var(--line2);background:none;cursor:pointer;font-size:14px;letter-spacing:.06em}
+.ghost:hover{border-color:var(--acc)}
+footer{padding:70px 0 90px;border-top:1px solid var(--line);color:var(--mute);font-size:14px;text-align:center}
+footer .sign{font-family:var(--serif);font-style:italic;font-size:22px;color:var(--acc);margin-bottom:10px}
+footer p + p{margin-top:8px}
+footer a{color:var(--acc)}
+.series{display:inline-flex;flex-wrap:wrap;gap:4px 18px;justify-content:center}
+
+@media (max-width:980px){.ways,.cards.c4{grid-template-columns:repeat(2,minmax(0,1fr))}.cards.c3{grid-template-columns:1fr}}
+@media (max-width:640px){
+  .cards.c2{grid-template-columns:1fr}
+  .ways li{min-height:118px;font-size:17px;padding:22px 10px;hyphens:auto;-webkit-hyphens:auto;overflow-wrap:break-word}
+  .ways li::before{font-size:40px}
+  .answers button{flex:1 1 auto}
+  .tiles{gap:3px}
+  .stage{width:min(100%,300px)}
+}
+@media (prefers-reduced-motion: reduce){
+  *{animation:none!important;transition:none!important}
+  html{scroll-behavior:auto}
+  .band p{opacity:.92!important;transform:none!important}
+}
+.yel{color:var(--yel);background:linear-gradient(transparent 58%,var(--yel-bg) 58%);-webkit-box-decoration-break:clone;box-decoration-break:clone}
+.def-not{display:block;font-family:var(--serif);font-size:clamp(20px,1.8vw,26px);line-height:1.3;color:var(--mute);margin:14px 0 10px;font-weight:400}
+.def-not s{text-decoration:line-through;text-decoration-color:var(--strike);text-decoration-thickness:2px}
+h2.def-yes{max-width:22ch}
+h2.caps{text-transform:uppercase;letter-spacing:.06em;font-size:clamp(34px,5vw,64px)}
+.ps-line{font-family:var(--serif);font-size:clamp(21px,2vw,27px);line-height:1.45;color:var(--dim);max-width:44ch;margin:clamp(36px,6vh,56px) auto 0}
+.ps-line .ps-tag{font-family:var(--sans);font-size:13px;font-weight:700;letter-spacing:.2em;color:var(--acc);margin-right:4px}
+.ps-line b{color:var(--ink);font-weight:600}
+h2.ex-h{margin-top:clamp(64px,10vh,110px)}
+.band p.hot:only-child{margin-top:0}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:54px;padding:0 30px;border-radius:999px;border:0;background:var(--acc-fill);color:var(--on-fill);font-weight:700;font-size:16px;cursor:pointer;text-decoration:none;transition:transform .2s var(--ease),filter .2s}
+.btn:hover{filter:brightness(1.06)}
+.btn:active{transform:scale(.97)}
+.btn svg{width:20px;height:20px;flex:none}
+.photo{margin-top:34px}
+.note-s{font-size:14px;color:var(--mute);margin-top:10px;min-height:1.2em}
+.next-btn{margin-top:30px}
+.goals-ex{list-style:none;margin:clamp(40px,6vh,60px) auto 0;padding:0;max-width:820px;display:grid;gap:4px}
+.goals-ex li{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:16px;align-items:center;background:var(--card);padding:18px clamp(18px,3vw,32px);text-align:left}
+.goals-ex li span{font-family:var(--serif);font-size:clamp(20px,1.8vw,24px)}
+.goals-ex li b{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--acc);font-weight:600;text-align:right}
+.err{color:var(--hot);font-size:15px;margin-top:10px}
+.err:empty{display:none}
+.goal-pin{font-size:13px;letter-spacing:.2em;text-transform:uppercase;color:var(--mute);text-align:center}
+.goal-pin b{display:block;font-family:var(--serif);font-weight:500;font-size:clamp(24px,2.4vw,32px);letter-spacing:0;text-transform:none;color:var(--ink);line-height:1.15;margin-top:6px}
+/* traffic light */
+:root{--c-red:#B8352A;--c-yel:#8A6200;--c-grn:#23744A}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--c-red:#F06A57;--c-yel:#F2C94C;--c-grn:#5CC587}}
+:root[data-theme="dark"]{--c-red:#F06A57;--c-yel:#F2C94C;--c-grn:#5CC587}
+.c-red{color:var(--c-red)!important}.c-yel{color:var(--c-yel)!important}.c-grn{color:var(--c-grn)!important}
+.q[data-c="red"]{--qc:var(--c-red)}.q[data-c="yel"]{--qc:var(--c-yel)}.q[data-c="grn"]{--qc:var(--c-grn)}
+.q::before{background:linear-gradient(90deg,var(--qc),transparent)!important;height:3px}
+.q h3{color:var(--qc)}
+.q small{color:var(--qc)}
+.q .lamp{width:12px;height:12px;border-radius:50%;background:var(--qc);box-shadow:0 0 14px var(--qc);margin-bottom:4px}
+.q[aria-pressed="true"]{background:color-mix(in srgb,var(--card) 86%,var(--qc));box-shadow:inset 0 0 0 1px var(--qc)}
+.q-detail{border-left-color:var(--qc,var(--acc))}
+.q-detail h3{color:var(--qc,var(--ink))}
+.gdot{background:var(--qc,var(--acc-fill))}
+.gdot[data-c="red"]{--qc:var(--c-red)}.gdot[data-c="yel"]{--qc:var(--c-yel)}.gdot[data-c="grn"]{--qc:var(--c-grn)}
+.gdot{box-shadow:0 0 0 4px color-mix(in srgb,var(--qc) 30%,transparent),0 0 18px color-mix(in srgb,var(--qc) 70%,transparent)!important}
+.gdot b{color:#0C0C0E}
+.callout-yel{background:color-mix(in srgb,var(--card) 88%,#F2C94C);border-left-color:#F2C94C}
+.callout-yel > b{color:var(--c-yel)}
+.ps-note{display:block;margin-top:12px;font-size:15px;color:var(--dim)}
+.ps-note b{color:var(--acc)}
+.mini-note{margin:22px auto 0;font-size:16px;color:var(--dim)}
+.mini-note a{color:var(--acc);font-weight:600}
+
+/* ===== 5 умений ===== */
+.hero h1.h1-5{font-size:clamp(36px,7.2vw,100px);max-width:16ch;margin-left:auto;margin-right:auto}
+.skills{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:4px;margin-top:clamp(44px,7vh,72px);list-style:none;padding:0}
+.skills .card{grid-column:span 2}
+.skills .card:nth-child(4),.skills .card:nth-child(5){grid-column:span 3}
+.pos-list li span{font-size:clamp(19px,1.7vw,23px)}
+.pos-list li b{font-size:13px}
+.lede.mid{max-width:62ch}
+
+/* wizard */
+.wiz{position:relative;max-width:840px;margin:clamp(40px,6vh,64px) auto 0;background:var(--card);padding:clamp(28px,4.5vw,52px) clamp(18px,4.5vw,52px);text-align:left;--qc:var(--acc)}
+.wiz::before{content:"";position:absolute;left:0;right:0;top:0;height:2px;background:linear-gradient(90deg,var(--qc),transparent)}
+.wiz.appear{animation:rise .5s var(--ease)}
+.wiz[data-c="red"]{--qc:var(--c-red)}.wiz[data-c="yel"]{--qc:var(--c-yel)}.wiz[data-c="grn"]{--qc:var(--c-grn)}
+.stepnav{display:flex;flex-direction:column;align-items:center;gap:12px;margin-bottom:26px}
+.stepnav .label{margin:0}
+.dots{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+.dots button{width:40px;height:40px;border-radius:50%;border:1px solid var(--line2);background:transparent;font-size:14px;font-weight:600;color:var(--mute);cursor:pointer;padding:0;transition:background .2s,border-color .2s}
+.dots button:hover:not(:disabled){border-color:var(--acc)}
+.dots button:disabled{opacity:.35;cursor:default}
+.dots button.done{background:var(--glow);color:var(--ink)}
+.dots button.rec{box-shadow:0 0 0 2px var(--qc);border-color:transparent}
+.dots button[aria-current="step"]{background:var(--acc-fill);color:var(--on-fill);border-color:var(--acc-fill)}
+.recnote{display:block;text-align:center;font-size:14px;color:var(--qc);margin:-10px auto 18px;font-weight:600;max-width:52ch;line-height:1.5}
+.wiz h3{font-size:clamp(30px,3.4vw,46px);font-weight:400;text-align:center}
+.wiz .intro{color:var(--dim);text-align:center;max-width:56ch;margin:14px auto 0}
+.wiz .intro a,.wiz .tip a{color:var(--acc);font-weight:600}
+.sec-title{font-family:var(--serif);font-size:clamp(26px,2.6vw,34px);font-weight:500;margin-top:clamp(36px,5vh,52px);text-align:center;padding-top:clamp(28px,4vh,40px);border-top:1px solid var(--line)}
+.care{margin:18px auto 0;font-size:14px;color:var(--mute);text-align:center}
+.wiz input[type=text],.wiz textarea{width:100%;background:var(--bg);border:1px solid var(--line2);border-radius:12px;padding:12px 14px;color:var(--ink);font:inherit;font-size:16px;line-height:1.5;transition:border-color .2s}
+.wiz input[type=text]:focus,.wiz textarea:focus{outline:none;border-color:var(--acc)}
+.wiz input::placeholder,.wiz textarea::placeholder{color:var(--mute)}
+.wiz textarea{resize:vertical;min-height:88px}
+.fld{display:grid;gap:6px;margin-top:20px}
+.fld > span{font-size:16px;font-weight:600}
+.fld > small{font-size:14px;color:var(--mute);margin-top:-2px;line-height:1.5}
+.ob{display:flex;gap:12px;align-items:flex-start;margin-top:16px;font-size:15px;color:var(--dim);cursor:pointer;line-height:1.55}
+.ob input{width:20px;height:20px;accent-color:var(--acc);margin-top:2px;flex:none}
+.tlink{background:none;border:0;color:var(--mute);cursor:pointer;text-decoration:underline;text-underline-offset:3px;font-size:14px;padding:6px 4px}
+.tlink:hover{color:var(--ink)}
+.lb{max-width:560px;margin:0 auto}
+.lb-row{display:flex;gap:8px}
+.lb-row input{flex:1;min-width:0}
+.lb-row .ghost{flex:none}
+.x{flex:none;width:40px;height:40px;border:0;background:none;border-radius:50%;cursor:pointer;color:var(--mute);font-size:20px;line-height:1;display:grid;place-items:center}
+.x:hover{color:var(--hot);background:var(--line)}
+.x.arm{width:auto;border-radius:999px;padding:0 12px;font-size:13px;font-weight:700;color:var(--hot);border:1px solid var(--hot)}
+.ideas{display:flex;flex-wrap:wrap;gap:7px;margin-top:8px}
+.ideas button{border:1px solid var(--line2);background:transparent;border-radius:999px;padding:7px 14px;min-height:40px;font-size:14px;color:var(--dim);cursor:pointer;transition:background .2s,border-color .2s}
+.ideas button:hover{border-color:var(--acc)}
+.ideas button[aria-pressed="true"]{background:var(--acc-fill);border-color:var(--acc-fill);color:var(--on-fill);font-weight:600}
+.checks{display:grid;gap:6px;margin-top:20px;padding:16px 18px;border-radius:12px;background:var(--bg);font-size:15px}
+.checks div{display:flex;gap:10px;align-items:baseline;color:var(--mute)}
+.checks div.ok{color:var(--ink)}
+.checks div::before{content:"○";color:var(--mute)}
+.checks div.ok::before{content:"●";color:var(--c-grn)}
+.goalcard{margin-top:20px;padding:22px;border:1px solid var(--acc);border-radius:14px;text-align:center;background:var(--bg)}
+.goalcard .label{margin-bottom:10px}
+.goalcard textarea{font-family:var(--serif)!important;font-size:22px!important;text-align:center;min-height:96px;background:transparent!important}
+.goalcard small{display:block;font-size:13px;color:var(--mute);margin-top:6px}
+.tip{margin-top:18px;padding:16px 18px;border-left:2px solid var(--acc);background:var(--bg);font-size:15px;color:var(--dim)}
+.tip b{color:var(--ink);font-weight:600}
+/* goal list */
+.import textarea{min-height:76px;font-size:13px!important}
+.imp-row{display:flex;flex-wrap:wrap;gap:8px 14px;justify-content:center;align-items:center;margin-top:12px}
+.glist{display:grid;gap:4px;margin-top:20px}
+.grow{display:flex;gap:6px;align-items:center}
+.gopt{--qc:var(--line2);flex:1;min-width:0;display:flex;flex-wrap:wrap;gap:4px 12px;align-items:baseline;border:0;border-left:3px solid var(--qc);background:var(--bg);padding:14px 16px;cursor:pointer;text-align:left;color:var(--ink);transition:box-shadow .2s}
+.gopt[data-c="red"]{--qc:var(--c-red)}.gopt[data-c="yel"]{--qc:var(--c-yel)}.gopt[data-c="grn"]{--qc:var(--c-grn)}
+.gopt[aria-pressed="true"]{box-shadow:inset 0 0 0 1px var(--acc)}
+.gopt .t{flex:1 1 200px;font-family:var(--serif);font-size:22px;line-height:1.2;overflow-wrap:anywhere}
+.gopt .tg{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--qc);font-weight:700}
+.gopt .chk{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--acc);font-weight:700}
+.goal-pin{margin-bottom:6px}
+/* anchor */
+.anchor{margin-top:28px;padding:clamp(22px,3vw,32px) clamp(16px,3vw,28px);border-radius:16px;background:var(--bg);text-align:center;border:1px solid var(--line2)}
+.anchor h4{font-family:var(--serif);font-weight:500;font-size:clamp(26px,2.6vw,32px);margin:0}
+.anchor .instr{color:var(--dim);max-width:46ch;margin:12px auto 0}
+.anchor .ideas{justify-content:center;margin-top:16px}
+.anchor .stname{font-family:var(--serif);font-size:34px;color:var(--acc);margin-top:8px}
+.anchor .subh{font-weight:600;margin-top:6px}
+.acount{font-size:13px;color:var(--mute);margin-top:8px}
+.prog{display:flex;justify-content:center;gap:6px;margin-top:14px}
+.prog i{width:34px;height:3px;border-radius:2px;background:var(--line2)}
+.prog i.on{background:var(--acc)}
+.snap{position:relative;width:132px;height:132px;border-radius:50%;border:0;margin:24px auto 6px;display:grid;place-items:center;cursor:pointer;background:radial-gradient(circle at 40% 35%,#F3E2C2,#C79E66);color:#141414;font-family:var(--serif);font-size:26px;font-weight:600;box-shadow:0 10px 34px -10px rgba(212,180,138,.8)}
+.snap::after{content:"";position:absolute;inset:0;border-radius:50%;border:2px solid var(--acc-fill);opacity:0}
+.snap.go::after{animation:ring .9s ease-out}
+@keyframes ring{from{opacity:.9;transform:scale(1)}to{opacity:0;transform:scale(1.9)}}
+.anchor .row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;align-items:center;margin-top:20px}
+/* steps */
+.steps-list{list-style:none;padding:0;margin:14px 0 0}
+.steps-list li{display:flex;gap:10px;align-items:center;padding:8px 2px;border-bottom:1px solid var(--line);font-size:16px}
+.steps-list li .t{flex:1;min-width:0;overflow-wrap:anywhere}
+.star{flex:none;background:none;border:1px solid var(--line2);border-radius:999px;padding:5px 12px;min-height:36px;font-size:13px;cursor:pointer;color:var(--mute)}
+.star[aria-pressed="true"]{background:var(--acc-fill);border-color:var(--acc-fill);color:var(--on-fill);font-weight:700}
+.today{margin-top:22px;padding:4px 18px 18px;border-radius:14px;border:1px dashed var(--acc);background:var(--bg)}
+/* ritual */
+.cycle{display:grid;gap:4px;margin-top:22px;counter-reset:c}
+.cycle div{display:grid;grid-template-columns:40px 1fr;gap:12px;padding:14px 16px;background:var(--bg);counter-increment:c;align-items:start}
+.cycle div::before{content:counter(c,decimal-leading-zero);font-family:var(--serif);font-weight:600;font-size:30px;line-height:1;color:var(--num)}
+.cycle b{display:block;font-size:16px}
+.cycle span{font-size:15px;color:var(--dim)}
+.cycle a{color:var(--acc);font-weight:600}
+.week{display:flex;justify-content:center;gap:6px;margin-top:18px;flex-wrap:wrap}
+.day{width:46px;height:60px;border-radius:12px;border:1px solid var(--line2);background:transparent;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:12px;color:var(--mute)}
+.day b{font-family:var(--serif);font-size:21px;font-weight:600;color:var(--ink);line-height:1.1}
+.day[aria-pressed="true"]{background:var(--acc-fill);border-color:var(--acc-fill);color:var(--on-fill)}
+.day[aria-pressed="true"] b{color:var(--on-fill)}
+.day:disabled{opacity:.35;cursor:default}
+.day.today-d{box-shadow:0 0 0 2px var(--acc)}
+.wk-sum{text-align:center;font-family:var(--serif);font-size:26px;margin-top:14px}
+.hist{display:flex;justify-content:center;gap:12px;margin-top:12px;align-items:flex-end;height:76px}
+.hist div{width:32px;display:flex;flex-direction:column;align-items:center;gap:4px;font-size:11px;color:var(--mute)}
+.hist i{display:block;width:100%;border-radius:6px 6px 2px 2px;background:var(--line2)}
+.hist i.ok{background:var(--acc-fill)}
+.nav{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-top:32px;padding-top:24px;border-top:1px solid var(--line)}
+.export{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:26px}
+.save-note{text-align:center;font-size:14px;color:var(--mute);margin-top:8px;min-height:1.2em}
+.wiz .err{text-align:center}
+.next-links{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;align-items:center;margin-top:30px}
+.next-links .ghost{display:inline-flex;align-items:center;text-decoration:none;color:var(--ink)}
+@media (max-width:860px){.skills{grid-template-columns:1fr 1fr}.skills .card,.skills .card:nth-child(4){grid-column:span 1}.skills .card:nth-child(5){grid-column:span 2}}
+@media (max-width:560px){
+  .skills{grid-template-columns:1fr}.skills .card:nth-child(5){grid-column:span 1}
+  .dots{gap:5px}.dots button{width:36px;height:36px}
+  .day{width:40px;height:56px}
+  .lb-row{flex-direction:column}
+  .cycle div{grid-template-columns:32px 1fr;gap:10px;padding:12px}
+  .nav .btn{flex:1 1 auto}
+}
+
+/* ===== Колесо ===== */
+.body a{color:var(--acc);font-weight:600}
+.steps-all{list-style:none;padding:0;margin:0 auto;max-width:640px;display:grid;gap:4px;text-align:left}
+.steps-all a,.steps-all li.cur > span{display:flex;align-items:center;gap:16px;padding:16px 20px;background:var(--card);text-decoration:none;color:var(--ink);font-family:var(--serif);font-size:clamp(21px,2vw,26px);line-height:1.2;transition:box-shadow .2s}
+.steps-all a:hover{box-shadow:inset 0 0 0 1px var(--acc)}
+.steps-all .num{flex:none;width:44px;font-weight:600;font-size:30px;color:var(--num)}
+.steps-all small{margin-left:auto;font-family:var(--sans);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--acc);font-weight:700}
+.steps-all li.cur > span{box-shadow:inset 0 0 0 1px var(--acc)}
+.steps-all li.cur .num{color:var(--acc)}
+
+h2.one-line{max-width:none}
+@media (min-width:900px){h2.one-line{white-space:nowrap}}
+.lede b{font-weight:700}
+.needs .card h3{font-size:clamp(26px,2.4vw,32px)}
+.needs .card .if{display:block;font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--c-red);margin-top:12px;font-weight:600}
+.later{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:28px}
+.later span{border:1px dashed var(--line2);border-radius:999px;padding:8px 16px;font-size:15px;color:var(--dim)}
+.signs{max-width:640px;margin:clamp(40px,6vh,60px) auto 0;text-align:left}
+.chk{display:flex;gap:14px;align-items:flex-start;padding:14px 4px;border-bottom:1px solid var(--line);cursor:pointer;font-size:17px}
+.chk input{width:20px;height:20px;accent-color:var(--acc);margin-top:4px;flex:none}
+.signs-out{text-align:center;margin-top:20px;font-family:var(--serif);font-size:clamp(22px,2.2vw,28px);min-height:1.4em;color:var(--ink)}
+.vs .card{text-align:left}
+.vs .card .label,.vs .card h3{text-align:left}
+.vs .card.cr::before{background:linear-gradient(90deg,var(--c-red),transparent)}
+.vs .card.cg::before{background:linear-gradient(90deg,var(--c-grn),transparent)}
+.credit{max-width:62ch;margin:clamp(32px,5vh,48px) auto 0;color:var(--mute);font-size:15px;font-style:italic}
+
+/* practice layout */
+.practice{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:clamp(24px,4vw,48px);align-items:start;margin-top:clamp(40px,6vh,64px);text-align:left}
+.practice .wiz{max-width:none;margin:0}
+.wheel-box{position:sticky;top:calc(16px + env(safe-area-inset-top,0px));text-align:center}
+#wheel{width:100%;height:auto;display:block}
+.wheel-cap{font-family:var(--serif);font-size:clamp(20px,1.8vw,24px);color:var(--dim);margin-top:6px;min-height:2.6em;line-height:1.25}
+.legend{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;font-size:13px;color:var(--mute);margin-top:8px}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i{width:10px;height:10px;border-radius:50%;display:inline-block}
+.w-sector{fill:var(--card);stroke:var(--line2);stroke-width:1}
+.w-sector.alt{fill:color-mix(in srgb,var(--card) 90%,var(--acc))}
+.w-rim{fill:none;stroke:var(--acc);stroke-width:2}
+.w-ring{fill:none;stroke:var(--line);stroke-width:1}
+.w-lbl{fill:var(--dim);font-family:var(--sans);font-size:11.5px}
+.w-pain{fill:var(--mute)}
+.w-top{fill:var(--acc)}
+.w-hole{fill:var(--bg);stroke:var(--c-red);stroke-width:2.5}
+.w-crack{stroke:var(--c-red);stroke-width:1.4;stroke-linecap:round}
+.w-hn{fill:var(--c-red);font-family:var(--sans);font-weight:700;font-size:12px}
+.w-hub{fill:var(--bg);stroke:var(--acc);stroke-width:1.5}
+.w-hubn{fill:var(--ink);font-family:var(--serif);font-weight:600;font-size:26px}
+.w-hubl{fill:var(--mute);font-family:var(--sans);font-size:8.5px}
+.w-ghost{fill:none;stroke:var(--line2);stroke-dasharray:3 5}
+.pop{animation:pop .5s cubic-bezier(.2,1.6,.4,1);transform-box:fill-box;transform-origin:center}
+@keyframes pop{from{transform:scale(0)}to{transform:scale(1)}}
+
+/* wizard parts */
+.bigq{font-family:var(--serif);font-size:clamp(26px,2.6vw,34px);line-height:1.2;margin:26px auto 10px;text-align:center;max-width:24ch}
+details.hint{margin:4px auto 16px;font-size:15px;color:var(--dim);text-align:center;max-width:48ch}
+details.hint summary{cursor:pointer;color:var(--acc);font-weight:600;list-style:none}
+details.hint summary::-webkit-details-marker{display:none}
+details.hint summary::after{content:" +"}
+details.hint[open] summary::after{content:" −"}
+details.hint p{margin-top:6px}
+.qrow{display:grid;grid-template-columns:44px minmax(0,1fr) 44px;gap:10px;align-items:center;margin-top:26px}
+.qrow .bigq{margin:4px auto 6px}
+.qnum{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--mute);text-align:center}
+.qarr{width:44px;height:44px;border-radius:50%;border:1px solid var(--line2);background:transparent;color:var(--ink);font-size:22px;line-height:1;cursor:pointer;display:grid;place-items:center;transition:border-color .2s,background .2s}
+.qarr:hover:not(:disabled){border-color:var(--acc);background:var(--glow)}
+.qarr:disabled{opacity:.25;cursor:default}
+.five-q{max-width:540px;margin:14px auto 0;padding-left:24px;font-family:var(--serif);font-size:clamp(20px,1.8vw,24px);line-height:1.35}
+.five-q li{padding:6px 0}
+.five-q li::marker{color:var(--acc);font-weight:600}
+.qhow{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--mute);margin-top:4px}
+.gsub{display:flex;justify-content:center;align-items:center;gap:12px;margin-top:16px;font-size:14px;color:var(--mute)}
+.gsub button{background:none;border:1px solid var(--line2);border-radius:50%;width:40px;height:40px;cursor:pointer;font-size:18px}
+.gsub button:disabled{opacity:.35;cursor:default}
+.items{list-style:none;margin:16px 0 0;padding:0;max-height:320px;overflow:auto}
+.items li{display:flex;gap:10px;align-items:center;padding:8px 2px;border-bottom:1px solid var(--line);font-size:16px}
+.items li .t{flex:1;min-width:0;overflow-wrap:anywhere}
+.items li .src{font-size:12px;color:var(--mute);white-space:nowrap}
+.count{text-align:center;margin-top:14px;font-size:14px;color:var(--mute)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:20px}
+.chip{border:1px solid var(--line2);background:transparent;border-radius:999px;padding:8px 16px;min-height:42px;cursor:pointer;font-size:15px;color:var(--ink);transition:background .2s,border-color .2s}
+.chip:hover{border-color:var(--acc)}
+.chip[aria-pressed="true"]{background:var(--acc-fill);border-color:var(--acc-fill);color:var(--on-fill);font-weight:600}
+.chip .rk{display:inline-grid;place-items:center;width:20px;height:20px;border-radius:50%;background:var(--on-fill);color:var(--acc-fill);font-size:12px;margin-right:8px}
+.chip .sp{opacity:.65;font-size:13px}
+.custom{display:flex;gap:8px;max-width:440px;margin:18px auto 0}
+.custom input{flex:1;min-width:0}
+.rename{display:grid;gap:10px;max-width:480px;margin:22px auto 0}
+.rename label{display:grid;grid-template-columns:150px 1fr;gap:12px;align-items:center;font-size:14px;color:var(--mute)}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;margin:20px 0 4px}
+.tab{border:1px solid var(--line2);background:transparent;border-radius:999px;padding:7px 14px;cursor:pointer;font-size:14px;color:var(--ink)}
+.tab[aria-selected="true"]{border-color:var(--acc);color:var(--acc);font-weight:700}
+.tab .c{color:var(--mute);font-size:12px;margin-left:6px}
+.prompts{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin:10px auto 16px;max-width:560px}
+.prompts button{border:0;background:var(--bg);border-radius:999px;padding:6px 12px;font-size:13px;color:var(--dim);cursor:pointer}
+.prompts button[aria-pressed="true"]{background:var(--glow);color:var(--ink);box-shadow:inset 0 0 0 1px var(--acc)}
+.sgroup{margin-top:24px;padding-top:18px;border-top:1px solid var(--line)}
+.sgroup h4{text-align:center;font-family:var(--serif);font-weight:500;font-size:24px;margin:0}
+.sgroup .chips{margin-top:12px}
+.sgroup .empty{text-align:center;font-size:14px;color:var(--mute);margin-top:6px}
+.hn{display:inline-grid;place-items:center;flex:none;width:26px;height:26px;border-radius:50%;border:2px solid var(--c-red);color:var(--c-red);font-weight:700;font-size:12px}
+.top-legend{display:grid;gap:8px;margin:20px auto 8px;max-width:560px;font-size:15px;color:var(--dim)}
+.top-legend div{display:flex;gap:10px;align-items:center}
+.link-row{padding:14px 0;border-bottom:1px solid var(--line)}
+.link-row .t{font-size:16px;margin-bottom:8px}
+.link-row.drop .t{text-decoration:line-through;text-decoration-color:var(--strike);color:var(--mute)}
+.link-btns{display:flex;flex-wrap:wrap;gap:6px}
+.link-btns button{border:1px solid var(--line2);background:transparent;border-radius:999px;padding:5px 13px;min-height:36px;font-size:13px;cursor:pointer;color:var(--ink)}
+.link-btns button[aria-pressed="true"]{background:var(--c-red);border-color:var(--c-red);color:#fff}
+.link-btns button.drop[aria-pressed="true"]{background:var(--mute);border-color:var(--mute);color:var(--bg)}
+.links-sum{text-align:center;font-family:var(--serif);font-size:24px;margin-top:18px;min-height:1.3em}
+.pain-block{margin-top:24px;padding:clamp(18px,3vw,26px);border-radius:14px;background:var(--bg);border:1px solid var(--line2)}
+.pain-block .ph{display:flex;gap:12px;align-items:center;margin-bottom:12px}
+.pain-block .ph b{font-family:var(--serif);font-weight:500;font-size:24px;line-height:1.15}
+.pain-block .ph small{display:block;font-size:13px;color:var(--mute)}
+.qlist{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 12px}
+.qlist button{border:0;background:var(--card);border-radius:999px;padding:6px 12px;font-size:13px;color:var(--dim);cursor:pointer}
+.qlist button[aria-pressed="true"]{background:var(--glow);color:var(--ink);box-shadow:inset 0 0 0 1px var(--acc)}
+.qshow{font-family:var(--serif);font-size:22px;margin-bottom:10px;line-height:1.25}
+.map-top{display:grid;gap:4px;margin-top:22px}
+.map-top .it{display:grid;grid-template-columns:34px 1fr;gap:12px;padding:18px;background:var(--bg);border-left:3px solid var(--c-red)}
+.map-top .it b{font-family:var(--serif);font-weight:500;font-size:24px;line-height:1.15;display:block}
+.map-top .it small{color:var(--mute);font-size:13px}
+.map-top .it p{margin-top:8px;font-size:15px;color:var(--dim)}
+.map-top .it p strong{color:var(--ink)}
+.map-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;margin-top:4px;text-align:center}
+.map-stats div{padding:16px 6px;background:var(--bg)}
+.map-stats b{display:block;font-family:var(--serif);font-weight:500;font-size:40px;line-height:1;color:var(--acc)}
+.map-stats span{font-size:13px;color:var(--mute)}
+.concl{margin-top:24px;padding:22px 22px 18px;border:1px solid var(--acc);border-radius:14px;background:var(--bg)}
+.concl h4{font-family:var(--serif);font-weight:500;font-size:28px;margin:0 0 12px;text-align:center}
+.concl ul{margin:0;padding-left:20px;color:var(--dim);font-size:15px}
+.concl li+li{margin-top:8px}
+.concl li b{color:var(--ink);font-weight:600}
+#exportText{margin-top:14px;min-height:200px;font-size:13px!important}
+.end-links{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:30px}
+.end-links a{display:inline-flex;align-items:center;text-decoration:none;color:var(--ink)}
+@media (max-width:980px){.needs.cards{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:900px){.practice{grid-template-columns:1fr}.wheel-box{position:relative;top:0;max-width:440px;margin:0 auto;width:100%}}
+@media (max-width:560px){.needs.cards{grid-template-columns:1fr}.rename label{grid-template-columns:1fr;gap:4px}.custom{flex-direction:column}.map-stats b{font-size:30px}}
+
+.arming{color:var(--hot)!important;border-color:var(--hot)!important}
+</style>
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="/practices/fonts/fonts.css">
+<script src="/telegram-web-app.js"></script>
+<script>
+/* MaxMagia: практика внутри кабинета Telegram */
+(function(){
+  var tg = window.Telegram && Telegram.WebApp;
+  var inTg = !!(tg && tg.platform && tg.platform !== 'unknown');
+  function ext(href){
+    try {
+      var u = new URL(href, location.href);
+      if (u.origin === location.origin) { location.href = u.pathname + u.search + u.hash; return true; }
+      if (!inTg) return false;
+      if (u.hostname === 't.me' && tg.openTelegramLink) tg.openTelegramLink(u.href);
+      else tg.openLink(u.href, {try_instant_view:false});
+      return true;
+    } catch(e){ return false; }
+  }
+  document.addEventListener('click', function(e){
+    var a = e.target && e.target.closest ? e.target.closest('a[href]') : null;
+    if (!a) return;
+    var h = a.getAttribute('href') || '';
+    if (!h || h.charAt(0) === '#' || /^(javascript|blob|data|mailto|tel):/i.test(h)) return;
+    if (ext(h)) e.preventDefault();
+  }, true);
+  if (!inTg) return;
+  var wo = window.open;
+  window.open = function(url){
+    var s = String(url || '');
+    if (/^(blob|data):/i.test(s)) return null;      /* картинку внутри Telegram открыть нельзя — страница сама предложит скриншот */
+    if (s && ext(s)) return {};
+    return wo.apply(window, arguments);
+  };
+  try {
+    tg.ready(); tg.expand();
+    tg.setHeaderColor && tg.setHeaderColor('#ffffff');
+    tg.setBackgroundColor && tg.setBackgroundColor('#ffffff');
+    tg.BackButton.show();
+    tg.BackButton.onClick(function(){ location.href = '/'; });
+  } catch(e){}
+})();
+</script>
+</head>
+<body>
+<main>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="badge"><img src="/practices/img/emblem.png" alt="Логотип клуба MaxMagia"></div>
+    <span class="label">Клуб #MaxMagia · шаг пятый</span>
+    <h1>Колесо дисбаланса</h1>
+    <p class="sub">Соберём карту всего незавершённого,<br>найдём три пробоины, через которые утекают силы,<br><b>и наметим первый шаг к каждой.</b></p>
+    <a class="go" href="#bridge">Ниже подробнее<i aria-hidden="true"></i></a>
+  </div>
+</header>
+
+<section class="sec" id="bridge" aria-labelledby="h-bridge">
+<div class="wrap center">
+  <span class="label">Где мы остановились</span>
+  <h2 id="h-bridge">Цель есть, ритуал есть. Но иногда что-то тормозит</h2>
+  <div class="cards c3">
+    <div class="card"><span class="num">01</span><span class="label">5 умений</span><h3>Цель ясна и разложена на шаги</h3></div>
+    <div class="card"><span class="num">02</span><span class="label">Ритуал</span><h3>Три раза в неделю — одно главное действие</h3></div>
+    <div class="card"><span class="num">03</span><span class="label">А потом</span><h3>Сил всё равно не хватает, цель буксует</h3></div>
+  </div>
+  <p class="body">Так бывает, когда энергия утекает через пробоины в других сферах жизни. Не из-за лени — из-за всего незакрытого, что фоном висит в голове. Практика займёт около сорока минут и потребует честности с собой.</p>
+</div>
+</section>
+
+<section class="sec orn-top" id="need" aria-labelledby="h-need">
+<div class="wrap center">
+  <div class="rule-orn" aria-hidden="true"><i></i></div>
+  <span class="label">Проверь себя</span>
+  <h2 id="h-need">Нужна ли тебе практика?</h2>
+  <p class="lede">Отметь всё, что узнаёшь в себе в последнее время.</p>
+  <div class="signs">
+    <div id="signs"></div>
+    <p class="signs-out" id="signsOut" aria-live="polite"></p>
+  </div>
+</div>
+</section>
+
+
+<section class="sec orn-top" id="vs" aria-labelledby="h-vs">
+<div class="wrap center">
+  <div class="rule-orn" aria-hidden="true"><i></i></div>
+  <span class="label">Важное отличие</span>
+  <h2 id="h-vs">Почему не колесо баланса</h2>
+  <div class="cards c2 vs">
+    <div class="card cr"><span class="label c-red">Колесо баланса</span><h3>Оцениваем и добавляем</h3><p>Оцениваешь каждую сферу по десятибалльной шкале. Здоровье на девять, ментальное здоровье на пять — и сразу подчёркиваешь, что с тобой что-то не так. К списку добавляются новые задачи «дотянуть до десяти», хотя сил не хватает даже на старые. Итог — кривое колесо как напоминание о несостоятельности.</p></div>
+    <div class="card cg"><span class="label c-grn">Колесо дисбаланса</span><h3>Ищем, где болит</h3><p>Ничего не оцениваем и ничего не добавляем. Ищем, где уже сейчас есть пробоины, которые каждый день высасывают силы, из-за чего даже нужные дела остаются недоделанными. Смотрим туда, куда психика предпочитает не смотреть.</p></div>
+  </div>
+  <p class="credit">Прототип этой практики Макс получил от своего первого учителя по гипнозу — Михаила Романовича Гинзбурга, в ответ на вопрос, как тот пришёл к жизни, в которой делает то, что любит, и не делает того, что не любит.</p>
+</div>
+</section>
+
+<section class="band" aria-label="Где утекает">
+  <div class="fade-top"></div><div class="fade-bot"></div>
+  <div class="in wrap">
+    <p>Колесо баланса спрашивает: чего не хватает?</p>
+    <p>Колесо дисбаланса спрашивает:</p>
+    <p class="hot">где утекает энергия?</p>
+  </div>
+</section>
+
+<section class="sec orn-top" id="practice" aria-labelledby="h-practice">
+<div class="wrap center">
+  <div class="rule-orn" aria-hidden="true"><i></i></div>
+  <span class="label">Практика</span>
+  <h2 id="h-practice">Найди свои три пробоины</h2>
+  <p class="lede">Десять шагов: от карты незавершённого до трёх главных пробоин, решений и выводов. Можно прерваться и вернуться — всё сохраняется в этом браузере.</p>
+  <div class="practice">
+    <div class="wheel-box">
+      <svg id="wheel" viewBox="-258 -208 516 416" role="img" aria-label="Твоё колесо дисбаланса"></svg>
+      <p class="wheel-cap" id="wheelCap"></p>
+      <div class="legend">
+        <span><i style="background:var(--mute)"></i>неудовлетворённость</span>
+        <span><i style="background:var(--acc)"></i>топ в сфере</span>
+        <span><i style="border:2px solid var(--c-red);background:transparent"></i>главная пробоина</span>
+      </div>
+    </div>
+    <div class="wiz" id="card"></div>
+  </div>
+</div>
+</section>
+
+<div class="wrap center"><div class="rule-orn" aria-hidden="true"><i></i></div></div>
+<section class="band" aria-label="Найти пробоину" style="padding:clamp(60px,10vh,110px) 0">
+  <div class="fade-top"></div><div class="fade-bot"></div>
+  <div class="in wrap">
+    <p>Правильно найти то, что отравляет жизнь,</p>
+    <p>часто важнее, чем придумывать</p>
+    <p class="hot">новые улучшения.</p>
+  </div>
+</section>
+
+<section class="sec orn-top next-sec" aria-labelledby="h-next">
+<div class="wrap center">
+  <div class="rule-orn" aria-hidden="true"><i></i></div>
+  <span class="label">Практикум пройден</span>
+  <h2 id="h-next">Что дальше</h2>
+  <p class="body">Закрывай свои пробоины по очереди, спокойно, без пистолета у виска. Повторить всю практику и найти следующие три пробоины стоит не раньше чем через полгода. Осознания, которые придут по дороге, записывай в раздел клуба <a href="https://t.me/c/3955955328/20" target="_blank" rel="noopener">«Инсайтовая»</a>. Через время тебе будет что перечитать.</p>
+  <span class="label" style="margin-top:clamp(40px,6vh,60px)">Все шаги практикума</span>
+  <ol class="steps-all">
+    <li><a href="/practices/samorealizaciya/"><span class="num">01</span>Самореализация</a></li>
+    <li><a href="/practices/dva-navyka/"><span class="num">02</span>Два навыка самореализации</a></li>
+    <li><a href="/practices/put-vnutr/"><span class="num">03</span>Путь внутрь</a></li>
+    <li><a href="/practices/pyat-umeniy/"><span class="num">04</span>5 умений тех, кто приходит к своим целям</a></li>
+    <li class="cur"><span><span class="num">05</span>Колесо дисбаланса<small>ты здесь</small></span></li>
+  </ol>
+  <p class="mini-note" style="margin-top:16px">Короткий путь внутрь на 4 минуты — <a href="/practices/korotkiy-put/">открыть</a>.</p>
+</div>
+</section>
+
+</main>
+
+<div class="wrap">
+  <footer>
+    <div class="sign">Клуб #MaxMagia</div>
+    <p>Клуб — не терапия и не медицинская помощь. Если в процессе поднимается много тяжёлого, можно написать мне: <a href="https://t.me/MaxGuschin" target="_blank" rel="noopener">t.me/MaxGuschin</a>.</p>
+    <p>Ответы хранятся только в этом браузере.</p>
+    <p>Максим Гущин · самозанятый · ИНН 616616544435</p>
+    <p><a href="https://maxmagia.ru/">Клуб #MaxMagia</a> · <a href="https://maxmagia.ru/oferta.html">Условия участия</a> · <a href="https://maxmagia.ru/rules.html">Правила клуба</a> · <a href="https://maxmagia.ru/privacy.html">Политика обработки данных</a> · <a href="https://maxmagia.ru/consent.html">Согласие на обработку данных</a></p>
+  </footer>
+</div>
+
+<script>
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+const uid = () => Math.random().toString(36).slice(2, 9);
+const KEY = 'maxmagia-disbalance-v1';
+const RM = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const bio = 'IntersectionObserver' in window ? new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting){ e.target.classList.add('seen'); bio.unobserve(e.target); } }), {threshold:.35}) : null;
+$$('.band').forEach(b => (RM || !bio) ? b.classList.add('seen') : bio.observe(b));
+const ARROW = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
+function armed(b, label){ if (b.dataset.arm) return true; b.dataset.arm = '1'; b.dataset.old = b.innerHTML; b.textContent = label; b.classList.add('arming'); setTimeout(() => { if (b.isConnected && b.dataset.arm){ delete b.dataset.arm; b.innerHTML = b.dataset.old; b.classList.remove('arming'); } }, 4000); return false; }
+
+/* ---------- theory interactions ---------- */
+const SIGNS = ['Внимание расфокусировано','Радость и вдохновение — гости, а не жители','Упадок сил, апатия','Начинаю и быстро выдыхаюсь, не закончив','Перспективы самореализации кажутся мрачными','Теряется вера в себя','Заставляю себя идти к цели через силу'];
+$('#signs').innerHTML = SIGNS.map((s, i) => `<label class="chk"><input type="checkbox" data-s="${i}"><span>${esc(s)}</span></label>`).join('');
+function signsOut(){
+  const n = $$('#signs input:checked').length;
+  $('#signsOut').textContent = n === 0 ? '' : n < 3 ? 'Практика может подсветить, откуда это берётся.' : 'Практика точно для тебя: фоновый стресс от незакрытого забирает фокус.';
+}
+$('#signs').addEventListener('change', e => { S.signs = $$('#signs input').map(i => i.checked); save(); signsOut(); });
+
+/* ---------- data ---------- */
+const GEST = [
+  ['Что я давно должна была или должен был сделать?','Не «хотел», а именно «должен был». У Макса, например, третий месяц висит «позвонить крёстной» — и сверлит голову каждый день.'],
+  ['Что я откладываю из раза в раз?','Разобраться с чувствами к маме или папе, поход на массаж, звонок подруге, путешествие, долгожданное увольнение.'],
+  ['Что я начал(а), но не закончил(а)?','Если что-то повторяется из прошлого пункта, не дублируй. Дописывай только новое.'],
+  ['Что я когда-то решил(а) освоить или сделать — и забросил(а)?','Здесь можно вспоминать прошлое: начал изучать видеосъёмку, крипту, язык — и бросил.'],
+  ['Что я продолжаю себе обещать? Какими «завтраками» себя кормлю?','Рук всего две, а обещаний — как у Шивы.'],
+  ['Что я постоянно переношу на потом?','Если кажется, что всё уже выписано, значит, так и есть. Можно идти дальше.'],
+  ['Чего я избегаю? Какой трудный разговор откладываю?','Невысказанное пугает страхом, что после этого бросят или ударят под дых. Но потребность выговориться никуда не девается.'],
+  ['Что я саботирую?','Заявить о себе. Попросить повышение. Сказать человеку, что со мной так нельзя.'],
+  ['Что я знаю, что нужно сделать, но почему-то не делаю?','Последний заход. Если слова закончились — прекрасно, работа сделана качественно.']
+];
+const BASE = ['Здоровье и тело','Ментальное здоровье','Семья','Личная жизнь','Дети','Дружба','Общение и окружение','Работа','Карьера','Финансы','Саморазвитие','Хобби и творчество','Отдых и свободное время','Дом и быт','Путешествия','Духовность'];
+const PAINQ = ['Что не удовлетворяет и не устраивает?','Что бесит?','Что вызывает раздражение?','Что давит?','Что грузит?','Что тяготит?','Что тревожит?','Что вызывает отторжение?','Что приходится терпеть?','Что разочаровывает?','Что вытягивает силы?'];
+const STEPQ = ['Что можно изменить, чтобы эта неудовлетворённость ушла или стала заметно меньше?','С чего можно начать её решать? Какой самый первый, маленький шаг?','Что нужно наконец закончить или завершить, чтобы это перестало болеть?','Кому и что нужно сказать, чтобы это начало решаться?','От чего пора отказаться, чтобы эта пробоина закрылась?','Что пора перестать терпеть — и что сделать вместо этого?','Какое решение мне нужно наконец принять?','Чья помощь или какой ресурс помогли бы это решить?'];
+const STEPS = ['Карта незавершённого','Посмотри на список','Сферы жизни','Назови по-своему','Что болит','Топ-3 в каждой сфере','Три главные пробоины','Найди связи','Решения','Карта и выводы'];
+const SHORTQ = ['Изменить','Начать','Закончить','Сказать','Отказаться','Перестать терпеть','Принять решение','Найти помощь'];
+function lbBind(inp, btn, onAdd){ const add = () => { const v = inp.value.trim(); if (!v) return; inp.value = ''; onAdd(v); }; btn.onclick = add; inp.onkeydown = e => { if (e.key === 'Enter'){ e.preventDefault(); add(); } }; }
+const LAST = STEPS.length - 1;
+
+let S = {step:0, gi:0, items:[], spheres:[], top:[], quad:null, signs:[], pi:0, pq:0, fq:{}};
+let justHoled = null;
+function load(){ try { const raw = localStorage.getItem(KEY); if (raw) S = Object.assign(S, JSON.parse(raw)); } catch(e){} }
+function save(){ try { localStorage.setItem(KEY, JSON.stringify(S)); } catch(e){} }
+
+const sph = id => S.spheres.find(s => s.id === id);
+const allPains = () => S.spheres.flatMap(s => s.pains.map(p => ({s, p})));
+const painById = (sid, pid) => { const s = sph(sid); return s ? {s, p: s.pains.find(p => p.id === pid)} : null; };
+function cleanTop(){
+  S.spheres.forEach(s => { s.top = (s.top || []).filter(pid => s.pains.some(p => p.id === pid)); });
+  S.top = S.top.filter(t => { const s = sph(t.sid); return s && s.top.includes(t.pid); });
+  S.items.forEach(i => { if (i.link != null && i.link !== 'drop' && !S.top[i.link]) i.link = null; });
+}
+
+/* ---------- wheel ---------- */
+const NS = 'http://www.w3.org/2000/svg';
+function polar(r, a){ return [r * Math.cos(a), r * Math.sin(a)]; }
+function renderWheel(){
+  const svg = $('#wheel'); const R = 150; const n = S.spheres.length;
+  let h = '';
+  const open = S.items.filter(i => i.link !== 'drop').length;
+  if (!n){
+    for (let k = 0; k < 16; k++){ const a = -Math.PI/2 + k * 2*Math.PI/16; const [x, y] = polar(R, a); h += `<line x1="0" y1="0" x2="${x.toFixed(1)}" y2="${y.toFixed(1)}" class="w-ghost"/>`; }
+    h += `<circle r="${R}" class="w-ghost"/><circle r="${R+6}" class="w-rim" opacity=".5"/>`;
+  } else {
+    const step = 2*Math.PI / n;
+    S.spheres.forEach((s, i) => {
+      const a0 = -Math.PI/2 + i*step, a1 = a0 + step;
+      const [x0, y0] = polar(R, a0), [x1, y1] = polar(R, a1);
+      const large = step > Math.PI ? 1 : 0;
+      h += n === 1 ? `<circle r="${R}" class="w-sector"/>` :
+        `<path d="M0 0 L${x0.toFixed(1)} ${y0.toFixed(1)} A${R} ${R} 0 ${large} 1 ${x1.toFixed(1)} ${y1.toFixed(1)} Z" class="w-sector${i%2?' alt':''}"/>`;
+      const am = (a0 + a1)/2; const [lx, ly] = polar(R + 24, am);
+      const name = s.name || s.base; const short = name.length > 16 ? name.slice(0, 15) + '…' : name;
+      const anchor = Math.abs(Math.cos(am)) < .25 ? 'middle' : (Math.cos(am) > 0 ? 'start' : 'end');
+      h += `<text x="${lx.toFixed(1)}" y="${(ly + 4).toFixed(1)}" text-anchor="${anchor}" class="w-lbl">${esc(short)}</text>`;
+      const m = s.pains.length;
+      s.pains.forEach((p, j) => {
+        const f = m === 1 ? .5 : .18 + .64 * ((j * 0.618) % 1);
+        const rr = 60 + ((j * 37) % 82);
+        const [px, py] = polar(rr, a0 + step * f);
+        const gi = S.top.findIndex(t => t.sid === s.id && t.pid === p.id);
+        if (gi > -1){
+          let cr = '';
+          for (let c = 0; c < 4; c++){ const ca = c * 1.7 + j; const [c1x, c1y] = polar(14, ca), [c2x, c2y] = polar(21 + (c%2)*4, ca + .15); cr += `<line x1="${c1x.toFixed(1)}" y1="${c1y.toFixed(1)}" x2="${c2x.toFixed(1)}" y2="${c2y.toFixed(1)}" class="w-crack"/>`; }
+          const cls = justHoled === s.id + p.id ? ' class="pop"' : '';
+          h += `<g transform="translate(${px.toFixed(1)} ${py.toFixed(1)})"><g${cls}>${cr}<circle r="12" class="w-hole"/><text y="4" text-anchor="middle" class="w-hn">${gi + 1}</text></g></g>`;
+        } else if ((s.top || []).includes(p.id)){
+          h += `<circle cx="${px.toFixed(1)}" cy="${py.toFixed(1)}" r="5.5" class="w-top"/>`;
+        } else {
+          h += `<circle cx="${px.toFixed(1)}" cy="${py.toFixed(1)}" r="3.2" class="w-pain"/>`;
+        }
+      });
+    });
+    h += `<circle r="${R}" class="w-ring"/><circle r="${R+6}" class="w-rim"/>`;
+  }
+  h += `<circle r="30" class="w-hub"/><text y="6" text-anchor="middle" class="w-hubn">${open}</text><text y="17" text-anchor="middle" class="w-hubl">открытых</text>`;
+  svg.innerHTML = h;
+  justHoled = null;
+  const cap = $('#wheelCap');
+  const tp = allPains().length;
+  if (S.step <= 1) cap.textContent = open ? `В голове открыто вкладок: ${open}. Мозг не забывает ни одну.` : 'В центре будет число открытых вкладок в твоей голове.';
+  else if (!n) cap.textContent = 'Здесь появится твоё колесо — только из тех сфер, что реально есть.';
+  else if (S.step <= 4) cap.textContent = tp ? `Сфер: ${n}. Неудовлетворённостей: ${tp}.` : `Сфер: ${n}. Колесо пока выглядит целым.`;
+  else if (!S.top.length) cap.textContent = 'Золотым отмечен топ каждой сферы.';
+  else cap.textContent = S.top.length === 3 ? 'Три пробоины, через которые уходит энергия.' : `Пробоин отмечено: ${S.top.length} из 3.`;
+}
+
+/* ---------- card ---------- */
+const card = $('#card');
+function nav(prevOk, nextLabel, nextId = 'next'){
+  return `<div class="nav">${prevOk ? '<button class="ghost" id="prev">Назад</button>' : '<span></span>'}<button class="btn" id="${nextId}">${esc(nextLabel)}${ARROW}</button></div><p class="err" id="err"></p>`;
+}
+function stepnav(){
+  const reach = maxReach();
+  return `<div class="stepnav"><span class="label">Шаг ${S.step + 1} из ${STEPS.length} · ${esc(STEPS[S.step])}</span><div class="dots">${STEPS.map((t, i) =>
+    `<button aria-label="Шаг ${i + 1}: ${esc(t)}" title="${esc(t)}" ${i === S.step ? 'aria-current="step"' : ''} class="${i < S.step ? 'done' : ''}" ${i > reach ? 'disabled' : ''} data-go="${i}">${i + 1}</button>`).join('')}</div></div>`;
+}
+function maxReach(){
+  if (!S.spheres.length) return Math.min(Math.max(S.step, 2), 2);
+  const withPains = S.spheres.filter(s => s.pains.length);
+  if (!withPains.length) return 4;
+  if (withPains.some(s => !(s.top || []).length)) return 5;
+  if (!S.top.length) return 6;
+  return LAST;
+}
+function go(i){ S.step = Math.max(0, Math.min(LAST, i)); save(); render(true); card.scrollIntoView({block:'start', behavior: RM ? 'auto' : 'smooth'}); }
+
+function listBuilder(ph){
+  return `<div class="lb"><div class="lb-row"><input type="text" id="lbIn" placeholder="${esc(ph)}" maxlength="200" aria-label="${esc(ph)}"><button class="ghost" id="lbAdd">Добавить</button></div></div>`;
+}
+function bindLB(onAdd){
+  const inp = $('#lbIn'); const add = () => { const v = inp.value.trim(); if (!v) return; onAdd(v); inp.value = ''; render(); const n = $('#lbIn'); if (n) n.focus(); };
+  $('#lbAdd').onclick = add; inp.onkeydown = e => { if (e.key === 'Enter'){ e.preventDefault(); add(); } };
+}
+
+function render(anim){
+  cleanTop();
+  let h = stepnav();
+  const st = S.step;
+
+  if (st === 0){
+    const [q, hint] = GEST[S.gi];
+    h += `<h3>Карта незавершённого</h3><p class="intro">Пиши абсолютно всё, что вспоминается. Даже сраные мелочи. Вспомнилось — записал, не вспомнилось — окей, идём дальше. И чтобы тебе было проще достать всё незавершённое, ответь на все 9 вопросов.</p>
+    <div class="qrow"><button type="button" class="qarr" id="gPrev" aria-label="Предыдущий вопрос" ${S.gi === 0 ? 'disabled' : ''}>‹</button><div><p class="qnum">Вопрос ${S.gi + 1} из ${GEST.length}</p><p class="bigq">${esc(q)}</p></div><button type="button" class="qarr" id="gNext" aria-label="Следующий вопрос" ${S.gi === GEST.length - 1 ? 'disabled' : ''}>›</button></div><details class="hint"><summary>Подсказка</summary><p>${esc(hint)}</p></details>
+    ${listBuilder('Например: записаться к врачу')}
+    <ul class="items">${S.items.slice().reverse().map(i => `<li><span class="t">${esc(i.text)}</span><span class="src">вопрос ${i.src + 1}</span><button class="x" data-del="${i.id}" aria-label="Удалить">×</button></li>`).join('')}</ul>
+    <p class="count">${S.items.length ? `Записано: ${S.items.length}` : ''}</p>
+    <p class="care">Помни, что это вовсе не список твоей лени! Это карта незавершённого пути к желаниям. А лень — всего лишь защитный механизм, которым психика уводит тебя от боли прошлого.</p>
+    ${nav(false, 'Посмотреть на список')}`;
+  }
+  else if (st === 1){
+    const n = S.items.length;
+    h += `<h3>Посмотри на свой список</h3>
+    <p class="intro">${n ? `В твоём списке ${n} ${plural(n,'пункт','пункта','пунктов')}. ` : ''}Всё это одновременно висит фоном у тебя в голове — мозг не забывает ни одного пункта.</p>
+    <p class="bigq">5 уточнений</p>
+    <p class="intro">Ответь себе, вслух или про себя:</p>
+    <ol class="five-q">
+      <li>Этот список незавершённого — о чём для тебя важном?</li>
+      <li>Есть ли в нём что-то ещё ценное?</li>
+      <li>Помогает ли этот список держать фокус на главном?</li>
+      <li>Помогает ли он встраивать в жизнь новые навыки?</li>
+      <li>Чего важного он тебя лишает?</li>
+    </ol>
+    <div class="tip"><b>Хаос успокаивается, когда его систематизируешь.</b> И этот список полезен. Какие-то давно висящие задачи можно просто выполнить и закрыть — и освободить пространство внимания. Что-то в нём уже протухло и вообще не нужно — это можно смело отпустить. А есть важные задачи, которые не выполняются по причине, которую ты, возможно, увидишь в конце практики.</div>
+    <p class="care">Список не выбрасываем — он понадобится на восьмом шаге.</p>
+    ${nav(true, 'Перейти к колесу')}`;
+  }
+  else if (st === 2){
+    const chosen = new Set(S.spheres.map(s => s.base));
+    const customs = S.spheres.filter(s => !BASE.includes(s.base));
+    h += `<h3>Сферы, которые реально есть</h3><p class="intro">Оставь только те, что по факту есть в твоей жизни сейчас. Не нужны тут те сферы, которые хотелось бы иметь! Помни, что лишняя сфера — самообман и лишнее чувство дефективности.</p>
+    <div class="chips">${BASE.concat(customs.map(s => s.base)).map(b => `<button class="chip" data-sp="${esc(b)}" aria-pressed="${chosen.has(b)}">${esc(b)}</button>`).join('')}</div>
+    <div class="custom"><input type="text" id="custIn" placeholder="Своя сфера" maxlength="40" aria-label="Своя сфера"><button class="ghost" id="custAdd">Добавить</button></div>
+    <p class="count">${S.spheres.length ? `Выбрано: ${S.spheres.length}. У Макса их пять — как пальцев на руке.` : 'У Макса их пять — как пальцев на руке.'}</p>
+    ${nav(true, 'Дальше')}`;
+  }
+  else if (st === 3){
+    h += `<h3>Назови по-своему</h3><p class="intro">Может, для тебя это не «семья», а «взаимоотношения», не «работа», а «дело». Когда сфера названа твоими словами, из неё проще доставать смыслы. Оставь как есть, если и так откликается.</p>
+    <div class="rename">${S.spheres.map(s => `<label><span>${esc(s.base)}</span><input type="text" data-rn="${s.id}" value="${esc(s.name)}" placeholder="${esc(s.base)}" maxlength="40"></label>`).join('')}</div>
+    ${nav(true, 'Дальше')}`;
+  }
+  else if (st === 4){
+    if (S.pi >= S.spheres.length) S.pi = 0;
+    const s = S.spheres[S.pi]; const pq = PAINQ[S.pq % PAINQ.length];
+    h += `<h3>Что болит</h3><p class="intro">Не что улучшить и не что добавить, а что уже сейчас болит. Честно, жёстко, как есть. Примерно три минуты на сферу — пройдись по вопросам, они помогают распаковаться.</p>
+    <div class="tabs" role="tablist">${S.spheres.map((x, i) => `<button class="tab" role="tab" aria-selected="${i === S.pi}" data-pi="${i}">${esc(x.name || x.base)}<span class="c">${x.pains.length || ''}</span></button>`).join('')}</div>
+    <p class="bigq">${esc(pq)}</p>
+    <div class="prompts">${PAINQ.map((q, i) => `<button data-pq="${i}" aria-pressed="${i === S.pq % PAINQ.length}">${esc(q.replace('?', '').replace('Что ', '').replace('не удовлетворяет и не устраивает','не устраивает'))}</button>`).join('')}</div>
+    ${listBuilder('Например: не делаю зарядку')}
+    <ul class="items">${s.pains.slice().reverse().map(p => `<li><span class="t">${esc(p.text)}</span><button class="x" data-dp="${p.id}" aria-label="Удалить">×</button></li>`).join('')}</ul>
+    <p class="care">Не сравнивай себя с другими: у кого-то в сфере всё спокойно, у кого-то длинный список. Каждый проживает свой опыт.</p>
+    ${nav(true, S.pi < S.spheres.length - 1 ? 'Следующая сфера' : 'К топ-3')}`;
+  }
+  else if (st === 5){
+    h += `<h3>Топ-3 в каждой сфере</h3><p class="intro">Если бы в сфере можно было оставить только три неудовлетворённости — какие были бы самыми сильными? Не самыми «разумными», а теми, что правда сильнее всего вышибают. Нажимай по порядку: первая — самая сильная.</p>`;
+    S.spheres.forEach(s => {
+      h += `<div class="sgroup"><h4>${esc(s.name || s.base)}</h4>`;
+      if (!s.pains.length) h += `<p class="empty">Здесь ничего не болит — сфера просто остаётся в колесе.</p>`;
+      else h += `<div class="chips">${s.pains.map(p => { const r = s.top.indexOf(p.id); return `<button class="chip" data-ts="${s.id}" data-tp="${p.id}" aria-pressed="${r > -1}">${r > -1 ? `<span class="rk">${r + 1}</span>` : ''}${esc(p.text)}</button>`; }).join('')}</div>`;
+      h += `</div>`;
+    });
+    h += nav(true, 'Дальше');
+  }
+  else if (st === 6){
+    const pool = S.spheres.flatMap(s => (s.top || []).map(pid => ({s, p: s.pains.find(p => p.id === pid)})));
+    h += `<h3>Три главные пробоины</h3><p class="intro">Из всех топов по сферам выбери три самых сильных, самых выматывающих. Нажимай по порядку. Это пробоины, через которые каждый день утекает внимание и энергия.</p>
+    <div class="chips">${pool.map(({s, p}) => { const r = S.top.findIndex(t => t.sid === s.id && t.pid === p.id); return `<button class="chip" data-gs="${s.id}" data-gp="${p.id}" aria-pressed="${r > -1}">${r > -1 ? `<span class="rk">${r + 1}</span>` : ''}${esc(p.text)} <span class="sp">· ${esc(s.name || s.base)}</span></button>`; }).join('')}</div>
+    <p class="count">${S.top.length}/3</p>
+    ${nav(true, 'Дальше')}`;
+  }
+  else if (st === 7){
+    const linked = S.items.filter(i => i.link != null && i.link !== 'drop').length;
+    const dropped = S.items.filter(i => i.link === 'drop').length;
+    h += `<h3>Найди связи</h3><p class="intro">Вернись к карте незавершённого с первого шага. Какие дела на самом деле растут из твоих главных пробоин? А какие вообще не ведут туда, куда тебе важно, — и их можно просто отпустить?</p>
+    <div class="top-legend">${S.top.map((t, i) => { const x = painById(t.sid, t.pid); return `<div><span class="hn">${i + 1}</span><span>${esc(x.p.text)}</span></div>`; }).join('')}</div>
+    ${S.items.length ? S.items.map(it => `<div class="link-row${it.link === 'drop' ? ' drop' : ''}"><div class="t">${esc(it.text)}</div><div class="link-btns">${S.top.map((t, i) => `<button data-li="${it.id}" data-lv="${i}" aria-pressed="${it.link === i}">связано с ${i + 1}</button>`).join('')}<button class="drop" data-li="${it.id}" data-lv="drop" aria-pressed="${it.link === 'drop'}">отпустить</button></div></div>`).join('') : '<p class="care">Карта незавершённого пуста — можно вернуться на первый шаг или идти дальше.</p>'}
+    <p class="links-sum">${S.items.length ? `Связано: ${linked}. Отпущено: ${dropped}.` : ''}</p>
+    <div class="tip">Макс, делая эту практику, увидел, что почти все незакрытые дела связаны с одной пробоиной — «я не на своём месте». Он думал, что ленивый и несистемный, а оказалось, дело совсем в другом. Когда главная пробоина закрыта, половина дел отваливается как ненужная: они были затычками.</div>
+    ${nav(true, 'Дальше')}`;
+  }
+  else if (st === 8){
+    h += `<h3>Решения</h3><p class="intro">Каждая пробоина — это задача, которую можно решить. И решить её можно по-разному: что-то изменить, с чего-то начать, что-то закончить, кому-то что-то сказать или от чего-то наконец отказаться. Возьми пробоины по очереди и пройди по способам решения — записывай все варианты, даже странные. Потом отметь первый шаг: самый маленький, который реально сделать на этой неделе.</p>`;
+    S.top.forEach((t, i) => {
+      const x = painById(t.sid, t.pid); const k = t.sid + t.pid; const qi = (S.fq[k] || 0) % STEPQ.length; t.ideas = t.ideas || [];
+      h += `<div class="pain-block"><div class="ph"><span class="hn">${i + 1}</span><div><b>${esc(x.p.text)}</b><small>${esc(x.s.name || x.s.base)}</small></div></div>
+      <p class="qhow">Способ решения:</p><div class="qlist">${STEPQ.map((q, j) => `<button data-fk="${k}" data-fq="${j}" aria-pressed="${j === qi}">${SHORTQ[j]}</button>`).join('')}</div>
+      <p class="qshow">${esc(STEPQ[qi])}</p>
+      <div class="lb-row"><input type="text" data-ii="${i}" maxlength="200" placeholder="Вариант решения" aria-label="Вариант решения для пробоины ${i + 1}"><button class="ghost" data-ia="${i}">Добавить</button></div>
+      <ul class="items" style="max-height:none">${t.ideas.map((d, j) => `<li><span class="t">${esc(d.t)}</span><span class="src">${esc(SHORTQ[d.q])}</span><button class="star" data-pk="${i}" data-pj="${j}" aria-pressed="${t.step === d.t}">${t.step === d.t ? '★ первый шаг' : '☆ первый шаг'}</button><button class="x" data-ix="${i}" data-iy="${j}" aria-label="Удалить">×</button></li>`).join('')}</ul>
+      <label class="fld"><span>Мой первый шаг</span><textarea data-fs="${i}" placeholder="Выбери из идей звёздочкой или впиши сам(а)" aria-label="Первый шаг для пробоины ${i + 1}">${esc(t.step || '')}</textarea></label></div>`;
+    });
+    h += `<p class="care">Потом подумай о следующем шаге и ещё о следующем. Раны зарастают постепенно — и с каждым шагом внутри больше тепла, света и ясности.</p>`;
+    h += nav(true, 'Собрать карту и выводы');
+  }
+  else if (st === 9){
+    const linked = S.items.filter(i => i.link != null && i.link !== 'drop').length;
+    const dropped = S.items.filter(i => i.link === 'drop').length;
+    h += `<h3>Твоя карта</h3><p class="intro">Не двадцать и не сто проблем, а три. С ними можно работать по очереди.</p>
+    <div class="map-top">${S.top.map((t, i) => { const x = painById(t.sid, t.pid); const ls = S.items.filter(it => it.link === i).length;
+      return `<div class="it"><span class="hn">${i + 1}</span><div><b>${esc(x.p.text)}</b><small>${esc(x.s.name || x.s.base)}${ls ? ` · связано дел: ${ls}` : ''}</small><p>${t.step ? `<strong>Первый шаг:</strong> ${esc(t.step)}` : 'Первый шаг пока не записан.'}${(t.ideas || []).filter(d => d.t !== t.step).length ? `<br><strong>Другие идеи:</strong> ${esc(t.ideas.filter(d => d.t !== t.step).map(d => d.t).join('; '))}` : ''}</p></div></div>`; }).join('')}</div>
+    <div class="map-stats"><div><b>${S.items.length}</b><span>незавершённых</span></div><div><b>${linked}</b><span>растут из пробоин</span></div><div><b>${dropped}</b><span>отпущено</span></div></div>
+    ${conclusions()}
+    <label class="fld" style="margin-top:24px"><span>Мой главный вывод</span><textarea id="myConcl" placeholder="Что я теперь понимаю про себя?">${esc(S.concl || '')}</textarea></label>
+    <div class="export"><button class="btn" id="dl">Скачать всю карту картинкой</button><button class="ghost" id="showTxt">Показать текстом</button></div>
+    <p class="save-note" id="saveNote" aria-live="polite"></p>
+    <textarea id="exportText" readonly hidden aria-label="Карта текстом"></textarea>
+    <div class="nav"><button class="ghost" id="prev">Назад</button><button class="tlink" id="reset">Начать заново</button></div>`;
+  }
+
+  card.innerHTML = h;
+  if (anim){ card.classList.remove('appear'); void card.offsetWidth; card.classList.add('appear'); }
+  bind();
+  renderWheel();
+}
+
+function plural(n, a, b, c){ const m10 = n % 10, m100 = n % 100; return m10 === 1 && m100 !== 11 ? a : (m10 >= 2 && m10 <= 4 && (m100 < 10 || m100 >= 20) ? b : c); }
+function err(t){ const e = $('#err'); if (e) e.textContent = t; }
+
+function bind(){
+  $$('[data-go]', card).forEach(b => b.onclick = () => go(+b.dataset.go));
+  const prev = $('#prev'); if (prev) prev.onclick = () => {
+    if (S.step === 4 && S.pi > 0){ S.pi--; save(); render(true); return; }
+    go(S.step - 1);
+  };
+  const next = $('#next');
+  const st = S.step;
+
+  if (st === 0){
+    bindLB(v => { S.items.push({id: uid(), text: v, src: S.gi, link: null}); save(); });
+    $('#gPrev').onclick = () => { S.gi--; save(); render(true); };
+    $('#gNext').onclick = () => { S.gi++; save(); render(true); };
+    next.onclick = () => go(1);
+    $$('[data-del]', card).forEach(b => b.onclick = () => { S.items = S.items.filter(i => i.id !== b.dataset.del); save(); render(); });
+  }
+  if (st === 1) next.onclick = () => go(2);
+  if (st === 2){
+    $$('[data-sp]', card).forEach(b => b.onclick = () => {
+      const base = b.dataset.sp; const i = S.spheres.findIndex(s => s.base === base);
+      if (i > -1){
+        if (S.spheres[i].pains.length && !armed(b, 'Убрать с записями?')) return;
+        S.spheres.splice(i, 1);
+      } else S.spheres.push({id: uid(), base, name: '', pains: [], top: []});
+      save(); render();
+    });
+    const ci = $('#custIn'); const addC = () => { const v = ci.value.trim(); if (!v) return; if (!S.spheres.some(s => s.base.toLowerCase() === v.toLowerCase())) S.spheres.push({id: uid(), base: v, name: '', pains: [], top: []}); save(); render(); };
+    $('#custAdd').onclick = addC; ci.onkeydown = e => { if (e.key === 'Enter'){ e.preventDefault(); addC(); } };
+    next.onclick = () => S.spheres.length ? go(3) : err('Выбери хотя бы одну сферу — ту, что точно есть в твоей жизни.');
+  }
+  if (st === 3){
+    $$('[data-rn]', card).forEach(inp => inp.oninput = () => { sph(inp.dataset.rn).name = inp.value.trim(); save(); renderWheel(); });
+    next.onclick = () => { S.pi = 0; go(4); };
+  }
+  if (st === 4){
+    const s = S.spheres[S.pi];
+    bindLB(v => { s.pains.push({id: uid(), text: v}); S.pq = (S.pq + 1) % PAINQ.length; save(); });
+    $$('[data-pi]', card).forEach(b => b.onclick = () => { S.pi = +b.dataset.pi; save(); render(); });
+    $$('[data-pq]', card).forEach(b => b.onclick = () => { S.pq = +b.dataset.pq; save(); render(); const n = $('#lbIn'); if (n) n.focus(); });
+    $$('[data-dp]', card).forEach(b => b.onclick = () => { s.pains = s.pains.filter(p => p.id !== b.dataset.dp); save(); render(); });
+    next.onclick = () => {
+      if (S.pi < S.spheres.length - 1){ S.pi++; save(); render(true); return; }
+      if (!S.spheres.some(x => x.pains.length)) return err('Запиши хотя бы одну неудовлетворённость хотя бы в одной сфере.');
+      go(5);
+    };
+  }
+  if (st === 5){
+    $$('[data-ts]', card).forEach(b => b.onclick = () => {
+      const s = sph(b.dataset.ts); const pid = b.dataset.tp; const i = s.top.indexOf(pid);
+      if (i > -1) s.top.splice(i, 1); else { if (s.top.length >= 3) return err('В каждой сфере — не больше трёх. Сними отметку с другой, чтобы выбрать эту.'); s.top.push(pid); }
+      save(); render();
+    });
+    next.onclick = () => {
+      const miss = S.spheres.filter(s => s.pains.length && !s.top.length);
+      if (miss.length) return err(`Отметь самую сильную хотя бы в сфере «${miss[0].name || miss[0].base}».`);
+      go(6);
+    };
+  }
+  if (st === 6){
+    $$('[data-gs]', card).forEach(b => b.onclick = () => {
+      const sid = b.dataset.gs, pid = b.dataset.gp; const i = S.top.findIndex(t => t.sid === sid && t.pid === pid);
+      if (i > -1){
+        S.top.splice(i, 1);
+        S.items.forEach(it => { if (it.link === i) it.link = null; else if (typeof it.link === 'number' && it.link > i) it.link--; });
+      } else { if (S.top.length >= 3) return err('Пробоин три. Сними одну, чтобы выбрать другую.'); S.top.push({sid, pid, step: ''}); justHoled = sid + pid; }
+      save(); render();
+    });
+    next.onclick = () => S.top.length ? go(7) : err('Отметь хотя бы одну — самую сильную.');
+  }
+  if (st === 7){
+    $$('[data-li]', card).forEach(b => b.onclick = () => {
+      const it = S.items.find(i => i.id === b.dataset.li); const v = b.dataset.lv === 'drop' ? 'drop' : +b.dataset.lv;
+      it.link = it.link === v ? null : v; save(); render();
+    });
+    next.onclick = () => go(8);
+  }
+  if (st === 8){
+    $$('[data-fq]', card).forEach(b => b.onclick = () => { S.fq[b.dataset.fk] = +b.dataset.fq; save(); render(); });
+    $$('[data-fs]', card).forEach(t => t.oninput = () => { S.top[+t.dataset.fs].step = t.value; save(); });
+    $$('[data-ia]', card).forEach(b => { const i = +b.dataset.ia; const inp = $(`[data-ii="${i}"]`, card);
+      lbBind(inp, b, v => { const t = S.top[i]; const k = t.sid + t.pid; t.ideas = t.ideas || []; t.ideas.push({t: v, q: (S.fq[k] || 0) % STEPQ.length}); save(); render(); const n = $(`[data-ii="${i}"]`, card); if (n) n.focus(); }); });
+    $$('[data-pk]', card).forEach(b => b.onclick = () => { const t = S.top[+b.dataset.pk]; const d = t.ideas[+b.dataset.pj]; t.step = t.step === d.t ? '' : d.t; save(); render(); });
+    $$('[data-ix]', card).forEach(b => b.onclick = () => { S.top[+b.dataset.ix].ideas.splice(+b.dataset.iy, 1); save(); render(); });
+    next.onclick = () => go(9);
+  }
+  if (st === 9){
+    $('#dl').onclick = download;
+    $('#myConcl').oninput = e => { S.concl = e.target.value; save(); };
+    $('#showTxt').onclick = () => { const t = $('#exportText'); t.value = exportText(); t.hidden = false; t.focus(); t.select(); };
+    $('#reset').onclick = () => {
+      if (!armed($('#reset'), 'Точно стереть всё? Нажми ещё раз')) return;
+      S = {step:0, gi:0, items:[], spheres:[], top:[], signs:S.signs, pi:0, pq:0, fq:{}, concl:''}; save(); render(true);
+      $('#practice').scrollIntoView();
+    };
+  }
+}
+
+
+function concList(){
+  const L = [];
+  const sp = S.spheres.filter(s => s.pains.length).sort((a, b) => b.pains.length - a.pains.length)[0];
+  if (sp) L.push(`<b>Больше всего болит в сфере «${esc(sp.name || sp.base)}»</b> — ${sp.pains.length} ${plural(sp.pains.length,'неудовлетворённость','неудовлетворённости','неудовлетворённостей')}. Многие из них могут быть следствием главных пробоин.`);
+  const cnt = S.top.map((t, i) => S.items.filter(it => it.link === i).length);
+  const mx = Math.max(0, ...cnt);
+  if (mx > 0){ const i = cnt.indexOf(mx); const x = painById(S.top[i].sid, S.top[i].pid); L.push(`<b>Начни с пробоины ${i + 1} — «${esc(x.p.text)}».</b> Из неё растёт больше всего незавершённых дел (${mx}). Закроешь её — часть дел отвалится сама.`); }
+  else if (S.top.length) L.push(`<b>Начни с пробоины 1</b> — она для тебя самая сильная. Работай с тремя по очереди, а не со всеми сразу.`);
+  const dr = S.items.filter(i => i.link === 'drop').length;
+  if (dr) L.push(`<b>Ты уже освободил место:</b> ${dr} ${plural(dr,'дело отпущено','дела отпущены','дел отпущено')}. Это внимание теперь можно потратить на себя.`);
+  const un = S.items.filter(i => i.link == null).length;
+  if (un) L.push(`<b>${un} ${plural(un,'дело пока','дела пока','дел пока')} без связи.</b> Вернись к ним, когда закроешь первую пробоину, — многое может оказаться ненужным.`);
+  const noStep = S.top.filter(t => !t.step).length;
+  if (noStep) L.push(`<b>Не хватает первого шага для ${noStep} ${plural(noStep,'пробоины','пробоин','пробоин')}.</b> Вернись на шаг «Решения»: без шага пробоина так и будет высасывать силы.`);
+  L.push('Повтори практику не раньше чем через полгода: так будет видна динамика, а не суета.');
+  return L;
+}
+function conclusions(){ const L = concList();
+  return `<div class="concl"><h4>Выводы</h4><ul>${L.map(x => `<li>${x}</li>`).join('')}</ul></div>`;
+}
+function exportText(){
+  const L = [];
+  L.push('# Колесо дисбаланса — моя карта', '');
+  L.push('## Три главные пробоины', '');
+  S.top.forEach((t, i) => { const x = painById(t.sid, t.pid); L.push(`${i + 1}. ${x.p.text} (${x.s.name || x.s.base})`); L.push(`   Первый шаг: ${t.step ? t.step : '—'}`); (t.ideas || []).filter(d => d.t !== t.step).forEach(d => L.push(`   - идея (${SHORTQ[d.q]}): ${d.t}`));
+    const ls = S.items.filter(it => it.link === i); if (ls.length){ L.push('   Связанные незавершённые дела:'); ls.forEach(it => L.push(`   - ${it.text}`)); } L.push(''); });
+  L.push('## Сферы и неудовлетворённости', '');
+  S.spheres.forEach(s => { L.push(`### ${s.name || s.base}`); if (!s.pains.length) L.push('Ничего не болит.');
+    s.pains.forEach(p => { const r = s.top.indexOf(p.id); L.push(`- ${p.text}${r > -1 ? ` (топ ${r + 1})` : ''}`); }); L.push(''); });
+  const rest = S.items.filter(i => i.link == null); const dr = S.items.filter(i => i.link === 'drop');
+  if (rest.length){ L.push('## Незавершённое без связи', ''); rest.forEach(i => L.push(`- ${i.text}`)); L.push(''); }
+  if (dr.length){ L.push('## Отпускаю', ''); dr.forEach(i => L.push(`- ~~${i.text}~~`)); L.push(''); }
+  if (S.concl) L.push('## Мой главный вывод', '', S.concl, '');
+  L.push('Повторить практику — не раньше чем через полгода.', '', 'Клуб #MaxMagia');
+  return L.join('\n');
+}
+
+let dlNs = null;
+(async () => { try { if (window.claude && typeof window.claude.use === 'function') dlNs = await window.claude.use('downloads'); } catch(e){ dlNs = null; } })();
+function wrapText(x, text, maxW){ const out = []; String(text).split('\n').forEach(par => { const words = par.split(' '); let line = ''; for (const w of words){ const t = line ? line + ' ' + w : w; if (x.measureText(t).width > maxW && line){ out.push(line); line = w; } else line = t; } out.push(line); }); return out; }
+function wheelImage(){
+  return new Promise((res, rej) => {
+    const css = `.w-sector{fill:#F4F1EA;stroke:rgba(47,47,47,.24);stroke-width:1}.w-sector.alt{fill:#EDE5D6}.w-rim{fill:none;stroke:#9A6A2E;stroke-width:2}.w-ring{fill:none;stroke:rgba(47,47,47,.12)}.w-lbl{fill:#4D4D4D;font-family:Manrope,Arial,sans-serif;font-size:11.5px}.w-pain{fill:#8C8680}.w-top{fill:#9A6A2E}.w-hole{fill:#fff;stroke:#B8352A;stroke-width:2.5}.w-crack{stroke:#B8352A;stroke-width:1.4;stroke-linecap:round}.w-hn{fill:#B8352A;font-family:Manrope,Arial,sans-serif;font-weight:700;font-size:12px}.w-hub{fill:#fff;stroke:#9A6A2E;stroke-width:1.5}.w-hubn{fill:#2F2F2F;font-family:Georgia,serif;font-weight:600;font-size:26px}.w-hubl{fill:#696969;font-family:Manrope,Arial,sans-serif;font-size:8.5px}.w-ghost{fill:none;stroke:rgba(47,47,47,.24);stroke-dasharray:3 5}`;
+    const inner = $('#wheel').innerHTML.replace(/ class="pop"/g, '');
+    const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="-258 -208 516 416" width="1032" height="832"><style>${css}</style>${inner}</svg>`;
+    const img = new Image(); img.onload = () => res(img); img.onerror = rej;
+    img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
+  });
+}
+async function mapPNG(){
+  try { await Promise.all([document.fonts.load('500 56px "Cormorant Garamond"'), document.fonts.load('italic 500 30px "Cormorant Garamond"'), document.fonts.load('600 20px Manrope'), document.fonts.load('400 24px Manrope')]); } catch(e){}
+  renderWheel();
+  let wimg = null; try { wimg = await wheelImage(); } catch(e){}
+  const W = 1240, M = 100, CW = W - M * 2;
+  const SERIF = '"Cormorant Garamond", Georgia, serif', SANS = 'Manrope, system-ui, sans-serif';
+  const C = {bg:'#FBFAF7', card:'#F4F1EA', ink:'#2F2F2F', dim:'#4D4D4D', mute:'#696969', acc:'#9A6A2E', red:'#B8352A', grn:'#23744A', line:'rgba(47,47,47,.14)'};
+  const linked = S.items.filter(i => i.link != null && i.link !== 'drop').length, dropped = S.items.filter(i => i.link === 'drop').length;
+  const strip = h => { const d = document.createElement('div'); d.innerHTML = h; return d.textContent; };
+  const today = new Date().toLocaleDateString('ru-RU', {day:'numeric', month:'long', year:'numeric'});
+  function paint(x, draw){
+    const T = (txt, px, py, font, color, align = 'left') => { if (!draw) return; x.font = font; x.fillStyle = color; x.textAlign = align; x.fillText(txt, px, py); };
+    const wrap = (txt, font, maxW) => { x.font = font; return wrapText(x, txt, maxW); };
+    const head = (label, title) => { y += 70; if (draw){ x.fillStyle = C.line; x.fillRect(M, y - 40, CW, 1); } T(label, W / 2, y, `600 17px ${SANS}`, C.acc, 'center'); y += 52; T(title, W / 2, y, `500 44px ${SERIF}`, C.ink, 'center'); y += 40; };
+    let y = 96;
+    T('КЛУБ  #MAXMAGIA  ·  ' + today.toUpperCase(), W / 2, y, `600 18px ${SANS}`, C.acc, 'center'); y += 84;
+    T('Моё колесо дисбаланса', W / 2, y, `500 66px ${SERIF}`, C.ink, 'center'); y += 40;
+    if (wimg){ if (draw) x.drawImage(wimg, (W - 1032) / 2, y); y += 832; }
+    if (draw){ x.textAlign = 'center'; [['● неудовлетворённость', C.mute], ['● топ в сфере', C.acc], ['○ главная пробоина', C.red]].forEach(([t, c], k) => T(t, W / 2 + (k - 1) * 300, y + 10, `500 18px ${SANS}`, c, 'center')); }
+    y += 60;
+    const cw3 = (CW - 8) / 3;
+    [[S.items.length, 'незавершённых'], [linked, 'растут из пробоин'], [dropped, 'отпущено']].forEach(([n, l], k) => { const x0 = M + k * (cw3 + 4); if (draw){ x.fillStyle = C.card; x.fillRect(x0, y, cw3, 130); } T(String(n), x0 + cw3 / 2, y + 70, `500 56px ${SERIF}`, C.acc, 'center'); T(l, x0 + cw3 / 2, y + 106, `500 18px ${SANS}`, C.mute, 'center'); });
+    y += 140;
+    // spheres
+    head('СФЕРЫ ЖИЗНИ', 'Что болит');
+    S.spheres.forEach(sp => {
+      y += 30; T((sp.name || sp.base).toUpperCase(), M, y, `700 18px ${SANS}`, C.ink); y += 10;
+      if (!sp.pains.length){ y += 30; T('Ничего не болит.', M, y, `italic 400 21px ${SANS}`, C.mute); y += 6; return; }
+      sp.pains.forEach(pn => {
+        const r = sp.top.indexOf(pn.id); const g = S.top.findIndex(t => t.sid === sp.id && t.pid === pn.id);
+        const mark = g > -1 ? `  ⬤ пробоина ${g + 1}` : r > -1 ? `  · топ ${r + 1}` : '';
+        const lines = wrap('— ' + pn.text, `400 22px ${SANS}`, CW - 220);
+        lines.forEach((l, k) => { y += 32; T(l, M + 10, y, `400 22px ${SANS}`, g > -1 ? C.red : C.dim); });
+        if (mark) T(mark.trim(), M + CW, y, `600 16px ${SANS}`, g > -1 ? C.red : C.acc, 'right');
+      });
+      y += 6;
+    });
+    // holes + solutions
+    head('ТРИ ГЛАВНЫЕ ПРОБОИНЫ', 'И как я их решаю');
+    S.top.forEach((t, i) => {
+      const pp = painById(t.sid, t.pid); if (!pp) return;
+      const tl = wrap(pp.p.text, `500 36px ${SERIF}`, CW - 90);
+      const ideas = (t.ideas || []).filter(d => d.t !== t.step);
+      const sl = wrap('Первый шаг: ' + (t.step || '—'), `600 22px ${SANS}`, CW - 90);
+      const il = ideas.flatMap(d => wrap(`${SHORTQ[d.q] || ''}: ${d.t}`, `400 20px ${SANS}`, CW - 110));
+      const ls = S.items.filter(it => it.link === i).map(it => it.text);
+      const ll = ls.length ? wrap('Связанные дела: ' + ls.join('; '), `italic 400 19px ${SANS}`, CW - 90) : [];
+      const bh = 34 + tl.length * 44 + 30 + sl.length * 32 + (il.length ? 14 + il.length * 30 : 0) + (ll.length ? 14 + ll.length * 28 : 0) + 30;
+      y += 24;
+      if (draw){ x.fillStyle = C.card; x.fillRect(M, y, CW, bh); x.fillStyle = C.red; x.fillRect(M, y, 4, bh); x.beginPath(); x.arc(M + 42, y + 46, 17, 0, Math.PI * 2); x.strokeStyle = C.red; x.lineWidth = 3; x.stroke(); }
+      T(String(i + 1), M + 42, y + 52, `700 17px ${SANS}`, C.red, 'center');
+      let yy = y + 56; tl.forEach((l, k) => T(l, M + 76, yy + k * 44, `500 36px ${SERIF}`, C.ink)); yy += (tl.length - 1) * 44 + 30;
+      T((pp.s.name || pp.s.base).toUpperCase(), M + 76, yy, `600 15px ${SANS}`, C.mute); yy += 34;
+      sl.forEach((l, k) => T(l, M + 76, yy + k * 32, `600 22px ${SANS}`, C.grn)); yy += sl.length * 32;
+      if (il.length){ yy += 10; il.forEach((l, k) => T('· ' + l, M + 76, yy + k * 30, `400 20px ${SANS}`, C.dim)); yy += il.length * 30; }
+      if (ll.length){ yy += 10; ll.forEach((l, k) => T(l, M + 76, yy + k * 28, `italic 400 19px ${SANS}`, C.mute)); }
+      y += bh;
+    });
+    const dr = S.items.filter(i => i.link === 'drop');
+    if (dr.length){ y += 40; T('ОТПУСКАЮ', M, y, `700 17px ${SANS}`, C.acc); wrap(dr.map(i => i.text).join('; '), `400 21px ${SANS}`, CW).forEach(l => { y += 32; T(l, M, y, `400 21px ${SANS}`, C.mute); }); }
+    // conclusions
+    head('ВЫВОДЫ', 'Что я понял(а)');
+    concList().map(strip).forEach(c => { const ls = wrap(c, `400 22px ${SANS}`, CW - 30); y += 14; ls.forEach((l, k) => { y += 32; if (k === 0) T('•', M, y, `700 22px ${SANS}`, C.acc); T(l, M + 26, y, `400 22px ${SANS}`, C.dim); }); });
+    if (S.concl && S.concl.trim()){
+      const cl = wrap(S.concl.trim(), `italic 500 36px ${SERIF}`, CW - 80);
+      y += 50; const bh = 70 + cl.length * 46 + 24;
+      if (draw){ x.strokeStyle = C.acc; x.lineWidth = 2; x.beginPath(); if (x.roundRect) x.roundRect(M, y, CW, bh, 18); else x.rect(M, y, CW, bh); x.stroke(); }
+      T('МОЙ ГЛАВНЫЙ ВЫВОД', W / 2, y + 44, `600 17px ${SANS}`, C.acc, 'center');
+      cl.forEach((l, k) => T(l, W / 2, y + 100 + k * 46, `italic 500 36px ${SERIF}`, C.ink, 'center'));
+      y += bh;
+    }
+    y += 80; T('Повторить практику — не раньше чем через полгода.', W / 2, y, `500 20px ${SANS}`, C.mute, 'center');
+    return y + 70;
+  }
+  const mx = document.createElement('canvas').getContext('2d');
+  const H = Math.min(15000, paint(mx, false));
+  const cv = document.createElement('canvas'); cv.width = W; cv.height = H; const x = cv.getContext('2d');
+  x.fillStyle = C.bg; x.fillRect(0, 0, W, H);
+  paint(x, true);
+  return new Promise(res => cv.toBlob(res, 'image/png'));
+}
+async function download(){
+  const note = $('#saveNote'); note.textContent = 'Готовлю картинку…';
+  try { const blob = await mapPNG();
+    if (dlNs){ await dlNs.save({filename: 'koleso-disbalansa.png', data: blob}); note.textContent = 'Готово — карта сохранена картинкой.'; return; }
+    const w = window.open(URL.createObjectURL(blob), '_blank'); note.textContent = w ? 'Картинка открылась в новой вкладке — сохрани её оттуда.' : 'Не получилось сохранить. Можно открыть карту текстом и скопировать.';
+  } catch(e){ note.textContent = e && e.code === 'declined' ? 'Сохранение отменено.' : e && e.code === 'rate_limited' ? 'Окно сохранения уже открыто — подтверди его.' : 'Не получилось сохранить. Можно открыть карту текстом и скопировать.'; }
+}
+
+/* ---------- init ---------- */
+load();
+if (Array.isArray(S.signs)) $$('#signs input').forEach((i, k) => i.checked = !!S.signs[k]);
+signsOut();
+if (S.step > maxReach()) S.step = maxReach();
+render(false);
+</script>
+</body>
+</html>

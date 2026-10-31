@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Подарить месяц в клубе #MaxMagia</title>
+<meta name="description" content="Как подарить близкому человеку месяц в клубе #MaxMagia — пошагово: от записки до открытки. И +10 дней к вашему участию в благодарность.">
+<meta name="theme-color" content="#0c0c0e">
+<meta property="og:title" content="Подари близкому месяц в клубе #MaxMagia">
+<meta property="og:description" content="Пошагово: как подарить, что будет после оплаты и что делать тому, кто получил подарок.">
+<meta property="og:image" content="https://maxmagia.ru/gift/img/postcard.jpg">
+<link rel="icon" href="/favicon.ico">
+<style>
+@font-face{font-family:'Cormorant Garamond';font-style:normal;font-weight:600;font-display:swap;src:url(/psy/fonts/cormorant-garamond-cyrillic-600-normal.woff2) format('woff2');unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:'Cormorant Garamond';font-style:normal;font-weight:600;font-display:swap;src:url(/psy/fonts/cormorant-garamond-latin-600-normal.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+20AC,U+2122,U+2212}
+@font-face{font-family:'Cormorant Garamond';font-style:italic;font-weight:600;font-display:swap;src:url(/psy/fonts/cormorant-garamond-cyrillic-600-italic.woff2) format('woff2');unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:'Cormorant Garamond';font-style:italic;font-weight:600;font-display:swap;src:url(/psy/fonts/cormorant-garamond-latin-600-italic.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+20AC,U+2122,U+2212}
+@font-face{font-family:'Manrope';font-style:normal;font-weight:200 800;font-display:swap;src:url(/psy/fonts/manrope-cyrillic-wght-normal.woff2) format('woff2');unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:'Manrope';font-style:normal;font-weight:200 800;font-display:swap;src:url(/psy/fonts/manrope-latin-wght-normal.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+20AC,U+2122,U+2212}
+:root{
+  --bg:#0c0c0e;--bg-warm:#111113;--card:#161618;--card2:#1c1c1f;
+  --cream:#f0ece4;--c70:rgba(240,236,228,.72);--c50:rgba(240,236,228,.5);--c30:rgba(240,236,228,.3);--c15:rgba(240,236,228,.15);--c08:rgba(240,236,228,.08);
+  --gold:#b8956a;--gold-l:#d4b48a;--gold-d:#8a6d47;--glow:rgba(184,149,106,.12);--sage:#7a9e82;
+  --serif:'Cormorant Garamond',Georgia,serif;--sans:'Manrope',system-ui,-apple-system,sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+html,body{overflow-x:clip}
+body{font-family:var(--sans);background:var(--bg);color:var(--cream);line-height:1.6;-webkit-font-smoothing:antialiased}
+body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.5;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E")}
+section,header,footer{position:relative;z-index:1}
+.wrap{max-width:1080px;margin:0 auto;padding:0 22px}
+.narrow{max-width:760px;margin:0 auto;padding:0 22px}
+.lbl{font-size:10px;letter-spacing:4.5px;text-transform:uppercase;color:var(--gold-l);font-weight:500;margin-bottom:16px}
+.stitle{font-family:var(--serif);font-weight:600;font-size:clamp(32px,4.5vw,52px);line-height:1.08;margin-bottom:18px}
+.stitle em{font-style:italic;color:var(--gold-l)}
+.aline{width:48px;height:1px;background:linear-gradient(to right,var(--gold),transparent);margin-bottom:22px}
+.lede{color:var(--c70);font-size:16.5px;max-width:620px}
+.sec{padding:96px 0}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:54px;padding:15px 30px;border-radius:14px;border:none;cursor:pointer;
+  font:700 15.5px/1.2 var(--sans);text-decoration:none;background:linear-gradient(135deg,var(--gold-l),var(--gold));color:#141210;box-shadow:0 8px 30px rgba(184,149,106,.25);transition:transform .2s,box-shadow .2s}
+.btn:hover{transform:translateY(-1px);box-shadow:0 10px 36px rgba(184,149,106,.35)}
+.btn.ghost{background:transparent;color:var(--gold-l);border:1px solid rgba(212,180,138,.4);box-shadow:none}
+
+/* hero */
+.hero{padding:clamp(64px,12vh,120px) 0 70px;background:radial-gradient(ellipse 800px 420px at 50% -60px,rgba(184,149,106,.14),transparent 70%)}
+.hero-grid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:56px;align-items:center}
+.hero h1{font-family:var(--serif);font-weight:600;font-size:clamp(40px,6vw,72px);line-height:1.02;margin-bottom:22px}
+.hero h1 em{font-style:italic;color:var(--gold-l)}
+.hero .lede{font-size:17.5px;margin-bottom:30px}
+.hero-btns{display:flex;flex-wrap:wrap;gap:12px}
+.card-img{position:relative;border-radius:22px;overflow:hidden;border:1px solid var(--c15);box-shadow:0 30px 80px rgba(0,0,0,.5);transform:rotate(2deg)}
+.card-img img{display:block;width:100%;height:auto}
+.card-cap{text-align:center;font-size:12.5px;color:var(--c50);margin-top:14px}
+
+/* bonus */
+.bonus{margin-top:-10px;padding:0 0 30px}
+.bonus-box{display:grid;grid-template-columns:auto minmax(0,1fr);gap:26px;align-items:center;padding:34px 36px;border-radius:26px;
+  background:linear-gradient(135deg,rgba(184,149,106,.16),rgba(184,149,106,.04));border:1px solid rgba(212,180,138,.35)}
+.bonus-num{font-family:var(--serif);font-weight:600;font-size:clamp(64px,10vw,104px);line-height:.9;color:var(--gold-l);text-align:center}
+.bonus-num small{display:block;font-family:var(--sans);font-size:13px;letter-spacing:3px;text-transform:uppercase;color:var(--c70);margin-top:6px}
+.bonus h2{font-family:var(--serif);font-weight:600;font-size:clamp(25px,3.2vw,34px);line-height:1.15;margin-bottom:10px}
+.bonus h2 em{font-style:italic;color:var(--gold-l)}
+.bonus p{color:var(--c70);font-size:15.5px}
+.bonus p b{color:var(--cream)}
+
+/* what friend gets */
+.gets{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:34px}
+.get{background:var(--card);border:1px solid var(--c08);border-radius:18px;padding:22px 20px}
+.get{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;column-gap:10px;text-align:center}
+.get b{font-size:21px;line-height:1}
+.get h3{font-family:var(--serif);font-weight:600;font-size:22px;line-height:1.2}
+.get p{flex-basis:100%;font-size:14px;color:var(--c70);font-style:italic;margin-top:8px}
+
+/* steps */
+.phase{display:flex;align-items:center;gap:14px;margin:56px 0 22px}
+.phase span{font-size:10px;letter-spacing:4px;text-transform:uppercase;color:var(--gold-l);font-weight:600;white-space:nowrap}
+.phase::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,var(--c15),transparent)}
+.step{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,300px);gap:34px;align-items:start;padding:30px 0;border-top:1px solid var(--c08)}
+.step:first-of-type{border-top:none}
+.step.noimg{grid-template-columns:minmax(0,1fr)}
+.step-h{display:flex;align-items:baseline;gap:16px;margin-bottom:10px}
+.num{font-family:var(--serif);font-weight:600;font-size:46px;line-height:1;color:var(--gold);min-width:34px}
+.step h3{font-family:var(--serif);font-weight:600;font-size:clamp(24px,3vw,30px);line-height:1.15}
+.step p{color:var(--c70);font-size:15.5px;margin:0 0 10px 50px}
+.step p b{color:var(--cream);font-weight:600}
+.step ul{list-style:none;margin:0 0 10px 50px}
+.step li{position:relative;padding-left:20px;color:var(--c70);font-size:15px;margin-bottom:6px}
+.step li::before{content:'✦';position:absolute;left:0;top:1px;color:var(--gold);font-size:11px}
+.shot{border-radius:18px;overflow:hidden;border:1px solid var(--c15);background:#000;box-shadow:0 18px 50px rgba(0,0,0,.45)}
+.shot img{display:block;width:100%;height:auto}
+.shot+.shot{margin-top:12px}
+.hint{margin:6px 0 0 50px;padding:13px 16px;border-radius:13px;background:rgba(184,149,106,.07);border-left:2px solid var(--gold);font-size:14px;color:var(--c70)}
+.hint b{color:var(--cream)}
+.inl-bonus{display:inline-block;padding:1px 9px;border-radius:999px;background:rgba(184,149,106,.18);color:var(--gold-l);font-weight:700;white-space:nowrap}
+
+/* after */
+.facts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:30px}
+.fact{background:var(--card);border:1px solid var(--c08);border-radius:18px;padding:20px 22px}
+.fact h4{font-size:15px;font-weight:700;margin-bottom:6px;display:flex;gap:10px;align-items:center}
+.fact p{font-size:14.5px;color:var(--c70)}
+.fact a{color:var(--gold-l)}
+
+/* recipient */
+.rcp{background:var(--bg-warm);border-top:1px solid var(--c08);border-bottom:1px solid var(--c08)}
+.rsteps{counter-reset:r;list-style:none;margin-top:28px}
+.rsteps li{counter-increment:r;position:relative;padding:0 0 22px 58px;color:var(--c70);font-size:15.5px}
+.rsteps li::before{content:counter(r);position:absolute;left:0;top:-2px;width:40px;height:40px;border-radius:50%;border:1px solid var(--gold);color:var(--gold-l);
+  font-family:var(--serif);font-weight:600;font-size:21px;display:flex;align-items:center;justify-content:center}
+.rsteps li::after{content:'';position:absolute;left:20px;top:42px;bottom:4px;width:1px;background:var(--c15)}
+.rsteps li:last-child::after{display:none}
+.rsteps b{color:var(--cream);font-weight:600}
+.rsteps .fork{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:10px}
+.rsteps .fork div{background:var(--card);border:1px solid var(--c08);border-radius:14px;padding:14px 16px;font-size:14.5px}
+.rsteps .fork strong{display:block;color:var(--gold-l);font-size:13px;letter-spacing:1px;text-transform:uppercase;margin-bottom:4px}
+
+/* copy text */
+.copy-box{background:var(--card);border:1px solid rgba(212,180,138,.3);border-radius:24px;padding:26px;margin-top:30px}
+.copy-top{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:16px}
+.seg{display:inline-flex;border:1px solid var(--c15);border-radius:999px;padding:3px}
+.seg button{font:600 13px/1 var(--sans);color:var(--c70);background:none;border:none;border-radius:999px;padding:9px 15px;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--glow);color:var(--cream);box-shadow:inset 0 0 0 1px rgba(212,180,138,.45)}
+.seg-l{font-size:13px;color:var(--c50);margin-right:8px}
+.copy-text{white-space:pre-wrap;font-size:15px;line-height:1.65;color:var(--cream);background:rgba(0,0,0,.25);border:1px solid var(--c08);border-radius:16px;padding:20px 20px;max-height:none}
+.copy-row{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:16px}
+.ok{font-size:14px;color:var(--sage);opacity:0;transition:opacity .3s}
+.ok.on{opacity:1}
+
+/* faq */
+details{border-top:1px solid var(--c08);padding:4px 0}
+details:last-of-type{border-bottom:1px solid var(--c08)}
+summary{list-style:none;cursor:pointer;padding:18px 34px 18px 0;font-weight:600;font-size:16px;position:relative}
+summary::-webkit-details-marker{display:none}
+summary::after{content:'+';position:absolute;right:4px;top:12px;font-size:24px;color:var(--gold-l);transition:transform .25s}
+details[open] summary::after{transform:rotate(45deg)}
+details p{color:var(--c70);font-size:15px;padding:0 0 18px}
+details a{color:var(--gold-l)}
+
+.final{text-align:center;padding:100px 0 90px;background:radial-gradient(ellipse 700px 360px at 50% 100%,rgba(184,149,106,.12),transparent 70%)}
+.final .stitle{max-width:760px;margin:0 auto 18px}
+.final p{color:var(--c70);max-width:560px;margin:0 auto 30px}
+footer{border-top:1px solid var(--c08);padding:32px 0 calc(40px + env(safe-area-inset-bottom,0px));text-align:center;font-size:13px;color:var(--c50);line-height:1.8}
+footer a{color:var(--c70);text-decoration:none;border-bottom:1px solid var(--c15)}
+.reveal{opacity:0;transform:translateY(16px);transition:opacity .7s,transform .7s}
+.reveal.seen{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}html{scroll-behavior:auto}}
+
+@media (max-width:860px){
+  .hero-grid{grid-template-columns:1fr;gap:40px}
+  .card-img{max-width:380px;margin:0 auto;transform:rotate(1.5deg)}
+  .gets{grid-template-columns:1fr 1fr}
+  .step{grid-template-columns:1fr;gap:18px}
+  .step .shots{max-width:330px;margin-left:50px}
+  .facts{grid-template-columns:1fr}
+}
+@media (max-width:560px){
+  .sec{padding:72px 0}
+  .bonus-box{grid-template-columns:1fr;text-align:center;padding:28px 22px;gap:14px}
+  .gets{grid-template-columns:1fr}
+  .step p,.step ul,.hint{margin-left:0}
+  .step .shots{margin-left:0;max-width:100%}
+  .num{font-size:40px}
+  .rsteps .fork{grid-template-columns:1fr}
+  .copy-box{padding:18px}
+  .hero-btns .btn{width:100%}
+}
+
+/* ═════ 18.10 (v11): насыщенное золото, как в кабинете ═════ */
+:root{--gold:#c8a96e;--gold-l:#e2c48a;--gold-d:#9e7540;--glow:rgba(200,169,110,.14)}
+.btn{background:linear-gradient(135deg,#ecd29b 0%,#c8a96e 45%,#9e7540 100%);color:#0e0b07;box-shadow:0 8px 30px rgba(200,169,110,.32),inset 0 1px 0 rgba(255,255,255,.35)}
+.btn:hover{box-shadow:0 10px 38px rgba(200,169,110,.45),inset 0 1px 0 rgba(255,255,255,.35)}
+.btn.ghost,.btn.g{background:linear-gradient(135deg,rgba(200,169,110,.16),rgba(200,169,110,.04));color:#e2c48a;border:1px solid rgba(200,169,110,.5);box-shadow:none}
+.lbl,.stitle em,h1 em{color:#e2c48a}
+.num,.bonus-num,.price b,.inl-bonus{color:#e2c48a}
+.inl-bonus,.price{background:rgba(200,169,110,.16)}
+.bonus-box,.plan.best{border-color:rgba(200,169,110,.5);background:linear-gradient(135deg,rgba(200,169,110,.2),rgba(200,169,110,.05))}
+.hint,.tip{border-left-color:#c8a96e;background:rgba(200,169,110,.09)}
+.step li::before,.rsteps li::before{color:#c8a96e;border-color:#c8a96e}
+.tab[aria-selected="true"]{border-color:#c8a96e;background:rgba(200,169,110,.16)}
+.steps li::before{background:rgba(200,169,110,.16);border-color:rgba(200,169,110,.5);color:#e2c48a}
+.back{border-color:rgba(200,169,110,.5)}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="lbl">Клуб #MaxMagia · подарок</div>
+      <h1>Подари близкому <em>месяц в&nbsp;клубе</em></h1>
+      <p class="lede">Иногда лучший подарок — не вещь, а место, где человеку будет хорошо: живые эфиры, практики и тёплое сообщество рядом. Здесь — всё по шагам: как подарить, что будет после оплаты и что делать тому, кто получил подарок.</p>
+      <div class="hero-btns">
+        <a class="btn" href="https://t.me/clubeshnik911_bot?start=gift">🎁 Подарить в боте клуба</a>
+        <a class="btn ghost" href="#steps">Как это работает ↓</a>
+      </div>
+    </div>
+    <div>
+      <div class="card-img"><img src="img/postcard.jpg" alt="Открытка «Тебе подарок — 31 день в клубе»" width="1080" height="1350"></div>
+      <div class="card-cap">Такую открытку получит твой близкий</div>
+    </div>
+  </div>
+</header>
+
+<section class="bonus">
+  <div class="narrow reveal">
+    <div class="bonus-box">
+      <div class="bonus-num">+10<small>дней тебе</small></div>
+      <div>
+        <h2>За заботу о близких — <em>благодарность от меня</em></h2>
+        <p>Когда ты даришь участие тому, кто тебе дорог, я добавляю <b>+10 дней к твоему собственному участию</b> в клубе. Сразу после оплаты — и <b>за каждый подарок</b>: два подарка — +20 дней. 🤍<br>
+          <span style="color:var(--c50)">— Максим</span></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" style="padding-top:60px">
+  <div class="wrap">
+    <div class="lbl reveal">Что получит близкий</div>
+    <h2 class="stitle reveal"><em>31 день</em> в клубе — за 2&nbsp;500&nbsp;₽</h2>
+    <div class="aline"></div>
+    <p class="lede reveal">Оплата разовая, без автопродления. Близкому ничего платить не нужно — ни сейчас, ни потом.</p>
+    <div class="gets">
+      <div class="get reveal"><b>🎥</b><h3>Живые эфиры</h3><p>Тематические встречи, практикумы и АМА-сессии — можно задать вопрос Максиму лично.</p></div>
+      <div class="get reveal"><b>🌙</b><h3>Гипно-медитации</h3><p>Вечера с эриксоновским гипнозом и медитациями — выдохнуть и восстановиться.</p></div>
+      <div class="get reveal"><b>📼</b><h3>Все записи</h3><p>Пропустил эфир — не страшно: смотреть можно, когда удобно.</p></div>
+      <div class="get reveal"><b>💬</b><h3>Сообщество</h3><p>Тёплые люди, которые понимают и поддерживают.</p></div>
+      <div class="get reveal"><b>🗂</b><h3>Личный кабинет</h3><p>Практики, дневник настроения, материалы, письмо себе в будущее.</p></div>
+      <div class="get reveal"><b>✦</b><h3>ИИ-навигатор Flow</h3><p>Подскажет, с чего начать и где найти нужное именно сейчас.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="steps" style="padding-top:20px">
+  <div class="wrap">
+    <div class="lbl reveal">Для того, кто дарит</div>
+    <h2 class="stitle reveal">Как подарить — <em>шаг за шагом</em></h2>
+    <div class="aline"></div>
+    <p class="lede reveal">Всё происходит в боте клуба @clubeshnik911_bot и занимает пару минут. Подарить может любой участник с действующим доступом.</p>
+
+    <div class="phase reveal"><span>Подготовка</span></div>
+
+    <div class="step reveal">
+      <div>
+        <div class="step-h"><span class="num">1</span><h3>Открой подарок в боте</h3></div>
+        <p>Три способа — выбери любой:</p>
+        <ul>
+          <li>в личном кабинете: <b>🔔 → «Подарить участие близкому»</b>;</li>
+          <li>в боте клуба — команда <b>/gift</b>;</li>
+          <li>или кнопка <b>«Подарить в боте клуба»</b> на этой странице.</li>
+        </ul>
+        <p>Бот коротко расскажет, как всё будет. Нажми <b>«✍️ Начать»</b>.</p>
+      </div>
+      <div class="shots"><div class="shot"><img src="img/s1.jpg" alt="Бот: Подари месяц в клубе близкому" loading="lazy" width="640" height="1026"></div></div>
+    </div>
+
+    <div class="step reveal">
+      <div>
+        <div class="step-h"><span class="num">2</span><h3>Напиши пару тёплых слов</h3></div>
+        <p>Одним сообщением, до 500 знаков. Записка придёт вместе с подарком: например, почему тебе хочется подарить именно это.</p>
+        <p>Не хочется писать — нажми <b>«Без записки»</b>.</p>
+      </div>
+      <div class="shots"><div class="shot"><img src="img/s2.jpg" alt="Бот: Напиши пару слов для близкого" loading="lazy" width="640" height="866"></div></div>
+    </div>
+
+    <div class="step reveal">
+      <div>
+        <div class="step-h"><span class="num">3</span><h3>Выбери, когда вручить</h3></div>
+        <ul>
+          <li><b>«🎁 Сразу после оплаты»</b> — открытка придёт тебе сразу;</li>
+          <li><b>«📅 В определённый день»</b> — например, в день рождения. Напиши дату через точку: <b>25.12</b>. В этот день в 10:00 бот пришлёт тебе открытку.</li>
+        </ul>
+        <p>Дату можно выбрать на полгода вперёд.</p>
+      </div>
+      <div class="shots">
+        <div class="shot"><img src="img/s3.jpg" alt="Бот: Когда вручить подарок?" loading="lazy" width="640" height="583"></div>
+        <div class="shot"><img src="img/s5.jpg" alt="Бот: Напиши день вручения" loading="lazy" width="640" height="283"></div>
+      </div>
+    </div>
+
+    <div class="step reveal">
+      <div>
+        <div class="step-h"><span class="num">4</span><h3>Проверь и оплати</h3></div>
+        <p>Бот покажет всё вместе: записку, день вручения, сумму и твой бонус <span class="inl-bonus">+10 дней</span>. Что-то не так — <b>«✏️ Изменить»</b>.</p>
+        <p>Если всё верно — <b>«💳 Оплатить картой»</b> или <b>«📲 Оплатить через СБП»</b>. 2&nbsp;500&nbsp;₽, разово.</p>
+        <div class="hint">Если бот ещё не знает твою почту и телефон, он спросит их перед оплатой — <b>почта нужна для чека</b>.</div>
+      </div>
+      <div class="shots"><div class="shot"><img src="img/s6.jpg" alt="Бот: Проверь, всё ли так" loading="lazy" width="640" height="1084"></div></div>
+    </div>
+
+    <div class="step noimg reveal">
+      <div>
+        <div class="step-h"><span class="num">5</span><h3>Оплата — как обычно</h3></div>
+        <ul>
+          <li><b>Картой</b> — откроется защищённая страница Ckassa: данные карты и код из СМС.</li>
+          <li><b>Через СБП</b> — с телефона откроется приложение банка, за компьютером можно отсканировать QR-код.</li>
+        </ul>
+        <p>После оплаты в боте <b>ничего нажимать не нужно</b> — бот сам увидит оплату и напишет тебе. Чек придёт на почту.</p>
+      </div>
+    </div>
+
+    <div class="phase reveal"><span>После оплаты</span></div>
+
+    <div class="step reveal">
+      <div>
+        <div class="step-h"><span class="num">6</span><h3>Тебе — +10 дней, близкому — открытка</h3></div>
+        <ul>
+          <li>Бот напишет <b>«🎉 Оплата прошла — спасибо за такой подарок!»</b> и сразу добавит тебе <span class="inl-bonus">+10 дней</span> — с новой датой твоего участия.</li>
+          <li>Затем придёт <b>«💌 Твоя открытка готова!»</b> и сама открытка: картинка, твоя записка и кнопка <b>«🎁 Принять подарок»</b>. Если выбран особый день — открытка придёт в этот день в 10:00.</li>
+        </ul>
+      </div>
+      <div class="shots"><div class="shot"><img src="img/postcard.jpg" alt="Открытка-подарок" loading="lazy" width="1080" height="1350"></div></div>
+    </div>
+
+    <div class="step noimg reveal">
+      <div>
+        <div class="step-h"><span class="num">7</span><h3>Перешли открытку близкому</h3></div>
+        <p>Нажми на открытку → <b>«Переслать»</b> → выбери человека. Если записка длинная, открытка придёт двумя сообщениями (картинка и текст) — перешли оба.</p>
+        <p>Можно добавить пару слов от себя — или скопировать готовый текст с подсказками ниже ↓</p>
+        <div class="hint">Ссылка в открытке <b>срабатывает один раз</b>: подарок откроет тот, кто первым нажмёт кнопку. Поэтому пересылай её только тому, кому даришь.</div>
+      </div>
+    </div>
+
+    <div class="facts">
+      <div class="fact reveal"><h4>🤍 Подарок открыли</h4><p>Бот сразу напишет тебе: «Твой подарок открыли!» — и кто теперь в клубе.</p></div>
+      <div class="fact reveal"><h4>⏳ Подарок пока не открыли</h4><p>Через 30 дней бот мягко напомнит и предложит прислать открытку ещё раз. Открыть подарок можно в течение полугода.</p></div>
+      <div class="fact reveal"><h4>🔒 Свой подарок открыть нельзя</h4><p>Ссылка работает только для другого человека — свой подарок принять не получится.</p></div>
+      <div class="fact reveal"><h4>↩️ Если передумал</h4><p>Пока подарок не открыт, деньги можно вернуть по заявлению (бонусные +10 дней при этом снимаются). Подробно — <a href="/oferta.html#gift">оферта, раздел 3.1</a>.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec rcp">
+  <div class="narrow">
+    <div class="lbl reveal">Для того, кто получил подарок</div>
+    <h2 class="stitle reveal">Тебе подарили месяц в клубе — <em>что дальше?</em></h2>
+    <div class="aline"></div>
+    <p class="lede reveal">Платить ничего не нужно. Понадобится только Telegram.</p>
+    <ol class="rsteps">
+      <li class="reveal">Нажми <b>«🎁 Принять подарок»</b> под открыткой (или ссылку в её тексте). Откроется бот клуба <b>@clubeshnik911_bot</b> — нажми <b>«Старт»</b>, если он попросит.</li>
+      <li class="reveal">Бот покажет, кто тебе дарит, и записку от него.</li>
+      <li class="reveal">Дальше — один из двух вариантов:
+        <div class="fork">
+          <div><strong>Ты новичок в клубе</strong>Два коротких шага: познакомиться с условиями и правилами клуба и дать согласие на обработку данных. Это минута. Вместо оплаты на третьем шаге будет кнопка <b>«🎁 Принять подарок»</b>.</div>
+          <div><strong>Ты уже в клубе</strong>Просто нажми <b>«🎁 Принять подарок»</b> — к твоему участию добавится 31 день.</div>
+        </div>
+      </li>
+      <li class="reveal">Готово — <b>добро пожаловать!</b> Бот покажет, как всё устроено: группа клуба, личный кабинет, расписание эфиров. А дарителю придёт весточка, что подарок открыт 🤍</li>
+    </ol>
+    <div class="hint" style="margin-left:0">Подарок можно открыть в течение полугода — дата указана в открытке. Если что-то не получилось, напиши Максиму: <a href="https://t.me/MaxGuschin" style="color:var(--gold-l)">@MaxGuschin</a>.</div>
+  </div>
+</section>
+
+<section class="sec" id="text">
+  <div class="narrow">
+    <div class="lbl reveal">Готовый текст</div>
+    <h2 class="stitle reveal">Перешли близкому <em>вместе с&nbsp;открыткой</em></h2>
+    <div class="aline"></div>
+    <p class="lede reveal">Чтобы близкий не растерялся — вот короткое сообщение с подсказками. Скопируй и отправь следом за открыткой.</p>
+    <div class="copy-box reveal">
+      <div class="copy-top">
+        <div><span class="seg-l">Я&nbsp;дарю как:</span><span class="seg" role="group" aria-label="Род дарящего">
+          <button type="button" data-g="f" aria-pressed="true">она</button><button type="button" data-g="m" aria-pressed="false">он</button></span></div>
+      </div>
+      <div class="copy-text" id="copy-text"></div>
+      <div class="copy-row">
+        <button class="btn" type="button" id="copy-btn">📋 Скопировать текст</button>
+        <span class="ok" id="copy-ok">✓ Скопировано — осталось вставить в чат</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" style="padding-top:20px">
+  <div class="narrow">
+    <div class="lbl reveal">Частые вопросы</div>
+    <h2 class="stitle reveal" style="margin-bottom:26px">Если остались <em>сомнения</em></h2>
+    <details><summary>Можно подарить тому, кто уже в клубе?</summary><p>Да. Человек нажмёт «Принять подарок» — и к его участию добавится 31 день.</p></details>
+    <details><summary>А если у близкого нет Telegram?</summary><p>Клуб и бот живут в Telegram, поэтому для подарка он нужен. Установить Telegram можно бесплатно, это займёт пару минут.</p></details>
+    <details><summary>Можно подарить нескольким людям?</summary><p>Да, каждому — отдельный подарок через /gift. И за каждый ты получаешь свои +10 дней.</p></details>
+    <details><summary>Когда я получу бонус +10 дней?</summary><p>Сразу после оплаты — даже если выбрал(а) вручение в другой день. Бот напишет новую дату твоего участия.</p></details>
+    <details><summary>Будут ли потом списывать деньги?</summary><p>Нет. Подарок оплачивается один раз, без автопродления — ни у тебя, ни у близкого.</p></details>
+    <details><summary>Что, если близкий не открыл подарок?</summary><p>Через 30 дней бот напомнит и предложит прислать открытку ещё раз. Не открытый за полгода подарок можно вернуть по заявлению — <a href="/oferta.html#gift">оферта, раздел 3.1</a>.</p></details>
+  </div>
+</section>
+
+<section class="final">
+  <div class="narrow reveal">
+    <div class="lbl">Забота, которая остаётся</div>
+    <h2 class="stitle">Подари близкому место, <em>где хорошо быть</em></h2>
+    <p>А я со своей стороны скажу спасибо — <b style="color:var(--gold-l)">+10 дней</b> к твоему участию за каждый подарок.</p>
+    <a class="btn" href="https://t.me/clubeshnik911_bot?start=gift">🎁 Подарить в боте клуба</a>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    Клуб #MaxMagia · психолог Максим Гущин<br>
+    <a href="/">Главная</a> · <a href="/oferta.html#gift">Условия подарочного доступа</a> · <a href="/privacy.html">Политика конфиденциальности</a> · <a href="/rules.html">Правила клуба</a>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var G='f';
+  try{var s=localStorage.getItem('mm_gift_g');if(s==='m'||s==='f')G=s;}catch(e){}
+  function text(){
+    var v=G==='m'?'подарил':'подарила';
+    return 'Привет! 🤍 Я '+v+' тебе месяц в клубе #MaxMagia — это клуб психологической поддержки и саморазвития психолога Максима Гущина: живые эфиры, гипно-медитации, практики и тёплое сообщество.\n\n'+
+      'Как открыть подарок:\n'+
+      '1. Нажми «🎁 Принять подарок» под открыткой, которую я тебе переслал'+(G==='m'?'':'а')+'. Откроется бот клуба — нажми «Старт».\n'+
+      '2. Если ты ещё не в клубе — пройди два коротких шага: условия и правила клуба и согласие на обработку данных. Это минута.\n'+
+      '3. Вместо оплаты будет кнопка «🎁 Принять подарок» — жми. Платить ничего не нужно!\n'+
+      '4. Готово — бот покажет, как всё устроено: группа клуба, личный кабинет, расписание эфиров.\n\n'+
+      'Ссылка в открытке срабатывает один раз и только для тебя, открыть подарок можно в течение полугода.\n'+
+      'Подробно с картинками: https://maxmagia.ru/gift/';
+  }
+  var box=document.getElementById('copy-text');
+  function paint(){box.textContent=text();document.querySelectorAll('.seg button').forEach(function(b){b.setAttribute('aria-pressed',b.dataset.g===G?'true':'false');});}
+  document.querySelectorAll('.seg button').forEach(function(b){b.addEventListener('click',function(){G=b.dataset.g;try{localStorage.setItem('mm_gift_g',G);}catch(e){}paint();});});
+  paint();
+  var ok=document.getElementById('copy-ok');
+  function done(){ok.classList.add('on');setTimeout(function(){ok.classList.remove('on');},3000);}
+  function fallback(t){try{var ta=document.createElement('textarea');ta.value=t;ta.setAttribute('readonly','');ta.style.cssText='position:fixed;top:0;left:0;opacity:0';document.body.appendChild(ta);ta.select();ta.setSelectionRange(0,t.length);var r=document.execCommand('copy');ta.remove();if(r)done();}catch(e){}}
+  document.getElementById('copy-btn').addEventListener('click',function(){
+    var t=text();
+    try{if(navigator.clipboard&&window.isSecureContext){navigator.clipboard.writeText(t).then(done,function(){fallback(t);});return;}}catch(e){}
+    fallback(t);
+  });
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('seen');io.unobserve(e.target);}});},{threshold:.12});
+    document.querySelectorAll('.reveal').forEach(function(el){io.observe(el);});
+  } else document.querySelectorAll('.reveal').forEach(function(el){el.classList.add('seen');});
+})();
+</script>
+</body>
+</html>

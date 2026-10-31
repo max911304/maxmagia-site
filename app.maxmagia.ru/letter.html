@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>Письмо себе · #MaxMagia</title>
+<script src="/telegram-web-app.js"></script>
+<script>window.Telegram||document.write('<script src="https://telegram.org/js/telegram-web-app.js"><\/script>')</script>
+<style>
+/* Шрифты лежат на нашем сервере: app.maxmagia.ru/fonts/ (раньше грузились с Google) */
+@font-face{font-family:'Playfair Display';font-style:normal;font-weight:400 900;font-display:swap;src:url(/fonts/playfair-display-cyrillic-wght-normal.woff2) format('woff2');unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:'Playfair Display';font-style:normal;font-weight:400 900;font-display:swap;src:url(/fonts/playfair-display-latin-wght-normal.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:'Playfair Display';font-style:italic;font-weight:400 900;font-display:swap;src:url(/fonts/playfair-display-cyrillic-wght-italic.woff2) format('woff2');unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:'Playfair Display';font-style:italic;font-weight:400 900;font-display:swap;src:url(/fonts/playfair-display-latin-wght-italic.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:'DM Sans';font-style:normal;font-weight:100 1000;font-display:swap;src:url(/fonts/dm-sans-latin-wght-normal.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:'Caveat';font-style:normal;font-weight:400 700;font-display:swap;src:url(/fonts/caveat-cyrillic-wght-normal.woff2) format('woff2');unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:'Caveat';font-style:normal;font-weight:400 700;font-display:swap;src:url(/fonts/caveat-latin-wght-normal.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+
+:root{
+  --bg:#09090e; --bg2:#0d0d14;
+  --surface:rgba(255,255,255,0.032); --surface-hi:rgba(255,255,255,0.06);
+  --gold:#c8a96e; --gold-hi:#e2c48a; --gold-lo:rgba(200,169,110,0.18); --gold-border:rgba(200,169,110,0.22);
+  --white:#f4f1ea; --muted:rgba(244,241,234,0.5); --faint:rgba(244,241,234,0.3);
+  --font-serif:'Playfair Display',Georgia,serif;
+  --font-sans:'DM Sans',-apple-system,sans-serif;
+  --font-hand:'Caveat',cursive;
+  --r:18px;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;background:var(--bg);color:var(--white);font-family:var(--font-sans);overflow:hidden;-webkit-font-smoothing:antialiased}
+body{position:fixed;inset:0;display:flex;flex-direction:column}
+
+/* ── Прогресс-бар ── */
+.progress-wrap{position:fixed;top:0;left:0;right:0;height:3px;z-index:40;background:rgba(255,255,255,.04)}
+.progress-bar{height:100%;width:0;background:linear-gradient(90deg,var(--gold),var(--gold-hi));transition:width .6s cubic-bezier(.4,0,.2,1);box-shadow:0 0 12px rgba(200,169,110,.5)}
+
+/* ── Экраны ── */
+.screen{position:absolute;inset:0;display:flex;flex-direction:column;padding:calc(env(safe-area-inset-top) + 40px) 26px calc(env(safe-area-inset-bottom) + 30px);opacity:0;pointer-events:none;transition:opacity .7s ease;overflow-y:auto;overflow-x:hidden}
+.screen.active{opacity:1;pointer-events:auto}
+.screen::-webkit-scrollbar{width:0}
+
+/* Фоны волн — от светлого к тёмному */
+.wave-bg-0{background:radial-gradient(120% 80% at 50% 0%,rgba(200,169,110,.05),transparent 60%),var(--bg)}
+.wave-bg-1{background:radial-gradient(120% 80% at 50% 0%,rgba(200,169,110,.045),transparent 55%),var(--bg)}
+.wave-bg-2{background:radial-gradient(120% 80% at 50% 0%,rgba(120,110,150,.05),transparent 55%),#0a0a11}
+.wave-bg-3{background:radial-gradient(120% 80% at 50% 0%,rgba(90,90,140,.055),transparent 55%),#080810}
+.wave-bg-4{background:radial-gradient(120% 90% at 50% 10%,rgba(200,169,110,.08),transparent 60%),#070709}
+
+/* ── Заставка-конверт ── */
+#screen-splash{align-items:center;justify-content:center;text-align:center;gap:0}
+.envelope{width:120px;height:84px;position:relative;margin-bottom:38px;animation:floatEnv 4s ease-in-out infinite}
+@keyframes floatEnv{0%,100%{transform:translateY(0) rotate(-1deg)}50%{transform:translateY(-10px) rotate(1deg)}}
+.env-body{position:absolute;inset:0;background:linear-gradient(150deg,#1a1712,#241f16);border:1.5px solid var(--gold-border);border-radius:8px;box-shadow:0 18px 50px rgba(0,0,0,.6),inset 0 1px 0 rgba(200,169,110,.15)}
+.env-flap{position:absolute;top:0;left:0;right:0;height:52px;overflow:hidden}
+.env-flap::after{content:'';position:absolute;top:-42px;left:50%;transform:translateX(-50%);width:120px;height:70px;background:linear-gradient(150deg,#241f16,#2e2818);border:1.5px solid var(--gold-border);border-radius:8px 8px 40px 40px}
+.env-seal{position:absolute;top:38px;left:50%;transform:translateX(-50%);width:30px;height:30px;border-radius:50%;background:radial-gradient(circle at 35% 30%,var(--gold-hi),#8a6a38);box-shadow:0 3px 12px rgba(200,169,110,.4);z-index:3;display:flex;align-items:center;justify-content:center;font-size:14px}
+.pollen{position:absolute;width:3px;height:3px;border-radius:50%;background:var(--gold);opacity:0;animation:pollenRise 6s linear infinite}
+@keyframes pollenRise{0%{opacity:0;transform:translateY(20px) scale(.5)}20%{opacity:.7}80%{opacity:.4}100%{opacity:0;transform:translateY(-120px) scale(1)}}
+
+.splash-title{font-family:var(--font-serif);font-size:30px;font-weight:700;letter-spacing:.5px;opacity:0;animation:fadeUp 1.2s ease .4s forwards}
+.splash-sub{font-family:var(--font-hand);font-size:19px;color:var(--gold);opacity:0;margin-top:10px;animation:fadeUp 1.2s ease .9s forwards}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:.85;transform:translateY(0)}}
+
+/* ── Типографика экранов ── */
+.eyebrow{font-size:10px;font-weight:600;letter-spacing:3.5px;text-transform:uppercase;color:var(--gold);opacity:.7;margin-bottom:14px}
+.wave-title{font-family:var(--font-serif);font-size:27px;font-weight:700;line-height:1.15;margin-bottom:8px}
+.wave-intro{font-size:14.5px;line-height:1.6;color:var(--muted);margin-bottom:30px;font-weight:300}
+
+/* ── Вопрос ── */
+.q-block{margin-bottom:26px;opacity:0;transform:translateY(16px);animation:qIn .7s ease forwards}
+.q-num{font-family:var(--font-serif);font-size:13px;color:var(--gold);opacity:.5;margin-bottom:7px;font-style:italic}
+.q-text{font-size:16.5px;font-weight:500;line-height:1.4;margin-bottom:6px;color:var(--white)}
+.q-hint{font-size:12.5px;line-height:1.5;color:var(--faint);font-style:italic;margin-bottom:11px;font-family:var(--font-hand);font-size:15px}
+@keyframes qIn{to{opacity:1;transform:translateY(0)}}
+
+textarea,input[type=text]{width:100%;background:var(--surface);border:1px solid var(--gold-border);border-radius:14px;color:var(--white);font-family:var(--font-sans);font-size:15px;line-height:1.5;padding:14px 16px;resize:none;transition:border-color .2s,background .2s;outline:none}
+textarea:focus,input[type=text]:focus{border-color:var(--gold);background:var(--surface-hi)}
+textarea{min-height:76px}
+textarea::placeholder,input::placeholder{color:var(--faint);font-style:italic}
+
+/* ── Шкала настроения ── */
+.scale-row{display:flex;gap:6px;margin-top:4px;flex-wrap:wrap}
+.scale-btn{flex:1;min-width:28px;aspect-ratio:1;background:var(--surface);border:1px solid var(--gold-border);border-radius:10px;color:var(--muted);font-size:14px;font-weight:600;cursor:pointer;transition:all .18s;display:flex;align-items:center;justify-content:center}
+.scale-btn.sel{background:linear-gradient(135deg,var(--gold),#9e7540);color:#08080e;border-color:var(--gold);transform:scale(1.08);box-shadow:0 4px 14px rgba(200,169,110,.35)}
+
+/* ── Метафора-ключ ── */
+.keys-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:11px;margin-top:6px}
+.key-card{aspect-ratio:1.3;background:var(--surface);border:1px solid var(--gold-border);border-radius:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;cursor:pointer;transition:all .2s}
+.key-card .k-emoji{font-size:26px}
+.key-card .k-name{font-size:11px;color:var(--muted);letter-spacing:.5px}
+.key-card.sel{background:var(--gold-lo);border-color:var(--gold);transform:translateY(-3px);box-shadow:0 8px 22px rgba(200,169,110,.25)}
+.key-card.sel .k-name{color:var(--gold-hi)}
+
+/* ── Кнопки ── */
+.btn-primary{width:100%;background:linear-gradient(135deg,var(--gold) 0%,#9e7540 100%);color:#08080e;font-family:var(--font-sans);font-weight:700;font-size:15px;padding:16px;border:none;border-radius:14px;cursor:pointer;box-shadow:0 6px 22px rgba(200,169,110,.3);transition:all .18s;letter-spacing:.3px;margin-top:8px}
+.btn-primary:active{transform:scale(.98)}
+.btn-ghost{width:100%;background:transparent;color:var(--gold);border:1px solid var(--gold-border);font-family:var(--font-sans);font-weight:500;font-size:14px;padding:14px;border-radius:14px;cursor:pointer;transition:all .18s;margin-top:10px}
+.btn-ghost:active{background:var(--gold-lo)}
+.wave-actions{margin-top:14px;padding-top:6px}
+
+/* ── Дата ── */
+.date-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin:8px 0 22px}
+.date-card{background:var(--surface);border:1px solid var(--gold-border);border-radius:16px;padding:20px 14px;text-align:center;cursor:pointer;transition:all .2s}
+.date-card .d-num{font-family:var(--font-serif);font-size:30px;font-weight:700;color:var(--white);line-height:1}
+.date-card .d-unit{font-size:12px;color:var(--muted);margin-top:5px;letter-spacing:.5px}
+.date-card .d-when{font-size:11px;color:var(--gold);opacity:.6;margin-top:8px}
+.date-card.sel{background:var(--gold-lo);border-color:var(--gold);transform:translateY(-3px);box-shadow:0 10px 26px rgba(200,169,110,.25)}
+.date-card.sel .d-num{color:var(--gold-hi)}
+
+/* ── Превью письма ── */
+.preview-scroll{background:linear-gradient(160deg,#141119,#0e0c14);border:1px solid var(--gold-border);border-radius:16px;padding:24px 22px;margin:6px 0 20px;max-height:340px;overflow-y:auto;position:relative}
+.preview-scroll::-webkit-scrollbar{width:3px}.preview-scroll::-webkit-scrollbar-thumb{background:var(--gold-border);border-radius:3px}
+.pv-head{font-family:var(--font-serif);font-size:16px;color:var(--gold);margin-bottom:16px;font-style:italic;text-align:center}
+.pv-q{font-size:12px;color:var(--gold);opacity:.55;margin:14px 0 3px;letter-spacing:.3px}
+.pv-a{font-size:14.5px;line-height:1.55;color:var(--white);font-family:var(--font-hand);font-size:17px}
+.pv-anchor{text-align:center;margin-top:20px;padding-top:16px;border-top:1px solid var(--gold-border)}
+.pv-anchor .a-word{font-family:var(--font-serif);font-size:22px;color:var(--gold-hi);font-style:italic}
+.pv-anchor .a-key{font-size:28px;margin-top:6px}
+
+/* ── Финал ── */
+#screen-sealed{align-items:center;justify-content:center;text-align:center}
+.sealed-env{font-size:70px;margin-bottom:24px;animation:sealPulse 2.5s ease-in-out infinite}
+@keyframes sealPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
+.sealed-title{font-family:var(--font-serif);font-size:28px;font-weight:700;margin-bottom:12px}
+.sealed-date{font-size:16px;color:var(--gold);font-family:var(--font-hand);font-size:20px;margin-bottom:8px}
+.sealed-sub{font-size:14px;color:var(--muted);line-height:1.6;max-width:300px;margin-top:16px}
+
+.fade-slow{animation:fadeIn 1s ease}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+
+.back-link{position:fixed;top:calc(env(safe-area-inset-top) + 12px);left:16px;z-index:45;display:inline-flex;align-items:center;gap:6px;min-height:36px;padding:7px 14px 7px 11px;border-radius:999px;font-size:13px;font-weight:600;color:var(--gold);background:rgba(13,13,20,.82);border:1px solid var(--gold-border);cursor:pointer;font-family:var(--font-sans);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+.back-link span{font-size:19px;line-height:1;margin-top:-2px}
+.back-link{display:none}
+@media (display-mode: standalone){.back-link{display:inline-flex}.screen{padding-top:calc(env(safe-area-inset-top) + 64px)}}
+html.pwa .back-link{display:inline-flex}html.pwa .screen{padding-top:calc(env(safe-area-inset-top) + 64px)}
+</style>
+</head>
+<body>
+
+<div class="progress-wrap"><div class="progress-bar" id="progress"></div></div>
+<button class="back-link" type="button" onclick="Ritual.back()" aria-label="Вернуться в кабинет"><span aria-hidden="true">‹</span>Кабинет</button>
+
+<!-- ═══ ЗАСТАВКА ═══ -->
+<div class="screen wave-bg-0 active" id="screen-splash">
+  <div class="envelope">
+    <div class="env-body"></div>
+    <div class="env-flap"></div>
+    <div class="env-seal">✦</div>
+  </div>
+  <div class="splash-title">Письмо себе</div>
+  <div class="splash-sub">в то время, где тебя ещё нет</div>
+</div>
+
+<!-- ═══ НАСТРОЙСЯ ═══ -->
+<div class="screen wave-bg-0" id="screen-intro">
+  <div class="eyebrow">минута тишины</div>
+  <div class="wave-title">Прежде чем начать...</div>
+  <p class="wave-intro" style="margin-top:16px">
+    …сделай вдох. Мы не торопимся.<br><br>
+    Это письмо ждёт <span id="intro-months" style="color:var(--gold)">несколько месяцев</span> — оно может подождать ещё минуту, пока ты настроишься.<br><br>
+    Не нужно быть писателем. Нужно просто остановиться и оглянуться вокруг. Письмо начнётся с мелочей — а мелочи спустя время становятся самым дорогим.
+  </p>
+  <button class="btn-primary" onclick="Ritual.start()">Я готов 🤍</button>
+</div>
+
+<!-- ═══ ВОЛНЫ (генерируются JS) ═══ -->
+<div class="screen" id="screen-wave"></div>
+
+<!-- ═══ ВЫБОР ДАТЫ ═══ -->
+<div class="screen wave-bg-4" id="screen-date">
+  <div class="eyebrow">когда доставить</div>
+  <div class="wave-title">Через сколько это письмо найдёт тебя?</div>
+  <p class="wave-intro">Выбери срок. Бот доставит письмо ровно в этот день — тихо, только тебе.</p>
+  <div class="date-grid" id="date-grid"></div>
+  <div class="eyebrow" style="margin-top:8px">как это будет выглядеть</div>
+  <div class="preview-scroll" id="preview"></div>
+  <button class="btn-primary" id="seal-btn" onclick="Ritual.seal()">Запечатать письмо 🔒</button>
+</div>
+
+<!-- ═══ ФИНАЛ ═══ -->
+<div class="screen wave-bg-4" id="screen-sealed">
+  <div class="sealed-env">✉️</div>
+  <div class="sealed-title">Письмо запечатано</div>
+  <div class="sealed-date" id="sealed-date"></div>
+  <p class="sealed-sub">Я сохранил его бережно. В нужный день оно придёт тебе прямо в чат — тихо и только тебе.<br><br>А пока — живи. Ты уже сделал что-то важное для себя будущего.</p>
+  <button class="btn-ghost" style="max-width:260px;margin-top:28px" onclick="Ritual.close()">Вернуться в кабинет</button>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════════
+// СВЯЗЬ С СЕРВЕРОМ КЛУБА (app.maxmagia.ru/api)
+// Каждый запрос несёт подписанный пропуск Telegram (initData).
+// Сервер проверяет подпись и участие в клубе и отдаёт только своё.
+// ═══════════════════════════════════════════════════════════
+const API = {
+  _boot: null,
+  initData() { try { return Telegram?.WebApp?.initData || ''; } catch(e) { return ''; } },
+  async request(path, opts = {}, timeoutMs = 15000) {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), timeoutMs);
+    try {
+      const r = await fetch('/api' + path, {
+        method: opts.method || 'GET',
+        headers: { 'Content-Type': 'application/json', 'X-Init-Data': this.initData() },
+        body: opts.body,
+        signal: controller.signal,
+        cache: 'no-store',
+      });
+      let body = null;
+      try { body = await r.json(); } catch(e) {}
+      return { status: r.status, body };
+    } catch(e) {
+      return { status: 0, body: null };
+    } finally {
+      clearTimeout(timer);
+    }
+  },
+  bootstrap() {
+    if (!this._boot) this._boot = this.request('/bootstrap');
+    return this._boot;
+  },
+  post(path, data) {
+    return this.request(path, { method: 'POST', body: JSON.stringify(data) });
+  },
+  ok(res) { return !!(res && res.status === 200 && res.body && res.body.ok === true); },
+};
+
+try{ if(window.navigator.standalone===true) document.documentElement.classList.add('pwa'); }catch(e){}
+const TG = window.Telegram?.WebApp;
+try{ TG?.ready(); TG?.expand(); }catch(e){}
+
+function haptic(type){
+  try{
+    if(type==='success') TG.HapticFeedback.notificationOccurred('success');
+    else if(type==='medium') TG.HapticFeedback.impactOccurred('medium');
+    else TG.HapticFeedback.impactOccurred('light');
+  }catch(e){}
+}
+
+// ── Все волны и вопросы ──
+const WAVES = [
+  {
+    bg:'wave-bg-0', eyebrow:'волна первая', title:'Я — здесь и сейчас',
+    intro:'Не нужно быть писателем. Нужно просто остановиться на минуту и оглянуться вокруг. Это письмо начнётся с мелочей — а мелочи спустя годы становятся самым дорогим.',
+    questions:[
+      {id:'w1q1', q:'Где ты сейчас? Опиши место одним дыханием.', hint:'«На кухне, пахнет кофе, за окном серо» — достаточно'},
+      {id:'w1q2', q:'Какая погода? Какой звук слышишь прямо сейчас?', hint:'Это будет твоя машина времени. Прочитаешь — и вернёшься'},
+      {id:'w1q3', q:'Что на тебе надето? Есть ли вещь, которая сейчас тебя утешает?', hint:'Старый свитер, подаренный браслет, дырявые носки — всё считается'},
+      {id:'w1q4', q:'Что сейчас в твоей голове на повторе?', hint:'Песня, фраза, голос, тревожная мысль — запиши, что угодно'},
+      {id:'w1q5', q:'Оцени своё состояние по шкале от 1 до 10.', hint:'Не для оценки — чтобы через время увидеть, как далеко ушёл', type:'scale'},
+    ]
+  },
+  {
+    bg:'wave-bg-1', eyebrow:'волна вторая', title:'Тень и свет',
+    intro:'Здесь чуть тише и глубже. Побудь честным — этого никто не прочитает, кроме тебя будущего.',
+    questions:[
+      {id:'w2q1', q:'Что сейчас занимает 80% твоих мыслей?', hint:'Работа, человек, непринятое решение, ожидание, потеря?'},
+      {id:'w2q2', q:'Если бы твоя жизнь сейчас была погодой — что бы это было?', hint:'«Туманное утро», «гроза, но я под крышей», «затишье перед чем-то»…'},
+      {id:'w2q3', q:'Что ты сейчас боишься потерять? И что, может быть, уже готов отпустить?', hint:'Два вопроса о самом важном. Для тебя.'},
+      {id:'w2q4', q:'Когда в последний раз ты чувствовал себя по-настоящему живым?', hint:'Не обязательно счастливым — именно живым, собой.'},
+      {id:'w2q5', q:'Что сейчас заставляет тебя улыбаться — даже если мир не идеален?', hint:'Маленькое тоже считается.'},
+    ]
+  },
+  {
+    bg:'wave-bg-2', eyebrow:'волна третья', title:'Мудрец',
+    intro:'Взгляд вглубь. Не спеши с ответами — дай им всплыть самим.',
+    questions:[
+      {id:'w3q1', q:'Какое решение ты сейчас принимаешь или избегаешь?', hint:'Напиши, почему. Будущий ты поймёт контекст'},
+      {id:'w3q2', q:'Кто сейчас рядом? Кому ты благодарен — и кому хочется что-то сказать?', hint:'Хотя бы одно имя + одно предложение, которое ты ему ещё не сказал'},
+      {id:'w3q3', q:'Что ты сейчас «лечишь» в себе? А что — в отношениях?', hint:'Мягко. Без давления. Просто честно.'},
+      {id:'w3q4', q:'Какая цитата, фраза или песня сейчас твой талисман?', hint:'И почему она прилипла к тебе именно сейчас?'},
+      {id:'w3q5', q:'Что ты сейчас знаешь наверняка — и в чём всё ещё сомневаешься?', hint:'Контраст, который покажет тебе рост'},
+    ]
+  },
+  {
+    bg:'wave-bg-3', eyebrow:'волна четвёртая', title:'Будущее',
+    intro:'Конверт начинает закрываться. Повернись лицом к себе — тому, кто прочтёт это письмо.',
+    questions:[
+      {id:'w4q1', q:'Каким ты хочешь видеть себя, когда получишь это письмо?', hint:'Отпусти логику и напиши, что первым придёт'},
+      {id:'w4q2', q:'Что из сегодняшнего тебя удивит тебя будущего?', hint:'Твоя упрямость? Твоя нежность? Твоя сила?'},
+      {id:'w4q3', q:'К чему ты хочешь прийти — в делах, в чувствах, в отношениях?', hint:'Скромничают лишь неуверенные. Разреши себе мечтать!'},
+      {id:'w4q4', q:'Что ценного ты пожелаешь себе будущему?', hint:'Кроме счастья, удачи и здоровья, конечно же'},
+      {id:'w4q5', q:'Что ты хочешь, чтобы будущий ты не забыл о сегодняшнем?', hint:'Самое важное — сохрани это'},
+    ]
+  },
+  {
+    bg:'wave-bg-4', eyebrow:'волна пятая', title:'Заклинание',
+    intro:'Последняя волна. Три штриха — и письмо будет запечатано твоей собственной магией.',
+    questions:[
+      {id:'w5q1', q:'Выбери одно слово из всего, что ты написал. Самое неожиданное.', hint:'Это будет якорь. Увидишь его — вспомнишь всё', type:'anchor'},
+      {id:'w5q2', q:'Напиши себе то, что тебе сейчас нужно услышать.', hint:'«Ты не сдашься», «это пройдёт», «ты уже достаточно хорош», «я в тебя верю»…'},
+      {id:'w5q3', q:'Закончи письмо строкой, от которой будущий ты вздохнёт: «Ах да, я помню…»', hint:'Последняя строка. Коротко. От сердца.', type:'key'},
+    ]
+  },
+];
+
+const KEYS = [
+  {e:'🔥', n:'Огонь'}, {e:'🌱', n:'Росток'}, {e:'🌊', n:'Волна'},
+  {e:'⭐', n:'Звезда'}, {e:'🗝', n:'Ключ'}, {e:'🕊', n:'Птица'},
+];
+
+const DATES = [
+  {m:1, label:'месяц'}, {m:3, label:'месяца'}, {m:6, label:'месяцев'}, {m:12, label:'месяцев'},
+];
+
+const Ritual = {
+  answers:{},
+  anchorWord:'',
+  metaphorKey:'',
+  selectedMonths:null,
+  currentWave:0,
+  totalWaves:WAVES.length,
+
+  init(){
+    this.loadDraft();
+    // Заставка 4 сек → экран настройся (успеть рассмотреть письмо)
+    setTimeout(()=>{
+      this.show('screen-intro');
+      this.setProgress(3);
+    }, 4000);
+    this.spawnPollen();
+    this.buildDates();
+  },
+
+  spawnPollen(){
+    const env = document.querySelector('.envelope');
+    if(!env) return;
+    for(let i=0;i<8;i++){
+      const p=document.createElement('div');
+      p.className='pollen';
+      p.style.left=(20+Math.random()*80)+'px';
+      p.style.animationDelay=(Math.random()*6)+'s';
+      env.appendChild(p);
+    }
+  },
+
+  start(){
+    haptic('light');
+    this.currentWave=0;
+    this.renderWave(0);
+    this.show('screen-wave');
+  },
+
+  renderWave(idx){
+    const wave = WAVES[idx];
+    const el = document.getElementById('screen-wave');
+    el.className = 'screen active ' + wave.bg;
+
+    let html = `<div class="eyebrow">${wave.eyebrow}</div>`;
+    html += `<div class="wave-title">${wave.title}</div>`;
+    html += `<p class="wave-intro">${wave.intro}</p>`;
+
+    wave.questions.forEach((q,i)=>{
+      const saved = this.answers[q.id] || '';
+      html += `<div class="q-block" style="animation-delay:${i*0.08}s">`;
+      html += `<div class="q-num">— ${i+1} —</div>`;
+      html += `<div class="q-text">${q.q}</div>`;
+      html += `<div class="q-hint">${q.hint}</div>`;
+
+      if(q.type==='scale'){
+        html += `<div class="scale-row" id="scale-${q.id}">`;
+        for(let n=1;n<=10;n++){
+          const sel = saved==String(n) ? ' sel' : '';
+          html += `<button class="scale-btn${sel}" onclick="Ritual.setScale('${q.id}',${n})">${n}</button>`;
+        }
+        html += `</div>`;
+      } else if(q.type==='anchor'){
+        html += `<input type="text" id="in-${q.id}" placeholder="одно слово…" value="${this.esc(saved)}" maxlength="24" oninput="Ritual.setAnswer('${q.id}',this.value)">`;
+      } else if(q.type==='key'){
+        html += `<textarea id="in-${q.id}" placeholder="от сердца…" oninput="Ritual.setAnswer('${q.id}',this.value)">${this.esc(saved)}</textarea>`;
+        // Метафора-ключ идёт вместе с последним вопросом
+        html += `<div class="q-text" style="margin-top:24px">Выбери метафору-ключ, что откроет письмо</div>`;
+        html += `<div class="q-hint">Символ, которым запечатается твоё послание</div>`;
+        html += `<div class="keys-grid" id="keys-grid">`;
+        KEYS.forEach(k=>{
+          const sel = this.metaphorKey===k.e ? ' sel' : '';
+          html += `<div class="key-card${sel}" onclick="Ritual.setKey('${k.e}')"><div class="k-emoji">${k.e}</div><div class="k-name">${k.n}</div></div>`;
+        });
+        html += `</div>`;
+      } else {
+        html += `<textarea id="in-${q.id}" placeholder="…" oninput="Ritual.setAnswer('${q.id}',this.value)">${this.esc(saved)}</textarea>`;
+      }
+      html += `</div>`;
+    });
+
+    // Кнопка завершения волны
+    const isLast = idx === this.totalWaves-1;
+    html += `<div class="wave-actions">`;
+    html += `<button class="btn-primary" onclick="Ritual.nextWave()">${isLast?'Перейти к дате доставки →':'Я закончил с этой частью →'}</button>`;
+    html += `</div>`;
+
+    el.innerHTML = html;
+    el.scrollTop = 0;
+    this.setProgress(3 + (idx/this.totalWaves)*80);
+  },
+
+  nextWave(){
+    haptic('medium');
+    this.saveDraft();
+    if(this.currentWave < this.totalWaves-1){
+      this.currentWave++;
+      // Плавная смена
+      const el = document.getElementById('screen-wave');
+      el.style.opacity='0';
+      setTimeout(()=>{ this.renderWave(this.currentWave); el.style.opacity='1'; }, 400);
+    } else {
+      this.gotoDate();
+    }
+  },
+
+  setAnswer(id,val){ this.answers[id]=val; this.saveDraftDebounced(); },
+  setScale(id,n){
+    this.answers[id]=String(n);
+    document.querySelectorAll(`#scale-${id} .scale-btn`).forEach((b,i)=>b.classList.toggle('sel',i+1===n));
+    haptic('light'); this.saveDraft();
+  },
+  setKey(e){
+    this.metaphorKey=e;
+    document.querySelectorAll('#keys-grid .key-card').forEach(c=>c.classList.toggle('sel',c.querySelector('.k-emoji').textContent===e));
+    haptic('light'); this.saveDraft();
+  },
+
+  gotoDate(){
+    this.anchorWord = this.answers['w5q1'] || '';
+    this.buildPreview();
+    this.show('screen-date');
+    this.setProgress(90);
+  },
+
+  buildDates(){
+    const grid = document.getElementById('date-grid');
+    const now = new Date();
+    grid.innerHTML = DATES.map(d=>{
+      const target = new Date(now); target.setMonth(target.getMonth()+d.m);
+      const when = target.toLocaleDateString('ru-RU',{day:'numeric',month:'long',year:'numeric'});
+      return `<div class="date-card" onclick="Ritual.setDate(${d.m})">
+        <div class="d-num">${d.m}</div>
+        <div class="d-unit">${d.label}</div>
+        <div class="d-when">${when}</div>
+      </div>`;
+    }).join('');
+  },
+
+  setDate(m){
+    this.selectedMonths=m;
+    document.querySelectorAll('#date-grid .date-card').forEach((c,i)=>c.classList.toggle('sel',DATES[i].m===m));
+    haptic('light');
+    // Обновляем месяцы в интро
+    const lbl = DATES.find(d=>d.m===m);
+    document.getElementById('intro-months').textContent = m+' '+lbl.label;
+  },
+
+  buildPreview(){
+    const pv = document.getElementById('preview');
+    let html = `<div class="pv-head">✦ Твоё письмо ✦</div>`;
+    WAVES.forEach(wave=>{
+      wave.questions.forEach(q=>{
+        const a = this.answers[q.id];
+        if(a && a.trim() && q.type!=='anchor'){
+          const label = q.type==='scale' ? 'Состояние: '+a+'/10' : this.esc(a);
+          html += `<div class="pv-a">${label}</div>`;
+        }
+      });
+    });
+    if(this.anchorWord){
+      html += `<div class="pv-anchor"><div class="a-word">«${this.esc(this.anchorWord)}»</div>`;
+      if(this.metaphorKey) html += `<div class="a-key">${this.metaphorKey}</div>`;
+      html += `</div>`;
+    }
+    pv.innerHTML = html;
+  },
+
+  async seal(){
+    if(!this.selectedMonths){
+      try{ TG.showPopup({title:'Выбери срок',message:'На сколько месяцев запечатать письмо?',buttons:[{type:'ok'}]}); }
+      catch(e){ alert('Выбери срок доставки'); }
+      return;
+    }
+
+    const doSeal = async ()=>{
+      haptic('success');
+      const sendDate = new Date();
+      sendDate.setMonth(sendDate.getMonth()+this.selectedMonths);
+      const sendStr = sendDate.getFullYear()+'-'+String(sendDate.getMonth()+1).padStart(2,'0')+'-'+String(sendDate.getDate()).padStart(2,'0');
+
+      const result = await this.saveToCloud(sendStr);
+      if(result.limit===true){
+        // Лимит 2 письма в месяц исчерпан
+        try{
+          TG.showPopup({
+            title:'📮 Почтовое отделение #MaxMagia',
+            message:'Мы будем рады увидеть тебя с твоим следующим письмом в следующем месяце! Сейчас мы заняты рассылкой тех писем, что уже написаны 🤍\n\nНапоминаем: можно отправить лишь 2 письма в месяц.',
+            buttons:[{type:'ok'}]
+          },()=>{ this.close(); });
+        }catch(e){
+          alert('Почтовое отделение #MaxMagia будет радо увидеть тебя со следующим письмом в следующем месяце! Можно отправить лишь 2 письма в месяц 🤍');
+          this.close();
+        }
+        return;
+      }
+      if(result.ok){
+        this.clearDraft();
+        const human = sendDate.toLocaleDateString('ru-RU',{day:'numeric',month:'long',year:'numeric'});
+        document.getElementById('sealed-date').textContent = 'Придёт '+human;
+        this.show('screen-sealed');
+        this.setProgress(100);
+      } else {
+        try{ TG.showPopup({title:'Упс',message:'Не удалось сохранить письмо. Проверь интернет и попробуй ещё раз.',buttons:[{type:'ok'}]}); }
+        catch(e){ alert('Ошибка сохранения, попробуй ещё раз'); }
+      }
+    };
+
+    // Подтверждение
+    try{
+      TG.showPopup({
+        title:'Запечатываем?',
+        message:`Это письмо придёт тебе через ${this.selectedMonths} мес. До этого дня ты его больше не увидишь — так задумано.`,
+        buttons:[{id:'seal',type:'default',text:'Да, запечатать'},{id:'c',type:'cancel'}]
+      },(id)=>{ if(id==='seal') doSeal(); });
+    }catch(e){
+      if(confirm('Запечатать письмо?')) doSeal();
+    }
+  },
+
+  async saveToCloud(sendStr){
+    const userId = this.getUserId();
+    if(!userId) return false;
+
+    // Собираем письмо в единый текст
+    const letterObj = {
+      answers:this.answers,
+      anchor:this.anchorWord,
+      key:this.metaphorKey,
+      mood:this.answers['w1q5']||'',
+    };
+
+    const res = await API.post('/letter', {
+      letter_json: JSON.stringify(letterObj),
+      send_date: sendStr,
+    });
+    if (res.body && res.body.limit === true) return {limit:true};
+    return {ok: API.ok(res)};
+  },
+
+  getUserId(){
+    try{
+      const u = TG?.initDataUnsafe?.user;
+      if(u&&u.id) return String(u.id);
+    }catch(e){}
+    // В браузере (вход через VK) человека узнаёт сервер по пропуску — отдельный номер не нужен
+    try{ if(!(TG&&TG.initData)) return 'web'; }catch(e){}
+    return null;
+  },
+
+  // ── Черновик в localStorage ──
+  _draftTimer:null,
+  saveDraftDebounced(){ clearTimeout(this._draftTimer); this._draftTimer=setTimeout(()=>this.saveDraft(),800); },
+  saveDraft(){
+    try{
+      localStorage.setItem('mm_letter_draft',JSON.stringify({
+        answers:this.answers, anchor:this.anchorWord, key:this.metaphorKey,
+        wave:this.currentWave, months:this.selectedMonths,
+      }));
+    }catch(e){}
+  },
+  loadDraft(){
+    try{
+      const raw = localStorage.getItem('mm_letter_draft');
+      if(raw){
+        const d = JSON.parse(raw);
+        this.answers = d.answers||{};
+        this.anchorWord = d.anchor||'';
+        this.metaphorKey = d.key||'';
+      }
+    }catch(e){}
+  },
+  clearDraft(){ try{ localStorage.removeItem('mm_letter_draft'); }catch(e){} },
+
+  // ── Навигация ──
+  show(id){
+    document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+    const el = document.getElementById(id);
+    el.classList.add('active');
+    el.scrollTop=0;
+  },
+  setProgress(pct){ document.getElementById('progress').style.width=pct+'%'; },
+  esc(s){ return String(s||'').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); },
+  close(){ window.location.href='/'; },
+  back(){ try{ this.saveDraft(); }catch(e){} haptic('light'); window.location.href='/'; },
+};
+
+Ritual.init();
+</script>
+</body>
+</html>

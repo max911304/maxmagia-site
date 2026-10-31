@@ -1,0 +1,1031 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<script src="/practices/lib/mm-sync.js?v=3"></script>
+<script src="/practices/lib/mm-gender.js?v=2"></script>
+<script src="/telegram-web-app.js"></script>
+<script>/* mm-back: «назад» → в раздел кабинета (Telegram — кнопка в шапке, на странице — ссылка сверху) */
+window.mmBack=function(){
+  if(/^\/art\//.test(location.pathname)){location.href='/art/';return;}
+  try{if(document.referrer&&new URL(document.referrer).origin===location.origin&&history.length>1){history.back();return;}}catch(e){}
+  location.href='/';
+};
+(function(){
+  if(!/^\/practices\//.test(location.pathname))return;
+  var tg=window.Telegram&&Telegram.WebApp,inTg=false;
+  try{inTg=sessionStorage.getItem('mm_in_tg')==='1'||!!(tg&&tg.initData);}catch(e){inTg=!!(tg&&tg.initData);}
+  if(!tg||!inTg||!tg.BackButton)return;
+  try{tg.ready();tg.BackButton.onClick(window.mmBack);tg.BackButton.show();}catch(e){}
+})();
+</script>
+<style>
+.mm-backlink{position:absolute;top:calc(14px + env(safe-area-inset-top,0px));left:max(16px,env(safe-area-inset-left,0px));z-index:5;display:inline-flex;align-items:center;gap:6px;
+  min-height:38px;padding:0 16px 0 12px;border-radius:999px;border:1px solid var(--line2);background:color-mix(in srgb,var(--bg) 70%,transparent);color:var(--dim);
+  font:600 13px/1 var(--sans);letter-spacing:.04em;text-decoration:none;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);cursor:pointer}
+.mm-backlink span{font-size:19px;line-height:1;margin-top:-2px}
+.mm-backlink:hover{border-color:var(--acc);color:var(--ink)}
+@media (display-mode: standalone){.mm-backlink{display:none}}
+</style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Откуда берутся границы</title>
+<link rel="stylesheet" href="/practices/fonts/shm/shm-fonts.css">
+</head>
+<body>
+<style>
+
+:root{
+  --bg:#FFFFFF; --bg2:#F4F3EF; --card:#F4F3EF; --ink:#2F2F2F; --dim:#4D4D4D; --mute:#696969; --num:#E4E1DA;
+  --line:rgba(47,47,47,.12); --line2:rgba(47,47,47,.24);
+  --acc:#9A6A2E; --acc-fill:#D4B48A; --on-fill:#141414; --mark:#F6EC6E; --hot:#B23A2E;
+  --glow:rgba(212,180,138,.22); --tile:#2F2F2F; --tile-line:rgba(212,180,138,.6);
+  --gem-base:#8C8680; --gem-lit:#D4A86A;
+  --band1:#2A2420; --band2:#0C0C0E; --band-ink:#F0ECE4; --band-hot:#F49385; --yel:#2F2F2F; --yel-bg:#F6EC6E; --strike:#D2402F;
+  --serif:'Cormorant Garamond',Georgia,'Times New Roman',serif;
+  --sans:'Manrope',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --ease:cubic-bezier(.2,.8,.2,1);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --yel:#F3E37C; --yel-bg:transparent; --strike:#EF5A47;
+    --bg:#0C0C0E; --bg2:#0F0F11; --card:#18181A; --ink:#F0ECE4; --dim:#B9B2A8; --mute:#9C958C; --num:#232326;
+    --line:rgba(240,236,228,.08); --line2:rgba(240,236,228,.16);
+    --acc:#D4B48A; --acc-fill:#D4B48A; --on-fill:#0C0C0E; --mark:rgba(212,180,138,.26); --hot:#EF7A6B;
+    --glow:rgba(212,180,138,.12); --tile:#18181A; --tile-line:rgba(212,180,138,.4);
+    --gem-base:#2C2730; --gem-lit:#E2C79C;
+  }
+}
+:root[data-theme="dark"]{
+  --yel:#F3E37C; --yel-bg:transparent; --strike:#EF5A47;
+  --bg:#0C0C0E; --bg2:#0F0F11; --card:#18181A; --ink:#F0ECE4; --dim:#B9B2A8; --mute:#9C958C; --num:#232326;
+  --line:rgba(240,236,228,.08); --line2:rgba(240,236,228,.16);
+  --acc:#D4B48A; --acc-fill:#D4B48A; --on-fill:#0C0C0E; --mark:rgba(212,180,138,.26); --hot:#EF7A6B;
+  --glow:rgba(212,180,138,.12); --tile:#18181A; --tile-line:rgba(212,180,138,.4);
+  --gem-base:#2C2730; --gem-lit:#E2C79C;
+}
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px);scroll-behavior:smooth}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.7;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+h1,h2,h3{font-family:var(--serif);font-weight:500;margin:0;line-height:1.08;text-wrap:balance}
+p{margin:0}
+button,input{font:inherit;color:inherit;touch-action:manipulation}
+:focus-visible{outline:2px solid var(--acc);outline-offset:4px;border-radius:6px}
+[hidden]{display:none!important}
+.wrap{max-width:1200px;margin:0 auto;padding:0 clamp(20px,4vw,48px)}
+.center{text-align:center}
+.col{max-width:780px;margin-left:auto;margin-right:auto}
+.sec{--gap:clamp(72px,11vh,128px);padding:var(--gap) 0}
+.sec.orn-top{padding-top:0}
+.sec.orn-top > .wrap > .rule-orn{margin:0 auto var(--gap)}
+.label{display:block;font-size:13px;font-weight:600;letter-spacing:.28em;text-transform:uppercase;color:var(--acc);margin-bottom:22px}
+h2{font-size:clamp(38px,5vw,68px);font-weight:400;max-width:20ch;margin:0 auto}
+h2 em{font-style:italic;color:var(--acc)}
+.lede{font-size:clamp(18px,1.4vw,20px);color:var(--dim);max-width:58ch;margin:24px auto 0}
+mark{background:linear-gradient(transparent 60%,var(--mark) 60%);color:inherit;padding:0 .06em}
+.rule-orn{display:flex;align-items:center;justify-content:center;gap:14px;margin:0 auto 26px;color:var(--acc)}
+.rule-orn::before,.rule-orn::after{content:"";width:56px;height:1px;background:linear-gradient(90deg,transparent,var(--acc))}
+.rule-orn::after{transform:scaleX(-1)}
+.rule-orn i{width:6px;height:6px;background:var(--acc);transform:rotate(45deg)}
+
+/* Hero */
+.hero{min-height:100vh;min-height:100svh;display:grid;place-items:center;text-align:center;padding:clamp(40px,8vh,80px) 0;position:relative;overflow:hidden}
+.hero::before{content:"";position:absolute;left:50%;top:40%;width:min(110vw,980px);aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(circle,var(--glow),transparent 64%);pointer-events:none}
+.hero > div{position:relative;width:100%;min-width:0}
+.badge{width:clamp(112px,13vw,144px);aspect-ratio:1;border-radius:50%;margin:0 auto;display:grid;place-items:center;background:#F7F4EE;box-shadow:0 0 0 1px var(--line2),0 24px 60px -24px rgba(0,0,0,.45);animation:rise 1s var(--ease) both}
+.badge img{width:52%;height:auto;display:block}
+.hero .label{margin:30px 0 0;animation:rise 1s .1s var(--ease) both}
+.hero h1{font-size:clamp(38px,11.4vw,132px);font-weight:400;line-height:.95;margin-top:18px;animation:rise 1s .18s var(--ease) both}
+.hero .sub{font-family:var(--serif);font-size:clamp(22px,2.3vw,31px);line-height:1.38;color:var(--dim);margin:30px auto 0;animation:rise 1s .26s var(--ease) both}
+.hero .sub b{font-style:italic;font-weight:600;color:var(--ink)}
+.hero .go{display:inline-flex;flex-direction:column;align-items:center;gap:10px;margin-top:48px;color:var(--mute);font-size:13px;letter-spacing:.2em;text-transform:uppercase;text-decoration:none;animation:rise 1s .34s var(--ease) both}
+.hero .go i{width:1px;height:40px;background:linear-gradient(var(--acc),transparent)}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+
+/* Statement typography */
+.big{font-family:var(--serif);font-size:clamp(26px,2.8vw,38px);line-height:1.28;max-width:30ch;margin:34px auto 0}
+.body{font-size:clamp(18px,1.4vw,20px);color:var(--dim);max-width:60ch;margin:22px auto 0}
+
+/* Cards (landing style) */
+.cards{display:grid;gap:4px;margin-top:clamp(44px,7vh,72px)}
+.cards.c2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.cards.c3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.cards.c4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.card{position:relative;background:var(--card);padding:clamp(34px,4.5vw,56px) clamp(22px,3vw,40px) clamp(34px,4vw,48px);text-align:center}
+.card::before{content:"";position:absolute;left:0;right:0;top:0;height:2px;background:linear-gradient(90deg,var(--acc),transparent)}
+.card .num{display:block;font-family:var(--serif);font-weight:600;font-size:clamp(56px,6vw,84px);line-height:.9;color:var(--num);margin-bottom:12px;font-variant-numeric:oldstyle-nums}
+.card .label{margin-bottom:14px}
+.card h3{font-size:clamp(26px,2.4vw,34px);font-weight:500}
+.card p{color:var(--dim);margin-top:12px}
+.callout{margin-top:4px;background:var(--card);border-left:2px solid var(--acc);padding:clamp(24px,3vw,36px) clamp(24px,4vw,56px);color:var(--dim);font-size:clamp(17px,1.3vw,19px)}
+.callout b{color:var(--acc);font-weight:600}
+
+/* Ways grid */
+.ways{list-style:none;margin:clamp(44px,7vh,72px) 0 0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px;counter-reset:w}
+.ways li{counter-increment:w;position:relative;background:var(--card);padding:28px 18px 26px;text-align:center;font-family:var(--serif);font-size:clamp(20px,1.7vw,24px);line-height:1.2;min-height:150px;display:flex;flex-direction:column;justify-content:flex-end;align-items:center}
+.ways li::before{content:counter(w,decimal-leading-zero);font-family:var(--serif);font-weight:600;font-size:50px;line-height:.9;color:var(--num);margin-bottom:auto;padding-bottom:12px;font-variant-numeric:oldstyle-nums}
+.ways li.span2{grid-column:span 2;font-style:italic;color:var(--acc);font-size:clamp(21px,1.9vw,26px)}
+.ways li.span2::before{content:"…";color:var(--num)}
+.examples{list-style:none;margin:clamp(48px,8vh,80px) auto 0;padding:0;max-width:820px}
+.examples li{font-family:var(--serif);font-size:clamp(25px,2.8vw,38px);line-height:1.2;padding:12px 0;text-align:center}
+.examples li span{color:var(--mute);font-style:italic}
+.examples li.last{color:var(--acc);font-style:italic}
+.whole{margin:clamp(40px,6vh,60px) auto 0}
+
+/* Cinematic band */
+.band{position:relative;overflow:hidden;padding:clamp(110px,20vh,220px) 0;text-align:center;color:var(--band-ink);background:radial-gradient(ellipse 70% 90% at 72% 60%,var(--band1),var(--band2) 70%)}
+.band::before{content:"";position:absolute;inset:-20%;background:radial-gradient(circle at 30% 40%,rgba(212,180,138,.14),transparent 40%),radial-gradient(circle at 75% 65%,rgba(239,122,107,.12),transparent 38%);animation:drift 18s ease-in-out infinite alternate}
+.band::after{content:"";position:absolute;inset:0;opacity:.09;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+.band .fade-top,.band .fade-bot{position:absolute;left:0;right:0;height:30%;pointer-events:none;z-index:1}
+.band .fade-top{top:0;background:linear-gradient(var(--bg),transparent)}
+.band .fade-bot{bottom:0;background:linear-gradient(transparent,var(--bg))}
+.band .in{position:relative;z-index:2}
+.band p{font-family:var(--serif);font-style:italic;font-size:clamp(26px,3.2vw,46px);line-height:1.5;opacity:0;transform:translateY(12px);transition:opacity 1.2s var(--ease),transform 1.2s var(--ease)}
+.band.seen p{opacity:.92;transform:none}
+.band.seen p:nth-child(2){transition-delay:.5s}
+.band.seen p:nth-child(3){transition-delay:1.2s}
+.band p.hot{color:var(--band-hot);font-size:clamp(46px,6.4vw,92px);line-height:1.2;margin-top:12px;opacity:0}
+.band.seen p.hot{opacity:1}
+@keyframes drift{from{transform:translate(-3%,-2%)}to{transform:translate(3%,2%)}}
+
+.ghost{min-height:44px;padding:0 20px;border-radius:999px;border:1px solid var(--line2);background:none;cursor:pointer;font-size:14px;letter-spacing:.06em}
+.ghost:hover{border-color:var(--acc)}
+footer{padding:70px 0 90px;border-top:1px solid var(--line);color:var(--mute);font-size:14px;text-align:center}
+footer .sign{font-family:var(--serif);font-style:italic;font-size:22px;color:var(--acc);margin-bottom:10px}
+footer p + p{margin-top:8px}
+footer a{color:var(--acc)}
+.series{display:inline-flex;flex-wrap:wrap;gap:4px 18px;justify-content:center}
+
+@media (max-width:980px){.ways,.cards.c4{grid-template-columns:repeat(2,minmax(0,1fr))}.cards.c3{grid-template-columns:1fr}}
+@media (max-width:640px){
+  .cards.c2{grid-template-columns:1fr}
+  .ways li{min-height:118px;font-size:17px;padding:22px 10px;hyphens:auto;-webkit-hyphens:auto;overflow-wrap:break-word}
+  .ways li::before{font-size:40px}
+  .answers button{flex:1 1 auto}
+  .tiles{gap:3px}
+  .stage{width:min(100%,300px)}
+}
+@media (prefers-reduced-motion: reduce){
+  *{animation:none!important;transition:none!important}
+  html{scroll-behavior:auto}
+  .band p{opacity:.92!important;transform:none!important}
+}
+.yel{color:var(--yel);background:linear-gradient(transparent 58%,var(--yel-bg) 58%);-webkit-box-decoration-break:clone;box-decoration-break:clone}
+.def-not{display:block;font-family:var(--serif);font-size:clamp(20px,1.8vw,26px);line-height:1.3;color:var(--mute);margin:14px 0 10px;font-weight:400}
+.def-not s{text-decoration:line-through;text-decoration-color:var(--strike);text-decoration-thickness:2px}
+h2.def-yes{max-width:22ch}
+h2.caps{text-transform:uppercase;letter-spacing:.06em;font-size:clamp(34px,5vw,64px)}
+.ps-line{font-family:var(--serif);font-size:clamp(21px,2vw,27px);line-height:1.45;color:var(--dim);max-width:44ch;margin:clamp(36px,6vh,56px) auto 0}
+.ps-line .ps-tag{font-family:var(--sans);font-size:13px;font-weight:700;letter-spacing:.2em;color:var(--acc);margin-right:4px}
+.ps-line b{color:var(--ink);font-weight:600}
+h2.ex-h{margin-top:clamp(64px,10vh,110px)}
+.band p.hot:only-child{margin-top:0}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:54px;padding:0 30px;border-radius:999px;border:0;background:var(--acc-fill);color:var(--on-fill);font-weight:700;font-size:16px;cursor:pointer;text-decoration:none;transition:transform .2s var(--ease),filter .2s}
+.btn:hover{filter:brightness(1.06)}
+.btn:active{transform:scale(.97)}
+.btn svg{width:20px;height:20px;flex:none}
+.photo{margin-top:34px}
+.note-s{font-size:14px;color:var(--mute);margin-top:10px;min-height:1.2em}
+.next-btn{margin-top:30px}
+.goals-ex{list-style:none;margin:clamp(40px,6vh,60px) auto 0;padding:0;max-width:820px;display:grid;gap:4px}
+.goals-ex li{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:16px;align-items:center;background:var(--card);padding:18px clamp(18px,3vw,32px);text-align:left}
+.goals-ex li span{font-family:var(--serif);font-size:clamp(20px,1.8vw,24px)}
+.goals-ex li b{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--acc);font-weight:600;text-align:right}
+.err{color:var(--hot);font-size:15px;margin-top:10px}
+.err:empty{display:none}
+.goal-pin{font-size:13px;letter-spacing:.2em;text-transform:uppercase;color:var(--mute);text-align:center}
+.goal-pin b{display:block;font-family:var(--serif);font-weight:500;font-size:clamp(24px,2.4vw,32px);letter-spacing:0;text-transform:none;color:var(--ink);line-height:1.15;margin-top:6px}
+/* traffic light */
+:root{--c-red:#B8352A;--c-yel:#8A6200;--c-grn:#23744A}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--c-red:#F06A57;--c-yel:#F2C94C;--c-grn:#5CC587}}
+:root[data-theme="dark"]{--c-red:#F06A57;--c-yel:#F2C94C;--c-grn:#5CC587}
+.c-red{color:var(--c-red)!important}.c-yel{color:var(--c-yel)!important}.c-grn{color:var(--c-grn)!important}
+.q[data-c="red"]{--qc:var(--c-red)}.q[data-c="yel"]{--qc:var(--c-yel)}.q[data-c="grn"]{--qc:var(--c-grn)}
+.q::before{background:linear-gradient(90deg,var(--qc),transparent)!important;height:3px}
+.q h3{color:var(--qc)}
+.q small{color:var(--qc)}
+.q .lamp{width:12px;height:12px;border-radius:50%;background:var(--qc);box-shadow:0 0 14px var(--qc);margin-bottom:4px}
+.q[aria-pressed="true"]{background:color-mix(in srgb,var(--card) 86%,var(--qc));box-shadow:inset 0 0 0 1px var(--qc)}
+.q-detail{border-left-color:var(--qc,var(--acc))}
+.q-detail h3{color:var(--qc,var(--ink))}
+.gdot{background:var(--qc,var(--acc-fill))}
+.gdot[data-c="red"]{--qc:var(--c-red)}.gdot[data-c="yel"]{--qc:var(--c-yel)}.gdot[data-c="grn"]{--qc:var(--c-grn)}
+.gdot{box-shadow:0 0 0 4px color-mix(in srgb,var(--qc) 30%,transparent),0 0 18px color-mix(in srgb,var(--qc) 70%,transparent)!important}
+.gdot b{color:#0C0C0E}
+.callout-yel{background:color-mix(in srgb,var(--card) 88%,#F2C94C);border-left-color:#F2C94C}
+.callout-yel > b{color:var(--c-yel)}
+.ps-note{display:block;margin-top:12px;font-size:15px;color:var(--dim)}
+.ps-note b{color:var(--acc)}
+.mini-note{margin:22px auto 0;font-size:16px;color:var(--dim)}
+.mini-note a{color:var(--acc);font-weight:600}
+
+
+
+/* ===== Уроки «Щит и Меч» ===== */
+body{padding-left:0;padding-right:0}
+.wrap{padding-left:max(clamp(20px,4vw,48px),env(safe-area-inset-left,0px));padding-right:max(clamp(20px,4vw,48px),env(safe-area-inset-right,0px))}
+.hero.lesson{min-height:auto;padding:clamp(64px,12vh,120px) 0 clamp(56px,9vh,100px)}
+.hero.lesson h1{font-size:clamp(44px,9vw,112px)}
+.chips{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-top:34px;animation:rise 1s .3s var(--ease) both}
+.chips span{font-size:13px;letter-spacing:.08em;color:var(--dim);border:1px solid var(--line2);border-radius:999px;padding:6px 14px}
+.sec.tight{--gap:clamp(56px,9vh,104px)}
+
+/* Варианты ответа */
+.opts{display:grid;gap:4px;max-width:800px;margin:clamp(34px,5vh,48px) auto 0;text-align:left}
+.opt{display:flex;gap:16px;align-items:flex-start;width:100%;background:var(--card);border:0;border-left:2px solid transparent;padding:18px clamp(18px,3vw,26px);cursor:pointer;text-align:left;font-size:17px;line-height:1.5;color:var(--ink);transition:background .25s,border-color .25s}
+.opt .k{flex:none;font-family:var(--serif);font-weight:600;font-size:26px;line-height:1;color:var(--acc);min-width:1.1em;padding-top:1px}
+.opt span:last-child{min-width:0}
+.opt:hover:not(:disabled){border-left-color:var(--acc)}
+.opt[aria-pressed="true"]{background:color-mix(in srgb,var(--card) 82%,var(--acc-fill));border-left-color:var(--acc)}
+.opt:disabled{cursor:default}
+.opt.ok{background:color-mix(in srgb,var(--card) 80%,var(--c-grn));border-left-color:var(--c-grn)}
+.opt.ok .k{color:var(--c-grn)}
+.opt.no{background:color-mix(in srgb,var(--card) 84%,var(--c-red));border-left-color:var(--c-red)}
+.opt.no .k{color:var(--c-red)}
+.opt.dim{opacity:.55}
+.fb{max-width:800px;margin:4px auto 0;text-align:left;background:var(--card);border-left:2px solid var(--acc);padding:22px clamp(20px,3vw,30px);color:var(--dim);animation:rise .5s var(--ease) both}
+.fb h3{font-size:clamp(24px,2.2vw,30px);color:var(--ink);margin-bottom:8px}
+.fb b{color:var(--ink)}
+.fb .go-link{display:inline-block;margin-top:12px;color:var(--acc);font-weight:600}
+
+/* Простыми словами */
+.prose{max-width:62ch;margin:34px auto 0;text-align:left;font-size:clamp(18px,1.4vw,20px);color:var(--dim)}
+.prose p + p{margin-top:1em}
+.prose b{color:var(--ink);font-weight:600}
+.prose .drop::first-letter{font-family:var(--serif);font-size:3.4em;line-height:.8;float:left;padding:.08em .1em 0 0;color:var(--acc)}
+.cards .card .ico{display:block;width:44px;height:44px;margin:0 auto 14px;color:var(--acc)}
+.cards .card .ico svg{width:100%;height:100%;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.cards .card .say{display:block;font-family:var(--serif);font-style:italic;font-size:19px;color:var(--ink);margin-top:14px}
+
+/* Визуализация */
+.viz{max-width:980px;margin:clamp(36px,6vh,56px) auto 0;display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:4px;text-align:left}
+.viz-stage{background:var(--card);position:relative;padding:18px}
+.viz-stage svg{display:block;width:100%;height:auto;max-width:100%}
+.viz-side{background:var(--card);padding:clamp(24px,3vw,36px);display:flex;flex-direction:column;gap:12px;min-width:0}
+.viz-side h3{font-size:clamp(28px,2.6vw,38px)}
+.viz-side p{color:var(--dim)}
+.viz-side .q-say{font-family:var(--serif);font-style:italic;font-size:21px;line-height:1.35;color:var(--ink);border-left:2px solid var(--acc);padding-left:14px}
+.viz-side .price{font-size:15px;color:var(--mute)}
+.viz-side .price b{color:var(--acc);font-weight:600;letter-spacing:.14em;text-transform:uppercase;font-size:12px;margin-right:6px}
+.ctl{grid-column:1/-1;background:var(--card);padding:22px clamp(18px,3vw,32px) 24px}
+.seg{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin-top:14px}
+.seg button{min-height:44px;border-radius:999px;border:1px solid var(--line2);background:transparent;cursor:pointer;font-size:14px;padding:6px 8px;line-height:1.2}
+.seg button[aria-pressed="true"]{background:var(--acc-fill);border-color:var(--acc-fill);color:var(--on-fill);font-weight:700}
+input[type=range].rng{-webkit-appearance:none;appearance:none;width:100%;height:28px;background:transparent;cursor:pointer;margin:0}
+.rng::-webkit-slider-runnable-track{height:4px;border-radius:4px;background:linear-gradient(90deg,var(--c-red),var(--acc-fill) 50%,var(--mute))}
+.rng::-moz-range-track{height:4px;border-radius:4px;background:linear-gradient(90deg,var(--c-red),var(--acc-fill) 50%,var(--mute))}
+.rng::-webkit-slider-thumb{-webkit-appearance:none;width:26px;height:26px;margin-top:-11px;border-radius:50%;background:var(--bg);border:2px solid var(--acc);box-shadow:0 4px 14px -4px rgba(0,0,0,.4)}
+.rng::-moz-range-thumb{width:22px;height:22px;border-radius:50%;background:var(--bg);border:2px solid var(--acc)}
+.rng-lbl{display:flex;justify-content:space-between;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}
+/* элементы SVG государства */
+.st-land{fill:var(--bg);stroke:none}
+.st-ring{fill:none;stroke:var(--acc)}
+.st-gate{fill:none;stroke:var(--acc);stroke-width:3}
+.st-me circle,.st-me path{stroke:var(--ink);stroke-width:3;fill:none;stroke-linecap:round}
+.st-me circle.f{fill:var(--ink)}
+.st-v circle{fill:var(--mute)}
+.st-v path{stroke:var(--mute);stroke-width:2.6;fill:none;stroke-linecap:round}
+.st-v.guest circle{fill:var(--acc)}
+.st-v.guest path{stroke:var(--acc)}
+.st-house path{fill:none;stroke:var(--acc);stroke-width:2.2;stroke-linejoin:round;stroke-linecap:round}
+.st-cap{font-family:var(--sans);font-size:13px;letter-spacing:.18em;fill:var(--mute);text-transform:uppercase}
+
+/* Сценки */
+.scenes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px;margin-top:clamp(40px,6vh,64px);text-align:left}
+.scene{background:var(--card);padding:clamp(24px,3vw,34px);display:flex;flex-direction:column;gap:14px;min-width:0}
+.scene .who{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--acc);font-weight:600}
+.scene h3{font-size:clamp(23px,2vw,28px)}
+.scene .sw{display:flex;gap:6px}
+.scene .sw button{flex:1;min-height:40px;border-radius:999px;border:1px solid var(--line2);background:transparent;font-size:13px;cursor:pointer}
+.scene .sw button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.scene .sw button.g[aria-pressed="true"]{background:var(--acc-fill);color:var(--on-fill);border-color:var(--acc-fill)}
+.scene .out{font-family:var(--serif);font-style:italic;font-size:20px;line-height:1.4;color:var(--ink);min-height:4.2em}
+.scene .after{font-size:15px;color:var(--mute)}
+
+/* Игра-сортировка */
+.game{max-width:880px;margin:clamp(36px,6vh,56px) auto 0;display:grid;gap:4px;text-align:left}
+.g-row{background:var(--card);padding:18px clamp(18px,3vw,28px);display:grid;gap:12px}
+.g-row .t{font-family:var(--serif);font-size:clamp(20px,1.8vw,24px);line-height:1.3;color:var(--ink)}
+.g-row .t small{display:block;font-family:var(--sans);font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--mute);margin-bottom:4px}
+.g-ch{display:flex;flex-wrap:wrap;gap:6px}
+.g-ch button{min-height:40px;padding:6px 16px;border-radius:999px;border:1px solid var(--line2);background:transparent;cursor:pointer;font-size:14px}
+.g-ch button:hover:not(:disabled){border-color:var(--acc)}
+.g-ch button:disabled{cursor:default}
+.g-ch button.ok{background:color-mix(in srgb,var(--bg) 70%,var(--c-grn));border-color:var(--c-grn);color:var(--ink);font-weight:600}
+.g-ch button.no{border-color:var(--c-red);color:var(--c-red);text-decoration:line-through}
+.g-ch button.also{border-color:var(--c-grn);border-style:dashed}
+.g-ex{font-size:15.5px;color:var(--dim);border-left:2px solid var(--acc);padding-left:12px;animation:rise .4s var(--ease) both}
+.g-ex b{color:var(--ink)}
+.g-score{max-width:880px;margin:4px auto 0;background:var(--card);padding:22px clamp(18px,3vw,28px);display:flex;flex-wrap:wrap;gap:12px 20px;align-items:center;justify-content:space-between;text-align:left}
+.g-score b{font-family:var(--serif);font-size:34px;font-weight:500;color:var(--acc)}
+.g-score p{color:var(--dim);flex:1 1 260px;min-width:0}
+
+/* Наука */
+.sci{max-width:820px;margin:clamp(40px,6vh,64px) auto 0;text-align:left;background:var(--card);border-left:2px solid var(--acc);padding:clamp(24px,3vw,34px) clamp(22px,3.5vw,44px);color:var(--dim);font-size:clamp(16.5px,1.25vw,18px)}
+.sci .label{margin-bottom:12px}
+.sci b{color:var(--ink);font-weight:600}
+.sci p + p{margin-top:.9em}
+
+/* Квиз */
+.quiz{max-width:800px;margin:clamp(36px,6vh,56px) auto 0;text-align:left}
+.qz-top{display:flex;align-items:center;gap:16px;margin-bottom:16px}
+.qz-n{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--mute);white-space:nowrap}
+.qz-dots{display:flex;gap:6px;flex:1;min-width:0}
+.qz-dots i{flex:1;height:4px;border-radius:4px;background:var(--line2)}
+.qz-dots i.ok{background:var(--c-grn)}
+.qz-dots i.no{background:var(--c-red)}
+.qz-dots i.cur{background:var(--acc)}
+.qz-q{font-family:var(--serif);font-size:clamp(26px,2.6vw,36px);line-height:1.2;color:var(--ink);text-wrap:balance}
+.qz-tag{display:inline-block;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--hot);border:1px solid currentColor;border-radius:999px;padding:3px 10px;margin-bottom:12px;font-weight:600}
+.qz-q + .opts{margin-top:24px}
+.qz-next{margin-top:22px;display:flex;justify-content:flex-end}
+.res{max-width:800px;margin:clamp(36px,6vh,56px) auto 0;text-align:center;background:var(--card);padding:clamp(34px,5vw,60px) clamp(22px,4vw,48px);position:relative;animation:rise .6s var(--ease) both}
+.res::before{content:"";position:absolute;left:0;right:0;top:0;height:2px;background:linear-gradient(90deg,transparent,var(--acc),transparent)}
+.res .score{font-family:var(--serif);font-size:clamp(64px,9vw,110px);line-height:.9;color:var(--num);font-weight:600}
+.res .rank{font-family:var(--serif);font-size:clamp(34px,4.4vw,56px);line-height:1.05;margin-top:10px}
+.res .rank em{color:var(--acc)}
+.res p{color:var(--dim);max-width:46ch;margin:16px auto 0}
+.res .steps{display:flex;justify-content:center;gap:4px;margin:26px auto 0;flex-wrap:wrap}
+.res .steps span{font-size:11px;letter-spacing:.14em;text-transform:uppercase;padding:6px 10px;border-radius:999px;border:1px solid var(--line2);color:var(--mute)}
+.res .steps span.on{background:var(--acc-fill);border-color:var(--acc-fill);color:var(--on-fill);font-weight:700}
+.res .acts{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:30px}
+
+/* Что дальше */
+.links{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px;max-width:900px;margin:clamp(36px,6vh,56px) auto 0;text-align:left}
+.lk{display:flex;flex-direction:column;gap:6px;background:var(--card);padding:24px clamp(20px,3vw,30px);text-decoration:none;color:var(--ink);border-left:2px solid transparent;transition:border-color .25s}
+.lk:hover{border-left-color:var(--acc)}
+.lk small{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--acc);font-weight:600}
+.lk b{font-family:var(--serif);font-weight:500;font-size:clamp(23px,2vw,28px);line-height:1.15}
+.lk span{font-size:15px;color:var(--dim)}
+.lk.soon{opacity:.6;pointer-events:none}
+
+@media (max-width:860px){
+  .viz{grid-template-columns:1fr}
+  .scenes{grid-template-columns:1fr}
+}
+@media (max-width:640px){
+  .links{grid-template-columns:1fr}
+  .opt{font-size:16px;padding:16px 16px}
+  .seg button{font-size:12.5px}
+  .res .steps span{font-size:10px;padding:5px 8px}
+}
+.btn.share{background:transparent;color:var(--acc);box-shadow:inset 0 0 0 1.5px var(--acc)}
+.btn.share:hover{background:color-mix(in srgb,transparent 88%,var(--acc-fill))}
+.share-txt{display:block;width:100%;max-width:520px;margin:14px auto 0;padding:12px 14px;border:1px solid var(--line2);border-radius:10px;background:var(--bg);color:var(--ink);font:15px/1.5 var(--sans);resize:none}
+@media (max-width:640px){.res .acts .btn{width:100%}}
+
+/* Видео (кабинет клуба) */
+.sec.vid{padding-bottom:0}
+.mm-video{max-width:820px;margin:0 auto;text-align:center}
+.mm-video video{display:block;width:100%;max-width:min(100%,380px);aspect-ratio:9/16;margin:0 auto;border-radius:18px;background:#0C0C0E;object-fit:cover;box-shadow:0 0 0 1px var(--line2),0 30px 70px -30px rgba(0,0,0,.5)}
+.mm-video figcaption{font-family:var(--serif);font-style:italic;font-size:clamp(19px,1.6vw,22px);line-height:1.35;color:var(--dim);max-width:34ch;margin:18px auto 0}
+
+/* Превью картинки (запасной путь) */
+.png-prev{max-width:420px;margin:16px auto 0;text-align:center}
+.png-prev img{display:block;width:100%;height:auto;border-radius:12px;box-shadow:0 0 0 1px var(--line2),0 20px 50px -24px rgba(0,0,0,.5)}
+.png-prev figcaption{font-size:14px;color:var(--mute);margin-top:10px}
+.res .next-topic{margin-top:28px}
+/* Эксперимент недели */
+.exp{max-width:820px;margin:clamp(36px,6vh,56px) auto 0;text-align:left;background:var(--card);padding:clamp(26px,3.5vw,40px) clamp(20px,4vw,44px);border-top:2px solid var(--c-grn)}
+.exp h3{font-size:clamp(28px,2.6vw,36px)}
+.exp .how{color:var(--dim);margin-top:10px}
+.exp .how b{color:var(--ink)}
+.exp-ex{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
+.exp-ex span{font-size:13.5px;padding:6px 12px;border-radius:999px;background:var(--bg);color:var(--dim);border:1px solid var(--line)}
+.exp-days{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px;margin-top:22px}
+.exp-days button{min-height:58px;border-radius:12px;border:1px solid var(--line2);background:var(--bg);cursor:pointer;font-family:var(--serif);font-size:24px;line-height:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:6px 0}
+.exp-days button small{font-family:var(--sans);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--mute)}
+.exp-days button[aria-pressed="true"]{background:color-mix(in srgb,var(--bg) 60%,var(--c-grn));border-color:var(--c-grn)}
+.exp-days button[aria-pressed="true"] small{color:var(--ink)}
+.exp-sum{color:var(--dim);margin-top:14px}
+.exp-sum b{color:var(--ink)}
+.exp .ghost{margin-top:12px}
+@media (max-width:420px){.exp-days{gap:4px}.exp-days button{min-height:52px;font-size:20px}.exp-days button small{font-size:8.5px;letter-spacing:.04em}}
+
+.pantry-viz .viz-stage{display:grid;place-items:center}
+.pv{max-width:440px}
+.pv-wall{fill:var(--bg);stroke:var(--line2);stroke-width:2}
+.pv-shelf,.pv-floor{fill:var(--acc);opacity:.55}
+.pv-jar{cursor:pointer;transition:opacity .35s}
+.pv-jar .glass{fill:rgba(255,255,255,.16);stroke:rgba(0,0,0,.25);stroke-width:1.5}
+.pv-jar .lid{fill:#8C8680}
+.pv-jar .lab{fill:rgba(255,255,255,.75)}
+.pv-jar:hover .glass{stroke:var(--acc);stroke-width:2.5}
+.pv-jar.sel .glass{stroke:var(--acc);stroke-width:4}
+.pv-jar.not{opacity:.18}
+.pv-jar.not.sel{opacity:.5}
+.pv-jar:focus-visible{outline:none}
+.pv-jar:focus-visible .glass{stroke:var(--acc);stroke-width:4}
+.mk-ok{fill:var(--c-grn)}
+.mk-tick{fill:none;stroke:#fff;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.mk-q{fill:var(--acc-fill)}
+.mk-qt{font:700 13px var(--sans);fill:var(--on-fill);text-anchor:middle}
+.pv-me .glow{fill:var(--glow);fill:color-mix(in srgb,var(--acc-fill) 30%,transparent)}
+.pv-me path{fill:none;stroke:var(--ink);stroke-width:3.2;stroke-linecap:round;stroke-linejoin:round}
+.pv-me .f{fill:var(--ink)}
+.pv-me{transition:opacity .5s}
+.viz-side .mini{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--mute);font-weight:600}
+.viz-side .seg{margin-top:4px}
+.viz-side .nav{display:flex;gap:8px;flex-wrap:wrap;justify-content:space-between;margin-top:4px}
+.viz-side .nav .ghost{min-height:40px;padding:0 14px;font-size:13px}
+.own-row{display:flex;gap:8px;flex-wrap:wrap}
+.own-row input{flex:1 1 220px;min-width:0;min-height:46px;border-radius:999px;border:1px solid var(--line2);background:var(--bg);padding:0 18px;font-size:16px}
+.own-row .ghost:disabled{opacity:.4;cursor:default}
+.pv-sum{color:var(--dim);margin-top:10px;font-size:16px}
+.pv-sum b{color:var(--ink)}
+.link-btn{border:0;background:none;padding:0;color:var(--acc);font-weight:600;text-decoration:underline;text-underline-offset:3px;cursor:pointer;font-size:inherit}
+.pantry-viz .viz-stage{display:flex;flex-direction:column;align-items:center;gap:14px}
+.pv-chips{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;width:100%}
+.pv-chips button{display:inline-flex;align-items:center;gap:7px;min-height:38px;padding:4px 12px;border-radius:999px;border:1px solid var(--line2);background:var(--bg);font-size:13px;cursor:pointer;color:var(--ink)}
+.pv-chips button i{width:10px;height:10px;border-radius:50%;flex:none}
+.pv-chips button[aria-pressed="true"]{border-color:var(--acc);box-shadow:inset 0 0 0 1px var(--acc)}
+.pv-chips button.not{opacity:.5;text-decoration:line-through}
+.pv-chips button.mine::after{content:"✓";color:var(--c-grn);font-weight:700}
+.pv-chips button.q::after{content:"?";color:var(--acc);font-weight:700}
+/* 21.10: полки-вкладки, вопрос в «Простыми словами» */
+.prose .prose-q{font-family:var(--serif);font-style:italic;font-size:clamp(24px,2.2vw,30px);line-height:1.2;color:var(--acc);margin-top:1.3em}
+.pv-tabs{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;margin:clamp(28px,5vh,44px) auto 0;max-width:820px}
+.pv-tabs button{display:flex;flex-direction:column;align-items:center;gap:2px;min-height:52px;padding:8px 16px;border-radius:14px;border:1px solid var(--line2);background:transparent;color:var(--dim);cursor:pointer;font-size:14px;line-height:1.2}
+.pv-tabs button b{font-weight:600;color:var(--ink)}
+.pv-tabs button span{font-size:12px;color:var(--mute)}
+.pv-tabs button[aria-selected="true"]{border-color:var(--acc);box-shadow:inset 0 0 0 1px var(--acc);background:var(--card)}
+.pv-shelf-note{max-width:640px;margin:12px auto 0;font-size:15px;line-height:1.55;color:var(--mute)}
+.pv-sum .grow{color:var(--c-grn);font-weight:600}
+.pv-jar.not{opacity:.34}
+.pv-jar.not.sel{opacity:.6}
+
+
+</style>
+<header class="hero lesson">
+<a class="mm-backlink" href="/" onclick="mmBack();return false;"><span aria-hidden="true">‹</span><b class="mm-bl-t" style="font-weight:600">Щит и Меч</b></a>
+<script>if(/^\/art\//.test(location.pathname))document.querySelectorAll('.mm-bl-t').forEach(function(e){e.textContent='Все практики'});</script>
+  <div class="wrap">
+    <div class="badge"><img src="/practices/img/emblem.png" alt="Логотип клуба MaxMagia"></div>
+    <span class="label">Клуб #MaxMagia · Щит и Меч · тема 03</span>
+    <h1>Откуда берутся границы</h1>
+    <p class="sub">или кладовка с чужими банками.<br><b>Какие правила тебе поставили — и какие из них правда твои?</b></p>
+    <div class="chips" aria-label="Что внутри"><span>≈ 8 минут</span><span>живая кладовка</span><span>игра</span><span>7 вопросов</span></div>
+  </div>
+</header>
+
+<section class="sec tight vid" aria-label="Видео">
+<div class="wrap">
+  <figure class="mm-video">
+    <video src="video.mp4" poster="poster.jpg" controls playsinline preload="metadata"></video>
+    <figcaption>Макс за полторы минуты: почему ты знаешь, что тебе неприятно, — и всё равно молчишь</figcaption>
+  </figure>
+</div>
+</section>
+
+<section class="sec tight" id="hook" aria-labelledby="h-hook">
+<div class="wrap center">
+  <span class="label">Начнём с детства</span>
+  <h2 id="h-hook">Тебе <em>пять лет</em></h2>
+  <p class="lede">Пришли гости. Ты говоришь: «Не хочу целовать тётю». Что тебе, скорее всего, ответили?</p>
+  <div class="opts" id="hookOpts" role="group" aria-label="Варианты"></div>
+  <div id="hookFb" aria-live="polite"></div>
+</div>
+</section>
+
+<section class="sec orn-top" id="simple" aria-labelledby="h-simple">
+<div class="wrap center">
+  <div class="rule-orn" aria-hidden="true"><i></i></div>
+  <span class="label">Простыми словами</span>
+  <h2 id="h-simple">Ты был(а) <em>пустой кладовкой</em></h2>
+  <div class="prose">
+    <p class="drop">Когда ты был(а) маленьким(ой), ты был(а) как пустая кладовка. И родители, бабушки, учителя бережно и не очень ставили туда свои банки: установки, правила жизни, ценности, интересы, потому что им лично эти конкретные мифологемы помогли в жизни в каких-то ситуациях. Да и в целом, воспитание и социализация привнесли в твою кладовочку большое количество закаток на все случаи жизни.</p>
+    <p>Сами по себе эти банки-закатки — не враги. Многие из них правда спасали и до сих пор спасают тебя: «не трогай горячее», «переходи на зелёный», «не общайся с дураками». Тебе как ребёнку было рано проверять, подходят ли они тебе, — и ты просто разрешал(а) этим банкам быть в твоей кладовке. И беда началась, когда банок стало столько, что <b>для твоих закаток на полках не осталось места</b>. И вот ты и живёшь по чужому мировоззрению, даже не замечая этого.</p>
+    <p class="prose-q">Как это связано с границами?</p>
+    <p>Каждая такая банка — это готовый закон, который кто-то вписал в твою конституцию за тебя. «Будь удобным(ой)» — и вот закон: <b>отказывать нельзя</b>. «Терпи» — и пограничникам приказано молчать. Поэтому бывает так: ты прекрасно знаешь, что тебе неприятно, а сказать не можешь. Банка не пускает.</p>
+  </div>
+</div>
+</section>
+
+<section class="sec orn-top" id="pantry" aria-labelledby="h-pantry">
+<div class="wrap center">
+  <div class="rule-orn" aria-hidden="true"><i></i></div>
+  <span class="label">Живая кладовка</span>
+  <h2 id="h-pantry">Пройдись по <em>полкам</em></h2>
+  <p class="lede">Нажимай на банки и решай: это правда <b>моё</b> или это <b>не моё</b> — и стоит по наследству, или пока <b>не понимаю</b>.</p>
+  <div class="pv-tabs" id="pvTabs" role="tablist" aria-label="Полки кладовки"></div>
+  <p class="pv-shelf-note" id="pvShelfNote"></p>
+  <div class="viz pantry-viz">
+    <div class="viz-stage"><svg class="pv" id="pvSvg" viewBox="0 0 420 450" role="group" aria-label="Кладовка с банками на полках, внизу маленький человек"></svg><div class="pv-chips" id="pvChips" role="group" aria-label="Банки списком"></div></div>
+    <div class="viz-side" id="pvSide" aria-live="polite"></div>
+    <div class="ctl">
+      <div class="own-row"><input type="text" id="ownJar" maxlength="60" placeholder="Своя банка: какая установка стоит у тебя?" aria-label="Своя банка"><button type="button" class="ghost" id="ownAdd">Поставить на полку</button></div>
+      <p class="err" id="ownErr" aria-live="polite"></p>
+      <p class="pv-sum" id="pvSum" aria-live="polite"></p>
+      <p class="note-s" id="pvNote" aria-live="polite"></p>
+    </div>
+  </div>
+</div>
+</section>
+
+<section class="band" aria-label="Главная мысль">
+  <div class="fade-top"></div><div class="fade-bot"></div>
+  <div class="in wrap">
+    <p>Сначала в тебя складывали чужое.</p>
+    <p>Потом ты стал(а) этим жить.</p>
+    <p class="hot">Пора проверить, что здесь твоё.</p>
+  </div>
+</section>
+
+<section class="sec" id="game" aria-labelledby="h-game">
+<div class="wrap center">
+  <span class="label">Игра</span>
+  <h2 id="h-game">Из какой это <em>банки</em>?</h2>
+  <p class="lede">Взрослые ситуации — а голос в них детский. Угадай, какая банка здесь командует. Иногда их две.</p>
+  <div class="game" id="game3"></div>
+  <div class="g-score" id="game3Score" aria-live="polite" hidden></div>
+  <div class="sci"><span class="label">Что говорит наука</span>
+    <p>В гештальт-терапии такие банки называют <b>интроектами</b> — правилами, которые ребёнок «проглотил» целиком, не пережёвывая: ему было рано проверять, подходят ли они. Сам термин пришёл из психоанализа (его предложил <b>Шандор Ференци</b>), а основатель гештальт-терапии <b>Фриц Перлз</b> сделал его одним из ключевых: здоровый взрослый не глотает чужое целиком, а «пережёвывает» — что-то оставляет, что-то выплёвывает.</p>
+    <p>Около двух лет ребёнок впервые активно говорит «нет». Это не вредность, а первая граница: «я — отдельный человек». Если за «нет» стыдили или наказывали, полки заполняются чужим, а своё пространство становится всё меньше. Хорошая новость: взрослый может пересмотреть содержимое кладовки — оставить нужное, а остальное аккуратно вынести.</p>
+  </div>
+</div>
+</section>
+
+<section class="sec orn-top" id="test" aria-labelledby="h-test">
+<div class="wrap center">
+  <div class="rule-orn" aria-hidden="true"><i></i></div>
+  <span class="label">Давай проверим себя</span>
+  <h2 id="h-test">Семь вопросов. Некоторые — <em>с подвохом</em></h2>
+  <p class="lede">После каждого ответа будет разбор. В конце — звание и твоя кладовка картинкой.</p>
+  <div class="quiz" id="quiz"></div>
+</div>
+</section>
+
+<section class="sec orn-top" id="week" aria-labelledby="h-week">
+<div class="wrap center">
+  <div class="rule-orn" aria-hidden="true"><i></i></div>
+  <span class="label">Эксперимент недели</span>
+  <h2 id="h-week">Теперь — <em>в жизнь</em></h2>
+  <p class="lede">Знание без действия быстро выветривается. Одно маленькое действие на семь дней.</p>
+  <div class="exp"><h3>Поймай банку</h3><p class="how">Раз в день замечай момент, когда командует банка, и <b>назови её про себя</b>: «Ага, это „Будь удобным“». Ничего не меняй — только лови и называй.</p>
+    <div class="exp-ex" aria-label="Примеры"><span>«Это „Терпи“»</span><span>«Это „Что люди скажут?“»</span><span>«Это „Сначала дело“»</span></div>
+    <div id="expBox"></div></div>
+</div>
+</section>
+
+<section class="sec orn-top" id="next" aria-labelledby="h-next">
+<div class="wrap center">
+  <div class="rule-orn" aria-hidden="true"><i></i></div>
+  <span class="label">Что дальше</span>
+  <h2 id="h-next">Куда идти по карте</h2>
+  <div class="links">
+    <a class="lk " href="/practices/shm-04/"><small>Тема 04 · дальше</small><b>«Люди должны…»</b><span>Как найти свои банки по тому, что ты требуешь от других, — и перевести «должен» в «мне важно».</span></a>
+    <a class="lk " href="/practices/shm-02/"><small>Тема 02 · назад</small><b>Шесть зон границ</b><span>Тело, чувства, время, вещи, мысли, связь: из каких провинций состоит твоё государство.</span></a>
+    <a class="lk " href="/practices/shm-01/"><small>Тема 01</small><b>Что такое личные границы</b><span>Государство, конституция, пограничники — и почему граница не стена.</span></a>
+    <a class="lk" href="/practices/lichnye-granicy/"><small>Большое занятие</small><b>Личные границы</b><span>Вся теория целиком: остров, кладовка, лестница чувств и арсенал защиты.</span></a>
+  </div>
+</div>
+</section>
+
+<div class="wrap">
+  <footer>
+    <div class="sign">Клуб #MaxMagia</div>
+    <p>Клуб — не терапия и не медицинская помощь. Если в отношениях есть насилие или угрозы, сначала позаботься о безопасности; в экстренной ситуации звони 112. Разобрать свою ситуацию с психологом: <a href="https://t.me/MaxGuschin" target="_blank" rel="noopener">t.me/MaxGuschin</a>.</p>
+  </footer>
+</div>
+
+<script>
+const NEXT_URL='/practices/shm-04/';
+const NEXT_TITLE='Следующая тема: Как найти чужие банки в себе?';
+const LESSON_URL='https://t.me/clubeshnik911_bot?startapp=p-shm-03';
+const KEY='maxmagia-shm-03-v1';
+const blank=()=>({v:1,hook:null,cur:'j1',jars:{},own:[],game:{},qz:null,res:null,exp:null});
+const $  = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+const RM = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const bio = 'IntersectionObserver' in window
+  ? new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('seen'); bio.unobserve(e.target); } }), {threshold:.35})
+  : null;
+$$('.band').forEach(b => (RM || !bio) ? b.classList.add('seen') : bio.observe(b));
+
+let S = blank();
+try { const raw = localStorage.getItem(KEY); if (raw) S = Object.assign(blank(), JSON.parse(raw)); } catch (e) {}
+const save = () => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} };
+const LET = ['А','Б','В','Г','Д','Е'];
+
+function armed(btn, label) {
+  if (btn.dataset.arm) return true;
+  btn.dataset.arm = '1';
+  const old = btn.textContent;
+  btn.textContent = label;
+  setTimeout(() => { if (btn.isConnected && btn.dataset.arm) { delete btn.dataset.arm; btn.textContent = old; } }, 4000);
+  return false;
+}
+
+/* ---------- Звания ---------- */
+const RANKS = [
+  {min:0, n:'Турист', t:'Ты пока путешествуешь по теме. Это нормально: перечитай разборы и вернись к интерактиву выше, а потом пройди проверку ещё раз — варианты перемешаются.'},
+  {min:3, n:'Пограничник', t:'Ты уже замечаешь, где проходит линия. Осталось научиться спокойно её держать.'},
+  {min:5, n:'Министр', t:'Ты хорошо понимаешь, как устроено твоё государство. Пара тонких мест — и будет идеально.'},
+  {min:7, n:'Президент своего государства', t:'Конституция написана, законы понятны. Можно править.'}
+];
+const rankOf = sc => RANKS.filter(r => sc >= r.min).pop();
+
+/* ---------- Игра-сортировка ---------- */
+/* items: [{t, tag?, ok:[индексы верных], ex}] ; cats: [названия] ; S.game = {idx: выбранный} */
+function sortGame(root, {cats, items, scoreEl, msg}) {
+  const draw = () => {
+    root.innerHTML = items.map((it, i) => {
+      const p = S.game[i];
+      const done = p != null;
+      return `<div class="g-row" data-i="${i}">
+        <p class="t">${it.tag ? `<small>${esc(it.tag)}</small>` : ''}${esc(it.t)}</p>
+        <div class="g-ch" role="group" aria-label="Выбери ответ">${(it.opts || [0, 1, 2, 3, 4]).map(k => { const c = cats[k];
+          let cl = '';
+          if (done) { if (it.ok.includes(k)) cl = k === p || it.ok[0] === k ? 'ok' : 'also'; else if (k === p) cl = 'no'; }
+          return `<button type="button" data-k="${k}" class="${cl}" ${done ? 'disabled' : ''}>${esc(c)}</button>`;
+        }).join('')}</div>
+        ${done ? `<p class="g-ex" aria-live="polite"><b>${it.ok.includes(p) ? 'Да.' : 'Не совсем.'}</b> ${it.ex}</p>` : ''}
+      </div>`;
+    }).join('');
+    $$('.g-row', root).forEach(r => $$('button', r).forEach(b => b.onclick = () => {
+      S.game[r.dataset.i] = +b.dataset.k; save(); draw();
+      const row = $(`.g-row[data-i="${r.dataset.i}"] .g-ex`, root); if (row && !RM) row.scrollIntoView({block:'nearest', behavior:'smooth'});
+    }));
+    const n = Object.keys(S.game).length, ok = items.filter((it, i) => S.game[i] != null && it.ok.includes(S.game[i])).length;
+    scoreEl.hidden = n === 0;
+    scoreEl.innerHTML = `<div><b>${ok}</b> <span class="dim">из ${items.length}</span></div><p>${n < items.length ? `Разобрано ${n} из ${items.length}. Продолжай.` : msg(ok)}</p>${n ? '<button type="button" class="ghost" data-reset>Сыграть ещё раз</button>' : ''}`;
+    const rb = $('[data-reset]', scoreEl);
+    if (rb) rb.onclick = e => { if (!armed(e.currentTarget, 'Стереть ответы? Нажми ещё раз')) return; S.game = {}; save(); draw(); };
+  };
+  draw();
+}
+
+/* ---------- Квиз ---------- */
+/* qs: [{q, tag?, o:[...], a: индекс, ex}] ; S.qz = {i, picks:[] (исходные индексы), ord:[[порядок вариантов]]}
+   Варианты перемешиваются заново при каждом прохождении. Итог пишется в S.res для паспорта серии. */
+const shuffle = a => { const r = a.slice(); for (let k = r.length - 1; k > 0; k--) { const j = Math.floor(Math.random() * (k + 1)); [r[k], r[j]] = [r[j], r[k]]; } return r; };
+function quiz(root, {qs, onResult}) {
+  const fresh = () => ({i:0, picks:[], ord:qs.map(q => shuffle(q.o.map((_, k) => k)))});
+  if (!S.qz || !Array.isArray(S.qz.ord) || S.qz.ord.length !== qs.length) { const old = S.qz || {}; S.qz = fresh(); if (old.picks && old.picks.length) { S.qz.i = old.i || 0; S.qz.picks = old.picks; } save(); }
+  const draw = (focus) => {
+    const st = S.qz;
+    if (st.i >= qs.length) {
+      const sc = st.picks.filter((p, i) => p === qs[i].a).length, r = rankOf(sc);
+      const best = S.res && S.res.sc > sc ? S.res : null;
+      S.res = best || {sc, total:qs.length, rank:r.n, at:new Date().toISOString().slice(0, 10)}; save();
+      root.innerHTML = `<div class="res" aria-live="polite">
+        <div class="score">${sc}<span style="font-size:.4em;color:var(--mute)"> / ${qs.length}</span></div>
+        <span class="label" style="margin:14px 0 0">Твоё звание</span>
+        <h3 class="rank"><em>${esc(r.n)}</em></h3>
+        <p>${esc(r.t)}</p>
+        <div class="steps" aria-hidden="true">${RANKS.map(x => `<span class="${x === r ? 'on' : ''}">${esc(x.n.replace(' своего государства', ''))}</span>`).join('')}</div>
+        ${typeof NEXT_URL === 'string' && NEXT_URL ? `<a class="btn next-topic" href="${NEXT_URL}">${esc(NEXT_TITLE)} →</a>` : ''}
+        <div class="acts" data-acts></div>
+        <p class="note-s" data-note aria-live="polite"></p>
+        <div class="acts" style="margin-top:8px"><button type="button" class="ghost" data-again>Пройти ещё раз</button></div>
+      </div>`;
+      $('[data-again]', root).onclick = () => { S.qz = fresh(); save(); draw(true); };
+      onResult && onResult(sc, r, $('[data-acts]', root), $('[data-note]', root));
+      if (focus) root.scrollIntoView({block:'start', behavior: RM ? 'auto' : 'smooth'});
+      return;
+    }
+    const q = qs[st.i], p = st.picks[st.i], done = p != null, ord = st.ord[st.i];
+    root.innerHTML = `<div class="qz-top"><span class="qz-n">Вопрос ${st.i + 1} из ${qs.length}</span>
+        <div class="qz-dots" aria-hidden="true">${qs.map((x, k) => `<i class="${k < st.i || (k === st.i && done) ? (st.picks[k] === x.a ? 'ok' : 'no') : k === st.i ? 'cur' : ''}"></i>`).join('')}</div></div>
+      ${q.tag ? `<span class="qz-tag">${esc(q.tag)}</span>` : ''}
+      <p class="qz-q" tabindex="-1">${esc(q.q)}</p>
+      <div class="opts">${ord.map((k, pos) => {
+        let cl = '';
+        if (done) cl = k === q.a ? 'ok' : k === p ? 'no' : 'dim';
+        return `<button type="button" class="opt ${cl}" data-k="${k}" ${done ? 'disabled' : ''}><span class="k">${LET[pos]}</span><span>${esc(q.o[k])}</span></button>`;
+      }).join('')}</div>
+      ${done ? `<div class="fb" aria-live="polite"><h3>${p === q.a ? (q.yes || 'Точно.') : (q.no || 'А вот и нет.')}</h3><p>${q.ex}</p></div>
+      <div class="qz-next"><button type="button" class="btn" data-next>${st.i === qs.length - 1 ? 'Узнать звание' : 'Дальше'}</button></div>` : ''}`;
+    $$('.opt', root).forEach(b => b.onclick = () => { st.picks[st.i] = +b.dataset.k; save(); draw(); const n = $('[data-next]', root); if (n) n.focus({preventScroll:true}); const f = $('.fb', root); if (f && !RM) f.scrollIntoView({block:'nearest', behavior:'smooth'}); });
+    const nx = $('[data-next]', root);
+    if (nx) nx.onclick = () => { st.i++; save(); draw(true); };
+    if (focus) { const h = $('.qz-q', root); root.scrollIntoView({block:'start', behavior: RM ? 'auto' : 'smooth'}); h && h.focus({preventScroll:true}); }
+  };
+  draw();
+}
+
+/* ---------- Эксперимент недели ---------- */
+/* S.exp = [7 × true/false]. Рисуется в #exp, текст задания — из разметки страницы. */
+function expBlock(root) {
+  if (!root) return;
+  if (!Array.isArray(S.exp) || S.exp.length !== 7) S.exp = [false, false, false, false, false, false, false];
+  const draw = () => {
+    const n = S.exp.filter(Boolean).length;
+    root.innerHTML = `<div class="exp-days" role="group" aria-label="Дни эксперимента">${S.exp.map((d, k) => `<button type="button" data-k="${k}" aria-pressed="${d}"><small>день</small>${k + 1}</button>`).join('')}</div>
+      <p class="exp-sum" aria-live="polite">${n === 0 ? 'Отмечай день, когда получилось. Пропуск — не провал: просто продолжай со следующего.' : n < 7 ? `Отмечено: <b>${n} из 7</b>. ${n >= 4 ? 'Это уже привычка в процессе.' : 'Маленькими шагами — самый надёжный путь.'}` : '<b>7 из 7!</b> Расскажи в болталке, что изменилось за неделю.'}</p>
+      ${n ? '<button type="button" class="ghost" data-reset>Начать неделю заново</button>' : ''}`;
+    $$('.exp-days button', root).forEach(b => b.onclick = () => { const k = +b.dataset.k; S.exp[k] = !S.exp[k]; save(); draw(); $(`.exp-days [data-k="${k}"]`, root).focus({preventScroll:true}); });
+    const r = $('[data-reset]', root); if (r) r.onclick = e => { if (!armed(e.currentTarget, 'Стереть отметки? Ещё раз')) return; S.exp = [false, false, false, false, false, false, false]; save(); draw(); };
+  };
+  draw();
+}
+
+/* ---------- Сохранение файлов ---------- */
+let dlNs = null;
+(async () => { try { if (window.claude && typeof window.claude.use === 'function') dlNs = await window.claude.use('downloads'); } catch (e) { dlNs = null; } })();
+async function saveFile(name, data, note, fallbackMsg) {
+  if (dlNs) {
+    try { await dlNs.save({filename:name, data}); if (note) note.textContent = 'Файл сохранён'; return; }
+    catch (e) {
+      const code = e && e.code;
+      if (note) note.textContent = code === 'declined' ? 'Сохранение отменено' : code === 'rate_limited' ? 'Окно сохранения уже открыто, попробуй чуть позже' : (fallbackMsg || 'Не получилось сохранить файл');
+      return;
+    }
+  }
+  try {
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(typeof data === 'string' ? new Blob([data], {type:'text/plain;charset=utf-8'}) : data);
+    a.download = name; document.body.appendChild(a); a.click(); a.remove();
+    if (note) note.textContent = fallbackMsg || 'Файл скачан';
+  } catch (e) { if (note) note.textContent = fallbackMsg || 'Не получилось сохранить файл'; }
+}
+
+/* ---------- PNG ---------- */
+const SERIF = '"Cormorant Garamond", Georgia, serif', SANS = 'Manrope, system-ui, sans-serif';
+const INK = '#2F2F2F', ACC = '#9A6A2E', CARD = '#F4F3EF', MUTE = '#696969', HOT = '#B23A2E';
+function wrapText(x, text, maxW) {
+  const out = []; let line = '';
+  String(text).split(' ').forEach(w => { const t = line ? line + ' ' + w : w; if (x.measureText(t).width > maxW && line) { out.push(line); line = w; } else line = t; });
+  if (line) out.push(line); return out;
+}
+async function loadFonts() { try { await Promise.all([document.fonts.load('500 56px "Cormorant Garamond"'), document.fonts.load('italic 500 32px "Cormorant Garamond"'), document.fonts.load('600 18px Manrope')]); } catch (e) {} }
+/* card({kicker, title, rank, items:[строки], extra(x, y, draw) => новая y}) */
+async function drawCard(o) {
+  await loadFonts();
+  const W = 1080, M = 90, CW = W - M * 2;
+  const paint = (x, draw) => {
+    const T = (t, px, py, f, c, a = 'center') => { x.font = f; if (!draw) return; x.fillStyle = c; x.textAlign = a; x.fillText(t, px, py); };
+    let y = 96; T(o.kicker, W / 2, y, `600 18px ${SANS}`, ACC);
+    x.font = `500 64px ${SERIF}`;
+    wrapText(x, o.title, CW).forEach(l => { y += 72; T(l, W / 2, y, `500 64px ${SERIF}`, INK); });
+    if (o.rank) {
+      y += 58; T('ЗВАНИЕ', W / 2, y, `600 16px ${SANS}`, MUTE);
+      y += 52; T(o.rank, W / 2, y, `italic 500 46px ${SERIF}`, ACC);
+    }
+    if (o.extra) y = o.extra(x, y, draw);
+    y += 16;
+    o.items.forEach(t => {
+      x.font = `italic 500 31px ${SERIF}`;
+      const ls = wrapText(x, t, CW - 60), h = 36 + ls.length * 42; y += 18;
+      if (draw) { x.fillStyle = CARD; x.fillRect(M, y, CW, h); x.fillStyle = ACC; x.fillRect(M, y, 4, h); }
+      ls.forEach((l, k) => T(l, M + 32, y + 48 + k * 42, `italic 500 31px ${SERIF}`, INK, 'left'));
+      y += h;
+    });
+    y += 84; T('Клуб #MaxMagia · Щит и Меч', W / 2, y, `italic 500 30px ${SERIF}`, ACC);
+    return y + 64;
+  };
+  const H = paint(document.createElement('canvas').getContext('2d'), false);
+  const cv = document.createElement('canvas'); cv.width = W; cv.height = H;
+  const x = cv.getContext('2d'); x.fillStyle = '#FBFAF7'; x.fillRect(0, 0, W, H);
+  paint(x, true);
+  return cv;
+}
+async function exportCard(o, name, note) {
+  note.textContent = 'Готовлю картинку…';
+  const cv = await drawCard(o);
+  const blob = await new Promise(r => cv.toBlob(r, 'image/png'));
+  await saveFile(name, blob, note, 'Если файл не скачался, нажми на картинку ниже и удерживай — её можно сохранить в фото');
+  showPreview(blob, note);
+}
+/* Запасной путь для Telegram: картинка прямо на странице, её можно сохранить долгим нажатием */
+function showPreview(blob, note) {
+  try {
+    let f = note.nextElementSibling && note.nextElementSibling.classList.contains('png-prev') ? note.nextElementSibling : null;
+    if (!f) { f = document.createElement('figure'); f.className = 'png-prev'; note.after(f); }
+    const old = $('img', f); if (old) URL.revokeObjectURL(old.src);
+    f.innerHTML = `<img alt="Твоя карточка картинкой" src="${URL.createObjectURL(blob)}"><figcaption>Не скачалось? Нажми на картинку и удерживай — «Сохранить в фото». На компьютере — правая кнопка мыши.</figcaption>`;
+  } catch (e) {}
+}
+const ICO_DL = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11m0 0l-4-4m4 4l4-4M5 19h14"/></svg>';
+
+/* ---------- Поделиться в болталке ---------- */
+/* BOLTALKA — ссылка на тему «Болталка» в чате клуба. Пока пусто — открывается выбор чата Telegram с готовым текстом. */
+const BOLTALKA = 'https://t.me/c/3955955328/81';
+const ICO_SHARE = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.4 4.2 2.9 11.3c-1.3.5-1.3 1.2-.2 1.6l4.7 1.5 1.8 5.6c.2.6.4.8.9.8.4 0 .6-.2.8-.4l2.3-2.2 4.8 3.5c.9.5 1.5.2 1.7-.8l3.1-14.6c.3-1.3-.5-1.9-1.4-1.5ZM8.8 14.1l9.9-6.3c.5-.3.9-.1.5.2l-8.5 7.7-.3 3.4-1.6-5Z"/></svg>';
+function shareText(lesson, r, sc, total) {
+  return `🛡 Щит и Меч · ${lesson} — пройдено!\nМоё звание: ${r.n} (${sc} из ${total}).\nА у тебя какое? → ${LESSON_URL}`;
+}
+function addShare(acts, note, text) {
+  const href = BOLTALKA || `https://t.me/share/url?url=${encodeURIComponent(LESSON_URL)}&text=${encodeURIComponent(text.replace('\nА у тебя какое? → ' + LESSON_URL, '\nА у тебя какое?'))}`;
+  const a = document.createElement('a');
+  a.className = 'btn share'; a.href = href; a.target = '_blank'; a.rel = 'noopener';
+  a.innerHTML = `${ICO_SHARE}Поделиться в болталке`;
+  a.onclick = () => {
+    const done = ok => { note.textContent = ok ? 'Текст со званием скопирован. Вставь его в болталку и прикрепи картинку со званием (кнопка «Сохранить»).' : 'Если текст не вставился, скопируй его из поля ниже.'; if (!ok) showText(); };
+    const showText = () => { if ($('.share-txt', acts.parentNode)) return; const t = document.createElement('textarea'); t.className = 'share-txt'; t.readOnly = true; t.value = text; t.rows = 3; acts.after(t); t.select(); };
+    try { navigator.clipboard.writeText(text).then(() => done(true), () => done(false)); } catch (e) { done(false); }
+  };
+  acts.appendChild(a);
+}
+
+
+/* ---------- Крючок ---------- */
+const HOOK = [
+  {t:'«Ну-ка быстро поцеловал(а)! Не позорь меня».', h:'Банки «Что люди скажут?» и «Будь удобным(ой)»', x:'Урок, который ребёнок выносит: моё тело — не совсем моё, когда на кону чужое мнение. Во взрослой жизни это звучит как «неудобно отказать», даже когда очень хочется.', jar:'j2'},
+  {t:'«Тётя обидится».', h:'Банка «Доедай, а то обидишь»', x:'Урок: чужие чувства важнее твоих «не хочу». Во взрослой жизни — соглашаться на то, чего не хочешь, лишь бы никого не расстроить.', jar:'j9'},
+  {t:'«Не хочешь — не надо».', h:'Тебе повезло', x:'Твоё первое «нет» услышали. Такие банки тоже бывают — «мне можно не хотеть», — и это твоя опора. Проверь, какие ещё хорошие банки стоят у тебя на полках.', jar:null},
+  {t:'Не помню, что сказали. Но я целовал(а).', h:'Банка «Терпи»', x:'Иногда банка ставится без слов — просто потому, что у ребёнка нет выбора. Урок: потерпишь — не развалишься. Во взрослой жизни это терпение до последнего, а потом взрыв.', jar:'j7'}
+];
+function drawHook() {
+  $('#hookOpts').innerHTML = HOOK.map((o, i) => `<button type="button" class="opt" data-i="${i}" aria-pressed="${S.hook === i}"><span class="k">${LET[i]}</span><span>${esc(o.t)}</span></button>`).join('');
+  $$('#hookOpts .opt').forEach(b => b.onclick = () => { S.hook = +b.dataset.i; const j = HOOK[S.hook].jar; if (j) S.cur = j; save(); drawHook(); drawPantry(); });
+  const o = HOOK[S.hook];
+  $('#hookFb').innerHTML = o ? `<div class="fb"><h3>${esc(o.h)}</h3><p>${o.x}</p>${o.jar ? '<p style="margin-top:10px">Эта банка уже выделена в кладовке ниже. <a class="go-link" href="#pantry">Посмотреть ↓</a></p>' : ''}</div>` : '';
+}
+
+/* ---------- Кладовка ---------- */
+const JARS = [
+  {id:'j1', kind:'Огурцы', t:'Не высовывайся', d:'Будь как все, не выделяйся.', life:'Молчишь на совещании, хотя идея у тебя лучшая.', c:'#6E9B4F'},
+  {id:'j2', kind:'Помидоры', t:'Что люди скажут?', d:'Чужое мнение важнее твоего.', life:'Годами не меняешь работу или жизнь, потому что «а что подумают».', c:'#C8453A'},
+  {id:'j3', kind:'Компот', t:'Сначала дело — потом отдых', d:'Отдых нужно заслужить.', life:'Не можешь отдыхать, пока не переделаешь всё, — а всё не кончается никогда.', c:'#B25A86'},
+  {id:'j4', kind:'Варенье', t:'Будь удобным(ой)', d:'Хороший — значит не доставляющий хлопот.', life:'Соглашаешься, а потом злишься. Отказать = стать плохим.', c:'#D08A2C'},
+  {id:'j5', kind:'Лечо', t:'Мальчики не плачут, девочки не злятся', d:'Некоторые чувства тебе нельзя.', life:'Вместо злости — слёзы, вместо слёз — злость. Или вообще ничего.', c:'#D9662E'},
+  {id:'j6', kind:'Грибы', t:'Деньги достаются тяжёлым трудом', d:'Легко — значит нечестно.', life:'Стыдно брать нормальные деньги за то, что тебе даётся легко.', c:'#8C6A48'},
+  {id:'j7', kind:'Аджика', t:'Терпи', d:'Потерпишь — не развалишься.', life:'Терпишь до последнего — а потом взрываешься или заболеваешь.', c:'#A8352E'},
+  {id:'j8', kind:'Икра кабачковая', t:'Старших не перебивают', d:'Твоё мнение — после всех.', life:'Не можешь возразить начальнику или маме, даже когда они неправы.', c:'#C99A3A'},
+  {id:'j9', kind:'Вареники', t:'Доедай, а то обидишь', d:'Чужие чувства важнее твоих «не хочу».', life:'Делаешь то, чего не хочешь, лишь бы никого не расстроить.', c:'#E3D3B0'},
+  {id:'j10', kind:'Капуста квашеная', t:'Не выноси сор из избы', d:'О проблемах молчат.', life:'Никому не говоришь, что в отношениях плохо, пока не станет совсем плохо.', c:'#B9C47A'}
+];
+const SHELVES = [
+  {id:'f', n:'Семейные закатки', d:'Правила, которые взрослые говорили вслух.'},
+  {id:'d', n:'Тихие приказы', d:'То, что ребёнок считывал без слов — по тону, взглядам и реакциям взрослых. В транзактном анализе это родительские директивы (Роберт и Мэри Гулдинг).'},
+  {id:'s', n:'Погреб', d:'Самые глубокие убеждения — о себе, о людях и о мире. В схема-терапии Джеффри Янга это ранние дезадаптивные схемы. С ними бережнее: такие банки лучше разбирать вместе со специалистом.'}
+];
+const JARS_D = [
+  {id:'d1', kind:'Перец маринованный', t:'Без тебя было бы проще', d:'Тихий приказ «не существуй»: твоё присутствие — обуза.', life:'Живёшь так, будто право быть надо отрабатывать: быть полезным(ой), незаметным(ой), удобным(ой).', c:'#7E8FB8'},
+  {id:'d2', kind:'Хрен', t:'Вот бы ты был(а) как другие дети', d:'«Не будь собой»: таким(ой), как есть, ты не подходишь.', life:'Всё время подстраиваешься под «правильный» образ — и не очень понимаешь, какой(ая) ты на самом деле.', c:'#A36D9C'},
+  {id:'d3', kind:'Чеснок', t:'Ты уже большой(ая)', d:'«Не будь ребёнком»: играть, дурачиться и быть слабым(ой) нельзя.', life:'Не умеешь отдыхать и радоваться просто так. Всё «несерьёзное» вызывает стыд.', c:'#6E8F8A'},
+  {id:'d4', kind:'Свёкла', t:'Ты у меня ещё маленький(ая)', d:'«Не взрослей»: самостоятельность — почти предательство.', life:'Трудно решать без одобрения родителей, а за каждый самостоятельный шаг — вина.', c:'#B07A55'},
+  {id:'d5', kind:'Патиссоны', t:'Не прыгай выше головы', d:'«Не достигай»: успех опасен, выше родителей нельзя.', life:'Бросаешь дело перед самым финишем или обесцениваешь свои победы.', c:'#8E9A5B'},
+  {id:'d6', kind:'Корнишоны', t:'Не трогай, всё равно испортишь', d:'«Не делай»: лучше ничего не делать, чем ошибиться.', life:'Долго готовишься, откладываешь и так и не начинаешь.', c:'#C27B6B'},
+  {id:'d7', kind:'Черемша', t:'Не мешай взрослым', d:'«Не будь важным(ой)»: твои желания — потом, если останется время.', life:'Не просишь о помощи и не говоришь, чего хочешь, — ждёшь, когда заметят сами.', c:'#5F7FA0'},
+  {id:'d8', kind:'Кизил', t:'Мы — не такие, как они', d:'«Не принадлежи»: своим среди людей тебе не стать.', life:'В любой компании чувствуешь себя немного в стороне.', c:'#9C6B4E'},
+  {id:'d9', kind:'Смородина', t:'Не лезь с нежностями', d:'«Не будь близким(ой)»: близость неуместна или опасна.', life:'Держишь людей на расстоянии, а когда подпускают ближе — хочется сбежать.', c:'#B5838D'},
+  {id:'d10', kind:'Брусника', t:'Заболеешь — тогда и пожалеем', d:'«Не будь здоровым(ой)»: заботу дают, только когда плохо.', life:'Разрешаешь себе отдых и заботу, только когда уже свалился(лась).', c:'#7D9D74'},
+  {id:'d11', kind:'Клюква', t:'Не умничай', d:'«Не думай»: думать будут старшие.', life:'В споре теряешься, сомневаешься в своих выводах и ищешь, кто скажет, «как правильно».', c:'#A68A5B'},
+  {id:'d12', kind:'Морошка', t:'Не выдумывай, тебе не больно', d:'«Не чувствуй»: твоим чувствам нельзя верить.', life:'Трудно понять, что ты чувствуешь. На «как ты?» — привычное «нормально».', c:'#6B7FA8'}
+];
+const JARS_S = [
+  {id:'s1', kind:'Вишня в собственном соку', t:'Все рано или поздно уходят', d:'Схема покинутости: близкие ненадёжны.', life:'Ревнуешь, держишься крепче — или уходишь первым(ой), чтобы не бросили.', c:'#7A5C8E'},
+  {id:'s2', kind:'Абрикосы', t:'Людям нельзя доверять', d:'Схема недоверия: тебя обязательно обманут или используют.', life:'Ищешь подвох в доброте и проверяешь людей на прочность.', c:'#4F7C82'},
+  {id:'s3', kind:'Груши', t:'Мои чувства никому не нужны', d:'Схема эмоциональной депривации: понимания и тепла не будет.', life:'Не рассказываешь, как тебе на самом деле, — и чувствуешь себя одиноко даже рядом с близкими.', c:'#B0654F'},
+  {id:'s4', kind:'Сливы', t:'Со мной что-то не так', d:'Схема стыда: если люди узнают, какой(ая) ты на самом деле, — отвернутся.', life:'Не веришь комплиментам и прячешь то, чего стыдишься.', c:'#8C8C5A'},
+  {id:'s5', kind:'Яблоки мочёные', t:'Я везде чужой(ая)', d:'Схема отчуждённости: ты не такой(ая), как все.', life:'Даже среди своих кажется, что тебя терпят, а не принимают.', c:'#5E6E9C'},
+  {id:'s6', kind:'Арбуз солёный', t:'Сам(а) ты не справишься', d:'Схема зависимости: без подсказки и опоры ты беспомощен(на).', life:'Перепроверяешь решения у других и боишься остаться без советчика.', c:'#A0524D'},
+  {id:'s7', kind:'Крыжовник', t:'Мир опасен — будь начеку', d:'Схема уязвимости: беда может случиться в любой момент.', life:'Тревожишься «на всякий случай», перестраховываешься и плохо отдыхаешь.', c:'#6D8B5E'},
+  {id:'s8', kind:'Облепиха', t:'У меня всё равно не получится', d:'Схема неуспешности: другие способнее.', life:'Не берёшься за новое или заранее готовишь себя к провалу.', c:'#C99A3A'},
+  {id:'s9', kind:'Малина', t:'Сначала другие — потом я', d:'Схема самопожертвования: заботиться о себе — эгоизм.', life:'Помогаешь всем подряд, а на себя не остаётся ни сил, ни времени.', c:'#B5546B'},
+  {id:'s10', kind:'Земляника', t:'Не радуйся раньше времени', d:'Схема негативизма: за хорошим обязательно придёт плохое.', life:'Даже в хороший день ждёшь подвоха и не даёшь себе порадоваться.', c:'#7E6A9E'},
+  {id:'s11', kind:'Айва', t:'Хорошо — значит идеально', d:'Схема жёстких стандартов: «нормально» — это провал.', life:'Переделываешь по десять раз, а свои успехи себе не засчитываешь.', c:'#B48A3C'},
+  {id:'s12', kind:'Рябина', t:'За ошибки наказывают', d:'Схема наказания: ошибка требует расплаты.', life:'Ругаешь себя последними словами за мелочи — и так же строго судишь других.', c:'#94604F'}
+];
+const OWNC = ['#7A9CC6', '#9B7FC1'];
+const allJars = () => JARS.map(j => Object.assign({g:'f'}, j))
+  .concat(S.own.map((o, i) => ({id:o.id, g:'f', kind:'Своя банка', t:o.t, d:'Ты поставил(а) её сам(а) — значит, узнал(а).', life:'Где она звучит у тебя? Вспомни последний раз, когда она командовала.', c:OWNC[i % 2], own:true})))
+  .concat(JARS_D.map(j => Object.assign({g:'d'}, j)), JARS_S.map(j => Object.assign({g:'s'}, j)));
+const SHELF = [118, 218, 318];
+const SLOT_X = [34, 128, 222, 316];
+const SIZES = [[54, 66], [62, 58], [50, 72], [58, 62]];
+const ST = {mine:'Моё', not:'Не моё', q:'Не понимаю'};
+const jarWord = n => { const a = n % 10, b = n % 100; return a === 1 && b !== 11 ? 'банка' : a >= 2 && a <= 4 && (b < 10 || b >= 20) ? 'банки' : 'банок'; };
+function drawPantry() {
+  const list = allJars();
+  if (!list.some(j => j.id === S.cur)) S.cur = list[0].id;
+  const g = (list.find(j => j.id === S.cur) || list[0]).g, shelf = list.filter(j => j.g === g), SH = SHELVES.find(s => s.id === g) || SHELVES[0];
+  const cnt = k => list.filter(j => S.jars[j.id] === k).length, nNot = cnt('not'), nMine = cnt('mine'), nQ = cnt('q');
+  $('#pvTabs').innerHTML = SHELVES.map(s => { const all = list.filter(j => j.g === s.id), done = all.filter(j => S.jars[j.id]).length;
+    return `<button type="button" role="tab" data-g="${s.id}" aria-selected="${s.id === g}"><b>${esc(s.n)}</b><span>разобрано ${done} из ${all.length}</span></button>`; }).join('');
+  $$('#pvTabs button').forEach(b => b.onclick = () => { if (b.dataset.g === g) return; const f = list.find(j => j.g === b.dataset.g); if (!f) return; S.cur = f.id; save(); drawPantry(); const n = $(`#pvTabs [data-g="${b.dataset.g}"]`); n && n.focus({preventScroll:true}); });
+  $('#pvShelfNote').textContent = SH.d;
+  let h = `<rect class="pv-wall" x="10" y="10" width="400" height="430" rx="10"/>`;
+  SHELF.forEach(y => h += `<rect class="pv-shelf" x="18" y="${y}" width="384" height="8" rx="2"/>`);
+  h += `<rect class="pv-floor" x="18" y="428" width="384" height="6" rx="2"/>`;
+  shelf.forEach((j, i) => {
+    if (i >= 12) return;
+    const sh = Math.floor(i / 4), col = i % 4, [w, hh] = SIZES[(i + sh) % 4], x = SLOT_X[col] + (70 - w) / 2, base = SHELF[sh];
+    const st = S.jars[j.id] || '', sel = S.cur === j.id;
+    h += `<g class="pv-jar ${st}${sel ? ' sel' : ''}" data-j="${j.id}" role="button" tabindex="0" aria-pressed="${sel}" aria-label="${esc(j.kind + ': «' + j.t + '»' + (st ? ', ' + ST[st] : ''))}">
+      <rect class="body" x="${x}" y="${base - hh}" width="${w}" height="${hh}" rx="8" fill="${j.c}"/>
+      <rect class="glass" x="${x}" y="${base - hh}" width="${w}" height="${hh}" rx="8"/>
+      <rect class="lid" x="${x + 4}" y="${base - hh - 8}" width="${w - 8}" height="9" rx="2"/>
+      <rect class="lab" x="${x + 6}" y="${base - hh * .6}" width="${w - 12}" height="${hh * .28}" rx="2"/>
+      ${st === 'mine' ? `<circle class="mk-ok" cx="${x + w - 4}" cy="${base - hh + 4}" r="9"/><path class="mk-tick" d="M${x + w - 8} ${base - hh + 4} l3 3 l6 -6"/>` : ''}
+      ${st === 'q' ? `<circle class="mk-q" cx="${x + w - 4}" cy="${base - hh + 4}" r="9"/><text class="mk-qt" x="${x + w - 4}" y="${base - hh + 9}">?</text>` : ''}
+    </g>`;
+  });
+  // человек внизу — это ты: с каждой узнанной чужой банкой ему просторнее (все полки вместе)
+  const k = Math.min(1, nNot / 10), sc = .62 + k * .78, fx = 210, fy = 426;
+  h += `<g class="pv-me" style="opacity:${(.42 + k * .58).toFixed(2)}" transform="translate(${fx} ${fy}) scale(${sc.toFixed(2)})">
+    <circle class="glow" cx="0" cy="-46" r="${(16 + k * 26).toFixed(1)}"/>
+    <circle class="f" cx="0" cy="-60" r="9"/><path d="M0 -50 V-18 M0 -18 L-9 0 M0 -18 L9 0 ${k >= .5 ? 'M-14 -40 L0 -34 L14 -40' : 'M-12 -30 L0 -38 L12 -30'}"/></g>`;
+  $('#pvSvg').innerHTML = h;
+  $$('#pvSvg .pv-jar').forEach(gg => { const f = () => { S.cur = gg.dataset.j; save(); drawPantry(); const n = $(`#pvSvg .pv-jar[data-j="${gg.dataset.j}"]`); n && n.focus({preventScroll:true}); }; gg.onclick = f; gg.onkeydown = e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); f(); } }; });
+  $('#pvChips').innerHTML = shelf.map(j => `<button type="button" data-j="${j.id}" class="${S.jars[j.id] || ''}" aria-pressed="${S.cur === j.id}"><i style="background:${j.c}"></i>${esc(j.t)}</button>`).join('');
+  $$('#pvChips button').forEach(b => b.onclick = () => { S.cur = b.dataset.j; save(); drawPantry(); const n = $(`#pvChips [data-j="${b.dataset.j}"]`); n && n.focus({preventScroll:true}); });
+  const idx = Math.max(0, list.findIndex(j => j.id === S.cur)), j = list[idx], v = S.jars[j.id] || '';
+  $('#pvSide').innerHTML = `<span class="label" style="margin:0">${esc(j.kind)} · ${idx + 1} из ${list.length}</span><h3>«${esc(j.t)}»</h3><p>${esc(j.d)}</p>
+    <span class="mini">Как она звучит во взрослой жизни</span><p class="q-say">${esc(j.life)}</p>
+    <div class="seg" role="group" aria-label="Чья это банка">${Object.entries(ST).map(([key, l]) => `<button type="button" data-v="${key}" aria-pressed="${v === key}">${l}</button>`).join('')}</div>
+    <div class="nav"><button type="button" class="ghost" data-d="-1">‹ Предыдущая</button>${j.own ? '<button type="button" class="ghost" data-del>Убрать банку</button>' : ''}<button type="button" class="ghost" data-d="1">Следующая ›</button></div>`;
+  $$('#pvSide .seg button').forEach(b => b.onclick = () => { S.jars[j.id] = S.jars[j.id] === b.dataset.v ? '' : b.dataset.v; save(); drawPantry(); $(`#pvSide .seg button[data-v="${b.dataset.v}"]`).focus({preventScroll:true}); });
+  $$('#pvSide .nav [data-d]').forEach(b => b.onclick = () => { S.cur = list[(idx + +b.dataset.d + list.length) % list.length].id; save(); drawPantry(); $(`#pvSide .nav [data-d="${b.dataset.d}"]`).focus({preventScroll:true}); });
+  const del = $('#pvSide [data-del]');
+  if (del) del.onclick = e => { if (!armed(e.currentTarget, 'Точно убрать? Нажми ещё раз')) return; S.own = S.own.filter(o => o.id !== j.id); delete S.jars[j.id]; S.cur = 'j1'; save(); drawPantry(); };
+  const nAll = list.length, nDone = nMine + nNot + nQ;
+  $('#pvSum').innerHTML = (!nDone ? `На трёх полках <b>${nAll}</b> ${jarWord(nAll)}. Пока ни одна не разобрана. Человек внизу — это ты. Видишь, как ему тесно под полками?` :
+    nNot ? `Разобрано ${nDone} из ${nAll}. Чужих банок ты узнал(а): <b>${nNot}</b>. <span class="grow">Смотри на человека внизу: с каждой узнанной чужой банкой ему просторнее</span> — это место возвращается тебе.` + (nMine ? ` Своих: <b>${nMine}</b>.` : '') + (nQ ? ` Пока не понимаю: <b>${nQ}</b>.` : '') :
+    `Разобрано ${nDone} из ${nAll}. Своими ты признаёшь: <b>${nMine}</b>${nQ ? `, пока не понимаю: <b>${nQ}</b>` : ''}. Человек внизу растёт, когда ты узнаёшь в банке чужое. Проверь: это правда выбор или привычка?`) +
+    ` <button type="button" class="link-btn" id="pvPng">Сохранить кладовку картинкой</button>`;
+  $('#pvPng').onclick = () => exportPantry(null, $('#pvNote'));
+  $('#ownAdd').disabled = S.own.length >= 2;
+  $('#ownJar').placeholder = S.own.length >= 2 ? 'На полках больше нет места: убери свою банку, чтобы поставить новую' : 'Своя банка: какая установка стоит у тебя?';
+}
+function addOwn() {
+  const i = $('#ownJar'), v = i.value.trim(), e = $('#ownErr');
+  if (S.own.length >= 2) { e.textContent = 'Можно поставить две свои банки'; return; }
+  if (!v) { e.textContent = 'Сначала впиши установку, например: «Сам(а) виноват(а)»'; i.focus(); return; }
+  const id = 'o' + Math.random().toString(36).slice(2, 8);
+  S.own.push({id, t:v.replace(/^[«"]|[»"]$/g, '')}); S.cur = id; i.value = ''; e.textContent = ''; save(); drawPantry();
+}
+$('#ownAdd').onclick = addOwn;
+$('#ownJar').onkeydown = e => { if (e.key === 'Enter') { e.preventDefault(); addOwn(); } };
+/* Картинка кладовки (21.10): «Я состою из сценариев» списком + вопрос для размышления */
+function pantryCard(rank) {
+  const list = allJars(), have = list.filter(j => S.jars[j.id] === 'mine' || S.jars[j.id] === 'not'), maybe = list.filter(j => S.jars[j.id] === 'q');
+  const extra = (x, y, draw) => {
+    const W = 1080, M = 90, CW = W - M * 2;
+    const put = (t, px, py, f, c, a = 'left') => { x.font = f; if (!draw) return; x.fillStyle = c; x.textAlign = a; x.fillText(t, px, py); };
+    if (have.length) {
+      y += 80; put('Я состою из сценариев:', W / 2, y, `italic 500 42px ${SERIF}`, INK, 'center');
+      y += 22;
+      const cols = have.length > 7 ? 2 : 1, gap = 40, colW = cols === 2 ? (CW - gap) / 2 : Math.min(CW, 720), x0 = cols === 2 ? M : (W - colW) / 2;
+      const F = `500 29px ${SERIF}`, LH = 36;
+      const cells = have.map(j => { x.font = F; const ls = wrapText(x, j.t, colW - 34), inh = S.jars[j.id] === 'not'; return {j, ls, inh, h: ls.length * LH + (inh ? 24 : 0) + 20}; });
+      for (let r = 0; r < cells.length; r += cols) {
+        const row = cells.slice(r, r + cols), rh = Math.max(...row.map(c => c.h));
+        row.forEach((c, k) => {
+          const cx = x0 + k * (colW + gap), top = y + 34;
+          if (draw) { x.fillStyle = c.j.c; x.beginPath(); x.arc(cx + 9, top - 10, 8, 0, Math.PI * 2); x.fill(); }
+          c.ls.forEach((l, n) => put(l, cx + 30, top + n * LH, F, INK));
+          if (c.inh) put('по наследству', cx + 30, top + (c.ls.length - 1) * LH + 26, `600 15px ${SANS}`, MUTE);
+        });
+        y += rh;
+      }
+    }
+    if (maybe.length) {
+      y += 54; put('ПОКА НЕ ПОНИМАЮ', W / 2, y, `600 16px ${SANS}`, MUTE, 'center');
+      x.font = `italic 500 28px ${SERIF}`;
+      wrapText(x, maybe.map(j => '«' + j.t + '»').join(', '), CW).forEach(l => { y += 38; put(l, W / 2, y, `italic 500 28px ${SERIF}`, INK, 'center'); });
+    }
+    return y + 12;
+  };
+  const items = have.length || maybe.length
+    ? ['Как ты полагаешь: в чём каждая банка тебе помогает? В чём мешает? Какие можно оставить? А какие пора отправить на помойку истории?']
+    : ['Кладовка ещё не разобрана. Вернись к полкам и реши, какие банки стоят у тебя.'];
+  return {kicker:'КЛУБ  #MAXMAGIA  ·  ЩИТ И МЕЧ  ·  ТЕМА 03', title:'Моя кладовка', rank, items, extra};
+}
+const exportPantry = (rank, note) => exportCard(pantryCard(rank), 'maxmagia-kladovka.png', note);
+
+/* ---------- Игра ---------- */
+const GCATS = ['Не высовывайся', 'Что люди скажут?', 'Будь удобным(ой)', 'Терпи', 'Сначала дело — потом отдых', 'Не мешай взрослым', 'Не лезь с нежностями', 'Хорошо — значит идеально', 'Со мной что-то не так', 'Сначала другие — потом я'];
+const GITEMS = [
+  {t:'Неудобно попросить прибавку: вдруг решат, что я много о себе думаю.', ok:[0, 1], ex:'Главная — <b>«Не высовывайся»</b>: заявить о себе = выделиться. А «вдруг решат» — это уже <b>«Что люди скажут?»</b>.'},
+  {t:'Выходной. Лежу и чувствую себя виноватым(ой): посуда же не помыта.', ok:[4], ex:'<b>«Сначала дело — потом отдых»</b>. Отдых как будто надо заслужить, а дела не кончаются никогда.'},
+  {t:'Подруга опоздала на час. Я улыбнулась: «Да ничего страшного».', ok:[2, 3], ex:'<b>«Будь удобной»</b>: недовольство = хлопоты для другого. И немного <b>«Терпи»</b>.'},
+  {t:'Зуб болит уже третий день, но к врачу не иду: само пройдёт.', ok:[3], ex:'Классическое <b>«Терпи»</b>: потерпишь — не развалишься. Тело — тоже твоя провинция.'},
+  {t:'Не надену это платье: соседи же обсудят.', ok:[1], ex:'<b>«Что люди скажут?»</b> — чужое мнение решает, что тебе носить.'},
+  {t:'Коллега попросил задержаться — и я опять остался(лась), хотя собирался(лась) в спортзал.', ok:[2, 4], ex:'<b>«Будь удобным»</b>: отказать = подвести. И чуть-чуть <b>«Сначала дело»</b>.'},
+  {t:'В караоке хочу спеть, но сижу в углу: ещё засмеют.', ok:[0, 1], ex:'<b>«Не высовывайся»</b> вместе с <b>«Что люди скажут?»</b> — частая парочка на одной полке.'},
+    {t:'Отпуск заслужил(а), но всё равно взял(а) с собой ноутбук.', ok:[4], ex:'<b>«Сначала дело — потом отдых»</b>, даже когда «потом» уже наступило.'},
+  {t:'Друг спрашивает: «Что тебе подарить?» Отвечаю «ничего не надо», хотя давно мечтаю о новых наушниках.', ok:[5, 2], opts:[5, 2, 1, 7, 3], ex:'Главная — <b>«Не мешай взрослым»</b>: твои желания — потом, если останется время. И рядом <b>«Будь удобным(ой)»</b>: только бы не создать хлопот.'},
+  {t:'Партнёр обнимает — а мне хочется отстраниться и срочно заняться делами.', ok:[6], opts:[4, 6, 3, 8, 9], ex:'<b>«Не лезь с нежностями»</b>: когда-то близость была неуместной или небезопасной, и тело до сих пор держит дистанцию.'},
+  {t:'Третью ночь доделываю презентацию: пока не идеально — показывать нельзя.', ok:[7, 4], opts:[0, 7, 4, 3, 8], ex:'<b>«Хорошо — значит идеально»</b>: планка, до которой не дотянуться. И её верный спутник — <b>«Сначала дело — потом отдых»</b>.'},
+  {t:'Меня похвалили на работе, а первая мысль: «Они просто не знают, какой(ая) я на самом деле».', ok:[8], opts:[0, 7, 8, 1, 5], ex:'<b>«Со мной что-то не так»</b> — схема стыда: хорошее кажется ошибкой, а плохое — правдой о себе.'},
+  {t:'Всем помогаю с переездами, а свой ремонт откладываю уже второй год.', ok:[9, 5], opts:[2, 9, 5, 3, 4], ex:'<b>«Сначала другие — потом я»</b>: забота о себе кажется эгоизмом. Часто стоит в паре с <b>«Не мешай взрослым»</b>.'},
+  {t:'Одна неверная цифра в отчёте — и весь вечер ругаю себя последними словами.', ok:[7, 8], opts:[3, 7, 1, 8, 9], ex:'<b>«Хорошо — значит идеально»</b>: любая ошибка — провал. А ругань в свой адрес подкармливает <b>«Со мной что-то не так»</b>.'}
+];
+const gameMsg = ok => ok >= 12 ? 'Ты отлично слышишь голоса из кладовки. Теперь их сложнее не заметить в жизни.' : ok >= 7 ? 'Хорошо! Заметь, как часто банки стоят парами и командуют вместе.' : 'Банки хорошо маскируются под «я просто такой человек». Посмотри разборы — дальше будет легче.';
+
+/* ---------- Квиз ---------- */
+const QS = [
+  {q:'Что в нашей метафоре значат «банки» в кладовке?', o:['Детские травмы, которые надо проработать','Установки, правила и ценности, которые поставили взрослые','Черты характера, доставшиеся по наследству','Воспоминания, к которым не хочется возвращаться'], a:1, ex:'Банки — это готовые правила жизни: «не высовывайся», «терпи», «будь удобным». Не травмы и не гены, а то, чему научили. А значит, это можно пересмотреть.'},
+  {q:'Почему ребёнок не проверяет банки, которые ему ставят?', o:['Потому что родители всегда объясняют, зачем это нужно','Ему рано проверять: он берёт целиком, чтобы быть принятым и в безопасности','Проверяет, но потом забывает','Банки ставят так рано, что он их вообще не замечает'], a:1, ex:'Ребёнок зависит от взрослых. Принять их правила — способ остаться любимым и в безопасности. Пережёвывать и выбирать он научится позже.'},
+  {q:'Значит, все банки из детства надо выбросить?', tag:'с подвохом', o:['Да: если правило не моё, оно мне мешает','Нет: многие полезны. Задача — проверить и оставить своё','Да, но постепенно, по одной','Нет: раз я с ними жил(а), значит, они правильные'], a:1, ex:'«Не трогай горячее» и «держи слово» — тоже банки, и отличные. Мы не устраиваем погром в кладовке, мы проводим ревизию. Ловушка обоих крайних ответов — отказ думать.'},
+  {q:'Около двух лет ребёнок начинает активно говорить «нет». Что это?', o:['Капризы, которые важно мягко пресекать','Первая граница: «я отдельный человек»','Проверка родителей на прочность','Признак того, что ребёнку не хватает внимания'], a:1, ex:'Детское «нет» — первая граница. Если за него стыдили или наказывали, ребёнок усваивает: моё «нет» опасно. И полки заполняются чужим.'},
+  {q:'Ты точно знаешь, что тебе неприятно, но сказать не можешь. Что, скорее всего, мешает?', tag:'с подвохом', o:['Я просто деликатный человек и не хочу ссор','Не хватает правильных слов','Банка вроде «Будь удобным» или «Терпи» приказала пограничникам молчать','Это не так уж и важно, раз я молчу'], a:2, ex:'Пограничники работают: тебе неприятно. Но старый закон из кладовки запрещает поднимать шум. «Деликатность» и «не так уж важно» — любимые костюмы этой банки.'},
+  {q:'Как в психологии называют правило, «проглоченное» целиком, без проверки?', o:['Проекция','Интроект','Рационализация','Вытеснение'], a:1, ex:'Интроект — то, что «проглочено» без пережёвывания. Проекция — когда своё приписываешь другим, рационализация — когда подбираешь удобное объяснение, вытеснение — когда не помнишь неприятное.'},
+  {q:'Ты понял(а), что банка «Будь удобным(ой)» не твоя. Что дальше?', tag:'с подвохом', o:['Поговорить с мамой и объяснить, что она была неправа','Начать отказывать всем подряд, чтобы закрепить','Вынести и поставить на её место своё правило: «Я могу быть хорошим и при этом отказывать»','Просто знать об этом — осознание уже всё меняет'], a:2, ex:'Пустое место на полке быстро зарастает старым, а одно осознание без нового правила редко работает. Выносим банку — и ставим своё. Маму можно не винить: ей самой эту банку когда-то поставили.'}
+];
+
+/* ---------- Запуск ---------- */
+expBlock($('#expBox'));
+drawHook(); drawPantry();
+sortGame($('#game3'), {cats:GCATS, items:GITEMS, scoreEl:$('#game3Score'), msg:gameMsg});
+quiz($('#quiz'), {qs:QS, onResult:(sc, r, acts, note) => {
+  acts.innerHTML = `<button type="button" class="btn" data-png>${ICO_DL}Сохранить кладовку со званием (PNG)</button>`;
+  $('[data-png]', acts).onclick = () => exportPantry(`${r.n} · ${sc} из ${QS.length}`, note);
+  addShare(acts, note, shareText('Тема 03 «Откуда берутся границы»', r, sc, QS.length));
+}});
+
+</script>

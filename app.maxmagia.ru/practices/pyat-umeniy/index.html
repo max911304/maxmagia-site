@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<script src="/practices/lib/mm-sync.js?v=3"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>5 умений тех, кто приходит к своим целям | Клуб #MaxMagia</title>
+<style>
+
+:root{
+  --bg:#FFFFFF; --bg2:#F4F3EF; --card:#F4F3EF; --ink:#2F2F2F; --dim:#4D4D4D; --mute:#696969; --num:#E4E1DA;
+  --line:rgba(47,47,47,.12); --line2:rgba(47,47,47,.24);
+  --acc:#9A6A2E; --acc-fill:#D4B48A; --on-fill:#141414; --mark:#F6EC6E; --hot:#B23A2E;
+  --glow:rgba(212,180,138,.22); --tile:#2F2F2F; --tile-line:rgba(212,180,138,.6);
+  --gem-base:#8C8680; --gem-lit:#D4A86A;
+  --band1:#2A2420; --band2:#0C0C0E; --band-ink:#F0ECE4; --band-hot:#F49385; --yel:#2F2F2F; --yel-bg:#F6EC6E; --strike:#D2402F;
+  --serif:'Cormorant Garamond',Georgia,'Times New Roman',serif;
+  --sans:'Manrope',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --ease:cubic-bezier(.2,.8,.2,1);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --yel:#F3E37C; --yel-bg:transparent; --strike:#EF5A47;
+    --bg:#0C0C0E; --bg2:#0F0F11; --card:#18181A; --ink:#F0ECE4; --dim:#B9B2A8; --mute:#9C958C; --num:#232326;
+    --line:rgba(240,236,228,.08); --line2:rgba(240,236,228,.16);
+    --acc:#D4B48A; --acc-fill:#D4B48A; --on-fill:#0C0C0E; --mark:rgba(212,180,138,.26); --hot:#EF7A6B;
+    --glow:rgba(212,180,138,.12); --tile:#18181A; --tile-line:rgba(212,180,138,.4);
+    --gem-base:#2C2730; --gem-lit:#E2C79C;
+  }
+}
+:root[data-theme="dark"]{
+  --yel:#F3E37C; --yel-bg:transparent; --strike:#EF5A47;
+  --bg:#0C0C0E; --bg2:#0F0F11; --card:#18181A; --ink:#F0ECE4; --dim:#B9B2A8; --mute:#9C958C; --num:#232326;
+  --line:rgba(240,236,228,.08); --line2:rgba(240,236,228,.16);
+  --acc:#D4B48A; --acc-fill:#D4B48A; --on-fill:#0C0C0E; --mark:rgba(212,180,138,.26); --hot:#EF7A6B;
+  --glow:rgba(212,180,138,.12); --tile:#18181A; --tile-line:rgba(212,180,138,.4);
+  --gem-base:#2C2730; --gem-lit:#E2C79C;
+}
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px);scroll-behavior:smooth}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.7;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+h1,h2,h3{font-family:var(--serif);font-weight:500;margin:0;line-height:1.08;text-wrap:balance}
+p{margin:0}
+button,input{font:inherit;color:inherit;touch-action:manipulation}
+:focus-visible{outline:2px solid var(--acc);outline-offset:4px;border-radius:6px}
+[hidden]{display:none!important}
+.wrap{max-width:1200px;margin:0 auto;padding:0 clamp(20px,4vw,48px)}
+.center{text-align:center}
+.col{max-width:780px;margin-left:auto;margin-right:auto}
+.sec{--gap:clamp(72px,11vh,128px);padding:var(--gap) 0}
+.sec.orn-top{padding-top:0}
+.sec.orn-top > .wrap > .rule-orn{margin:0 auto var(--gap)}
+.label{display:block;font-size:13px;font-weight:600;letter-spacing:.28em;text-transform:uppercase;color:var(--acc);margin-bottom:22px}
+h2{font-size:clamp(38px,5vw,68px);font-weight:400;max-width:20ch;margin:0 auto}
+h2 em{font-style:italic;color:var(--acc)}
+.lede{font-size:clamp(18px,1.4vw,20px);color:var(--dim);max-width:58ch;margin:24px auto 0}
+mark{background:linear-gradient(transparent 60%,var(--mark) 60%);color:inherit;padding:0 .06em}
+.rule-orn{display:flex;align-items:center;justify-content:center;gap:14px;margin:0 auto 26px;color:var(--acc)}
+.rule-orn::before,.rule-orn::after{content:"";width:56px;height:1px;background:linear-gradient(90deg,transparent,var(--acc))}
+.rule-orn::after{transform:scaleX(-1)}
+.rule-orn i{width:6px;height:6px;background:var(--acc);transform:rotate(45deg)}
+
+/* Hero */
+.hero{min-height:100vh;min-height:100svh;display:grid;place-items:center;text-align:center;padding:clamp(40px,8vh,80px) 0;position:relative;overflow:hidden}
+.hero::before{content:"";position:absolute;left:50%;top:40%;width:min(110vw,980px);aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(circle,var(--glow),transparent 64%);pointer-events:none}
+.hero > div{position:relative;width:100%;min-width:0}
+.badge{width:clamp(112px,13vw,144px);aspect-ratio:1;border-radius:50%;margin:0 auto;display:grid;place-items:center;background:#F7F4EE;box-shadow:0 0 0 1px var(--line2),0 24px 60px -24px rgba(0,0,0,.45);animation:rise 1s var(--ease) both}
+.badge img{width:52%;height:auto;display:block}
+.hero .label{margin:30px 0 0;animation:rise 1s .1s var(--ease) both}
+.hero h1{font-size:clamp(38px,11.4vw,132px);font-weight:400;line-height:.95;margin-top:18px;animation:rise 1s .18s var(--ease) both}
+.hero .sub{font-family:var(--serif);font-size:clamp(22px,2.3vw,31px);line-height:1.38;color:var(--dim);margin:30px auto 0;animation:rise 1s .26s var(--ease) both}
+.hero .sub b{font-style:italic;font-weight:600;color:var(--ink)}
+.hero .go{display:inline-flex;flex-direction:column;align-items:center;gap:10px;margin-top:48px;color:var(--mute);font-size:13px;letter-spacing:.2em;text-transform:uppercase;text-decoration:none;animation:rise 1s .34s var(--ease) both}
+.hero .go i{width:1px;height:40px;background:linear-gradient(var(--acc),transparent)}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+
+/* Statement typography */
+.big{font-family:var(--serif);font-size:clamp(26px,2.8vw,38px);line-height:1.28;max-width:30ch;margin:34px auto 0}
+.body{font-size:clamp(18px,1.4vw,20px);color:var(--dim);max-width:60ch;margin:22px auto 0}
+
+/* Cards (landing style) */
+.cards{display:grid;gap:4px;margin-top:clamp(44px,7vh,72px)}
+.cards.c2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.cards.c3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.cards.c4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.card{position:relative;background:var(--card);padding:clamp(34px,4.5vw,56px) clamp(22px,3vw,40px) clamp(34px,4vw,48px);text-align:center}
+.card::before{content:"";position:absolute;left:0;right:0;top:0;height:2px;background:linear-gradient(90deg,var(--acc),transparent)}
+.card .num{display:block;font-family:var(--serif);font-weight:600;font-size:clamp(56px,6vw,84px);line-height:.9;color:var(--num);margin-bottom:12px;font-variant-numeric:oldstyle-nums}
+.card .label{margin-bottom:14px}
+.card h3{font-size:clamp(26px,2.4vw,34px);font-weight:500}
+.card p{color:var(--dim);margin-top:12px}
+.callout{margin-top:4px;background:var(--card);border-left:2px solid var(--acc);padding:clamp(24px,3vw,36px) clamp(24px,4vw,56px);color:var(--dim);font-size:clamp(17px,1.3vw,19px)}
+.callout b{color:var(--acc);font-weight:600}
+
+/* Ways grid */
+.ways{list-style:none;margin:clamp(44px,7vh,72px) 0 0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px;counter-reset:w}
+.ways li{counter-increment:w;position:relative;background:var(--card);padding:28px 18px 26px;text-align:center;font-family:var(--serif);font-size:clamp(20px,1.7vw,24px);line-height:1.2;min-height:150px;display:flex;flex-direction:column;justify-content:flex-end;align-items:center}
+.ways li::before{content:counter(w,decimal-leading-zero);font-family:var(--serif);font-weight:600;font-size:50px;line-height:.9;color:var(--num);margin-bottom:auto;padding-bottom:12px;font-variant-numeric:oldstyle-nums}
+.ways li.span2{grid-column:span 2;font-style:italic;color:var(--acc);font-size:clamp(21px,1.9vw,26px)}
+.ways li.span2::before{content:"…";color:var(--num)}
+.examples{list-style:none;margin:clamp(48px,8vh,80px) auto 0;padding:0;max-width:820px}
+.examples li{font-family:var(--serif);font-size:clamp(25px,2.8vw,38px);line-height:1.2;padding:12px 0;text-align:center}
+.examples li span{color:var(--mute);font-style:italic}
+.examples li.last{color:var(--acc);font-style:italic}
+.whole{margin:clamp(40px,6vh,60px) auto 0}
+
+/* Cinematic band */
+.band{position:relative;overflow:hidden;padding:clamp(110px,20vh,220px) 0;text-align:center;color:var(--band-ink);background:radial-gradient(ellipse 70% 90% at 72% 60%,var(--band1),var(--band2) 70%)}
+.band::before{content:"";position:absolute;inset:-20%;background:radial-gradient(circle at 30% 40%,rgba(212,180,138,.14),transparent 40%),radial-gradient(circle at 75% 65%,rgba(239,122,107,.12),transparent 38%);animation:drift 18s ease-in-out infinite alternate}
+.band::after{content:"";position:absolute;inset:0;opacity:.09;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+.band .fade-top,.band .fade-bot{position:absolute;left:0;right:0;height:30%;pointer-events:none;z-index:1}
+.band .fade-top{top:0;background:linear-gradient(var(--bg),transparent)}
+.band .fade-bot{bottom:0;background:linear-gradient(transparent,var(--bg))}
+.band .in{position:relative;z-index:2}
+.band p{font-family:var(--serif);font-style:italic;font-size:clamp(26px,3.2vw,46px);line-height:1.5;opacity:0;transform:translateY(12px);transition:opacity 1.2s var(--ease),transform 1.2s var(--ease)}
+.band.seen p{opacity:.92;transform:none}
+.band.seen p:nth-child(2){transition-delay:.5s}
+.band.seen p:nth-child(3){transition-delay:1.2s}
+.band p.hot{color:var(--band-hot);font-size:clamp(46px,6.4vw,92px);line-height:1.2;margin-top:12px;opacity:0}
+.band.seen p.hot{opacity:1}
+@keyframes drift{from{transform:translate(-3%,-2%)}to{transform:translate(3%,2%)}}
+
+.ghost{min-height:44px;padding:0 20px;border-radius:999px;border:1px solid var(--line2);background:none;cursor:pointer;font-size:14px;letter-spacing:.06em}
+.ghost:hover{border-color:var(--acc)}
+footer{padding:70px 0 90px;border-top:1px solid var(--line);color:var(--mute);font-size:14px;text-align:center}
+footer .sign{font-family:var(--serif);font-style:italic;font-size:22px;color:var(--acc);margin-bottom:10px}
+footer p + p{margin-top:8px}
+footer a{color:var(--acc)}
+.series{display:inline-flex;flex-wrap:wrap;gap:4px 18px;justify-content:center}
+
+@media (max-width:980px){.ways,.cards.c4{grid-template-columns:repeat(2,minmax(0,1fr))}.cards.c3{grid-template-columns:1fr}}
+@media (max-width:640px){
+  .cards.c2{grid-template-columns:1fr}
+  .ways li{min-height:118px;font-size:17px;padding:22px 10px;hyphens:auto;-webkit-hyphens:auto;overflow-wrap:break-word}
+  .ways li::before{font-size:40px}
+  .answers button{flex:1 1 auto}
+  .tiles{gap:3px}
+  .stage{width:min(100%,300px)}
+}
+@media (prefers-reduced-motion: reduce){
+  *{animation:none!important;transition:none!important}
+  html{scroll-behavior:auto}
+  .band p{opacity:.92!important;transform:none!important}
+}
+.yel{color:var(--yel);background:linear-gradient(transparent 58%,var(--yel-bg) 58%);-webkit-box-decoration-break:clone;box-decoration-break:clone}
+.def-not{display:block;font-family:var(--serif);font-size:clamp(20px,1.8vw,26px);line-height:1.3;color:var(--mute);margin:14px 0 10px;font-weight:400}
+.def-not s{text-decoration:line-through;text-decoration-color:var(--strike);text-decoration-thickness:2px}
+h2.def-yes{max-width:22ch}
+h2.caps{text-transform:uppercase;letter-spacing:.06em;font-size:clamp(34px,5vw,64px)}
+.ps-line{font-family:var(--serif);font-size:clamp(21px,2vw,27px);line-height:1.45;color:var(--dim);max-width:44ch;margin:clamp(36px,6vh,56px) auto 0}
+.ps-line .ps-tag{font-family:var(--sans);font-size:13px;font-weight:700;letter-spacing:.2em;color:var(--acc);margin-right:4px}
+.ps-line b{color:var(--ink);font-weight:600}
+h2.ex-h{margin-top:clamp(64px,10vh,110px)}
+.band p.hot:only-child{margin-top:0}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:54px;padding:0 30px;border-radius:999px;border:0;background:var(--acc-fill);color:var(--on-fill);font-weight:700;font-size:16px;cursor:pointer;text-decoration:none;transition:transform .2s var(--ease),filter .2s}
+.btn:hover{filter:brightness(1.06)}
+.btn:active{transform:scale(.97)}
+.btn svg{width:20px;height:20px;flex:none}
+.photo{margin-top:34px}
+.note-s{font-size:14px;color:var(--mute);margin-top:10px;min-height:1.2em}
+.next-btn{margin-top:30px}
+.goals-ex{list-style:none;margin:clamp(40px,6vh,60px) auto 0;padding:0;max-width:820px;display:grid;gap:4px}
+.goals-ex li{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:16px;align-items:center;background:var(--card);padding:18px clamp(18px,3vw,32px);text-align:left}
+.goals-ex li span{font-family:var(--serif);font-size:clamp(20px,1.8vw,24px)}
+.goals-ex li b{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--acc);font-weight:600;text-align:right}
+.err{color:var(--hot);font-size:15px;margin-top:10px}
+.err:empty{display:none}
+.goal-pin{font-size:13px;letter-spacing:.2em;text-transform:uppercase;color:var(--mute);text-align:center}
+.goal-pin b{display:block;font-family:var(--serif);font-weight:500;font-size:clamp(24px,2.4vw,32px);letter-spacing:0;text-transform:none;color:var(--ink);line-height:1.15;margin-top:6px}
+/* traffic light */
+:root{--c-red:#B8352A;--c-yel:#8A6200;--c-grn:#23744A}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--c-red:#F06A57;--c-yel:#F2C94C;--c-grn:#5CC587}}
+:root[data-theme="dark"]{--c-red:#F06A57;--c-yel:#F2C94C;--c-grn:#5CC587}
+.c-red{color:var(--c-red)!important}.c-yel{color:var(--c-yel)!important}.c-grn{color:var(--c-grn)!important}
+.q[data-c="red"]{--qc:var(--c-red)}.q[data-c="yel"]{--qc:var(--c-yel)}.q[data-c="grn"]{--qc:var(--c-grn)}
+.q::before{background:linear-gradient(90deg,var(--qc),transparent)!important;height:3px}
+.q h3{color:var(--qc)}
+.q small{color:var(--qc)}
+.q .lamp{width:12px;height:12px;border-radius:50%;background:var(--qc);box-shadow:0 0 14px var(--qc);margin-bottom:4px}
+.q[aria-pressed="true"]{background:color-mix(in srgb,var(--card) 86%,var(--qc));box-shadow:inset 0 0 0 1px var(--qc)}
+.q-detail{border-left-color:var(--qc,var(--acc))}
+.q-detail h3{color:var(--qc,var(--ink))}
+.gdot{background:var(--qc,var(--acc-fill))}
+.gdot[data-c="red"]{--qc:var(--c-red)}.gdot[data-c="yel"]{--qc:var(--c-yel)}.gdot[data-c="grn"]{--qc:var(--c-grn)}
+.gdot{box-shadow:0 0 0 4px color-mix(in srgb,var(--qc) 30%,transparent),0 0 18px color-mix(in srgb,var(--qc) 70%,transparent)!important}
+.gdot b{color:#0C0C0E}
+.callout-yel{background:color-mix(in srgb,var(--card) 88%,#F2C94C);border-left-color:#F2C94C}
+.callout-yel > b{color:var(--c-yel)}
+.ps-note{display:block;margin-top:12px;font-size:15px;color:var(--dim)}
+.ps-note b{color:var(--acc)}
+.mini-note{margin:22px auto 0;font-size:16px;color:var(--dim)}
+.mini-note a{color:var(--acc);font-weight:600}
+
+/* ===== 5 умений ===== */
+.goal-pin{border:1.5px solid var(--c-red);border-radius:14px;padding:16px clamp(14px,3vw,26px) 18px;margin:0 auto}
+.goal-pin b{font-style:italic;font-size:clamp(22px,2.3vw,30px)!important;line-height:1.3!important}
+.wiz h3.after-pin{margin-top:clamp(40px,6vh,60px)!important}
+.stw{color:var(--acc);font-weight:700;white-space:nowrap;text-shadow:0 0 14px rgba(212,180,138,.35)}
+.anchor .stname{text-shadow:0 0 28px rgba(212,180,138,.45)}
+.snapw{color:var(--acc);font-weight:700;font-style:italic}
+.anchor .instr i{color:var(--ink)}
+.anchor .instr p+p{margin-top:12px}
+.rounds{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--mute);margin-top:10px}
+.rounds b{color:var(--acc)}
+.own{display:flex;gap:8px;max-width:420px;margin:14px auto 0}
+.own input{flex:1;min-width:0}
+.minsteps{display:grid;gap:10px;margin-top:14px}
+.minsteps label{display:grid;grid-template-columns:110px 1fr;gap:12px;align-items:center;font-weight:600;font-size:15px}
+.minsteps label small{display:block;font-weight:400;color:var(--mute);font-size:12px}
+.day .dn{font-size:10px;line-height:1;color:var(--c-grn);height:10px}
+.day[aria-pressed="true"] .dn{color:var(--on-fill)}
+.dl-hint{text-align:center;font-size:14px;color:var(--mute);margin-top:10px}
+@media (max-width:560px){.minsteps label{grid-template-columns:1fr;gap:4px}}
+h2.one-line{max-width:none}
+@media (min-width:900px){h2.one-line{white-space:nowrap}}
+.lede b{font-weight:700}
+.hero h1.h1-5{font-size:clamp(36px,7.2vw,100px);max-width:16ch;margin-left:auto;margin-right:auto}
+.skills{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:4px;margin-top:clamp(44px,7vh,72px);list-style:none;padding:0}
+.skills .card{grid-column:span 2}
+.skills .card:nth-child(4),.skills .card:nth-child(5){grid-column:span 3}
+.pos-list li span{font-size:clamp(19px,1.7vw,23px)}
+.pos-list li b{font-size:13px}
+.lede.mid{max-width:62ch}
+
+/* wizard */
+.wiz{position:relative;max-width:840px;margin:clamp(40px,6vh,64px) auto 0;background:var(--card);padding:clamp(28px,4.5vw,52px) clamp(18px,4.5vw,52px);text-align:left;--qc:var(--acc)}
+.wiz::before{content:"";position:absolute;left:0;right:0;top:0;height:2px;background:linear-gradient(90deg,var(--qc),transparent)}
+.wiz.appear{animation:rise .5s var(--ease)}
+.wiz[data-c="red"]{--qc:var(--c-red)}.wiz[data-c="yel"]{--qc:var(--c-yel)}.wiz[data-c="grn"]{--qc:var(--c-grn)}
+.stepnav{display:flex;flex-direction:column;align-items:center;gap:12px;margin-bottom:26px}
+.stepnav .label{margin:0}
+.dots{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+.dots button{width:40px;height:40px;border-radius:50%;border:1px solid var(--line2);background:transparent;font-size:14px;font-weight:600;color:var(--mute);cursor:pointer;padding:0;transition:background .2s,border-color .2s}
+.dots button:hover:not(:disabled){border-color:var(--acc)}
+.dots button:disabled{opacity:.35;cursor:default}
+.dots button.done{background:var(--glow);color:var(--ink)}
+.dots button.rec{box-shadow:0 0 0 2px var(--qc);border-color:transparent}
+.dots button[aria-current="step"]{background:var(--acc-fill);color:var(--on-fill);border-color:var(--acc-fill)}
+.recnote{display:block;text-align:center;font-size:14px;color:var(--qc);margin:-10px auto 18px;font-weight:600;max-width:52ch;line-height:1.5}
+.wiz h3{font-size:clamp(30px,3.4vw,46px);font-weight:400;text-align:center}
+.wiz .intro{color:var(--dim);text-align:center;max-width:56ch;margin:14px auto 0}
+.wiz .intro a,.wiz .tip a{color:var(--acc);font-weight:600}
+.sec-title{font-family:var(--serif);font-size:clamp(26px,2.6vw,34px);font-weight:500;margin-top:clamp(36px,5vh,52px);text-align:center;padding-top:clamp(28px,4vh,40px);border-top:1px solid var(--line)}
+.care{margin:18px auto 0;font-size:14px;color:var(--mute);text-align:center}
+.wiz input[type=text],.wiz textarea{width:100%;background:var(--bg);border:1px solid var(--line2);border-radius:12px;padding:12px 14px;color:var(--ink);font:inherit;font-size:16px;line-height:1.5;transition:border-color .2s}
+.wiz input[type=text]:focus,.wiz textarea:focus{outline:none;border-color:var(--acc)}
+.wiz input::placeholder,.wiz textarea::placeholder{color:var(--mute)}
+.wiz textarea{resize:vertical;min-height:88px}
+.fld{display:grid;gap:6px;margin-top:20px}
+.fld > span{font-size:16px;font-weight:600}
+.fld > small{font-size:14px;color:var(--mute);margin-top:-2px;line-height:1.5}
+.ob{display:flex;gap:12px;align-items:flex-start;margin-top:16px;font-size:15px;color:var(--dim);cursor:pointer;line-height:1.55}
+.ob input{width:20px;height:20px;accent-color:var(--acc);margin-top:2px;flex:none}
+.tlink{background:none;border:0;color:var(--mute);cursor:pointer;text-decoration:underline;text-underline-offset:3px;font-size:14px;padding:6px 4px}
+.tlink:hover{color:var(--ink)}
+.lb{max-width:560px;margin:0 auto}
+.lb-row{display:flex;gap:8px}
+.lb-row input{flex:1;min-width:0}
+.lb-row .ghost{flex:none}
+.x{flex:none;width:40px;height:40px;border:0;background:none;border-radius:50%;cursor:pointer;color:var(--mute);font-size:20px;line-height:1;display:grid;place-items:center}
+.x:hover{color:var(--hot);background:var(--line)}
+.x.arm{width:auto;border-radius:999px;padding:0 12px;font-size:13px;font-weight:700;color:var(--hot);border:1px solid var(--hot)}
+.ideas{display:flex;flex-wrap:wrap;gap:7px;margin-top:8px}
+.ideas button{border:1px solid var(--line2);background:transparent;border-radius:999px;padding:7px 14px;min-height:40px;font-size:14px;color:var(--dim);cursor:pointer;transition:background .2s,border-color .2s}
+.ideas button:hover{border-color:var(--acc)}
+.ideas button[aria-pressed="true"]{background:var(--acc-fill);border-color:var(--acc-fill);color:var(--on-fill);font-weight:600}
+.checks{display:grid;gap:6px;margin-top:20px;padding:16px 18px;border-radius:12px;background:var(--bg);font-size:15px}
+.checks div{display:flex;gap:10px;align-items:baseline;color:var(--mute)}
+.checks div.ok{color:var(--ink)}
+.checks div::before{content:"○";color:var(--mute)}
+.checks div.ok::before{content:"●";color:var(--c-grn)}
+.goalcard{margin-top:20px;padding:22px;border:1px solid var(--acc);border-radius:14px;text-align:center;background:var(--bg)}
+.goalcard .label{margin-bottom:10px}
+.goalcard textarea{font-family:var(--serif)!important;font-size:22px!important;text-align:center;min-height:96px;background:transparent!important}
+.goalcard small{display:block;font-size:13px;color:var(--mute);margin-top:6px}
+.tip{margin-top:18px;padding:16px 18px;border-left:2px solid var(--acc);background:var(--bg);font-size:15px;color:var(--dim)}
+.tip b{color:var(--ink);font-weight:600}
+/* goal list */
+.import textarea{min-height:76px;font-size:13px!important}
+.imp-row{display:flex;flex-wrap:wrap;gap:8px 14px;justify-content:center;align-items:center;margin-top:12px}
+.glist{display:grid;gap:4px;margin-top:20px}
+.grow{display:flex;gap:6px;align-items:center}
+.gopt{--qc:var(--line2);flex:1;min-width:0;display:flex;flex-wrap:wrap;gap:4px 12px;align-items:baseline;border:0;border-left:3px solid var(--qc);background:var(--bg);padding:14px 16px;cursor:pointer;text-align:left;color:var(--ink);transition:box-shadow .2s}
+.gopt[data-c="red"]{--qc:var(--c-red)}.gopt[data-c="yel"]{--qc:var(--c-yel)}.gopt[data-c="grn"]{--qc:var(--c-grn)}
+.gopt[aria-pressed="true"]{box-shadow:inset 0 0 0 1px var(--acc)}
+.gopt .t{flex:1 1 200px;font-family:var(--serif);font-size:22px;line-height:1.2;overflow-wrap:anywhere}
+.gopt .tg{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--qc);font-weight:700}
+.gopt .chk{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--acc);font-weight:700}
+.goal-pin{margin-bottom:6px}
+/* anchor */
+.anchor{margin-top:28px;padding:clamp(22px,3vw,32px) clamp(16px,3vw,28px);border-radius:16px;background:var(--bg);text-align:center;border:1px solid var(--line2)}
+.anchor h4{font-family:var(--serif);font-weight:500;font-size:clamp(26px,2.6vw,32px);margin:0}
+.anchor .instr{color:var(--dim);max-width:46ch;margin:12px auto 0}
+.anchor .ideas{justify-content:center;margin-top:16px}
+.anchor .stname{font-family:var(--serif);font-size:34px;color:var(--acc);margin-top:8px}
+.anchor .subh{font-weight:600;margin-top:6px}
+.acount{font-size:13px;color:var(--mute);margin-top:8px}
+.prog{display:flex;justify-content:center;gap:6px;margin-top:14px}
+.prog i{width:34px;height:3px;border-radius:2px;background:var(--line2)}
+.prog i.on{background:var(--acc)}
+.snap{position:relative;width:132px;height:132px;border-radius:50%;border:0;margin:24px auto 6px;display:grid;place-items:center;cursor:pointer;background:radial-gradient(circle at 40% 35%,#F3E2C2,#C79E66);color:#141414;font-family:var(--serif);font-size:26px;font-weight:600;box-shadow:0 10px 34px -10px rgba(212,180,138,.8)}
+.snap::after{content:"";position:absolute;inset:0;border-radius:50%;border:2px solid var(--acc-fill);opacity:0}
+.snap.go::after{animation:ring .9s ease-out}
+@keyframes ring{from{opacity:.9;transform:scale(1)}to{opacity:0;transform:scale(1.9)}}
+.anchor .row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;align-items:center;margin-top:20px}
+/* steps */
+.steps-list{list-style:none;padding:0;margin:14px 0 0}
+.steps-list li{display:flex;gap:10px;align-items:center;padding:8px 2px;border-bottom:1px solid var(--line);font-size:16px}
+.steps-list li .t{flex:1;min-width:0;overflow-wrap:anywhere}
+.star{flex:none;background:none;border:1px solid var(--line2);border-radius:999px;padding:5px 12px;min-height:36px;font-size:13px;cursor:pointer;color:var(--mute)}
+.star[aria-pressed="true"]{background:var(--acc-fill);border-color:var(--acc-fill);color:var(--on-fill);font-weight:700}
+.today{margin-top:22px;padding:4px 18px 18px;border-radius:14px;border:1px dashed var(--acc);background:var(--bg)}
+/* ritual */
+.cycle{display:grid;gap:4px;margin-top:22px;counter-reset:c}
+.cycle div{display:grid;grid-template-columns:40px 1fr;gap:12px;padding:14px 16px;background:var(--bg);counter-increment:c;align-items:start}
+.cycle div::before{content:counter(c,decimal-leading-zero);font-family:var(--serif);font-weight:600;font-size:30px;line-height:1;color:var(--num)}
+.cycle b{display:block;font-size:16px}
+.cycle span{font-size:15px;color:var(--dim)}
+.cycle a{color:var(--acc);font-weight:600}
+.week{display:flex;justify-content:center;gap:6px;margin-top:18px;flex-wrap:wrap}
+.day{width:46px;height:60px;border-radius:12px;border:1px solid var(--line2);background:transparent;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:12px;color:var(--mute)}
+.day b{font-family:var(--serif);font-size:21px;font-weight:600;color:var(--ink);line-height:1.1}
+.day[aria-pressed="true"]{background:var(--acc-fill);border-color:var(--acc-fill);color:var(--on-fill)}
+.day[aria-pressed="true"] b{color:var(--on-fill)}
+.day:disabled{opacity:.35;cursor:default}
+.day.today-d{box-shadow:0 0 0 2px var(--acc)}
+.wk-sum{text-align:center;font-family:var(--serif);font-size:26px;margin-top:14px}
+.btn:disabled{opacity:.4;cursor:default;filter:none;transform:none}
+.hist{display:flex;justify-content:center;gap:12px;margin-top:12px;align-items:flex-end;height:76px}
+.hist div{width:32px;display:flex;flex-direction:column;align-items:center;gap:4px;font-size:11px;color:var(--mute)}
+.hist i{display:block;width:100%;border-radius:6px 6px 2px 2px;background:var(--line2)}
+.hist i.ok{background:var(--acc-fill)}
+.nav{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-top:32px;padding-top:24px;border-top:1px solid var(--line)}
+.export{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:26px}
+.save-note{text-align:center;font-size:14px;color:var(--mute);margin-top:8px;min-height:1.2em}
+.wiz .err{text-align:center}
+.next-links{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;align-items:center;margin-top:30px}
+.next-links .ghost{display:inline-flex;align-items:center;text-decoration:none;color:var(--ink)}
+@media (max-width:860px){.skills{grid-template-columns:1fr 1fr}.skills .card,.skills .card:nth-child(4){grid-column:span 1}.skills .card:nth-child(5){grid-column:span 2}}
+@media (max-width:560px){
+  .skills{grid-template-columns:1fr}.skills .card:nth-child(5){grid-column:span 1}
+  .dots{gap:5px}.dots button{width:36px;height:36px}
+  .week{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px}
+  .day{width:auto;height:56px}
+  .lb-row{flex-direction:column}
+  .cycle div{grid-template-columns:32px 1fr;gap:10px;padding:12px}
+  .nav .btn{flex:1 1 auto}
+}
+</style>
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="/practices/fonts/fonts.css">
+<script src="/telegram-web-app.js"></script>
+<script>
+/* MaxMagia: практика внутри кабинета Telegram */
+(function(){
+  var tg = window.Telegram && Telegram.WebApp;
+  var inTg = !!(tg && tg.platform && tg.platform !== 'unknown');
+  function ext(href){
+    try {
+      var u = new URL(href, location.href);
+      if (u.origin === location.origin) { location.href = u.pathname + u.search + u.hash; return true; }
+      if (!inTg) return false;
+      if (u.hostname === 't.me' && tg.openTelegramLink) tg.openTelegramLink(u.href);
+      else tg.openLink(u.href, {try_instant_view:false});
+      return true;
+    } catch(e){ return false; }
+  }
+  document.addEventListener('click', function(e){
+    var a = e.target && e.target.closest ? e.target.closest('a[href]') : null;
+    if (!a) return;
+    var h = a.getAttribute('href') || '';
+    if (!h || h.charAt(0) === '#' || /^(javascript|blob|data|mailto|tel):/i.test(h)) return;
+    if (ext(h)) e.preventDefault();
+  }, true);
+  if (!inTg) return;
+  var wo = window.open;
+  window.open = function(url){
+    var s = String(url || '');
+    if (/^(blob|data):/i.test(s)) return null;      /* картинку внутри Telegram открыть нельзя — страница сама предложит скриншот */
+    if (s && ext(s)) return {};
+    return wo.apply(window, arguments);
+  };
+  try {
+    tg.ready(); tg.expand();
+    tg.setHeaderColor && tg.setHeaderColor('#ffffff');
+    tg.setBackgroundColor && tg.setBackgroundColor('#ffffff');
+    tg.BackButton.show();
+    tg.BackButton.onClick(function(){ location.href = '/'; });
+  } catch(e){}
+})();
+</script>
+</head>
+<body>
+<main>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="badge"><img src="/practices/img/emblem.png" alt="Логотип клуба MaxMagia"></div>
+    <span class="label">Клуб #MaxMagia · шаг четвёртый</span>
+    <h1 class="h1-5">5 умений тех, кто приходит к своим целям</h1>
+    <p class="sub">Не про богатых и знаменитых —<br>про людей, которые знали, чего хотят, и дошли.<br><b>Возьмём твою цель и проведём её через все пять.</b></p>
+    <a class="go" href="#bridge">Ниже подробнее<i aria-hidden="true"></i></a>
+  </div>
+</header>
+
+<section class="sec" id="bridge" aria-labelledby="h-bridge">
+<div class="wrap center">
+  <span class="label">Где мы остановились</span>
+  <h2 id="h-bridge">Ты уже знаешь, где стоит твоя цель</h2>
+  <div class="cards c3">
+    <div class="card"><span class="num">01</span><span class="label">Два навыка</span><h3>Осознанность и ответственность</h3></div>
+    <div class="card"><span class="num">02</span><span class="label">Позиция цели</span><h3>Фантазёр, шестерёнка, диванные войска или проявленный</h3></div>
+    <div class="card"><span class="num">03</span><span class="label">Путь внутрь</span><h3>Заметить, выбрать, остаться с собой</h3></div>
+  </div>
+  <p class="body">Теперь мы движемся от «понимаю» к «реализовал(а)» и открываемся пяти важным привычкам, которые сделают нашу ответственность конкретной: превратят наши «хочу» в шаги, а шаги — в ритуалы, которые можно просто повторять.</p>
+</div>
+</section>
+
+<div class="wrap center"><div class="rule-orn" aria-hidden="true"><i></i></div></div>
+<section class="band" aria-label="Куда идёшь" style="padding:clamp(70px,12vh,130px) 0">
+  <div class="fade-top"></div><div class="fade-bot"></div>
+  <div class="in wrap">
+    <p>Если не знаешь, куда идёшь,</p>
+    <p>придёшь куда угодно —</p>
+    <p class="hot">только не туда.</p>
+  </div>
+</section>
+
+<section class="sec" id="skills" aria-labelledby="h-skills" style="padding-top:clamp(20px,4vh,40px)">
+<div class="wrap center">
+  <span class="label">Карта пути</span>
+  <h2 id="h-skills">Пять умений</h2>
+  <ol class="skills">
+    <li class="card"><span class="num">01</span><span class="label">Ясность</span><h3>Чётко понимать свою цель</h3><p>Если не знаешь, куда идёшь, придёшь куда угодно, только не туда.</p></li>
+    <li class="card"><span class="num">02</span><span class="label">Состояние</span><h3>Настраиваться эмоционально</h3><p>Переключать себя из нересурсного состояния в ресурсное, чтобы состояние управляло тобой не чаще, чем ты им.</p></li>
+    <li class="card"><span class="num">03</span><span class="label">Фильтр</span><h3>Отбрасывать лишнее</h3><p>Безжалостно. Кто гонится за двумя зайцами, не поймает ни одного.</p></li>
+    <li class="card"><span class="num">04</span><span class="label">Фокус</span><h3>Выделять главное</h3><p>Из всех шагов найти тот, что сильнее всего приближает. И одно действие на сегодня.</p></li>
+    <li class="card"><span class="num">05</span><span class="label">Ритм</span><h3>Встраивать в жизнь</h3><p>Проактивность: превращать шаги в ритуал, а ритуал — в привычку.</p></li>
+  </ol>
+</div>
+</section>
+
+<section class="sec orn-top" id="focus" aria-labelledby="h-focus">
+<div class="wrap center">
+  <div class="rule-orn" aria-hidden="true"><i></i></div>
+  <span class="label">Куда делать упор</span>
+  <h2 id="h-focus" class="one-line">Своя позиция&nbsp;— <em>свои умения</em></h2>
+  <p class="lede mid">Помнишь позицию своей цели из «Двух навыков»? От неё зависит, какие умения тебе сейчас важнее всего. Если подтянешь цели кодом, в практике ниже эти умения подсветятся сами.</p>
+  <ul class="goals-ex pos-list">
+    <li><span>Все пять по порядку — и начать с ясности</span><b class="c-red">Фантазёр</b></li>
+    <li><span>01 и 04: понять, твоё ли это, и выбрать главное</span><b class="c-yel">Шестерёнка системы</b></li>
+    <li><span>02, 03 и 05: настрой, фильтр и ритм</span><b class="c-yel">Диванные войска</b></li>
+    <li><span>05: удерживать ритм, чтобы не откатиться</span><b class="c-grn">Проявленный</b></li>
+  </ul>
+</div>
+</section>
+
+<section class="sec orn-top" id="practice" aria-labelledby="h-practice">
+<div class="wrap center">
+  <div class="rule-orn" aria-hidden="true"><i></i></div>
+  <span class="label">Практика</span>
+  <h2 id="h-practice">Проведи свою цель через пять умений</h2>
+  <p class="lede">Одна цель — пять шагов — и в конце ритуал на три раза в неделю. Можно проходить частями: всё, что пишешь, сохраняется в этом браузере.</p>
+  <div class="wiz" id="card"></div>
+</div>
+</section>
+
+<div class="wrap center"><div class="rule-orn" aria-hidden="true"><i></i></div></div>
+<section class="band" aria-label="Ритуал" style="padding:clamp(60px,10vh,110px) 0">
+  <div class="fade-top"></div><div class="fade-bot"></div>
+  <div class="in wrap">
+    <p>Цель. Настрой. Ничего лишнего.</p>
+    <p>Одно главное действие.</p>
+    <p class="hot">Три раза в неделю.</p>
+  </div>
+</section>
+
+<section class="sec orn-top next-sec" aria-labelledby="h-next">
+<div class="wrap center">
+  <div class="rule-orn" aria-hidden="true"><i></i></div>
+  <span class="label">Следующий шаг</span>
+  <h2 id="h-next">Колесо дисбаланса</h2>
+  <p class="body">Если цель буксует, хотя все пять умений на месте, — значит, силы утекают через пробоины в других сферах жизни. Их и будем искать в колесе.</p>
+  <a class="btn next-btn" href="/practices/koleso-disbalansa/">Перейти к следующему шагу<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+</div>
+</section>
+
+</main>
+
+<div class="wrap">
+  <footer>
+    <div class="sign">Клуб #MaxMagia</div>
+    <p>Клуб — не терапия и не медицинская помощь. Если в процессе поднимается много тяжёлого, можно написать мне: <a href="https://t.me/MaxGuschin" target="_blank" rel="noopener">t.me/MaxGuschin</a>.</p>
+    <p>Ответы хранятся только в этом браузере.</p>
+    <p>Максим Гущин · самозанятый · ИНН 616616544435</p>
+    <p><a href="https://maxmagia.ru/">Клуб #MaxMagia</a> · <a href="https://maxmagia.ru/oferta.html">Условия участия</a> · <a href="https://maxmagia.ru/rules.html">Правила клуба</a> · <a href="https://maxmagia.ru/privacy.html">Политика обработки данных</a> · <a href="https://maxmagia.ru/consent.html">Согласие на обработку данных</a></p>
+  </footer>
+</div>
+
+<script>
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+const uid = () => Math.random().toString(36).slice(2, 9);
+const RM = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const dec = t => { t = String(t).trim().replace(/^MM1-/, '').replace(/\s+/g, ''); return JSON.parse(decodeURIComponent(escape(atob(t)))); };
+const L_TWO = '/practices/dva-navyka/';
+const L_MINI = '/practices/korotkiy-put/';
+const L_FULL = '/practices/put-vnutr/';
+const ARROW = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
+
+let dlNs = null;
+(async () => { try { if (window.claude && typeof window.claude.use === 'function') dlNs = await window.claude.use('downloads'); } catch(e){ dlNs = null; } })();
+async function saveFile(name, data, noteEl, fallbackEl){
+  if (dlNs){ try { await dlNs.save({filename: name, data}); if (noteEl) noteEl.textContent = 'Файл сохранён.'; return; } catch(e){ if (noteEl) noteEl.textContent = 'Файл не сохранился — ниже текст, его можно скопировать.'; } }
+  else if (noteEl) noteEl.textContent = 'Скачивание здесь недоступно — ниже текст, его можно скопировать.';
+  if (fallbackEl){ fallbackEl.value = data; fallbackEl.hidden = false; fallbackEl.focus(); fallbackEl.select(); }
+}
+function lbBind(inp, btn, onAdd){
+  const add = () => { const v = inp.value.trim(); if (!v) return; inp.value = ''; onAdd(v); };
+  btn.onclick = add; inp.onkeydown = e => { if (e.key === 'Enter'){ e.preventDefault(); add(); } };
+}
+
+/* band reveal */
+const bio = 'IntersectionObserver' in window ? new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting){ e.target.classList.add('seen'); bio.unobserve(e.target); } }), {threshold:.35}) : null;
+$$('.band').forEach(b => (RM || !bio) ? b.classList.add('seen') : bio.observe(b));
+
+const KEY = 'maxmagia-fiveskills-v1';
+let S = {goals:[], cur:null, step:0, d:{}, ticks:{}};
+try { const r = localStorage.getItem(KEY); if (r) S = Object.assign(S, JSON.parse(r)); } catch(e){}
+const save = () => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch(e){} };
+const STEPS = ['Твоя цель','Чётко понимать цель','Настраиваться эмоционально','Отбрасывать лишнее','Выделять главное','Встраивать в жизнь'];
+const LAST = STEPS.length - 1;
+const POS = {1:['Фантазёр','red','не хватало и осознанности, и ответственности'],2:['Шестерёнка системы','yel','не хватало осознанности'],3:['Диванные войска','yel','не хватало ответственности'],4:['Проявленный','grn','оба навыка на месте']};
+const REC = {1:[1,2,3,4,5],2:[1,4],3:[2,3,5],4:[5]};
+const goal = () => S.goals.find(g => g.id === S.cur);
+const D = () => { const id = S.cur; if (!S.d[id]) S.d[id] = {kid:'',measure:'',deadline:'',mine:false,final:'',finalEdited:false,see:'',hear:'',body:'',feel:[],feelTxt:'',amp:'',damp:'',restore:'',an:{states:[],i:0,sub:0,done:false},noNeed:'',noFocus:'',dis:[],disTxt:'',steps:[],key:null,today:'',minv:''}; return S.d[id]; };
+const card = $('#card');
+const stList = arr => { const a = arr.map(x => `<span class="stw">${esc(x)}</span>`); return a.length > 1 ? a.slice(0, -1).join(', ') + ' и ' + a[a.length - 1] : a.join(''); };
+
+function dayKey(d){ return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); }
+function monday(d){ const x = new Date(d); const w = (x.getDay() + 6) % 7; x.setDate(x.getDate() - w); x.setHours(0,0,0,0); return x; }
+function weekCount(start){ let n = 0; for (let i = 0; i < 7; i++){ const x = new Date(start); x.setDate(x.getDate() + i); if (S.ticks[dayKey(x)]) n++; } return n; }
+
+const kidOk = d => d.kid.trim().replace(/^я хочу\s*/i, '').length > 3;
+function composeFinal(d){
+  const parts = [];
+  if (kidOk(d)) parts.push(d.kid.trim().replace(/\.$/, '') + '.');
+  if (d.measure.trim()) parts.push('Пойму, что получилось, когда ' + d.measure.trim().replace(/\.$/, '') + (d.deadline.trim() ? ', — к ' + d.deadline.trim().replace(/\.$/, '') : '') + '.');
+  else if (d.deadline.trim()) parts.push('Срок — ' + d.deadline.trim().replace(/\.$/, '') + '.');
+  return parts.join(' ');
+}
+
+function stepnav(){
+  const g = goal(); const rec = g && REC[g.q] || [];
+  const reach = !g ? 0 : LAST;
+  let h = `<div class="stepnav"><span class="label">${S.step === 0 ? 'Начало' : `Умение ${S.step} из 5`} · ${esc(STEPS[S.step])}</span><div class="dots">${STEPS.map((t, i) =>
+    `<button type="button" aria-label="${esc(t)}" title="${esc(t)}${rec.includes(i) ? ' — особенно важно для этой цели' : ''}" ${i === S.step ? 'aria-current="step"' : ''} class="${i < S.step ? 'done' : ''}${rec.includes(i) ? ' rec' : ''}" ${i > reach ? 'disabled' : ''} data-go="${i}">${i === 0 ? '◇' : i}</button>`).join('')}</div></div>`;
+  if (g && g.q && rec.includes(S.step)) h += `<span class="recnote">Позиция цели — ${POS[g.q][0]}: ${POS[g.q][2]}. Это умение для тебя сейчас особенно важно.</span>`;
+  return h;
+}
+const focusGoal = () => { const g = goal(); return g ? `<p class="goal-pin">Цель в работе<b>${esc(D().final || g.t)}</b></p>` : ''; };
+const navHtml = (prev, next) => `<div class="nav">${prev ? '<button type="button" class="ghost" id="prev">Назад</button>' : '<span></span>'}${next ? `<button type="button" class="btn" id="next">${esc(next)}${ARROW}</button>` : ''}</div><p class="err" id="err"></p>`;
+const fld = (key, label, hint, ph, area = true, pre = '') => { const d = D(); if (d[key] == null) d[key] = ''; const val = d[key] || pre; return `<label class="fld">${label ? `<span>${esc(label)}</span>` : ''}${hint ? `<small>${esc(hint)}</small>` : ''}${area ? `<textarea data-f="${key}" placeholder="${esc(ph)}"${label ? '' : ' aria-label="' + esc(ph) + '"'}>${esc(val)}</textarea>` : `<input type="text" data-f="${key}" value="${esc(d[key])}" placeholder="${esc(ph)}"${label ? '' : ' aria-label="' + esc(ph) + '"'}>`}</label>`; };
+const ideas = (key, list) => { const d = D(); return `<div class="ideas">${list.map(t => `<button type="button" data-idk="${key}" data-idv="${esc(t)}" aria-pressed="${d[key].includes(t)}">${esc(t)}</button>`).join('')}</div>`; };
+function go(i){ S.step = Math.max(0, Math.min(LAST, i)); save(); render(true); card.scrollIntoView({block:'start', behavior: RM ? 'auto' : 'smooth'}); }
+
+function render(anim){
+  const g0 = goal();
+  card.dataset.c = g0 && g0.q ? POS[g0.q][1] : '';
+  let h = stepnav();
+  const st = S.step;
+  if (st === 0){
+    h += `<h3>Твоя цель</h3><p class="intro">Если ты прошёл(а) «Два навыка», вставь код целей — подтянутся цели вместе с их позициями. Или просто впиши цель здесь.</p>
+    <div class="import" style="margin-top:22px"><textarea id="codeIn" placeholder="Код из «Двух навыков» — начинается с MM1-" aria-label="Код целей из «Двух навыков»"></textarea>
+    <div class="imp-row"><button type="button" class="ghost" id="imp">Подтянуть цели</button><a class="tlink" href="${L_TWO}">Открыть «Два навыка»</a></div></div>
+    <div class="lb" style="margin-top:24px"><div class="lb-row"><input type="text" id="gIn" maxlength="140" placeholder="Или впиши цель сам(а)" aria-label="Новая цель"><button type="button" class="ghost" id="gAdd">Добавить</button></div></div>
+    <div class="glist">${S.goals.map(g => `<div class="grow"><button type="button" class="gopt" data-pick="${g.id}" data-c="${g.q ? POS[g.q][1] : ''}" aria-pressed="${g.id === S.cur}"><span class="t">${esc(g.t)}</span>${g.q ? `<span class="tg">${esc(POS[g.q][0])}</span>` : ''}${g.id === S.cur ? '<span class="chk">✓ в работе</span>' : ''}</button><button type="button" class="x" data-dg="${g.id}" aria-label="Удалить цель">×</button></div>`).join('')}</div>
+    ${S.goals.length > 1 ? '<p class="care">Выбери одну. Остальные уйдут на парковку — это уже третье умение в действии: не гнаться за двумя зайцами. Потом можно вернуться и пройти путь с другой целью.</p>' : ''}
+    ${navHtml(false, 'К первому умению')}`;
+  }
+  else if (st === 1){
+    const d = D();
+    if (!d.finalEdited) d.final = composeFinal(d);
+    const c = [[kidOk(d), 'Понятно ребёнку'],[/\d/.test(d.measure) || d.measure.trim().split(/\s+/).length > 2, 'Есть измеримый признак результата'],[d.deadline.trim().length > 0, 'Есть срок'],[d.mine, 'Зависит от меня, а не от других']];
+    h += focusGoal() + `<h3 class="after-pin">Чего конкретно ты хочешь?</h3><p class="intro">Как в «Алисе в стране чудес»: без ясной цели ты придёшь куда угодно, но точно не туда, куда хотелось. Поэтому сформулируй цель так, чтобы любой семилетний ребёнок её понял, и чтобы результат можно было потрогать, посчитать или измерить.</p>
+    ${fld('kid','Объясни ребёнку свою цель','Без умных слов напиши, чего хочешь.','Я хочу…', true, 'Я хочу ')}
+    ${fld('motiv','А какова твоя мотивация?','Что изменится в твоей жизни? Что улучшится?','Например: смогу больше путешествовать с семьёй и спокойнее спать')}
+    ${fld('measure','Как ты поймёшь, что у тебя получилось?','Число, факт, событие — то, что можно увидеть со стороны.','Например: я получу оффер с зарплатой не ниже 120 тысяч', false)}
+    ${fld('deadline','К какому сроку?','','Например: к 1 марта', false)}
+    <label class="ob"><input type="checkbox" id="mine" ${d.mine ? 'checked' : ''}><span>Результат зависит от меня, а не от чужих решений. Если нет — переформулируй через то, что делаешь ты: не «чтобы муж понял», а «я спокойно скажу мужу, что мне важно».</span></label>
+    <div class="checks" id="checks">${c.map(([ok, t]) => `<div class="${ok ? 'ok' : ''}">${esc(t)}</div>`).join('')}</div>
+    <div class="goalcard"><span class="label">Моя цель</span><textarea id="final" aria-label="Итоговая формулировка цели">${esc(d.final)}</textarea>${d.finalEdited ? '<button type="button" class="tlink" id="reFinal">Собрать заново из ответов</button>' : '<small>Собирается из ответов. Можно поправить вручную.</small>'}</div>
+    <p class="tip"><b>Сомневаешься, что цель твоя?</b> Это вопрос осознанности. Вернись на пару минут в <a href="${L_MINI}">короткий путь внутрь</a> с этой целью — и спроси себя: «Чего я действительно хочу?»</p>
+    <p class="sec-title">Образ цели</p><p class="intro">Представь день, когда цель уже достигнута. Этот образ войдёт в твой ритуал.</p>
+    ${fld('see','Что ты видишь вокруг?','','Например: светлый кабинет, мои проекты на экране')}
+    ${fld('hear','Что слышишь — от других и от себя?','','Например: «Ты это сделала»')}
+    ${fld('body','Что чувствуешь в теле?','','Например: расправленные плечи, тепло в груди')}
+    ${navHtml(true, 'Ко второму умению')}`;
+  }
+  else if (st === 2){
+    h += focusGoal() + `<h3 class="after-pin">Настраиваться эмоционально</h3><p class="intro">Будут утра, когда поднимаешь себя с кровати рукой. Умение — знать, что тебя зажигает, что гасит и как возвращать себя в ресурс.</p>
+    <label class="fld"><span>Что ты чувствуешь по отношению к своему желанию?</span><small>Здесь нет правильных чувств. Страх рядом с желанием — нормально.</small></label>${ideas('feel', ['радость','предвкушение','азарт','вдохновение','надежду','страх','тревогу','сомнение','стыд','усталость','равнодушие'])}
+    ${fld('feelTxt','','', 'Своими словами, если хочется')}
+    ${fld('amp','Что может усилить твоё желание?','Люди, места, музыка, образы, маленькие победы.','Например: разговор с тем, кто уже так живёт')}
+    ${fld('damp','Что может притупить его — перевести тебя из активного состояния в пассивное?','Чужая критика, усталость, бесконечная лента, сравнение с другими.','Например: когда мама говорит «куда тебе»')}
+    ${fld('restore','Как ты будешь себя восстанавливать, когда сдуешься?','','Например: прогулка без телефона, сон до 23:00, звонок подруге')}
+    <p class="tip"><b>Готовый способ вернуться в себя</b> — <a href="${L_MINI}">короткий путь внутрь на 4 минуты</a>. Можно вписать его в свой список восстановления.</p>
+    <div class="anchor" id="anchor"></div>
+    ${navHtml(true, 'К третьему умению')}`;
+  }
+  else if (st === 3){
+    const others = S.goals.filter(g => g.id !== S.cur);
+    h += focusGoal() + `<h3 class="after-pin">Отбрасывать лишнее</h3><p class="intro">Все курсы и книги «на всякий случай», разговоры с друзьями и сёрфинг в интернете дают лишь иллюзию безопасности, НО распыляют много энергии в никуда. Чтобы тебе её хватило на целевые действия, лишнее — безжалостно удаляем из жизни.</p>
+    ${fld('noNeed','Что тебе не нужно для достижения желаемого?','Знания, вещи, дела, обязательства, которые не приближают.','Например: ещё один курс, пока не применил(а) прошлый')}
+    ${fld('noFocus','На чём не нужно держать фокус?','Мысли и заботы, которые съедают внимание по пути.','Например: что подумают коллеги, как идут дела у бывших однокурсников')}
+    <label class="fld"><span>Как ты будешь отключаться от лишнего, пока идёшь?</span><small>Выбери то, что подойдёт, или придумай своё.</small></label>
+    ${ideas('dis', ['Выключать уведомления на время дела','Правило «не сейчас — в список «потом»»','Не начинать новое, пока не сделан текущий шаг','Говорить «нет» лишним просьбам','Один час — одно дело','Не сравнивать свой путь с чужими'])}
+    ${fld('disTxt','','','Своё правило', false)}
+    ${others.length ? `<p class="sec-title">На парковке</p><p class="intro">Это другие цели из твоего списка — те, что ты добавил(а) или подтянул(а) кодом на первом шаге. Сейчас они ждут своей очереди. Не потому, что неважны, а потому, что за двумя зайцами не ловится ни один.</p><ul class="steps-list">${others.map(g => `<li><span class="t">${esc(g.t)}</span>${g.q ? `<span class="tg c-${POS[g.q][1]}" style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:700">${esc(POS[g.q][0])}</span>` : ''}</li>`).join('')}</ul>` : ''}
+    ${navHtml(true, 'К четвёртому умению')}`;
+  }
+  else if (st === 4){
+    const d = D();
+    h += focusGoal() + `<h3 class="after-pin">Выделять главное</h3><p class="intro">Выпиши шаги, которые ведут к цели, — в любом порядке. Потом отметь один, самый важный: тот, после которого остальные станут проще или вообще не понадобятся.</p>
+    <div class="lb" style="margin-top:20px"><div class="lb-row"><input type="text" id="sIn" maxlength="140" placeholder="Например: обновить резюме" aria-label="Шаг к цели"><button type="button" class="ghost" id="sAdd">Добавить</button></div></div>
+    <ul class="steps-list">${d.steps.map(s => `<li><span class="t">${esc(s.t)}</span><button type="button" class="star" data-key="${s.id}" aria-pressed="${d.key === s.id}">${d.key === s.id ? '★ главный' : '☆ главный'}</button><button type="button" class="x" data-ds="${s.id}" aria-label="Удалить шаг">×</button></li>`).join('')}</ul>
+    <div class="today">${fld('today','Какое одно действие сегодня приблизит тебя хотя бы на шаг?','Маленькое, конкретное, на 15–60 минут.','Например: написать бывшей коллеге и спросить про вакансии', false)}
+    <label class="ob"><input type="checkbox" id="doneToday" ${S.ticks[dayKey(new Date())] ? 'checked' : ''}><span>Сделано сегодня — отметить в трекере ритуала</span></label></div>
+    ${navHtml(true, 'К пятому умению')}`;
+  }
+  else if (st === 5){
+    const d = D(); const g = goal();
+    const key = d.steps.find(s => s.id === d.key);
+    const today = new Date(); today.setHours(0,0,0,0); const mon = monday(today);
+    const names = ['вс','пн','вт','ср','чт','пт','сб'];
+    if (!d.plan) d.plan = []; if (!d.mins) d.mins = {};
+    d.plan = d.plan.filter(k => k >= dayKey(today));
+    const days = []; for (let i = 0; i < 7; i++){ const x = new Date(today); x.setDate(x.getDate() + i); days.push(x); }
+    let hist = ''; for (let w = 3; w >= 0; w--){ const m = new Date(mon); m.setDate(m.getDate() - 7*w); const c = weekCount(m); hist += `<div><i class="${c >= 3 ? 'ok' : ''}" style="height:${8 + c * 8}px"></i>${w === 0 ? 'эта' : '−' + w}</div>`; }
+    const planned = d.plan.slice().sort();
+    const ready = planned.length === 3 && planned.every(k => (d.mins[k] || '').trim());
+    const img = [d.see, d.hear, d.body].filter(x => x.trim()).join('; ');
+    h += focusGoal() + `<h3 class="after-pin">Встраивать в жизнь</h3><p class="intro">Проактивность — это не подвиг каждый день, а ритуал, который повторяется. Пять действий, три раза в неделю из семи. Остальные дни — просто жизнь.</p>
+    <div class="cycle">
+      <div><p><b>Вспомни цель</b><span>${esc(d.final || g.t)}${d.motiv && d.motiv.trim() ? '<br><i>Зачем мне это: ' + esc(d.motiv.trim()) + '</i>' : ''}</span></p></div>
+      <div><p><b>Увидь её образ</b><span>${img ? esc(img) : 'Образ можно описать в первом умении.'}</span></p></div>
+      <div><p><b>Настройся</b><span><b class="snapw" style="display:inline">Щёлк</b>.. Щёлкни пальцами — активируй свой якорь${d.an.done ? ' ' + stList(d.an.states) : ''}.${d.an.done ? '' : ' Его можно поставить во втором умении.'}<br>А если совсем не в ресурсе — Путь внутрь: <a href="${L_MINI}">мини</a> или <a href="${L_FULL}" target="_blank" rel="noopener">полная версия</a>.</span></p></div>
+      <div><p><b>Отбрось лишнее</b><span>${esc(d.dis.concat(d.disTxt.trim() ? [d.disTxt.trim()] : []).join('; ') || 'Выключи то, что отвлекает.')}</span></p></div>
+      <div><p><b>Сделай главное действие</b><span>${esc(d.today || (key ? key.t : 'Одно действие, которое приближает хотя бы на шаг.'))}</span></p></div>
+    </div>
+    <p class="sec-title">Твои три дня ритуала</p>
+    <p class="intro">Выбери три дня из ближайших семи, начиная с сегодня. В эти дни ты проходишь ритуал. Галочка ✓ — день, когда ты уже отметил(а) главное действие.</p>
+    <div class="week">${days.map(x => { const k = dayKey(x); const on = d.plan.includes(k); const full = !on && d.plan.length >= 3;
+      return `<button type="button" class="day${k === dayKey(today) ? ' today-d' : ''}" data-day="${k}" aria-pressed="${on}" ${full ? 'disabled' : ''} aria-label="${names[x.getDay()]} ${x.getDate()}${k === dayKey(today) ? ', сегодня' : ''}"><b>${x.getDate()}</b>${names[x.getDay()]}<span class="dn">${S.ticks[k] ? '✓' : ''}</span></button>`; }).join('')}</div>
+    <p class="wk-sum">${planned.length} из 3</p>
+    <p class="sec-title">Какой минимальный шаг ты сделаешь, даже если всё в этом мире будет «через жопу»?</p>
+    <p class="intro">Лучше маленький шаг, чем самообман. Придумай шаг всего на две минуты! Что ты сделаешь?</p>
+    ${planned.length ? `<div class="minsteps">${planned.map(k => { const x = new Date(k + 'T00:00'); return `<label><span>${names[x.getDay()]}, ${x.getDate()}<small>${k === dayKey(today) ? 'сегодня' : x.toLocaleDateString('ru-RU', {month:'long', day:'numeric'})}</small></span><input type="text" data-min="${k}" maxlength="140" value="${esc(d.mins[k] || '')}" placeholder="Например: перечитать цель и открыть файл резюме"></label>`; }).join('')}</div>` : '<p class="care">Сначала выбери три дня выше — здесь появятся поля для каждого.</p>'}
+    <div class="export"><button type="button" class="btn" id="dl" ${ready ? '' : 'disabled'}>Скачать карту цели</button></div>
+    <p class="dl-hint" id="dlHint">${ready ? 'Карта сохранится картинкой.' : 'Кнопка включится, когда выберешь три дня и напишешь минимальный шаг для каждого.'}</p>
+    <p class="save-note" id="note" aria-live="polite"></p>
+    <div class="nav"><button type="button" class="ghost" id="prev">Назад</button><button type="button" class="tlink" id="other">Пройти с другой целью</button></div>`;
+  }
+  card.innerHTML = h;
+  if (anim){ card.classList.remove('appear'); void card.offsetWidth; card.classList.add('appear'); }
+  bind();
+}
+
+function bind(){
+  $$('[data-go]', card).forEach(b => b.onclick = () => go(+b.dataset.go));
+  const prev = $('#prev', card); if (prev) prev.onclick = () => go(S.step - 1);
+  const next = $('#next', card);
+  $$('[data-f]', card).forEach(el => el.oninput = () => { D()[el.dataset.f] = el.value; save(); if (S.step === 1 && ['kid','measure','deadline'].includes(el.dataset.f)) refreshGoal(); });
+  $$('[data-idk]', card).forEach(b => b.onclick = () => { const arr = D()[b.dataset.idk]; const v = b.dataset.idv; const i = arr.indexOf(v); if (i > -1) arr.splice(i, 1); else arr.push(v); save(); b.setAttribute('aria-pressed', i < 0); });
+  const st = S.step;
+  if (st === 0){
+    $('#imp').onclick = () => { try { const o = dec($('#codeIn').value); let added = 0;
+        (o.goals || []).forEach(g => { if (!g || !g.t) return; const ex = S.goals.find(x => x.t === g.t); if (ex){ if (g.q) ex.q = g.q; return; } S.goals.push({id: uid(), t: String(g.t), q: [1,2,3,4].includes(g.q) ? g.q : null, aw: g.aw || [], re: g.re || []}); added++; });
+        if (!S.cur && S.goals.length) S.cur = S.goals[0].id; save(); render(); $('#err').textContent = added ? '' : 'Эти цели уже есть в списке.';
+      } catch(e){ $('#err').textContent = 'Код не читается. Скопируй его целиком, вместе с началом MM1-.'; } };
+    lbBind($('#gIn'), $('#gAdd'), v => { const g = {id: uid(), t: v, q: null, aw: [], re: []}; S.goals.push(g); if (!S.cur) S.cur = g.id; save(); render(); });
+    $$('[data-pick]', card).forEach(b => b.onclick = () => { S.cur = b.dataset.pick; save(); render(); });
+    $$('[data-dg]', card).forEach(b => b.onclick = () => {
+      if (!b.classList.contains('arm')){ $$('.x.arm', card).forEach(x => { x.classList.remove('arm'); x.textContent = '×'; }); b.classList.add('arm'); b.textContent = 'Удалить?'; b.setAttribute('aria-label', 'Подтвердить удаление цели'); return; }
+      delete S.d[b.dataset.dg]; S.goals = S.goals.filter(g => g.id !== b.dataset.dg); if (S.cur === b.dataset.dg) S.cur = S.goals[0] ? S.goals[0].id : null; save(); render(); });
+    next.onclick = () => goal() ? go(1) : ($('#err').textContent = 'Добавь цель или подтяни её кодом из «Двух навыков».');
+  }
+  if (st === 1){
+    $('#mine').onchange = e => { D().mine = e.target.checked; save(); refreshGoal(); };
+    $('#final').oninput = e => { const d = D(); d.final = e.target.value; d.finalEdited = true; save(); };
+    const rf = $('#reFinal'); if (rf) rf.onclick = () => { const d = D(); d.finalEdited = false; save(); render(); };
+    next.onclick = () => go(2);
+  }
+  if (st === 2){ renderAnchor(); next.onclick = () => go(3); }
+  if (st === 3) next.onclick = () => go(4);
+  if (st === 4){
+    const d = D();
+    lbBind($('#sIn'), $('#sAdd'), v => { d.steps.push({id: uid(), t: v}); save(); render(); $('#sIn').focus(); });
+    $$('[data-key]', card).forEach(b => b.onclick = () => { d.key = d.key === b.dataset.key ? null : b.dataset.key; save(); render(); });
+    $$('[data-ds]', card).forEach(b => b.onclick = () => { d.steps = d.steps.filter(s => s.id !== b.dataset.ds); if (d.key === b.dataset.ds) d.key = null; save(); render(); });
+    $('#doneToday').onchange = e => { const k = dayKey(new Date()); if (e.target.checked) S.ticks[k] = true; else delete S.ticks[k]; save(); };
+    next.onclick = () => go(5);
+  }
+  if (st === 5){
+    const d = D();
+    $$('[data-day]', card).forEach(b => b.onclick = () => { const k = b.dataset.day; const i = d.plan.indexOf(k); if (i > -1) d.plan.splice(i, 1); else if (d.plan.length < 3) d.plan.push(k); save(); const y = window.scrollY; render(); window.scrollTo(0, y); });
+    const upd = () => { const pl = d.plan; const ok = pl.length === 3 && pl.every(k => (d.mins[k] || '').trim()); $('#dl').disabled = !ok; $('#dlHint').textContent = ok ? 'Карта сохранится картинкой.' : 'Кнопка включится, когда выберешь три дня и напишешь минимальный шаг для каждого.'; };
+    $$('[data-min]', card).forEach(el => el.oninput = () => { d.mins[el.dataset.min] = el.value; save(); upd(); });
+    $('#dl').onclick = () => saveCardPNG();
+    $('#other').onclick = () => go(0);
+  }
+}
+function refreshGoal(){
+  const d = D(); if (!d.finalEdited){ d.final = composeFinal(d); $('#final').value = d.final; }
+  const c = [[kidOk(d)],[/\d/.test(d.measure) || d.measure.trim().split(/\s+/).length > 2],[d.deadline.trim().length > 0],[d.mine]];
+  $$('#checks div').forEach((el, i) => el.classList.toggle('ok', !!c[i][0])); save();
+}
+
+/* ---- Anchor ---- */
+const STATES = ['уверенность','энергия','спокойствие','решимость','радость','лёгкость','вдохновение','сила'];
+const SNAP = '<b class="snapw">«Щёлк»</b>';
+const TX = {
+  recall1: '<p>Найди в памяти или позволь памяти вспомнить один конкретный момент, когда ты был(а) в этом состоянии полностью и отчётливо его ощущал(а).. Всего один эпизод, где это состояние было частью тебя.. Дай себе время.. И ответь сам(а) себе: <i>где ты? что и кто рядом? когда это происходит? где в теле его ощущаешь?</i></p><p>И чтобы было легче — закрой глаза.</p>',
+  recall2: '<p>И теперь, пожалуйста, найди в своей памяти конкретный момент, когда ты был(а) в этом состоянии полностью.. Или дай себе время, чтобы такое воспоминание само пришло.. Не «вообще», а всего один эпизод.. <i>Где ты там? Когда это происходит? С кем ты там рядом? Что там происходит?</i></p>',
+  enter: '<p>Видя этот момент.. Представь, что ты каспер или душа.. которая влетает в того/ту себя.. И ты начинаешь ощущать всё то, что там и тогда было. Ты как будто даже слышишь звуки того времени.. И могут даже всплыть новые, забытые образы..</p><p>Вернись в ощущения своего тела.. Где в теле живёт это состояние? Позволь ему с каждым вдохом расти и становиться всё больше и больше внутри тебя..</p>',
+  snap1: `<p>Когда это состояние ты ощутишь на свой максимум.. или почти на пике.. щёлкни пальцами один раз — по-настоящему и своей рукой — и нажми кнопку ${SNAP}, чтобы зафиксировать этот новый рефлекс.</p>`,
+  snap2: `<p>Когда это состояние ты ощутишь на свой максимум.. или почти на пике.. Снова щёлкни теми же пальцами один раз — по-настоящему, и своей рукой — и нажми кнопку ${SNAP}, чтобы зафиксировать и этот новый рефлекс.</p>`,
+  snap3: `<p>Когда это состояние ты ощутишь на свой максимум.. или почти на пике.. Снова щёлкни теми же пальцами один раз — по-настоящему, и своей рукой — и нажми снова на кнопку ${SNAP}, чтобы усилить созданный условный рефлекс.</p>`,
+  reset: '<p>А теперь подвигай головой в стороны, встряхни обе руки, оглянись и назови про себя цвета трёх любых предметов вокруг, чтобы вернуться в момент «здесь и сейчас». Таким образом каждое состояние ляжет на щелчок отдельно и ярко, а не смешиваясь с предыдущим.</p>'
+};
+const SUBT = ['Вспомни момент','Войди в него','На пике — щёлкни','Сбрось состояние'];
+function subText(a){
+  const r = a.r || 0;
+  if (a.sub === 0) return a.i === 0 && r === 0 ? TX.recall1 : TX.recall2;
+  if (a.sub === 1) return TX.enter;
+  if (a.sub === 2) return r > 0 ? TX.snap3 : (a.i === 0 ? TX.snap1 : TX.snap2);
+  return TX.reset;
+}
+function renderAnchor(){
+  const box = $('#anchor'); if (!box) return; const a = D().an;
+  if (!a.own) a.own = [];
+  let h = `<span class="label" style="margin-bottom:10px">Инструмент</span><h4>Якорь на щелчок пальцев</h4>`;
+  if (!a.started){
+    const all = STATES.concat(a.own.filter(x => !STATES.includes(x)));
+    h += `<p class="instr">Три ресурсных состояния поставим на один щелчок пальцами. Потом в любой момент — перед звонком, перед делом, в плохое утро — щёлкаешь, и они поднимаются вместе. Выбери три — или впиши своё.</p>
+    <div class="ideas">${all.map(s => `<button type="button" data-st="${esc(s)}" aria-pressed="${a.states.includes(s)}">${esc(s)}</button>`).join('')}</div>
+    <div class="own"><input type="text" id="ownIn" maxlength="40" placeholder="Своё состояние или чувство" aria-label="Своё состояние или чувство"><button type="button" class="ghost" id="ownAdd">Добавить</button></div>
+    <p class="acount">${a.states.length} из 3</p>
+    <div class="row"><button type="button" class="btn" id="anStart" ${a.states.length === 3 ? '' : 'disabled'}>Ставить якорь</button></div>`;
+  } else if (!a.done){
+    const r = a.r || 0;
+    let btn;
+    if (a.sub < 2) btn = 'Дальше';
+    else if (a.sub === 3) btn = r < 2 ? 'Давай закрепим' : (a.i < 2 ? 'Следующее состояние' : 'К проверке');
+    h += `<div class="prog">${[0,1,2].map(i => `<i class="${i < a.i || (i === a.i && a.sub === 3 && r === 2) ? 'on' : ''}"></i>`).join('')}</div>
+    <p class="stname">${esc(a.states[a.i])}</p><p class="rounds">Круг <b>${r + 1}</b> из 3</p><p class="subh">${esc(SUBT[a.sub])}</p><div class="instr">${subText(a)}</div>
+    ${a.sub === 2 ? '<button type="button" class="snap" id="snap" aria-label="Щёлк">щёлк</button>' : ''}
+    <div class="row">${btn ? `<button type="button" class="btn" id="anNext">${btn}</button>` : ''}<button type="button" class="tlink" id="anReset">Начать заново</button></div>`;
+  } else {
+    h += `<p class="instr">Якорь поставлен: ${stList(a.states)}. Проверь: щёлкни пальцами и просто наблюдай, что поднимается в теле.</p>
+    <button type="button" class="snap" id="snapTest" aria-label="Проверить якорь">щёлк</button>
+    <p class="instr">Если отклик слабый — пройди практику ещё два-три раза в ближайшие дни. Якорь крепнет от повторений и от использования: щёлкай перед каждым шагом к цели.</p>
+    <div class="row"><button type="button" class="ghost" id="anAgain">Усилить — пройти практику ещё раз</button></div>`;
+  }
+  box.innerHTML = h;
+  $$('[data-st]', box).forEach(b => b.onclick = () => { const v = b.dataset.st; const i = a.states.indexOf(v); if (i > -1) a.states.splice(i, 1); else if (a.states.length < 3) a.states.push(v); save(); renderAnchor(); });
+  const oi = $('#ownIn', box), ob = $('#ownAdd', box);
+  if (oi) lbBind(oi, ob, v => { v = v.toLowerCase(); if (!a.own.includes(v) && !STATES.includes(v)) a.own.push(v); if (!a.states.includes(v) && a.states.length < 3) a.states.push(v); save(); renderAnchor(); const n = $('#ownIn'); if (n) n.focus(); });
+  const s = $('#anStart', box); if (s) s.onclick = () => { a.started = true; a.i = 0; a.sub = 0; a.r = 0; save(); renderAnchor(); };
+  const n = $('#anNext', box); if (n) n.onclick = () => {
+    const r = a.r || 0;
+    if (a.sub < 3) a.sub++;
+    else if (r < 2){ a.r = r + 1; a.sub = 0; }
+    else if (a.i < 2){ a.i++; a.r = 0; a.sub = 0; }
+    else a.done = true;
+    save(); renderAnchor(); box.scrollIntoView({block:'nearest', behavior: RM ? 'auto' : 'smooth'}); };
+  const sn = $('#snap', box); if (sn) sn.onclick = () => { sn.classList.remove('go'); void sn.offsetWidth; sn.classList.add('go'); setTimeout(() => { a.sub = 3; save(); renderAnchor(); }, RM ? 0 : 900); };
+  const tst = $('#snapTest', box); if (tst) tst.onclick = () => { tst.classList.remove('go'); void tst.offsetWidth; tst.classList.add('go'); };
+  const rs = $('#anReset', box); if (rs) rs.onclick = () => { D().an = {states: a.states, own: a.own, i: 0, sub: 0, r: 0, done: false, started: false}; save(); renderAnchor(); };
+  const ag = $('#anAgain', box); if (ag) ag.onclick = () => { a.done = false; a.i = 0; a.sub = 0; a.r = 0; a.started = true; save(); renderAnchor(); };
+}
+
+function wrapText(x, text, maxW){ const out = []; String(text).split('\n').forEach(par => { const words = par.split(' '); let line = ''; for (const w of words){ const t = line ? line + ' ' + w : w; if (x.measureText(t).width > maxW && line){ out.push(line); line = w; } else line = t; } out.push(line); }); return out; }
+function cardBlocks(){
+  const d = D(), g = goal(); const key = d.steps.find(s => s.id === d.key);
+  const names = ['вс','пн','вт','ср','чт','пт','сб'];
+  const B = [];
+  B.push({h:'МОЯ ЦЕЛЬ', t:d.final || g.t, big:true});
+  if (d.motiv && d.motiv.trim()) B.push({h:'ЗАЧЕМ МНЕ ЭТО', t:d.motiv.trim(), it:true});
+  const img = [d.see && 'Вижу: ' + d.see, d.hear && 'Слышу: ' + d.hear, d.body && 'В теле: ' + d.body].filter(Boolean);
+  if (img.length) B.push({h:'ОБРАЗ ЦЕЛИ', t:img.join('\n')});
+  const st = [];
+  if (d.an.done) st.push('Якорь на щелчок: ' + d.an.states.join(', '));
+  if (d.amp) st.push('Усиливает: ' + d.amp);
+  if (d.restore) st.push('Восстанавливаюсь: ' + d.restore);
+  if (st.length) B.push({h:'НАСТРОЙ', t:st.join('\n')});
+  const dis = d.dis.concat(d.disTxt ? [d.disTxt] : []);
+  const off = []; if (d.noNeed) off.push('Не нужно: ' + d.noNeed); if (dis.length) off.push('Правила: ' + dis.join('; '));
+  if (off.length) B.push({h:'ОТБРАСЫВАЮ', t:off.join('\n')});
+  const mn = []; if (key) mn.push('Самый важный шаг: ' + key.t); if (d.today) mn.push('Действие на сегодня: ' + d.today);
+  if (mn.length) B.push({h:'ГЛАВНОЕ', t:mn.join('\n')});
+  B.push({h:'РИТУАЛ · 3 РАЗА В НЕДЕЛЮ', t:'1. Вспомнить цель\n2. Увидеть её образ\n3. Щёлк — настроиться\n4. Отбросить лишнее\n5. Сделать одно главное действие'});
+  const pl = (d.plan || []).slice().sort();
+  if (pl.length) B.push({h:'МОИ ДНИ И МИНИМАЛЬНЫЙ ШАГ', t:pl.map(k => { const x = new Date(k + 'T00:00'); return names[x.getDay()] + ', ' + x.toLocaleDateString('ru-RU', {day:'numeric', month:'long'}) + ' — ' + (d.mins[k] || '').trim(); }).join('\n')});
+  return B;
+}
+async function goalPNG(){
+  try { await Promise.all([document.fonts.load('500 56px "Cormorant Garamond"'), document.fonts.load('italic 500 34px "Cormorant Garamond"'), document.fonts.load('600 20px Manrope'), document.fonts.load('400 26px Manrope')]); } catch(e){}
+  const W = 1080, M = 90, CW = W - M * 2;
+  const SERIF = '"Cormorant Garamond", Georgia, serif', SANS = 'Manrope, system-ui, sans-serif';
+  const meas = document.createElement('canvas').getContext('2d');
+  const B = cardBlocks();
+  const fontOf = b => b.big ? `italic 500 44px ${SERIF}` : b.it ? `italic 500 32px ${SERIF}` : `400 25px ${SANS}`;
+  const lhOf = b => b.big ? 56 : b.it ? 42 : 38;
+  let H = 250;
+  B.forEach(b => { meas.font = fontOf(b); b.lines = wrapText(meas, b.t, b.big ? CW - 60 : CW); H += 60 + b.lines.length * lhOf(b) + (b.big ? 70 : 34); });
+  H += 120;
+  const cv = document.createElement('canvas'); cv.width = W; cv.height = H; const x = cv.getContext('2d');
+  const gr = x.createLinearGradient(0, 0, 0, H); gr.addColorStop(0, '#16141A'); gr.addColorStop(1, '#0C0C0E'); x.fillStyle = gr; x.fillRect(0, 0, W, H);
+  x.textAlign = 'center'; x.fillStyle = '#D4B48A'; x.font = `600 20px ${SANS}`; x.fillText('КЛУБ  #MAXMAGIA  ·  5 УМЕНИЙ', W / 2, 92);
+  x.fillStyle = '#F0ECE4'; x.font = `500 64px ${SERIF}`; x.fillText('Карта цели', W / 2, 170);
+  let y = 250;
+  B.forEach(b => {
+    if (b.big){
+      const bh = 50 + b.lines.length * 56 + 40;
+      x.strokeStyle = '#F06A57'; x.lineWidth = 2; x.beginPath(); if (x.roundRect) x.roundRect(M, y, CW, bh, 18); else x.rect(M, y, CW, bh); x.stroke();
+      x.textAlign = 'center'; x.fillStyle = '#9C958C'; x.font = `600 18px ${SANS}`; x.fillText(b.h, W / 2, y + 40);
+      x.fillStyle = '#F0ECE4'; x.font = fontOf(b); b.lines.forEach((ln, i) => x.fillText(ln, W / 2, y + 90 + i * 56));
+      y += bh + 60; return;
+    }
+    x.textAlign = 'left'; x.fillStyle = '#D4B48A'; x.fillRect(M, y - 22, 3, 22); x.font = `600 18px ${SANS}`; x.fillText(b.h, M + 16, y - 4);
+    x.fillStyle = b.it ? '#F0ECE4' : '#CFC8BE'; x.font = fontOf(b); b.lines.forEach((ln, i) => x.fillText(ln, M, y + 44 + i * lhOf(b)));
+    y += 60 + b.lines.length * lhOf(b) + 34;
+  });
+  x.textAlign = 'center'; x.fillStyle = '#9C958C'; x.font = `500 21px ${SANS}`; x.fillText('Цель. Настрой. Ничего лишнего. Одно главное действие. Три раза в неделю.', W / 2, H - 60);
+  return new Promise(res => cv.toBlob(res, 'image/png'));
+}
+async function saveCardPNG(){
+  const n = $('#note'); n.textContent = 'Готовлю картинку…';
+  try { const blob = await goalPNG();
+    if (dlNs){ await dlNs.save({filename: 'karta-celi.png', data: blob}); n.textContent = 'Готово — карта цели сохранена картинкой.'; return; }
+    const w = window.open(URL.createObjectURL(blob), '_blank'); n.textContent = w ? 'Картинка открылась в новой вкладке — сохрани её оттуда.' : 'Не получилось сохранить. Можно сделать скриншот.';
+  } catch(e){ n.textContent = e && e.code === 'declined' ? 'Сохранение отменено.' : e && e.code === 'rate_limited' ? 'Окно сохранения уже открыто — подтверди его.' : 'Не получилось сохранить. Можно сделать скриншот.'; }
+}
+
+if (S.step > 0 && !goal()) S.step = 0;
+render(false);
+</script>
+</body>
+</html>

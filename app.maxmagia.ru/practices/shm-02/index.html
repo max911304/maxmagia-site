@@ -1,0 +1,918 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<script src="/practices/lib/mm-sync.js?v=3"></script>
+<script src="/practices/lib/mm-gender.js?v=2"></script>
+<script src="/telegram-web-app.js"></script>
+<script>/* mm-back: «назад» → в раздел кабинета (Telegram — кнопка в шапке, на странице — ссылка сверху) */
+window.mmBack=function(){
+  if(/^\/art\//.test(location.pathname)){location.href='/art/';return;}
+  try{if(document.referrer&&new URL(document.referrer).origin===location.origin&&history.length>1){history.back();return;}}catch(e){}
+  location.href='/';
+};
+(function(){
+  if(!/^\/practices\//.test(location.pathname))return;
+  var tg=window.Telegram&&Telegram.WebApp,inTg=false;
+  try{inTg=sessionStorage.getItem('mm_in_tg')==='1'||!!(tg&&tg.initData);}catch(e){inTg=!!(tg&&tg.initData);}
+  if(!tg||!inTg||!tg.BackButton)return;
+  try{tg.ready();tg.BackButton.onClick(window.mmBack);tg.BackButton.show();}catch(e){}
+})();
+</script>
+<style>
+.mm-backlink{position:absolute;top:calc(14px + env(safe-area-inset-top,0px));left:max(16px,env(safe-area-inset-left,0px));z-index:5;display:inline-flex;align-items:center;gap:6px;
+  min-height:38px;padding:0 16px 0 12px;border-radius:999px;border:1px solid var(--line2);background:color-mix(in srgb,var(--bg) 70%,transparent);color:var(--dim);
+  font:600 13px/1 var(--sans);letter-spacing:.04em;text-decoration:none;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);cursor:pointer}
+.mm-backlink span{font-size:19px;line-height:1;margin-top:-2px}
+.mm-backlink:hover{border-color:var(--acc);color:var(--ink)}
+@media (display-mode: standalone){.mm-backlink{display:none}}
+</style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Шесть зон границ</title>
+<link rel="stylesheet" href="/practices/fonts/shm/shm-fonts.css">
+</head>
+<body>
+<style>
+
+:root{
+  --bg:#FFFFFF; --bg2:#F4F3EF; --card:#F4F3EF; --ink:#2F2F2F; --dim:#4D4D4D; --mute:#696969; --num:#E4E1DA;
+  --line:rgba(47,47,47,.12); --line2:rgba(47,47,47,.24);
+  --acc:#9A6A2E; --acc-fill:#D4B48A; --on-fill:#141414; --mark:#F6EC6E; --hot:#B23A2E;
+  --glow:rgba(212,180,138,.22); --tile:#2F2F2F; --tile-line:rgba(212,180,138,.6);
+  --gem-base:#8C8680; --gem-lit:#D4A86A;
+  --band1:#2A2420; --band2:#0C0C0E; --band-ink:#F0ECE4; --band-hot:#F49385; --yel:#2F2F2F; --yel-bg:#F6EC6E; --strike:#D2402F;
+  --serif:'Cormorant Garamond',Georgia,'Times New Roman',serif;
+  --sans:'Manrope',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --ease:cubic-bezier(.2,.8,.2,1);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --yel:#F3E37C; --yel-bg:transparent; --strike:#EF5A47;
+    --bg:#0C0C0E; --bg2:#0F0F11; --card:#18181A; --ink:#F0ECE4; --dim:#B9B2A8; --mute:#9C958C; --num:#232326;
+    --line:rgba(240,236,228,.08); --line2:rgba(240,236,228,.16);
+    --acc:#D4B48A; --acc-fill:#D4B48A; --on-fill:#0C0C0E; --mark:rgba(212,180,138,.26); --hot:#EF7A6B;
+    --glow:rgba(212,180,138,.12); --tile:#18181A; --tile-line:rgba(212,180,138,.4);
+    --gem-base:#2C2730; --gem-lit:#E2C79C;
+  }
+}
+:root[data-theme="dark"]{
+  --yel:#F3E37C; --yel-bg:transparent; --strike:#EF5A47;
+  --bg:#0C0C0E; --bg2:#0F0F11; --card:#18181A; --ink:#F0ECE4; --dim:#B9B2A8; --mute:#9C958C; --num:#232326;
+  --line:rgba(240,236,228,.08); --line2:rgba(240,236,228,.16);
+  --acc:#D4B48A; --acc-fill:#D4B48A; --on-fill:#0C0C0E; --mark:rgba(212,180,138,.26); --hot:#EF7A6B;
+  --glow:rgba(212,180,138,.12); --tile:#18181A; --tile-line:rgba(212,180,138,.4);
+  --gem-base:#2C2730; --gem-lit:#E2C79C;
+}
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px);scroll-behavior:smooth}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.7;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+h1,h2,h3{font-family:var(--serif);font-weight:500;margin:0;line-height:1.08;text-wrap:balance}
+p{margin:0}
+button,input{font:inherit;color:inherit;touch-action:manipulation}
+:focus-visible{outline:2px solid var(--acc);outline-offset:4px;border-radius:6px}
+[hidden]{display:none!important}
+.wrap{max-width:1200px;margin:0 auto;padding:0 clamp(20px,4vw,48px)}
+.center{text-align:center}
+.col{max-width:780px;margin-left:auto;margin-right:auto}
+.sec{--gap:clamp(72px,11vh,128px);padding:var(--gap) 0}
+.sec.orn-top{padding-top:0}
+.sec.orn-top > .wrap > .rule-orn{margin:0 auto var(--gap)}
+.label{display:block;font-size:13px;font-weight:600;letter-spacing:.28em;text-transform:uppercase;color:var(--acc);margin-bottom:22px}
+h2{font-size:clamp(38px,5vw,68px);font-weight:400;max-width:20ch;margin:0 auto}
+h2 em{font-style:italic;color:var(--acc)}
+.lede{font-size:clamp(18px,1.4vw,20px);color:var(--dim);max-width:58ch;margin:24px auto 0}
+mark{background:linear-gradient(transparent 60%,var(--mark) 60%);color:inherit;padding:0 .06em}
+.rule-orn{display:flex;align-items:center;justify-content:center;gap:14px;margin:0 auto 26px;color:var(--acc)}
+.rule-orn::before,.rule-orn::after{content:"";width:56px;height:1px;background:linear-gradient(90deg,transparent,var(--acc))}
+.rule-orn::after{transform:scaleX(-1)}
+.rule-orn i{width:6px;height:6px;background:var(--acc);transform:rotate(45deg)}
+
+/* Hero */
+.hero{min-height:100vh;min-height:100svh;display:grid;place-items:center;text-align:center;padding:clamp(40px,8vh,80px) 0;position:relative;overflow:hidden}
+.hero::before{content:"";position:absolute;left:50%;top:40%;width:min(110vw,980px);aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(circle,var(--glow),transparent 64%);pointer-events:none}
+.hero > div{position:relative;width:100%;min-width:0}
+.badge{width:clamp(112px,13vw,144px);aspect-ratio:1;border-radius:50%;margin:0 auto;display:grid;place-items:center;background:#F7F4EE;box-shadow:0 0 0 1px var(--line2),0 24px 60px -24px rgba(0,0,0,.45);animation:rise 1s var(--ease) both}
+.badge img{width:52%;height:auto;display:block}
+.hero .label{margin:30px 0 0;animation:rise 1s .1s var(--ease) both}
+.hero h1{font-size:clamp(38px,11.4vw,132px);font-weight:400;line-height:.95;margin-top:18px;animation:rise 1s .18s var(--ease) both}
+.hero .sub{font-family:var(--serif);font-size:clamp(22px,2.3vw,31px);line-height:1.38;color:var(--dim);margin:30px auto 0;animation:rise 1s .26s var(--ease) both}
+.hero .sub b{font-style:italic;font-weight:600;color:var(--ink)}
+.hero .go{display:inline-flex;flex-direction:column;align-items:center;gap:10px;margin-top:48px;color:var(--mute);font-size:13px;letter-spacing:.2em;text-transform:uppercase;text-decoration:none;animation:rise 1s .34s var(--ease) both}
+.hero .go i{width:1px;height:40px;background:linear-gradient(var(--acc),transparent)}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+
+/* Statement typography */
+.big{font-family:var(--serif);font-size:clamp(26px,2.8vw,38px);line-height:1.28;max-width:30ch;margin:34px auto 0}
+.body{font-size:clamp(18px,1.4vw,20px);color:var(--dim);max-width:60ch;margin:22px auto 0}
+
+/* Cards (landing style) */
+.cards{display:grid;gap:4px;margin-top:clamp(44px,7vh,72px)}
+.cards.c2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.cards.c3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.cards.c4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.card{position:relative;background:var(--card);padding:clamp(34px,4.5vw,56px) clamp(22px,3vw,40px) clamp(34px,4vw,48px);text-align:center}
+.card::before{content:"";position:absolute;left:0;right:0;top:0;height:2px;background:linear-gradient(90deg,var(--acc),transparent)}
+.card .num{display:block;font-family:var(--serif);font-weight:600;font-size:clamp(56px,6vw,84px);line-height:.9;color:var(--num);margin-bottom:12px;font-variant-numeric:oldstyle-nums}
+.card .label{margin-bottom:14px}
+.card h3{font-size:clamp(26px,2.4vw,34px);font-weight:500}
+.card p{color:var(--dim);margin-top:12px}
+.callout{margin-top:4px;background:var(--card);border-left:2px solid var(--acc);padding:clamp(24px,3vw,36px) clamp(24px,4vw,56px);color:var(--dim);font-size:clamp(17px,1.3vw,19px)}
+.callout b{color:var(--acc);font-weight:600}
+
+/* Ways grid */
+.ways{list-style:none;margin:clamp(44px,7vh,72px) 0 0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px;counter-reset:w}
+.ways li{counter-increment:w;position:relative;background:var(--card);padding:28px 18px 26px;text-align:center;font-family:var(--serif);font-size:clamp(20px,1.7vw,24px);line-height:1.2;min-height:150px;display:flex;flex-direction:column;justify-content:flex-end;align-items:center}
+.ways li::before{content:counter(w,decimal-leading-zero);font-family:var(--serif);font-weight:600;font-size:50px;line-height:.9;color:var(--num);margin-bottom:auto;padding-bottom:12px;font-variant-numeric:oldstyle-nums}
+.ways li.span2{grid-column:span 2;font-style:italic;color:var(--acc);font-size:clamp(21px,1.9vw,26px)}
+.ways li.span2::before{content:"…";color:var(--num)}
+.examples{list-style:none;margin:clamp(48px,8vh,80px) auto 0;padding:0;max-width:820px}
+.examples li{font-family:var(--serif);font-size:clamp(25px,2.8vw,38px);line-height:1.2;padding:12px 0;text-align:center}
+.examples li span{color:var(--mute);font-style:italic}
+.examples li.last{color:var(--acc);font-style:italic}
+.whole{margin:clamp(40px,6vh,60px) auto 0}
+
+/* Cinematic band */
+.band{position:relative;overflow:hidden;padding:clamp(110px,20vh,220px) 0;text-align:center;color:var(--band-ink);background:radial-gradient(ellipse 70% 90% at 72% 60%,var(--band1),var(--band2) 70%)}
+.band::before{content:"";position:absolute;inset:-20%;background:radial-gradient(circle at 30% 40%,rgba(212,180,138,.14),transparent 40%),radial-gradient(circle at 75% 65%,rgba(239,122,107,.12),transparent 38%);animation:drift 18s ease-in-out infinite alternate}
+.band::after{content:"";position:absolute;inset:0;opacity:.09;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+.band .fade-top,.band .fade-bot{position:absolute;left:0;right:0;height:30%;pointer-events:none;z-index:1}
+.band .fade-top{top:0;background:linear-gradient(var(--bg),transparent)}
+.band .fade-bot{bottom:0;background:linear-gradient(transparent,var(--bg))}
+.band .in{position:relative;z-index:2}
+.band p{font-family:var(--serif);font-style:italic;font-size:clamp(26px,3.2vw,46px);line-height:1.5;opacity:0;transform:translateY(12px);transition:opacity 1.2s var(--ease),transform 1.2s var(--ease)}
+.band.seen p{opacity:.92;transform:none}
+.band.seen p:nth-child(2){transition-delay:.5s}
+.band.seen p:nth-child(3){transition-delay:1.2s}
+.band p.hot{color:var(--band-hot);font-size:clamp(46px,6.4vw,92px);line-height:1.2;margin-top:12px;opacity:0}
+.band.seen p.hot{opacity:1}
+@keyframes drift{from{transform:translate(-3%,-2%)}to{transform:translate(3%,2%)}}
+
+.ghost{min-height:44px;padding:0 20px;border-radius:999px;border:1px solid var(--line2);background:none;cursor:pointer;font-size:14px;letter-spacing:.06em}
+.ghost:hover{border-color:var(--acc)}
+footer{padding:70px 0 90px;border-top:1px solid var(--line);color:var(--mute);font-size:14px;text-align:center}
+footer .sign{font-family:var(--serif);font-style:italic;font-size:22px;color:var(--acc);margin-bottom:10px}
+footer p + p{margin-top:8px}
+footer a{color:var(--acc)}
+.series{display:inline-flex;flex-wrap:wrap;gap:4px 18px;justify-content:center}
+
+@media (max-width:980px){.ways,.cards.c4{grid-template-columns:repeat(2,minmax(0,1fr))}.cards.c3{grid-template-columns:1fr}}
+@media (max-width:640px){
+  .cards.c2{grid-template-columns:1fr}
+  .ways li{min-height:118px;font-size:17px;padding:22px 10px;hyphens:auto;-webkit-hyphens:auto;overflow-wrap:break-word}
+  .ways li::before{font-size:40px}
+  .answers button{flex:1 1 auto}
+  .tiles{gap:3px}
+  .stage{width:min(100%,300px)}
+}
+@media (prefers-reduced-motion: reduce){
+  *{animation:none!important;transition:none!important}
+  html{scroll-behavior:auto}
+  .band p{opacity:.92!important;transform:none!important}
+}
+.yel{color:var(--yel);background:linear-gradient(transparent 58%,var(--yel-bg) 58%);-webkit-box-decoration-break:clone;box-decoration-break:clone}
+.def-not{display:block;font-family:var(--serif);font-size:clamp(20px,1.8vw,26px);line-height:1.3;color:var(--mute);margin:14px 0 10px;font-weight:400}
+.def-not s{text-decoration:line-through;text-decoration-color:var(--strike);text-decoration-thickness:2px}
+h2.def-yes{max-width:22ch}
+h2.caps{text-transform:uppercase;letter-spacing:.06em;font-size:clamp(34px,5vw,64px)}
+.ps-line{font-family:var(--serif);font-size:clamp(21px,2vw,27px);line-height:1.45;color:var(--dim);max-width:44ch;margin:clamp(36px,6vh,56px) auto 0}
+.ps-line .ps-tag{font-family:var(--sans);font-size:13px;font-weight:700;letter-spacing:.2em;color:var(--acc);margin-right:4px}
+.ps-line b{color:var(--ink);font-weight:600}
+h2.ex-h{margin-top:clamp(64px,10vh,110px)}
+.band p.hot:only-child{margin-top:0}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:54px;padding:0 30px;border-radius:999px;border:0;background:var(--acc-fill);color:var(--on-fill);font-weight:700;font-size:16px;cursor:pointer;text-decoration:none;transition:transform .2s var(--ease),filter .2s}
+.btn:hover{filter:brightness(1.06)}
+.btn:active{transform:scale(.97)}
+.btn svg{width:20px;height:20px;flex:none}
+.photo{margin-top:34px}
+.note-s{font-size:14px;color:var(--mute);margin-top:10px;min-height:1.2em}
+.next-btn{margin-top:30px}
+.goals-ex{list-style:none;margin:clamp(40px,6vh,60px) auto 0;padding:0;max-width:820px;display:grid;gap:4px}
+.goals-ex li{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:16px;align-items:center;background:var(--card);padding:18px clamp(18px,3vw,32px);text-align:left}
+.goals-ex li span{font-family:var(--serif);font-size:clamp(20px,1.8vw,24px)}
+.goals-ex li b{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--acc);font-weight:600;text-align:right}
+.err{color:var(--hot);font-size:15px;margin-top:10px}
+.err:empty{display:none}
+.goal-pin{font-size:13px;letter-spacing:.2em;text-transform:uppercase;color:var(--mute);text-align:center}
+.goal-pin b{display:block;font-family:var(--serif);font-weight:500;font-size:clamp(24px,2.4vw,32px);letter-spacing:0;text-transform:none;color:var(--ink);line-height:1.15;margin-top:6px}
+/* traffic light */
+:root{--c-red:#B8352A;--c-yel:#8A6200;--c-grn:#23744A}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--c-red:#F06A57;--c-yel:#F2C94C;--c-grn:#5CC587}}
+:root[data-theme="dark"]{--c-red:#F06A57;--c-yel:#F2C94C;--c-grn:#5CC587}
+.c-red{color:var(--c-red)!important}.c-yel{color:var(--c-yel)!important}.c-grn{color:var(--c-grn)!important}
+.q[data-c="red"]{--qc:var(--c-red)}.q[data-c="yel"]{--qc:var(--c-yel)}.q[data-c="grn"]{--qc:var(--c-grn)}
+.q::before{background:linear-gradient(90deg,var(--qc),transparent)!important;height:3px}
+.q h3{color:var(--qc)}
+.q small{color:var(--qc)}
+.q .lamp{width:12px;height:12px;border-radius:50%;background:var(--qc);box-shadow:0 0 14px var(--qc);margin-bottom:4px}
+.q[aria-pressed="true"]{background:color-mix(in srgb,var(--card) 86%,var(--qc));box-shadow:inset 0 0 0 1px var(--qc)}
+.q-detail{border-left-color:var(--qc,var(--acc))}
+.q-detail h3{color:var(--qc,var(--ink))}
+.gdot{background:var(--qc,var(--acc-fill))}
+.gdot[data-c="red"]{--qc:var(--c-red)}.gdot[data-c="yel"]{--qc:var(--c-yel)}.gdot[data-c="grn"]{--qc:var(--c-grn)}
+.gdot{box-shadow:0 0 0 4px color-mix(in srgb,var(--qc) 30%,transparent),0 0 18px color-mix(in srgb,var(--qc) 70%,transparent)!important}
+.gdot b{color:#0C0C0E}
+.callout-yel{background:color-mix(in srgb,var(--card) 88%,#F2C94C);border-left-color:#F2C94C}
+.callout-yel > b{color:var(--c-yel)}
+.ps-note{display:block;margin-top:12px;font-size:15px;color:var(--dim)}
+.ps-note b{color:var(--acc)}
+.mini-note{margin:22px auto 0;font-size:16px;color:var(--dim)}
+.mini-note a{color:var(--acc);font-weight:600}
+
+
+
+/* ===== Уроки «Щит и Меч» ===== */
+body{padding-left:0;padding-right:0}
+.wrap{padding-left:max(clamp(20px,4vw,48px),env(safe-area-inset-left,0px));padding-right:max(clamp(20px,4vw,48px),env(safe-area-inset-right,0px))}
+.hero.lesson{min-height:auto;padding:clamp(64px,12vh,120px) 0 clamp(56px,9vh,100px)}
+.hero.lesson h1{font-size:clamp(44px,9vw,112px)}
+.chips{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-top:34px;animation:rise 1s .3s var(--ease) both}
+.chips span{font-size:13px;letter-spacing:.08em;color:var(--dim);border:1px solid var(--line2);border-radius:999px;padding:6px 14px}
+.sec.tight{--gap:clamp(56px,9vh,104px)}
+
+/* Варианты ответа */
+.opts{display:grid;gap:4px;max-width:800px;margin:clamp(34px,5vh,48px) auto 0;text-align:left}
+.opt{display:flex;gap:16px;align-items:flex-start;width:100%;background:var(--card);border:0;border-left:2px solid transparent;padding:18px clamp(18px,3vw,26px);cursor:pointer;text-align:left;font-size:17px;line-height:1.5;color:var(--ink);transition:background .25s,border-color .25s}
+.opt .k{flex:none;font-family:var(--serif);font-weight:600;font-size:26px;line-height:1;color:var(--acc);min-width:1.1em;padding-top:1px}
+.opt span:last-child{min-width:0}
+.opt:hover:not(:disabled){border-left-color:var(--acc)}
+.opt[aria-pressed="true"]{background:color-mix(in srgb,var(--card) 82%,var(--acc-fill));border-left-color:var(--acc)}
+.opt:disabled{cursor:default}
+.opt.ok{background:color-mix(in srgb,var(--card) 80%,var(--c-grn));border-left-color:var(--c-grn)}
+.opt.ok .k{color:var(--c-grn)}
+.opt.no{background:color-mix(in srgb,var(--card) 84%,var(--c-red));border-left-color:var(--c-red)}
+.opt.no .k{color:var(--c-red)}
+.opt.dim{opacity:.55}
+.fb{max-width:800px;margin:4px auto 0;text-align:left;background:var(--card);border-left:2px solid var(--acc);padding:22px clamp(20px,3vw,30px);color:var(--dim);animation:rise .5s var(--ease) both}
+.fb h3{font-size:clamp(24px,2.2vw,30px);color:var(--ink);margin-bottom:8px}
+.fb b{color:var(--ink)}
+.fb .go-link{display:inline-block;margin-top:12px;color:var(--acc);font-weight:600}
+
+/* Простыми словами */
+.prose{max-width:62ch;margin:34px auto 0;text-align:left;font-size:clamp(18px,1.4vw,20px);color:var(--dim)}
+.prose p + p{margin-top:1em}
+.prose b{color:var(--ink);font-weight:600}
+.prose .drop::first-letter{font-family:var(--serif);font-size:3.4em;line-height:.8;float:left;padding:.08em .1em 0 0;color:var(--acc)}
+.cards .card .ico{display:block;width:44px;height:44px;margin:0 auto 14px;color:var(--acc)}
+.cards .card .ico svg{width:100%;height:100%;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.cards .card .say{display:block;font-family:var(--serif);font-style:italic;font-size:19px;color:var(--ink);margin-top:14px}
+
+/* Визуализация */
+.viz{max-width:980px;margin:clamp(36px,6vh,56px) auto 0;display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:4px;text-align:left}
+.viz-stage{background:var(--card);position:relative;padding:18px}
+.viz-stage svg{display:block;width:100%;height:auto;max-width:100%}
+.viz-side{background:var(--card);padding:clamp(24px,3vw,36px);display:flex;flex-direction:column;gap:12px;min-width:0}
+.viz-side h3{font-size:clamp(28px,2.6vw,38px)}
+.viz-side p{color:var(--dim)}
+.viz-side .q-say{font-family:var(--serif);font-style:italic;font-size:21px;line-height:1.35;color:var(--ink);border-left:2px solid var(--acc);padding-left:14px}
+.viz-side .price{font-size:15px;color:var(--mute)}
+.viz-side .price b{color:var(--acc);font-weight:600;letter-spacing:.14em;text-transform:uppercase;font-size:12px;margin-right:6px}
+.ctl{grid-column:1/-1;background:var(--card);padding:22px clamp(18px,3vw,32px) 24px}
+.seg{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin-top:14px}
+.seg button{min-height:44px;border-radius:999px;border:1px solid var(--line2);background:transparent;cursor:pointer;font-size:14px;padding:6px 8px;line-height:1.2}
+.seg button[aria-pressed="true"]{background:var(--acc-fill);border-color:var(--acc-fill);color:var(--on-fill);font-weight:700}
+input[type=range].rng{-webkit-appearance:none;appearance:none;width:100%;height:28px;background:transparent;cursor:pointer;margin:0}
+.rng::-webkit-slider-runnable-track{height:4px;border-radius:4px;background:linear-gradient(90deg,var(--c-red),var(--acc-fill) 50%,var(--mute))}
+.rng::-moz-range-track{height:4px;border-radius:4px;background:linear-gradient(90deg,var(--c-red),var(--acc-fill) 50%,var(--mute))}
+.rng::-webkit-slider-thumb{-webkit-appearance:none;width:26px;height:26px;margin-top:-11px;border-radius:50%;background:var(--bg);border:2px solid var(--acc);box-shadow:0 4px 14px -4px rgba(0,0,0,.4)}
+.rng::-moz-range-thumb{width:22px;height:22px;border-radius:50%;background:var(--bg);border:2px solid var(--acc)}
+.rng-lbl{display:flex;justify-content:space-between;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}
+/* элементы SVG государства */
+.st-land{fill:var(--bg);stroke:none}
+.st-ring{fill:none;stroke:var(--acc)}
+.st-gate{fill:none;stroke:var(--acc);stroke-width:3}
+.st-me circle,.st-me path{stroke:var(--ink);stroke-width:3;fill:none;stroke-linecap:round}
+.st-me circle.f{fill:var(--ink)}
+.st-v circle{fill:var(--mute)}
+.st-v path{stroke:var(--mute);stroke-width:2.6;fill:none;stroke-linecap:round}
+.st-v.guest circle{fill:var(--acc)}
+.st-v.guest path{stroke:var(--acc)}
+.st-house path{fill:none;stroke:var(--acc);stroke-width:2.2;stroke-linejoin:round;stroke-linecap:round}
+.st-cap{font-family:var(--sans);font-size:13px;letter-spacing:.18em;fill:var(--mute);text-transform:uppercase}
+
+/* Сценки */
+.scenes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px;margin-top:clamp(40px,6vh,64px);text-align:left}
+.scene{background:var(--card);padding:clamp(24px,3vw,34px);display:flex;flex-direction:column;gap:14px;min-width:0}
+.scene .who{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--acc);font-weight:600}
+.scene h3{font-size:clamp(23px,2vw,28px)}
+.scene .sw{display:flex;gap:6px}
+.scene .sw button{flex:1;min-height:40px;border-radius:999px;border:1px solid var(--line2);background:transparent;font-size:13px;cursor:pointer}
+.scene .sw button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.scene .sw button.g[aria-pressed="true"]{background:var(--acc-fill);color:var(--on-fill);border-color:var(--acc-fill)}
+.scene .out{font-family:var(--serif);font-style:italic;font-size:20px;line-height:1.4;color:var(--ink);min-height:4.2em}
+.scene .after{font-size:15px;color:var(--mute)}
+
+/* Игра-сортировка */
+.game{max-width:880px;margin:clamp(36px,6vh,56px) auto 0;display:grid;gap:4px;text-align:left}
+.g-row{background:var(--card);padding:18px clamp(18px,3vw,28px);display:grid;gap:12px}
+.g-row .t{font-family:var(--serif);font-size:clamp(20px,1.8vw,24px);line-height:1.3;color:var(--ink)}
+.g-row .t small{display:block;font-family:var(--sans);font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--mute);margin-bottom:4px}
+.g-ch{display:flex;flex-wrap:wrap;gap:6px}
+.g-ch button{min-height:40px;padding:6px 16px;border-radius:999px;border:1px solid var(--line2);background:transparent;cursor:pointer;font-size:14px}
+.g-ch button:hover:not(:disabled){border-color:var(--acc)}
+.g-ch button:disabled{cursor:default}
+.g-ch button.ok{background:color-mix(in srgb,var(--bg) 70%,var(--c-grn));border-color:var(--c-grn);color:var(--ink);font-weight:600}
+.g-ch button.no{border-color:var(--c-red);color:var(--c-red);text-decoration:line-through}
+.g-ch button.also{border-color:var(--c-grn);border-style:dashed}
+.g-ex{font-size:15.5px;color:var(--dim);border-left:2px solid var(--acc);padding-left:12px;animation:rise .4s var(--ease) both}
+.g-ex b{color:var(--ink)}
+.g-score{max-width:880px;margin:4px auto 0;background:var(--card);padding:22px clamp(18px,3vw,28px);display:flex;flex-wrap:wrap;gap:12px 20px;align-items:center;justify-content:space-between;text-align:left}
+.g-score b{font-family:var(--serif);font-size:34px;font-weight:500;color:var(--acc)}
+.g-score p{color:var(--dim);flex:1 1 260px;min-width:0}
+
+/* Наука */
+.sci{max-width:820px;margin:clamp(40px,6vh,64px) auto 0;text-align:left;background:var(--card);border-left:2px solid var(--acc);padding:clamp(24px,3vw,34px) clamp(22px,3.5vw,44px);color:var(--dim);font-size:clamp(16.5px,1.25vw,18px)}
+.sci .label{margin-bottom:12px}
+.sci b{color:var(--ink);font-weight:600}
+.sci p + p{margin-top:.9em}
+
+/* Квиз */
+.quiz{max-width:800px;margin:clamp(36px,6vh,56px) auto 0;text-align:left}
+.qz-top{display:flex;align-items:center;gap:16px;margin-bottom:16px}
+.qz-n{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--mute);white-space:nowrap}
+.qz-dots{display:flex;gap:6px;flex:1;min-width:0}
+.qz-dots i{flex:1;height:4px;border-radius:4px;background:var(--line2)}
+.qz-dots i.ok{background:var(--c-grn)}
+.qz-dots i.no{background:var(--c-red)}
+.qz-dots i.cur{background:var(--acc)}
+.qz-q{font-family:var(--serif);font-size:clamp(26px,2.6vw,36px);line-height:1.2;color:var(--ink);text-wrap:balance}
+.qz-tag{display:inline-block;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--hot);border:1px solid currentColor;border-radius:999px;padding:3px 10px;margin-bottom:12px;font-weight:600}
+.qz-q + .opts{margin-top:24px}
+.qz-next{margin-top:22px;display:flex;justify-content:flex-end}
+.res{max-width:800px;margin:clamp(36px,6vh,56px) auto 0;text-align:center;background:var(--card);padding:clamp(34px,5vw,60px) clamp(22px,4vw,48px);position:relative;animation:rise .6s var(--ease) both}
+.res::before{content:"";position:absolute;left:0;right:0;top:0;height:2px;background:linear-gradient(90deg,transparent,var(--acc),transparent)}
+.res .score{font-family:var(--serif);font-size:clamp(64px,9vw,110px);line-height:.9;color:var(--num);font-weight:600}
+.res .rank{font-family:var(--serif);font-size:clamp(34px,4.4vw,56px);line-height:1.05;margin-top:10px}
+.res .rank em{color:var(--acc)}
+.res p{color:var(--dim);max-width:46ch;margin:16px auto 0}
+.res .steps{display:flex;justify-content:center;gap:4px;margin:26px auto 0;flex-wrap:wrap}
+.res .steps span{font-size:11px;letter-spacing:.14em;text-transform:uppercase;padding:6px 10px;border-radius:999px;border:1px solid var(--line2);color:var(--mute)}
+.res .steps span.on{background:var(--acc-fill);border-color:var(--acc-fill);color:var(--on-fill);font-weight:700}
+.res .acts{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:30px}
+
+/* Что дальше */
+.links{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px;max-width:900px;margin:clamp(36px,6vh,56px) auto 0;text-align:left}
+.lk{display:flex;flex-direction:column;gap:6px;background:var(--card);padding:24px clamp(20px,3vw,30px);text-decoration:none;color:var(--ink);border-left:2px solid transparent;transition:border-color .25s}
+.lk:hover{border-left-color:var(--acc)}
+.lk small{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--acc);font-weight:600}
+.lk b{font-family:var(--serif);font-weight:500;font-size:clamp(23px,2vw,28px);line-height:1.15}
+.lk span{font-size:15px;color:var(--dim)}
+.lk.soon{opacity:.6;pointer-events:none}
+
+@media (max-width:860px){
+  .viz{grid-template-columns:1fr}
+  .scenes{grid-template-columns:1fr}
+}
+@media (max-width:640px){
+  .links{grid-template-columns:1fr}
+  .opt{font-size:16px;padding:16px 16px}
+  .seg button{font-size:12.5px}
+  .res .steps span{font-size:10px;padding:5px 8px}
+}
+.btn.share{background:transparent;color:var(--acc);box-shadow:inset 0 0 0 1.5px var(--acc)}
+.btn.share:hover{background:color-mix(in srgb,transparent 88%,var(--acc-fill))}
+.share-txt{display:block;width:100%;max-width:520px;margin:14px auto 0;padding:12px 14px;border:1px solid var(--line2);border-radius:10px;background:var(--bg);color:var(--ink);font:15px/1.5 var(--sans);resize:none}
+@media (max-width:640px){.res .acts .btn{width:100%}}
+
+/* Видео (кабинет клуба) */
+.sec.vid{padding-bottom:0}
+.mm-video{max-width:820px;margin:0 auto;text-align:center}
+.mm-video video{display:block;width:100%;max-width:min(100%,380px);aspect-ratio:9/16;margin:0 auto;border-radius:18px;background:#0C0C0E;object-fit:cover;box-shadow:0 0 0 1px var(--line2),0 30px 70px -30px rgba(0,0,0,.5)}
+.mm-video figcaption{font-family:var(--serif);font-style:italic;font-size:clamp(19px,1.6vw,22px);line-height:1.35;color:var(--dim);max-width:34ch;margin:18px auto 0}
+
+/* Превью картинки (запасной путь) */
+.png-prev{max-width:420px;margin:16px auto 0;text-align:center}
+.png-prev img{display:block;width:100%;height:auto;border-radius:12px;box-shadow:0 0 0 1px var(--line2),0 20px 50px -24px rgba(0,0,0,.5)}
+.png-prev figcaption{font-size:14px;color:var(--mute);margin-top:10px}
+.res .next-topic{margin-top:28px}
+/* Эксперимент недели */
+.exp{max-width:820px;margin:clamp(36px,6vh,56px) auto 0;text-align:left;background:var(--card);padding:clamp(26px,3.5vw,40px) clamp(20px,4vw,44px);border-top:2px solid var(--c-grn)}
+.exp h3{font-size:clamp(28px,2.6vw,36px)}
+.exp .how{color:var(--dim);margin-top:10px}
+.exp .how b{color:var(--ink)}
+.exp-ex{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
+.exp-ex span{font-size:13.5px;padding:6px 12px;border-radius:999px;background:var(--bg);color:var(--dim);border:1px solid var(--line)}
+.exp-days{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px;margin-top:22px}
+.exp-days button{min-height:58px;border-radius:12px;border:1px solid var(--line2);background:var(--bg);cursor:pointer;font-family:var(--serif);font-size:24px;line-height:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:6px 0}
+.exp-days button small{font-family:var(--sans);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--mute)}
+.exp-days button[aria-pressed="true"]{background:color-mix(in srgb,var(--bg) 60%,var(--c-grn));border-color:var(--c-grn)}
+.exp-days button[aria-pressed="true"] small{color:var(--ink)}
+.exp-sum{color:var(--dim);margin-top:14px}
+.exp-sum b{color:var(--ink)}
+.exp .ghost{margin-top:12px}
+@media (max-width:420px){.exp-days{gap:4px}.exp-days button{min-height:52px;font-size:20px}.exp-days button small{font-size:8.5px;letter-spacing:.04em}}
+
+.zmap{max-width:1040px;margin:clamp(36px,6vh,56px) auto 0;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:4px;text-align:left}
+.zmap .viz-stage{display:grid;place-items:center}
+.zs path.sec-p{fill:var(--card);stroke:var(--bg);stroke-width:4;transition:fill .3s}
+.zs .z-it{cursor:pointer}
+.zs .z-it:hover path.sec-p{fill:color-mix(in srgb,var(--card) 80%,var(--acc-fill))}
+.zs .z-it[aria-pressed="true"] path.sec-p{fill:color-mix(in srgb,var(--card) 55%,var(--acc-fill))}
+.zs .z-it.hot path.sec-p{fill:color-mix(in srgb,var(--card) 82%,var(--hot))}
+.zs .z-it.hot[aria-pressed="true"] path.sec-p{fill:color-mix(in srgb,var(--card) 64%,var(--hot))}
+.zs .ic *{fill:none;stroke:var(--acc);stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.zs .ic .f{fill:var(--acc)}
+.zs .z-it.hot .ic *{stroke:var(--hot)}
+.zs .z-it.hot .ic .f{fill:var(--hot)}
+.zs text.zl{font-family:var(--sans);font-size:15px;font-weight:600;fill:var(--ink);text-anchor:middle}
+.zs .flame{fill:var(--hot)}
+.zs .core{fill:var(--bg);stroke:var(--line2)}
+.zs .me *{stroke:var(--ink);stroke-width:3;fill:none;stroke-linecap:round}
+.zs .me .f{fill:var(--ink)}
+.zs .z-it:focus-visible{outline:none}
+.zs .z-it:focus-visible path.sec-p{stroke:var(--acc);stroke-width:3}
+.zd{display:flex;flex-direction:column;gap:12px}
+.zd ul{margin:0;padding-left:1.1em;color:var(--dim)}
+.zd .raids{display:grid;gap:6px}
+.zd .raid{font-size:15.5px;color:var(--dim);background:var(--bg);padding:10px 14px;border-left:2px solid var(--hot)}
+.zd .mini{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--mute);font-weight:600}
+.zd .mark-btn{align-self:flex-start;min-height:44px;padding:0 18px;border-radius:999px;border:1px solid var(--hot);background:transparent;color:var(--hot);cursor:pointer;font-size:14px;font-weight:600}
+.zd .mark-btn[aria-pressed="true"]{background:var(--hot);color:var(--bg)}
+.zd .nav{display:flex;gap:8px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.zd .nav .ghost{min-height:40px;padding:0 16px}
+.zsum{grid-column:1/-1;background:var(--card);padding:22px clamp(18px,3vw,32px);display:flex;flex-wrap:wrap;gap:14px 24px;align-items:center;justify-content:space-between}
+.zsum p{color:var(--dim);flex:1 1 280px;min-width:0}
+.zsum b{color:var(--ink)}
+@media (max-width:860px){.zmap{grid-template-columns:1fr}}
+@media (max-width:640px){.zsum .btn{width:100%}.zsum .note-s{text-align:center!important}}
+
+</style>
+<header class="hero lesson">
+<a class="mm-backlink" href="/" onclick="mmBack();return false;"><span aria-hidden="true">‹</span><b class="mm-bl-t" style="font-weight:600">Щит и Меч</b></a>
+<script>if(/^\/art\//.test(location.pathname))document.querySelectorAll('.mm-bl-t').forEach(function(e){e.textContent='Все практики'});</script>
+  <div class="wrap">
+    <div class="badge"><img src="/practices/img/emblem.png" alt="Логотип клуба MaxMagia"></div>
+    <span class="label">Клуб #MaxMagia · Щит и Меч · тема 02</span>
+    <h1>Шесть зон границ</h1>
+    <p class="sub">или где тебя могут задеть.<br><b>Какая провинция твоего государства самая уязвимая?</b></p>
+    <div class="chips" aria-label="Что внутри"><span>≈ 8 минут</span><span>карта провинций</span><span>игра</span><span>7 вопросов</span></div>
+  </div>
+</header>
+
+<section class="sec tight vid" aria-label="Видео">
+<div class="wrap">
+  <figure class="mm-video">
+    <video src="video.mp4" poster="poster.jpg" controls playsinline preload="metadata"></video>
+    <figcaption>Макс за полторы минуты: шесть провинций — и как понять, где у тебя пожар</figcaption>
+  </figure>
+</div>
+</section>
+
+<section class="sec tight" id="hook" aria-labelledby="h-hook">
+<div class="wrap center">
+  <span class="label">Начнём с тебя</span>
+  <h2 id="h-hook">Что бесит <em>сильнее всего</em>?</h2>
+  <p class="lede">Выбери одно — то, от чего внутри сразу поднимается «да вы издеваетесь».</p>
+  <div class="opts" id="hookOpts" role="group" aria-label="Варианты"></div>
+  <div id="hookFb" aria-live="polite"></div>
+</div>
+</section>
+
+<section class="sec orn-top" id="simple" aria-labelledby="h-simple">
+<div class="wrap center">
+  <div class="rule-orn" aria-hidden="true"><i></i></div>
+  <span class="label">Простыми словами</span>
+  <h2 id="h-simple">У законов есть <em>провинции</em></h2>
+  <div class="prose">
+    <p class="drop"><b>Личные границы — это законы твоей страны, а любые законы имеют свои контексты, то есть защищают разные сферы твоего государства.</b></p>
+    <p>Какие сферы затрагивают личные границы? В клубе мы делим государство на шесть провинций: <b>тело, чувства, время, вещи и деньги, мысли и решения, связь</b>. В каждой свои законы, свои пограничники и свои типичные набеги.</p>
+    <p>Нарушение может прилететь в любую. И часто одна ситуация задевает сразу несколько: мама, которая без звонка приходит в гости и разбирает твой холодильник, заходит и во «Время», и в «Вещи», и в «Решения».</p>
+    <p>Задача не выучить список, а узнать <b>свою</b> карту: где граница крепкая, где тонкая, а где её пока нет совсем. У одного провинция «Тело» охраняется как музей, а «Время» — проходной двор. У другого наоборот.</p>
+  </div>
+</div>
+</section>
+
+<section class="sec orn-top" id="map" aria-labelledby="h-map">
+<div class="wrap center">
+  <div class="rule-orn" aria-hidden="true"><i></i></div>
+  <span class="label">Карта провинций</span>
+  <h2 id="h-map">Пройдись по своему <em>государству</em></h2>
+  <p class="lede">Нажимай на провинции. Если узнаёшь набеги — отметь «Здесь меня задевают часто». В конце сохранишь свою карту картинкой.</p>
+  <div class="zmap">
+    <div class="viz-stage"><svg class="zs" id="zSvg" viewBox="0 0 520 520" role="group" aria-label="Карта шести провинций вокруг человека"></svg></div>
+    <div class="viz-side zd" id="zDetail" aria-live="polite"></div>
+    <div class="zsum" id="zSum"></div>
+  </div>
+  <div class="callout" style="max-width:1040px;margin:4px auto 0;text-align:left"><b>Почему шесть, а не четыре?</b> В книгах и статьях встречаются разные списки: четыре, пять, семь видов границ. Единой научной классификации нет — это рабочие карты, а не закон природы. Мы взяли шесть, потому что «Связь» — телефон, переписки, соцсети — для взрослого человека сейчас отдельная большая провинция, а «Мысли и решения» задевают иначе, чем чувства.</div>
+</div>
+</section>
+
+<section class="band" aria-label="Главная мысль">
+  <div class="fade-top"></div><div class="fade-bot"></div>
+  <div class="in wrap">
+    <p>Пограничники не знают названий провинций.</p>
+    <p>Они просто включают сирену.</p>
+    <p class="hot">Твоё дело — понять, где пожар.</p>
+  </div>
+</section>
+
+<section class="sec" id="game" aria-labelledby="h-game">
+<div class="wrap center">
+  <span class="label">Игра</span>
+  <h2 id="h-game">Разложи по <em>провинциям</em></h2>
+  <p class="lede">Восемь жизненных набегов. Выбери провинцию, которую задели в первую очередь. Если задето несколько, после ответа подсветятся и остальные.</p>
+  <div class="game" id="game2"></div>
+  <div class="g-score" id="game2Score" aria-live="polite" hidden></div>
+  <div class="sci"><span class="label">Что говорит наука</span>
+    <p>Самая «измеримая» провинция — тело. Американский антрополог <b>Эдвард Холл</b> описал невидимые зоны вокруг человека: интимная — примерно до 45 см, личная — до 1,2 м, социальная — до 3,5 м. Когда в зону без приглашения входит тот, кому там быть не положено, тело напрягается раньше, чем мы успеваем это осознать.</p>
+    <p>А в 2017 году команда исследователей под руководством <b>Агнешки Сороковской</b> опросила почти 9 тысяч человек из 42 стран и показала, что комфортная дистанция заметно различается от страны к стране и от человека к человеку. Значит, «нормальной для всех» границы нет — есть твоя.</p>
+  </div>
+</div>
+</section>
+
+<section class="sec orn-top" id="test" aria-labelledby="h-test">
+<div class="wrap center">
+  <div class="rule-orn" aria-hidden="true"><i></i></div>
+  <span class="label">Давай проверим себя</span>
+  <h2 id="h-test">Семь вопросов. Некоторые — <em>с подвохом</em></h2>
+  <p class="lede">После каждого ответа будет разбор. В конце — звание и твоя карта провинций картинкой.</p>
+  <div class="quiz" id="quiz"></div>
+</div>
+</section>
+
+<section class="sec orn-top" id="week" aria-labelledby="h-week">
+<div class="wrap center">
+  <div class="rule-orn" aria-hidden="true"><i></i></div>
+  <span class="label">Эксперимент недели</span>
+  <h2 id="h-week">Теперь — <em>в жизнь</em></h2>
+  <p class="lede">Знание без действия быстро выветривается. Одно маленькое действие на семь дней.</p>
+  <div class="exp"><h3>Найди, где пожар</h3><p class="how">Каждый раз, когда что-то царапнуло, остановись на секунду и <b>назови провинцию</b>: «Это „Время“», «Это „Связь“». Просто заметить — уже половина работы.</p>
+    <div class="exp-ex" aria-label="Примеры"><span>«Опять опоздал — провинция „Время“»</span><span>«Совет без спроса — „Решения“»</span><span>«Фото в чате — „Связь“»</span></div>
+    <div id="expBox"></div></div>
+</div>
+</section>
+
+<section class="sec orn-top" id="next" aria-labelledby="h-next">
+<div class="wrap center">
+  <div class="rule-orn" aria-hidden="true"><i></i></div>
+  <span class="label">Что дальше</span>
+  <h2 id="h-next">Куда идти по карте</h2>
+  <div class="links">
+    <a class="lk " href="/practices/shm-01/"><small>Тема 01 · назад</small><b>Что такое личные границы</b><span>Государство, конституция, пограничники — и почему граница не стена.</span></a>
+    <a class="lk" href="/practices/lichnye-granicy/"><small>Большое занятие</small><b>Личные границы</b><span>Устав, кладовка с банками, лестница чувств и арсенал защиты.</span></a>
+    <a class="lk" href="/practices/vneshnie-granicy/"><small>Практика</small><b>Внешние границы</b><span>Пропиши правила посещения для каждой провинции.</span></a>
+    <a class="lk " href="/practices/shm-03/"><small>Тема 03 · дальше</small><b>Откуда берутся границы</b><span>Кладовка с чужими банками: какие правила тебе поставили в детстве — и какие из них правда твои.</span></a>
+  </div>
+</div>
+</section>
+
+<div class="wrap">
+  <footer>
+    <div class="sign">Клуб #MaxMagia</div>
+    <p>Клуб — не терапия и не медицинская помощь. Если в отношениях есть насилие или угрозы, сначала позаботься о безопасности; в экстренной ситуации звони 112. Разобрать свою ситуацию с психологом: <a href="https://t.me/MaxGuschin" target="_blank" rel="noopener">t.me/MaxGuschin</a>.</p>
+  </footer>
+</div>
+
+<script>
+const NEXT_URL='/practices/shm-03/';
+const NEXT_TITLE='Следующая тема: Откуда берутся границы';
+const LESSON_URL='https://t.me/clubeshnik911_bot?startapp=p-shm-02';
+const KEY='maxmagia-shm-02-v1';
+const blank=()=>({v:1,hook:null,zone:0,marks:[],game:{},qz:null,res:null,exp:null});
+const $  = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+const RM = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const bio = 'IntersectionObserver' in window
+  ? new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('seen'); bio.unobserve(e.target); } }), {threshold:.35})
+  : null;
+$$('.band').forEach(b => (RM || !bio) ? b.classList.add('seen') : bio.observe(b));
+
+let S = blank();
+try { const raw = localStorage.getItem(KEY); if (raw) S = Object.assign(blank(), JSON.parse(raw)); } catch (e) {}
+const save = () => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} };
+const LET = ['А','Б','В','Г','Д','Е'];
+
+function armed(btn, label) {
+  if (btn.dataset.arm) return true;
+  btn.dataset.arm = '1';
+  const old = btn.textContent;
+  btn.textContent = label;
+  setTimeout(() => { if (btn.isConnected && btn.dataset.arm) { delete btn.dataset.arm; btn.textContent = old; } }, 4000);
+  return false;
+}
+
+/* ---------- Звания ---------- */
+const RANKS = [
+  {min:0, n:'Турист', t:'Ты пока путешествуешь по теме. Это нормально: перечитай разборы и вернись к интерактиву выше, а потом пройди проверку ещё раз — варианты перемешаются.'},
+  {min:3, n:'Пограничник', t:'Ты уже замечаешь, где проходит линия. Осталось научиться спокойно её держать.'},
+  {min:5, n:'Министр', t:'Ты хорошо понимаешь, как устроено твоё государство. Пара тонких мест — и будет идеально.'},
+  {min:7, n:'Президент своего государства', t:'Конституция написана, законы понятны. Можно править.'}
+];
+const rankOf = sc => RANKS.filter(r => sc >= r.min).pop();
+
+/* ---------- Игра-сортировка ---------- */
+/* items: [{t, tag?, ok:[индексы верных], ex}] ; cats: [названия] ; S.game = {idx: выбранный} */
+function sortGame(root, {cats, items, scoreEl, msg}) {
+  const draw = () => {
+    root.innerHTML = items.map((it, i) => {
+      const p = S.game[i];
+      const done = p != null;
+      return `<div class="g-row" data-i="${i}">
+        <p class="t">${it.tag ? `<small>${esc(it.tag)}</small>` : ''}${esc(it.t)}</p>
+        <div class="g-ch" role="group" aria-label="Выбери ответ">${cats.map((c, k) => {
+          let cl = '';
+          if (done) { if (it.ok.includes(k)) cl = k === p || it.ok[0] === k ? 'ok' : 'also'; else if (k === p) cl = 'no'; }
+          return `<button type="button" data-k="${k}" class="${cl}" ${done ? 'disabled' : ''}>${esc(c)}</button>`;
+        }).join('')}</div>
+        ${done ? `<p class="g-ex" aria-live="polite"><b>${it.ok.includes(p) ? 'Да.' : 'Не совсем.'}</b> ${it.ex}</p>` : ''}
+      </div>`;
+    }).join('');
+    $$('.g-row', root).forEach(r => $$('button', r).forEach(b => b.onclick = () => {
+      S.game[r.dataset.i] = +b.dataset.k; save(); draw();
+      const row = $(`.g-row[data-i="${r.dataset.i}"] .g-ex`, root); if (row && !RM) row.scrollIntoView({block:'nearest', behavior:'smooth'});
+    }));
+    const n = Object.keys(S.game).length, ok = items.filter((it, i) => S.game[i] != null && it.ok.includes(S.game[i])).length;
+    scoreEl.hidden = n === 0;
+    scoreEl.innerHTML = `<div><b>${ok}</b> <span class="dim">из ${items.length}</span></div><p>${n < items.length ? `Разобрано ${n} из ${items.length}. Продолжай.` : msg(ok)}</p>${n ? '<button type="button" class="ghost" data-reset>Сыграть ещё раз</button>' : ''}`;
+    const rb = $('[data-reset]', scoreEl);
+    if (rb) rb.onclick = e => { if (!armed(e.currentTarget, 'Стереть ответы? Нажми ещё раз')) return; S.game = {}; save(); draw(); };
+  };
+  draw();
+}
+
+/* ---------- Квиз ---------- */
+/* qs: [{q, tag?, o:[...], a: индекс, ex}] ; S.qz = {i, picks:[] (исходные индексы), ord:[[порядок вариантов]]}
+   Варианты перемешиваются заново при каждом прохождении. Итог пишется в S.res для паспорта серии. */
+const shuffle = a => { const r = a.slice(); for (let k = r.length - 1; k > 0; k--) { const j = Math.floor(Math.random() * (k + 1)); [r[k], r[j]] = [r[j], r[k]]; } return r; };
+function quiz(root, {qs, onResult}) {
+  const fresh = () => ({i:0, picks:[], ord:qs.map(q => shuffle(q.o.map((_, k) => k)))});
+  if (!S.qz || !Array.isArray(S.qz.ord) || S.qz.ord.length !== qs.length) { const old = S.qz || {}; S.qz = fresh(); if (old.picks && old.picks.length) { S.qz.i = old.i || 0; S.qz.picks = old.picks; } save(); }
+  const draw = (focus) => {
+    const st = S.qz;
+    if (st.i >= qs.length) {
+      const sc = st.picks.filter((p, i) => p === qs[i].a).length, r = rankOf(sc);
+      const best = S.res && S.res.sc > sc ? S.res : null;
+      S.res = best || {sc, total:qs.length, rank:r.n, at:new Date().toISOString().slice(0, 10)}; save();
+      root.innerHTML = `<div class="res" aria-live="polite">
+        <div class="score">${sc}<span style="font-size:.4em;color:var(--mute)"> / ${qs.length}</span></div>
+        <span class="label" style="margin:14px 0 0">Твоё звание</span>
+        <h3 class="rank"><em>${esc(r.n)}</em></h3>
+        <p>${esc(r.t)}</p>
+        <div class="steps" aria-hidden="true">${RANKS.map(x => `<span class="${x === r ? 'on' : ''}">${esc(x.n.replace(' своего государства', ''))}</span>`).join('')}</div>
+        ${typeof NEXT_URL === 'string' && NEXT_URL ? `<a class="btn next-topic" href="${NEXT_URL}">${esc(NEXT_TITLE)} →</a>` : ''}
+        <div class="acts" data-acts></div>
+        <p class="note-s" data-note aria-live="polite"></p>
+        <div class="acts" style="margin-top:8px"><button type="button" class="ghost" data-again>Пройти ещё раз</button></div>
+      </div>`;
+      $('[data-again]', root).onclick = () => { S.qz = fresh(); save(); draw(true); };
+      onResult && onResult(sc, r, $('[data-acts]', root), $('[data-note]', root));
+      if (focus) root.scrollIntoView({block:'start', behavior: RM ? 'auto' : 'smooth'});
+      return;
+    }
+    const q = qs[st.i], p = st.picks[st.i], done = p != null, ord = st.ord[st.i];
+    root.innerHTML = `<div class="qz-top"><span class="qz-n">Вопрос ${st.i + 1} из ${qs.length}</span>
+        <div class="qz-dots" aria-hidden="true">${qs.map((x, k) => `<i class="${k < st.i || (k === st.i && done) ? (st.picks[k] === x.a ? 'ok' : 'no') : k === st.i ? 'cur' : ''}"></i>`).join('')}</div></div>
+      ${q.tag ? `<span class="qz-tag">${esc(q.tag)}</span>` : ''}
+      <p class="qz-q" tabindex="-1">${esc(q.q)}</p>
+      <div class="opts">${ord.map((k, pos) => {
+        let cl = '';
+        if (done) cl = k === q.a ? 'ok' : k === p ? 'no' : 'dim';
+        return `<button type="button" class="opt ${cl}" data-k="${k}" ${done ? 'disabled' : ''}><span class="k">${LET[pos]}</span><span>${esc(q.o[k])}</span></button>`;
+      }).join('')}</div>
+      ${done ? `<div class="fb" aria-live="polite"><h3>${p === q.a ? (q.yes || 'Точно.') : (q.no || 'А вот и нет.')}</h3><p>${q.ex}</p></div>
+      <div class="qz-next"><button type="button" class="btn" data-next>${st.i === qs.length - 1 ? 'Узнать звание' : 'Дальше'}</button></div>` : ''}`;
+    $$('.opt', root).forEach(b => b.onclick = () => { st.picks[st.i] = +b.dataset.k; save(); draw(); const n = $('[data-next]', root); if (n) n.focus({preventScroll:true}); const f = $('.fb', root); if (f && !RM) f.scrollIntoView({block:'nearest', behavior:'smooth'}); });
+    const nx = $('[data-next]', root);
+    if (nx) nx.onclick = () => { st.i++; save(); draw(true); };
+    if (focus) { const h = $('.qz-q', root); root.scrollIntoView({block:'start', behavior: RM ? 'auto' : 'smooth'}); h && h.focus({preventScroll:true}); }
+  };
+  draw();
+}
+
+/* ---------- Эксперимент недели ---------- */
+/* S.exp = [7 × true/false]. Рисуется в #exp, текст задания — из разметки страницы. */
+function expBlock(root) {
+  if (!root) return;
+  if (!Array.isArray(S.exp) || S.exp.length !== 7) S.exp = [false, false, false, false, false, false, false];
+  const draw = () => {
+    const n = S.exp.filter(Boolean).length;
+    root.innerHTML = `<div class="exp-days" role="group" aria-label="Дни эксперимента">${S.exp.map((d, k) => `<button type="button" data-k="${k}" aria-pressed="${d}"><small>день</small>${k + 1}</button>`).join('')}</div>
+      <p class="exp-sum" aria-live="polite">${n === 0 ? 'Отмечай день, когда получилось. Пропуск — не провал: просто продолжай со следующего.' : n < 7 ? `Отмечено: <b>${n} из 7</b>. ${n >= 4 ? 'Это уже привычка в процессе.' : 'Маленькими шагами — самый надёжный путь.'}` : '<b>7 из 7!</b> Расскажи в болталке, что изменилось за неделю.'}</p>
+      ${n ? '<button type="button" class="ghost" data-reset>Начать неделю заново</button>' : ''}`;
+    $$('.exp-days button', root).forEach(b => b.onclick = () => { const k = +b.dataset.k; S.exp[k] = !S.exp[k]; save(); draw(); $(`.exp-days [data-k="${k}"]`, root).focus({preventScroll:true}); });
+    const r = $('[data-reset]', root); if (r) r.onclick = e => { if (!armed(e.currentTarget, 'Стереть отметки? Ещё раз')) return; S.exp = [false, false, false, false, false, false, false]; save(); draw(); };
+  };
+  draw();
+}
+
+/* ---------- Сохранение файлов ---------- */
+let dlNs = null;
+(async () => { try { if (window.claude && typeof window.claude.use === 'function') dlNs = await window.claude.use('downloads'); } catch (e) { dlNs = null; } })();
+async function saveFile(name, data, note, fallbackMsg) {
+  if (dlNs) {
+    try { await dlNs.save({filename:name, data}); if (note) note.textContent = 'Файл сохранён'; return; }
+    catch (e) {
+      const code = e && e.code;
+      if (note) note.textContent = code === 'declined' ? 'Сохранение отменено' : code === 'rate_limited' ? 'Окно сохранения уже открыто, попробуй чуть позже' : (fallbackMsg || 'Не получилось сохранить файл');
+      return;
+    }
+  }
+  try {
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(typeof data === 'string' ? new Blob([data], {type:'text/plain;charset=utf-8'}) : data);
+    a.download = name; document.body.appendChild(a); a.click(); a.remove();
+    if (note) note.textContent = fallbackMsg || 'Файл скачан';
+  } catch (e) { if (note) note.textContent = fallbackMsg || 'Не получилось сохранить файл'; }
+}
+
+/* ---------- PNG ---------- */
+const SERIF = '"Cormorant Garamond", Georgia, serif', SANS = 'Manrope, system-ui, sans-serif';
+const INK = '#2F2F2F', ACC = '#9A6A2E', CARD = '#F4F3EF', MUTE = '#696969', HOT = '#B23A2E';
+function wrapText(x, text, maxW) {
+  const out = []; let line = '';
+  String(text).split(' ').forEach(w => { const t = line ? line + ' ' + w : w; if (x.measureText(t).width > maxW && line) { out.push(line); line = w; } else line = t; });
+  if (line) out.push(line); return out;
+}
+async function loadFonts() { try { await Promise.all([document.fonts.load('500 56px "Cormorant Garamond"'), document.fonts.load('italic 500 32px "Cormorant Garamond"'), document.fonts.load('600 18px Manrope')]); } catch (e) {} }
+/* card({kicker, title, rank, items:[строки], extra(x, y, draw) => новая y}) */
+async function drawCard(o) {
+  await loadFonts();
+  const W = 1080, M = 90, CW = W - M * 2;
+  const paint = (x, draw) => {
+    const T = (t, px, py, f, c, a = 'center') => { x.font = f; if (!draw) return; x.fillStyle = c; x.textAlign = a; x.fillText(t, px, py); };
+    let y = 96; T(o.kicker, W / 2, y, `600 18px ${SANS}`, ACC);
+    x.font = `500 64px ${SERIF}`;
+    wrapText(x, o.title, CW).forEach(l => { y += 72; T(l, W / 2, y, `500 64px ${SERIF}`, INK); });
+    if (o.rank) {
+      y += 58; T('ЗВАНИЕ', W / 2, y, `600 16px ${SANS}`, MUTE);
+      y += 52; T(o.rank, W / 2, y, `italic 500 46px ${SERIF}`, ACC);
+    }
+    if (o.extra) y = o.extra(x, y, draw);
+    y += 16;
+    o.items.forEach(t => {
+      x.font = `italic 500 31px ${SERIF}`;
+      const ls = wrapText(x, t, CW - 60), h = 36 + ls.length * 42; y += 18;
+      if (draw) { x.fillStyle = CARD; x.fillRect(M, y, CW, h); x.fillStyle = ACC; x.fillRect(M, y, 4, h); }
+      ls.forEach((l, k) => T(l, M + 32, y + 48 + k * 42, `italic 500 31px ${SERIF}`, INK, 'left'));
+      y += h;
+    });
+    y += 84; T('Клуб #MaxMagia · Щит и Меч', W / 2, y, `italic 500 30px ${SERIF}`, ACC);
+    return y + 64;
+  };
+  const H = paint(document.createElement('canvas').getContext('2d'), false);
+  const cv = document.createElement('canvas'); cv.width = W; cv.height = H;
+  const x = cv.getContext('2d'); x.fillStyle = '#FBFAF7'; x.fillRect(0, 0, W, H);
+  paint(x, true);
+  return cv;
+}
+async function exportCard(o, name, note) {
+  note.textContent = 'Готовлю картинку…';
+  const cv = await drawCard(o);
+  const blob = await new Promise(r => cv.toBlob(r, 'image/png'));
+  await saveFile(name, blob, note, 'Если файл не скачался, нажми на картинку ниже и удерживай — её можно сохранить в фото');
+  showPreview(blob, note);
+}
+/* Запасной путь для Telegram: картинка прямо на странице, её можно сохранить долгим нажатием */
+function showPreview(blob, note) {
+  try {
+    let f = note.nextElementSibling && note.nextElementSibling.classList.contains('png-prev') ? note.nextElementSibling : null;
+    if (!f) { f = document.createElement('figure'); f.className = 'png-prev'; note.after(f); }
+    const old = $('img', f); if (old) URL.revokeObjectURL(old.src);
+    f.innerHTML = `<img alt="Твоя карточка картинкой" src="${URL.createObjectURL(blob)}"><figcaption>Не скачалось? Нажми на картинку и удерживай — «Сохранить в фото». На компьютере — правая кнопка мыши.</figcaption>`;
+  } catch (e) {}
+}
+const ICO_DL = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11m0 0l-4-4m4 4l4-4M5 19h14"/></svg>';
+
+/* ---------- Поделиться в болталке ---------- */
+/* BOLTALKA — ссылка на тему «Болталка» в чате клуба. Пока пусто — открывается выбор чата Telegram с готовым текстом. */
+const BOLTALKA = 'https://t.me/c/3955955328/81';
+const ICO_SHARE = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.4 4.2 2.9 11.3c-1.3.5-1.3 1.2-.2 1.6l4.7 1.5 1.8 5.6c.2.6.4.8.9.8.4 0 .6-.2.8-.4l2.3-2.2 4.8 3.5c.9.5 1.5.2 1.7-.8l3.1-14.6c.3-1.3-.5-1.9-1.4-1.5ZM8.8 14.1l9.9-6.3c.5-.3.9-.1.5.2l-8.5 7.7-.3 3.4-1.6-5Z"/></svg>';
+function shareText(lesson, r, sc, total) {
+  return `🛡 Щит и Меч · ${lesson} — пройдено!\nМоё звание: ${r.n} (${sc} из ${total}).\nА у тебя какое? → ${LESSON_URL}`;
+}
+function addShare(acts, note, text) {
+  const href = BOLTALKA || `https://t.me/share/url?url=${encodeURIComponent(LESSON_URL)}&text=${encodeURIComponent(text.replace('\nА у тебя какое? → ' + LESSON_URL, '\nА у тебя какое?'))}`;
+  const a = document.createElement('a');
+  a.className = 'btn share'; a.href = href; a.target = '_blank'; a.rel = 'noopener';
+  a.innerHTML = `${ICO_SHARE}Поделиться в болталке`;
+  a.onclick = () => {
+    const done = ok => { note.textContent = ok ? 'Текст со званием скопирован. Вставь его в болталку и прикрепи картинку со званием (кнопка «Сохранить»).' : 'Если текст не вставился, скопируй его из поля ниже.'; if (!ok) showText(); };
+    const showText = () => { if ($('.share-txt', acts.parentNode)) return; const t = document.createElement('textarea'); t.className = 'share-txt'; t.readOnly = true; t.value = text; t.rows = 3; acts.after(t); t.select(); };
+    try { navigator.clipboard.writeText(text).then(() => done(true), () => done(false)); } catch (e) { done(false); }
+  };
+  acts.appendChild(a);
+}
+
+
+/* ---------- Провинции ---------- */
+const Z = [
+  {n:'Тело', l:'Телесные границы', d:'Кто и как может к тебе прикасаться, как близко стоять, что говорить о твоей внешности и здоровье.', li:['прикосновения и объятия','личная дистанция','комментарии о внешности и весе','сон, еда, отдых — режим тела'], raids:['Обнимают без спроса: «Ну что ты как неродная!»','«Ты поправилась? Тебе бы похудеть»'], law:'«Я не люблю, когда меня обнимают без спроса. Давай просто поздороваемся».', ic:'<circle class="f" cx="0" cy="-12" r="5"/><path d="M0 -6 V7 M0 7 L-6 17 M0 7 L6 17 M-10 -1 H10"/>'},
+  {n:'Чувства', l:'Эмоциональные границы', d:'Право чувствовать своё и не отвечать за чувства других. Не быть «жилеткой» по умолчанию.', li:['право на свои чувства','не нести ответственность за чужое настроение','не обесценивать и не высмеивать','не быть всегда «на подхвате»'], raids:['«Да не реви ты из-за ерунды»','Тебе месяцами изливают душу, а на твоё «мне плохо» — «ой, мне некогда»'], law:'«Я сочувствую, но сейчас у меня нет сил это слушать. Давай вечером?»', ic:'<path d="M0 12 C-18 0 -14 -16 0 -7 C14 -16 18 0 0 12 Z"/>'},
+  {n:'Время', l:'Временные границы', d:'Твоё время и силы: когда ты доступен(на), сколько готов(а) отдать, когда отдыхаешь.', li:['рабочие и личные часы','опоздания и ожидание','выходные и отпуск','сколько времени я готов(а) отдать'], raids:['Звонок начальника в воскресенье «на минутку» — на час','Опоздание на сорок минут без единого сообщения'], law:'«После девяти вечера я не отвечаю на рабочие сообщения».', ic:'<circle cx="0" cy="0" r="14"/><path d="M0 0 V-9 M0 0 L7 4"/>'},
+  {n:'Вещи и деньги', s:'Вещи', l:'Материальные границы', d:'Что можно брать, одалживать, трогать. Сколько и кому ты готов(а) давать.', li:['личные вещи и пространство','долги и одалживание','подарки и траты','моя комната, мой стол, мой шкаф'], raids:['Взяли машину и вернули с пустым баком','«Займи до зарплаты» — третий раз, первые два не вернули'], law:'«Мою машину без меня не берут».', ic:'<rect x="-14" y="-9" width="28" height="20" rx="3"/><path d="M-14 -3 H14"/><circle cx="8" cy="4" r="3"/>'},
+  {n:'Мысли и решения', s:'Мысли', l:'Интеллектуальные границы', d:'Право на своё мнение, ценности, вкусы и решения о своей жизни — без высмеивания и давления.', li:['своё мнение и вкус','свои решения о жизни','вера и ценности','право не объяснять свой выбор'], raids:['«Кем ты работаешь? Это же несерьёзно»','Родня решает, когда тебе рожать и в какую школу отдавать детей'], law:'«Можно со мной не соглашаться, но решать за меня — нельзя».', ic:'<circle cx="0" cy="-4" r="9"/><path d="M-4 6 H4 M-3 10 H3 M0 -16 V-19 M-11 -11 L-13 -13 M11 -11 L13 -13"/>'},
+  {n:'Связь', l:'Цифровые границы', d:'Твой телефон, переписки, соцсети, скорость ответа на сообщения.', li:['переписки и пароли','фото с тобой в соцсетях','скорость ответа','звонки и голосовые'], raids:['Партнёр читает переписку «просто посмотреть»','Фото с тобой выложили в общий чат без спроса'], law:'«Мой телефон без меня не смотрят».', ic:'<rect x="-9" y="-15" width="18" height="30" rx="3"/><circle class="f" cx="0" cy="10" r="1.8"/>'}
+];
+const ZC = 260, RO = 248, RI = 92, RM_ = 172;
+const ang = i => (-90 + i * 60) * Math.PI / 180;
+const pt = (r, a) => [ZC + Math.cos(a) * r, ZC + Math.sin(a) * r].map(v => v.toFixed(1)).join(' ');
+
+/* ---------- Крючок ---------- */
+const HOOK = [
+  'Когда обнимают, целуют или хлопают по плечу без спроса.',
+  'Когда на твоё «мне плохо» говорят: «Да не переживай ты из-за ерунды».',
+  'Когда опаздывают на полчаса и даже не пишут.',
+  'Когда берут твоё без спроса или «забывают» вернуть долг.',
+  'Когда за тебя решают, как тебе жить, есть, лечиться или воспитывать детей.',
+  'Когда читают твою переписку или выкладывают фото с тобой без спроса.'
+];
+function drawHook() {
+  $('#hookOpts').innerHTML = HOOK.map((t, i) => `<button type="button" class="opt" data-i="${i}" aria-pressed="${S.hook === i}"><span class="k">${LET[i]}</span><span>${esc(t)}</span></button>`).join('');
+  $$('#hookOpts .opt').forEach(b => b.onclick = () => {
+    const i = +b.dataset.i; S.hook = i; S.zone = i; if (!S.marks.includes(i)) S.marks.push(i); save(); drawHook(); drawMap();
+  });
+  const i = S.hook;
+  $('#hookFb').innerHTML = i != null ? `<div class="fb"><h3>Это провинция «${Z[i].n}»</h3><p>Похоже, здесь у тебя самые чуткие пограничники: они срабатывают быстро и громко. Это не «ты слишком нервный(ая)» — это значит, что для тебя эта область особенно важна. На карте ниже она уже отмечена. <a class="go-link" href="#map">Посмотреть карту ↓</a></p></div>` : '';
+}
+
+/* ---------- Карта ---------- */
+function drawMap() {
+  let h = '';
+  Z.forEach((z, i) => {
+    const a0 = ang(i) - Math.PI / 6, a1 = ang(i) + Math.PI / 6, am = ang(i);
+    const cx = ZC + Math.cos(am) * RM_, cy = ZC + Math.sin(am) * RM_;
+    const hot = S.marks.includes(i);
+    h += `<g class="z-it${hot ? ' hot' : ''}" data-i="${i}" role="button" tabindex="0" aria-pressed="${S.zone === i}" aria-label="${z.n}${hot ? ', задевают часто' : ''}">
+      <path class="sec-p" d="M${pt(RO, a0)} A${RO} ${RO} 0 0 1 ${pt(RO, a1)} L${pt(RI, a1)} A${RI} ${RI} 0 0 0 ${pt(RI, a0)} Z"/>
+      <g class="ic" transform="translate(${cx.toFixed(1)} ${(cy - 14).toFixed(1)}) scale(1.35)">${z.ic}</g>
+      <text class="zl" x="${cx.toFixed(1)}" y="${(cy + 30).toFixed(1)}">${z.s || z.n}</text>
+      ${hot ? `<circle class="flame" cx="${(ZC + Math.cos(am) * 226).toFixed(1)}" cy="${(ZC + Math.sin(am) * 226).toFixed(1)}" r="6"/>` : ''}
+    </g>`;
+  });
+  h += `<circle class="core" cx="${ZC}" cy="${ZC}" r="${RI - 8}"/><g class="me"><circle class="f" cx="${ZC}" cy="${ZC - 24}" r="11"/><path d="M${ZC} ${ZC - 12} V${ZC + 18} M${ZC} ${ZC + 18} L${ZC - 10} ${ZC + 38} M${ZC} ${ZC + 18} L${ZC + 10} ${ZC + 38} M${ZC - 14} ${ZC - 2} H${ZC + 14}"/></g>`;
+  $('#zSvg').innerHTML = h;
+  $$('#zSvg .z-it').forEach(g => { const f = () => { S.zone = +g.dataset.i; save(); drawMap(); const n = $(`#zSvg .z-it[data-i="${g.dataset.i}"]`); n && n.focus({preventScroll:true}); }; g.onclick = f; g.onkeydown = e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); f(); } }; });
+  const i = S.zone, z = Z[i], hot = S.marks.includes(i);
+  $('#zDetail').innerHTML = `<span class="label" style="margin:0">${z.l} · ${i + 1} из 6</span><h3>${z.n}</h3><p>${z.d}</p>
+    <ul>${z.li.map(x => `<li>${x}</li>`).join('')}</ul>
+    <span class="mini">Типичные набеги</span><div class="raids">${z.raids.map(r => `<p class="raid">${esc(r)}</p>`).join('')}</div>
+    <span class="mini">Закон может звучать так</span><p class="q-say">${esc(z.law)}</p>
+    <button type="button" class="mark-btn" aria-pressed="${hot}" id="zMark">${hot ? '✓ Здесь меня задевают часто' : 'Здесь меня задевают часто'}</button>
+    <div class="nav"><button type="button" class="ghost" data-d="-1">‹ ${Z[(i + 5) % 6].s || Z[(i + 5) % 6].n}</button><button type="button" class="ghost" data-d="1">${Z[(i + 1) % 6].s || Z[(i + 1) % 6].n} ›</button></div>`;
+  $('#zMark').onclick = () => { const k = S.marks.indexOf(i); k < 0 ? S.marks.push(i) : S.marks.splice(k, 1); save(); drawMap(); $('#zMark').focus({preventScroll:true}); };
+  $$('#zDetail .nav button').forEach(b => b.onclick = () => { S.zone = (i + +b.dataset.d + 6) % 6; save(); drawMap(); $(`#zDetail .nav button[data-d="${b.dataset.d}"]`).focus({preventScroll:true}); });
+  const m = S.marks.slice().sort();
+  $('#zSum').innerHTML = `<p>${m.length ? `Отмечено: <b>${m.map(k => Z[k].n).join(', ')}</b>. Это провинции, где твоим законам особенно нужна охрана.` : 'Пока ничего не отмечено. Пройдись по провинциям и отметь те, где тебя задевают чаще всего.'}</p>
+    <button type="button" class="btn" id="mapPng">${ICO_DL}Сохранить карту (PNG)</button><p class="note-s" id="mapNote" aria-live="polite" style="flex-basis:100%;margin:0;text-align:right"></p>`;
+  $('#mapPng').onclick = () => exportMap(null, $('#mapNote'));
+}
+function mapExtra(x, y, draw) {
+  const R1 = 230, R0 = 86, cx = 540, cy = y + 40 + R1;
+  if (draw) {
+    Z.forEach((z, i) => {
+      const a0 = ang(i) - Math.PI / 6, a1 = ang(i) + Math.PI / 6, am = ang(i), hot = S.marks.includes(i);
+      x.beginPath(); x.arc(cx, cy, R1, a0, a1); x.arc(cx, cy, R0, a1, a0, true); x.closePath();
+      x.fillStyle = hot ? '#EBCFC8' : '#F4F3EF'; x.fill(); x.lineWidth = 6; x.strokeStyle = '#FBFAF7'; x.stroke();
+      const tx = cx + Math.cos(am) * 158, ty = cy + Math.sin(am) * 158;
+      x.textAlign = 'center'; x.fillStyle = hot ? HOT : INK; x.font = `600 22px ${SANS}`;
+      x.fillText((z.s || z.n).toUpperCase(), tx, ty + 4);
+      if (hot) { x.font = `italic 500 20px ${SERIF}`; x.fillText('задевают часто', tx, ty + 30); }
+    });
+    x.beginPath(); x.arc(cx, cy, R0 - 10, 0, Math.PI * 2); x.fillStyle = '#FFFFFF'; x.fill();
+    x.fillStyle = ACC; x.font = `italic 500 52px ${SERIF}`; x.textAlign = 'center'; x.fillText('Я', cx, cy + 16);
+  }
+  return cy + R1 + 40;
+}
+async function exportMap(rank, note) {
+  const m = S.marks.slice().sort();
+  const items = (m.length ? m : [0, 1, 2, 3, 4, 5]).map(k => `${Z[k].n}: ${Z[k].law}`);
+  await exportCard({kicker:'КЛУБ  #MAXMAGIA  ·  ЩИТ И МЕЧ  ·  ТЕМА 02', title:'Моя карта границ', rank, items, extra:mapExtra}, 'maxmagia-karta-granic.png', note);
+}
+
+/* ---------- Игра ---------- */
+const GCATS = Z.map(z => z.n);
+const GITEMS = [
+  {t:'Свекровь приходит без звонка и переставляет всё на твоей кухне.', ok:[3, 2, 4], ex:'В первую очередь — <b>Вещи</b> (твоя кухня, твой порядок). Но заодно задеты <b>Время</b> (без звонка) и <b>Решения</b> (как у тебя всё должно стоять).'},
+  {t:'Коллега стоит вплотную и дышит в затылок, пока ты печатаешь.', ok:[0], ex:'Чистая провинция <b>Тело</b>: личная дистанция. Помнишь Холла? Зона до 1,2 м — для своих.'},
+  {t:'Друг пишет в два часа ночи «ты спишь?» и обижается, что ты не ответил(а) сразу.', ok:[5, 2], ex:'<b>Связь</b> — ожидание мгновенного ответа. И <b>Время</b> — ночь вообще-то твоя.'},
+  {t:'На твоё «мне грустно» отвечают: «Другим ещё хуже».', ok:[1], ex:'<b>Чувства</b>: обесценивание. Твоя грусть не становится меньше оттого, что где-то кому-то хуже.'},
+  {t:'«Ты что, опять это купила? Деньги некуда девать?»', ok:[3, 4], ex:'<b>Деньги</b> — твои траты. И <b>Решения</b> — право распоряжаться ими без отчёта.'},
+  {t:'Мама записала тебя к «своему» врачу, не спросив.', ok:[4, 0], ex:'<b>Решения</b> — решили за тебя. И <b>Тело</b> — здоровье тоже твоя территория.'},
+  {t:'Подруга каждую встречу три часа рассказывает о своём разводе, а твоих новостей не спрашивает.', ok:[1, 2], ex:'<b>Чувства</b> — ты по умолчанию «жилетка». И <b>Время</b> — встреча целиком уходит на одного.'},
+  {t:'Начальник ставит созвон в твой отпуск — «всего на пятнадцать минут».', ok:[2], ex:'<b>Время</b>: отпуск — это граница, даже если «всего пятнадцать минут».'}
+];
+const gameMsg = ok => ok >= 7 ? 'Ты отлично читаешь карту. Заметь, как часто одна ситуация задевает сразу две-три провинции.' : ok >= 4 ? 'Хорошо! Заметь: многие набеги задевают сразу несколько провинций — это нормально.' : 'Провинции легко перепутать: набеги часто задевают сразу несколько. Посмотри разборы — дальше будет проще.';
+
+/* ---------- Квиз ---------- */
+const QS = [
+  {q:'Сосед по офису без спроса берёт твою кружку «на минутку». Какая провинция?', o:['Тело — это же личная гигиена','Вещи и деньги','Мысли и решения — он решил за меня','Никакая: из-за кружки обижаться глупо'], a:1, ex:'Кружка — твоя вещь, это провинция <b>Вещи</b>. «Обижаться глупо» — коварный вариант: законы бывают и про мелочи, а пограничники не делят нарушения на солидные и несолидные.'},
+  {q:'Мама при гостях: «Да он у нас всегда был толстеньким». Какие провинции задеты?', tag:'с подвохом', o:['Только «Тело»','«Тело» и «Чувства»','Никакие: мама шутит любя','«Связь» — это же при людях'], a:1, ex:'Комментарий о теле — провинция <b>Тело</b>. А то, что это сказано при людях и стыдно, — <b>Чувства</b>. «Любя» не отменяет ни одну провинцию.'},
+  {q:'«Ты не можешь грустить — у тебя же всё есть!» — нарушение в провинции…', o:['Мысли и решения: мне навязывают мнение','Чувства','Никакой: человек просто хочет поддержать','Время: меня торопят выйти из состояния'], a:1, ex:'Право чувствовать то, что чувствуешь, — главный закон провинции <b>Чувства</b>. Даже если человек «хочет поддержать», обесценивание остаётся обесцениванием.'},
+  {q:'Ты сам(а) по привычке отвечаешь на рабочие чаты в 23:00, хотя никто этого не требует. Что здесь происходит?', tag:'с подвохом', o:['Ничего: я же сам(а) выбираю','Это граница «Времени», и нарушаю её я сам(а)','Виноват начальник: он создал такую культуру','Это ответственность, а не границы'], a:1, ex:'Границы нарушают не только другие — их нарушаем и мы сами. Это уже <b>внутренние границы</b>: правила, которые ты держишь для себя. А «ответственность» — частая маскировка: на самом деле внутри работает банка «Сначала дело».'},
+  {q:'Друг выложил в общий чат фото, где ты неудачно получился(лась), с подписью «ахаха». Главная провинция?', o:['Тело — речь о внешности','Связь','Чувства — мне неловко','Мысли и решения'], a:1, ex:'Фото с тобой в сети — провинция <b>Связь</b>: что и где о тебе публикуют. Неловкость — это сирена из провинции <b>Чувства</b>, она тоже задета, но набег был через «Связь».'},
+  {q:'Какое утверждение верно?', o:['У всех людей одинаково чувствительные провинции','Одна ситуация может задеть сразу несколько провинций','Если границы крепкие в одной провинции, то и в остальных всё в порядке','Провинции нужны, только когда есть конфликт'], a:1, ex:'Набеги редко бывают «чистыми». А чувствительность у всех разная: у кого-то нежное «Тело», у кого-то — «Время». Поэтому карта у каждого своя.'},
+  {q:'Брат в пятый раз за вечер: «Ну что, когда уже женишься?» Что нарушается в первую очередь?', tag:'с подвохом', o:['Чувства: мне неприятно','Время: он отнимает вечер','Ничего: родные имеют право интересоваться','Мысли и решения'], a:3, ex:'Неприятно — да, но это сирена. А территория, куда зашли, — решения о твоей личной жизни: провинция <b>Мысли и решения</b>. Интересоваться можно; в пятый раз за вечер — это уже игнорирование твоего ответа.'}
+];
+
+/* ---------- Запуск ---------- */
+expBlock($('#expBox'));
+drawHook(); drawMap();
+sortGame($('#game2'), {cats:GCATS, items:GITEMS, scoreEl:$('#game2Score'), msg:gameMsg});
+quiz($('#quiz'), {qs:QS, onResult:(sc, r, acts, note) => {
+  acts.innerHTML = `<button type="button" class="btn" data-png>${ICO_DL}Сохранить карту со званием (PNG)</button>`;
+  $('[data-png]', acts).onclick = () => exportMap(`${r.n} · ${sc} из ${QS.length}`, note);
+  addShare(acts, note, shareText('Тема 02 «Шесть зон границ»', r, sc, QS.length));
+}});
+
+</script>

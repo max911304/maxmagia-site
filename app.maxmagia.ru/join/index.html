@@ -1,0 +1,391 @@
+<!doctype html>
+<html lang="ru"><!-- mm-join v1 -->
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Вступить в клуб #MaxMagia</title>
+<meta name="description" content="Клуб #MaxMagia: эфиры, практики, медитации и тёплое сообщество. Вступление прямо на сайте — 2 500 ₽ за 31 день.">
+<meta name="theme-color" content="#0c0c0e">
+<link rel="icon" href="/icons/icon-192.png">
+<style>
+@font-face{font-family:'Cormorant Garamond';font-style:normal;font-weight:600;font-display:swap;src:url(/fonts/cormorant-garamond-cyrillic-600-normal.woff2) format('woff2');unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:'Cormorant Garamond';font-style:normal;font-weight:600;font-display:swap;src:url(/fonts/cormorant-garamond-latin-600-normal.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+20AC,U+2122,U+2212}
+@font-face{font-family:'Cormorant Garamond';font-style:italic;font-weight:600;font-display:swap;src:url(/fonts/cormorant-garamond-cyrillic-600-italic.woff2) format('woff2');unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:'Manrope';font-style:normal;font-weight:200 800;font-display:swap;src:url(/fonts/manrope-cyrillic-wght-normal.woff2) format('woff2');unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:'Manrope';font-style:normal;font-weight:200 800;font-display:swap;src:url(/fonts/manrope-latin-wght-normal.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+20AC,U+2122,U+2212}
+:root{--bg:#0c0c0e;--ink:#f0ece4;--mut:rgba(240,236,228,.66);--dim:rgba(240,236,228,.46);--gold:#d4b48a;--gold2:#b8956a;--line:rgba(212,180,138,.28);--card:rgba(255,255,255,.035);--err:#ff8a7a}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{min-height:100vh;background:var(--bg);color:var(--ink);font:400 15px/1.6 'Manrope',system-ui,-apple-system,sans-serif;-webkit-font-smoothing:antialiased;
+  background-image:radial-gradient(ellipse 760px 460px at 50% -90px,rgba(184,149,106,.17),transparent 70%)}
+a{color:var(--gold)}
+.wrap{max-width:520px;margin:0 auto;padding:calc(34px + env(safe-area-inset-top,0px)) 16px calc(40px + env(safe-area-inset-bottom,0px))}
+.top{text-align:center;margin-bottom:22px}
+.badge{width:78px;height:78px;border-radius:50%;border:1px solid rgba(212,180,138,.45);display:flex;align-items:center;justify-content:center;margin:0 auto 18px;
+  background:radial-gradient(circle at 50% 35%,rgba(212,180,138,.18),rgba(212,180,138,.03));box-shadow:0 0 50px rgba(184,149,106,.18)}
+.badge img{width:52px;height:52px;border-radius:13px}
+.lbl{font-size:10.5px;letter-spacing:4.5px;text-transform:uppercase;color:var(--gold);font-weight:500;margin-bottom:12px}
+h1{font-family:'Cormorant Garamond',Georgia,serif;font-weight:600;font-size:38px;line-height:1.06;margin-bottom:12px}
+h1 em{font-style:italic;color:var(--gold)}
+h2{font-family:'Cormorant Garamond',Georgia,serif;font-weight:600;font-size:26px;line-height:1.15;margin-bottom:10px}
+.gl{width:48px;height:1px;background:linear-gradient(to right,transparent,var(--gold2),transparent);margin:0 auto 16px}
+.lead{color:var(--mut);font-size:15.5px}
+.inside{list-style:none;margin:18px 0 6px;padding:16px 18px;border:1px solid var(--line);border-radius:16px;background:var(--card);text-align:left}
+.inside li{display:flex;gap:10px;padding:5px 0;font-size:14.5px;line-height:1.5;color:rgba(240,236,228,.84)}
+.inside li span{flex:none;width:22px;text-align:center}
+.price{display:flex;align-items:baseline;justify-content:center;gap:10px;margin:16px 0 2px}
+.price b{font-family:'Cormorant Garamond',Georgia,serif;font-size:34px;font-weight:600;color:var(--gold)}
+.price i{font-style:normal;color:var(--mut)}
+.card{border:1px solid var(--line);border-radius:18px;background:var(--card);padding:20px 18px;margin-bottom:14px}
+.f{margin-bottom:14px}
+.f label{display:block;font-size:13px;font-weight:600;color:rgba(240,236,228,.86);margin-bottom:6px}
+.f small{display:block;font-size:12px;color:var(--dim);margin-top:5px;line-height:1.45}
+input[type=text],input[type=email],input[type=tel],input[inputmode=numeric],textarea{width:100%;min-height:50px;padding:13px 14px;border-radius:13px;border:1px solid rgba(212,180,138,.3);
+  background:rgba(0,0,0,.35);color:var(--ink);font:500 16px 'Manrope',system-ui,sans-serif;outline:none;transition:border-color .2s}
+input:focus,textarea:focus{border-color:var(--gold)}
+input.bad{border-color:var(--err)}
+.code-in{letter-spacing:8px;text-align:center;font-size:24px!important;font-weight:700!important}
+.seg{display:flex;gap:8px;flex-wrap:wrap}
+.chip{flex:1 1 140px;min-height:46px;padding:10px 12px;border-radius:13px;border:1px solid rgba(212,180,138,.3);background:transparent;color:var(--ink);font:600 14px 'Manrope',sans-serif;cursor:pointer}
+.chip.on{border-color:var(--gold);background:rgba(212,180,138,.14);color:var(--gold)}
+.plans{display:grid;gap:10px;margin:4px 0 14px}
+.plan{position:relative;display:block;text-align:left;width:100%;padding:15px 16px 14px 48px;border-radius:15px;border:1px solid rgba(212,180,138,.28);background:rgba(0,0,0,.25);color:var(--ink);cursor:pointer;font:inherit}
+.plan:before{content:'';position:absolute;left:16px;top:17px;width:18px;height:18px;border-radius:50%;border:2px solid rgba(212,180,138,.55)}
+.plan.on{border-color:var(--gold);background:rgba(212,180,138,.1)}
+.plan.on:before{border-color:var(--gold);background:radial-gradient(circle,var(--gold) 0 45%,transparent 50%)}
+.plan b{display:block;font-size:15.5px;margin-bottom:3px}
+.plan span{display:block;font-size:13.5px;line-height:1.5;color:var(--mut)}
+.plan .tag{position:absolute;right:12px;top:12px;font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--gold);border:1px solid var(--line);border-radius:99px;padding:2px 8px}
+.sub{margin:-2px 0 14px}
+.box{font-size:13.5px;line-height:1.6;color:rgba(240,236,228,.8);border-left:2px solid var(--gold2);padding:10px 0 10px 14px;margin:0 0 12px;background:rgba(212,180,138,.05);border-radius:0 12px 12px 0}
+.box p+p{margin-top:8px}
+.ck{display:flex;gap:11px;align-items:flex-start;margin:0 0 12px;cursor:pointer;font-size:14px;line-height:1.5;color:rgba(240,236,228,.86)}
+.ck input{flex:none;width:21px;height:21px;margin-top:1px;accent-color:#c9a46c;cursor:pointer}
+.ck.bad{color:var(--err)}
+.note{font-size:12.5px;line-height:1.55;color:var(--dim);margin:4px 0 14px}
+.btn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;min-height:56px;padding:14px 22px;border:none;border-radius:15px;cursor:pointer;text-decoration:none;
+  font:700 16px/1.2 'Manrope',system-ui,sans-serif;background:linear-gradient(135deg,#d4b48a,#b8956a);color:#141210;box-shadow:0 8px 30px rgba(184,149,106,.25);margin-bottom:10px}
+.btn[disabled]{opacity:.55;cursor:wait}
+.btn.ghost{background:transparent;color:var(--gold);border:1px solid rgba(212,180,138,.4);box-shadow:none;font-weight:600;min-height:50px;font-size:15px}
+.small{font-size:12.5px;line-height:1.6;color:var(--dim);text-align:center}
+.err{display:none;color:var(--err);font-size:14px;line-height:1.5;margin:0 0 12px;padding:11px 14px;border:1px solid rgba(255,138,122,.35);border-radius:12px;background:rgba(255,138,122,.06)}
+.err.show{display:block}
+.alt{text-align:center;margin-top:18px;font-size:13.5px;color:var(--dim)}
+.alt a{color:rgba(212,180,138,.85)}
+.center{text-align:center}
+.big{font-size:44px;line-height:1;margin-bottom:12px}
+.spin{width:38px;height:38px;border-radius:50%;border:3px solid rgba(212,180,138,.2);border-top-color:var(--gold);animation:sp 1s linear infinite;margin:6px auto 16px}
+@keyframes sp{to{transform:rotate(360deg)}}
+.qr{display:block;width:220px;height:220px;margin:6px auto 14px;border-radius:14px;background:#fff;padding:10px;image-rendering:pixelated}
+.hide{display:none!important}
+.foot{margin-top:26px;text-align:center;font-size:12px;line-height:1.7;color:rgba(240,236,228,.38)}
+.foot a{color:rgba(212,180,138,.7)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <div class="badge"><img src="/icons/icon-192.png" alt="" onerror="this.replaceWith(Object.assign(document.createElement('span'),{textContent:'✦',style:'font-size:32px;color:#d4b48a'}))"></div>
+    <div class="lbl">Клуб #MaxMagia</div>
+    <h1 id="h1">Вступить <em>в клуб</em></h1>
+    <div class="gl"></div>
+    <p class="lead" id="lead">Пространство, где мы учимся слышать себя, выстраивать границы и жить свою жизнь, а не чужую. Всё — в личном кабинете на сайте и на экране телефона. Telegram не нужен.</p>
+  </div>
+
+  <!-- загрузка -->
+  <div id="v-load" class="center"><div class="spin"></div></div>
+
+  <!-- скоро -->
+  <div id="v-soon" class="card center hide">
+    <div class="big">🌱</div>
+    <h2>Совсем скоро — прямо здесь</h2>
+    <p class="lead" style="margin-bottom:18px">Вступление на сайте откроется в ближайшее время. А пока вступить можно через бота клуба в Telegram — это пара минут.</p>
+    <a class="btn" id="soon-bot" href="https://t.me/clubeshnik911_bot?start=join" target="_blank" rel="noopener">Вступить через Telegram</a>
+    <a class="btn ghost" href="https://maxmagia.ru/">Подробнее о клубе</a>
+  </div>
+
+  <!-- уже в клубе -->
+  <div id="v-member" class="card center hide">
+    <div class="big">🤍</div>
+    <h2 id="member-t">Ты уже в клубе</h2>
+    <p class="lead" id="member-p" style="margin-bottom:18px"></p>
+    <a class="btn" href="/">Открыть личный кабинет</a>
+    <a class="btn ghost" href="?renew=1">Продлить заранее</a>
+  </div>
+
+  <!-- форма -->
+  <div id="v-form" class="hide">
+    <ul class="inside" id="inside">
+      <li><span>🎥</span>4 живые встречи в месяц в Zoom — эфиры, практикумы, АМА-сессии</li>
+      <li><span>📚</span>записи, медитации и практики — в личном кабинете, в любое время</li>
+      <li><span>💬</span>болталки клуба — общие с Telegram-группой</li>
+      <li><span>🤍</span>сообщество людей, с которыми безопасно быть собой</li>
+    </ul>
+    <div class="price"><b id="price">2 500 ₽</b><i id="price-d">за 31 день</i></div>
+    <p class="small" style="margin-bottom:18px" id="price-note">Вступление — пара минут. Кабинет откроется сразу после оплаты.</p>
+
+    <form class="card" id="form" novalidate autocomplete="on">
+      <div class="f">
+        <label for="name">Имя и фамилия</label>
+        <input type="text" id="name" name="name" autocomplete="name" maxlength="60" placeholder="Анна Иванова">
+        <small>Так тебя будет видно в клубе. И так запишем в чеке.</small>
+      </div>
+      <div class="f">
+        <label for="email">Почта</label>
+        <input type="email" id="email" name="email" autocomplete="email" inputmode="email" maxlength="50" placeholder="name@mail.ru">
+        <small>Сюда придут чек, вход в кабинет и важные письма клуба. Рекламы не будет.</small>
+      </div>
+      <div class="f">
+        <label for="phone">Телефон</label>
+        <input type="tel" id="phone" name="phone" autocomplete="tel" inputmode="tel" maxlength="20" placeholder="+7 900 000-00-00">
+        <small>Его просит платёжный сервис для оплаты и чека.</small>
+      </div>
+      <div class="f hide" id="g-wrap">
+        <label>Как к тебе обращаться?</label>
+        <div class="seg"><button type="button" class="chip" data-g="m">🙋‍♂️ В мужском роде</button><button type="button" class="chip" data-g="f">🙋‍♀️ В женском роде</button></div>
+        <small>По имени не угадать 🙂 Так мои письма и сообщения будут звучать по-человечески.</small>
+      </div>
+
+      <div class="f" style="margin-bottom:6px"><label>Как оплатить</label></div>
+      <div class="plans" id="plans">
+        <button type="button" class="plan" data-plan="auto" id="plan-auto"><span class="tag">удобно</span><b>🔁 С автопродлением</b><span>Оплачиваешь картой один раз — дальше участие продлевается само, раз в 31 день. Отключить можно в любой момент одной кнопкой.</span></button>
+        <button type="button" class="plan" data-plan="once"><b>✋ Разово</b><span>Картой или через СБП, без автопродления. Когда срок будет подходить к концу, я напомню.</span></button>
+      </div>
+      <div class="sub hide" id="once-how">
+        <div class="seg"><button type="button" class="chip on" data-m="card">💳 Картой</button><button type="button" class="chip" data-m="sbp">📲 Через СБП</button></div>
+      </div>
+
+      <div id="auto-box" class="hide">
+        <div class="box">
+          <p><b>Про автопродление — коротко и честно.</b> Это как подписка, только без сюрпризов: раз в 31 день с твоей карты списывается <b id="ab-price">2 500 ₽</b>, и ты просто остаёшься в клубе.</p>
+          <p>Деньги получаю я, Максим Гущин (я самозанятый), а само списание проводит платёжный сервис Ckassa.</p>
+          <p>📅 Списываю за день до конца твоего периода, чтобы не было ни дня перерыва. А за 3 дня обязательно напишу на почту и в кабинет.</p>
+          <p>⏸ Передумаешь — отключишь в любой момент и без объяснений: в кабинете 🔔 «Моё участие» → «Отключить автопродление» или кнопкой в любом напоминании. Карта сразу отвяжется, а оплаченные дни останутся твоими.</p>
+          <p>Все детали — в <a href="https://maxmagia.ru/oferta.html" target="_blank" rel="noopener">разделе 4 оферты</a>.</p>
+        </div>
+        <label class="ck" id="ck-auto"><input type="checkbox" id="c-auto"><span>Даю согласие на автосписание <span id="ck-price">2 500 ₽</span> раз в 31 день</span></label>
+      </div>
+
+      <label class="ck" id="ck-offer"><input type="checkbox" id="c-offer"><span>Принимаю <a href="https://maxmagia.ru/oferta.html" target="_blank" rel="noopener">условия участия</a> и <a href="https://maxmagia.ru/rules.html" target="_blank" rel="noopener">правила клуба</a></span></label>
+      <label class="ck" id="ck-pd"><input type="checkbox" id="c-pd"><span>Даю <a href="https://maxmagia.ru/consent.html" target="_blank" rel="noopener">согласие на обработку персональных данных</a> по <a href="https://maxmagia.ru/privacy.html" target="_blank" rel="noopener">политике конфиденциальности</a></span></label>
+      <p class="note">Скажу честно и сразу: клуб — это поддержка, практики и тёплое сообщество, но не медицинская и не экстренная помощь.</p>
+
+      <div class="err" id="err"></div>
+      <button type="submit" class="btn" id="go">Перейти к оплате · <span id="go-price">2 500 ₽</span></button>
+      <p class="small">Оплата — на защищённой странице платёжного сервиса Ckassa. Чек придёт на почту.</p>
+    </form>
+    <div class="alt" id="alt-tg">Удобнее в Telegram? <a id="tg-link" href="https://t.me/clubeshnik911_bot?start=join" target="_blank" rel="noopener">Вступить через бота</a></div>
+    <div class="alt" id="alt-in">Уже в клубе? <a href="/">Войти в кабинет</a></div>
+  </div>
+
+  <!-- вход по коду -->
+  <div id="v-login" class="card hide">
+    <div class="center"><div class="big">✉️</div><h2 id="login-t">Войди по почте</h2>
+      <p class="lead" id="login-p" style="margin-bottom:16px">Пришлю на почту код — и кабинет откроется в этом браузере.</p></div>
+    <div id="login-1">
+      <div class="f"><label for="l-email">Твоя почта в клубе</label>
+        <input type="email" id="l-email" autocomplete="email" inputmode="email" placeholder="name@mail.ru"></div>
+      <div class="err" id="l-err1"></div>
+      <button class="btn" id="l-send">Прислать код</button>
+    </div>
+    <div id="login-2" class="hide">
+      <div class="f"><label for="l-code">Код из письма</label>
+        <input type="text" id="l-code" class="code-in" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="••••••">
+        <small id="l-hint">Письмо придёт за минуту. Не видно — загляни в «Спам» или «Промоакции».</small></div>
+      <div class="err" id="l-err2"></div>
+      <button class="btn" id="l-go">Войти</button>
+      <button class="btn ghost" id="l-again">Прислать код ещё раз</button>
+    </div>
+    <p class="small" style="margin-top:6px">Можно и не вводить код: в письме есть кнопка «Войти в кабинет».</p>
+  </div>
+
+  <!-- ждём оплату -->
+  <div id="v-wait" class="card center hide">
+    <div class="spin"></div>
+    <h2>Ждём оплату</h2>
+    <p class="lead" id="wait-p" style="margin-bottom:16px">Страница оплаты открылась в новой вкладке. Как только оплата пройдёт, эта страница сама откроет кабинет — не закрывай её.</p>
+    <img class="qr hide" id="qr" alt="QR-код для оплаты через СБП">
+    <a class="btn hide" id="sbp-btn" href="#" target="_blank" rel="noopener">📲 Оплатить через СБП</a>
+    <a class="btn ghost hide" id="pay-again" href="#" target="_blank" rel="noopener">Открыть страницу оплаты ещё раз</a>
+    <button class="btn ghost" id="wait-back">Изменить данные или способ оплаты</button>
+    <p class="small" style="margin-top:4px">Обычно это пара минут. Что-то пошло не так — напиши на <a href="mailto:club@maxmagia.ru">club@maxmagia.ru</a>.</p>
+  </div>
+
+  <!-- готово -->
+  <div id="v-done" class="card center hide">
+    <div class="big">🎉</div>
+    <h2 id="done-t">Ура, оплата прошла!</h2>
+    <p class="lead" id="done-p" style="margin-bottom:18px"></p>
+    <a class="btn" href="/?welcome=1" id="done-go">Открыть личный кабинет</a>
+  </div>
+
+  <div class="foot">Вопрос по оплате или вступлению — <a href="mailto:club@maxmagia.ru">club@maxmagia.ru</a><br>
+    <a href="https://maxmagia.ru/oferta.html" target="_blank" rel="noopener">Условия участия</a> · <a href="https://maxmagia.ru/privacy.html" target="_blank" rel="noopener">Конфиденциальность</a> · <a href="https://maxmagia.ru/">maxmagia.ru</a></div>
+</div>
+
+<script>
+(function(){
+'use strict';
+const $=id=>document.getElementById(id);
+const Q=new URLSearchParams(location.search);
+let TEST=Q.get('test')||'';
+try{if(TEST){sessionStorage.setItem('mm_test',TEST);localStorage.setItem('mm_wj_test','1');}else TEST=sessionStorage.getItem('mm_test')||'';}catch(e){}
+const RENEW=Q.get('renew')==='1';
+const S={me:null,plan:'auto',method:'card',gender:'',renew:RENEW,poll:null,win:null};
+const MONTHS=['января','февраля','марта','апреля','мая','июня','июля','августа','сентября','октября','ноября','декабря'];
+function ru(d){const m=/^(\d{4})-(\d{2})-(\d{2})/.exec(d||'');return m?(+m[3])+' '+MONTHS[+m[2]-1]+' '+m[1]:'';}
+function esc(s){return String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
+const VIEWS=['v-load','v-soon','v-member','v-form','v-login','v-wait','v-done'];
+function show(v){VIEWS.forEach(x=>$(x).classList.toggle('hide',x!==v));window.scrollTo({top:0,behavior:'smooth'});}
+function g(m,f,n){const x=S.gender||(S.me&&S.me.user&&S.me.user.g)||'';return x==='m'?m:x==='f'?f:n;}
+function fixG(root){root.querySelectorAll('*').forEach(el=>{if(el.children.length)return;el.textContent=el.textContent.replace(/\{\{([^|{}]*)\|([^|{}]*)\|([^{}]*)\}\}/g,(_,a,b,c)=>g(a,b,c));});}
+async function api(path,data,ms){
+  const ctl=new AbortController(),t=setTimeout(()=>ctl.abort(),ms||20000);
+  try{
+    const r=await fetch('/api/join/'+path,{method:data?'POST':'GET',credentials:'same-origin',cache:'no-store',signal:ctl.signal,
+      headers:data?{'Content-Type':'application/json'}:{},body:data?JSON.stringify(data):undefined});
+    let b=null;try{b=await r.json();}catch(e){}
+    return {status:r.status,body:b||{}};
+  }catch(e){return {status:0,body:{}};}finally{clearTimeout(t);}
+}
+function err(id,msg){const e=$(id);e.innerHTML=msg||'';e.classList.toggle('show',!!msg);}
+
+// ── выбор способа оплаты и рода ──
+function setPlan(p){S.plan=p;document.querySelectorAll('.plan').forEach(b=>b.classList.toggle('on',b.dataset.plan===p));
+  $('once-how').classList.toggle('hide',p!=='once');$('auto-box').classList.toggle('hide',p!=='auto');}
+document.querySelectorAll('.plan').forEach(b=>b.onclick=()=>setPlan(b.dataset.plan));
+document.querySelectorAll('[data-m]').forEach(b=>b.onclick=()=>{S.method=b.dataset.m;document.querySelectorAll('[data-m]').forEach(x=>x.classList.toggle('on',x===b));});
+document.querySelectorAll('[data-g]').forEach(b=>b.onclick=()=>{S.gender=b.dataset.g;err('err','');document.querySelectorAll('[data-g]').forEach(x=>x.classList.toggle('on',x===b));});
+
+function normPhone(s){let d=String(s||'').replace(/\D/g,'');if(d.length===11&&d[0]==='8')d='7'+d.slice(1);if(d.length===10&&d[0]==='9')d='7'+d;return d.length>=10&&d.length<=11?d:'';}
+function validEmail(s){return /^[^@\s]+@[^@\s]+\.[^@\s]{2,}$/.test(String(s||'').trim());}
+
+async function submit(e){
+  e.preventDefault();err('err','');
+  ['name','email','phone'].forEach(id=>$(id).classList.remove('bad'));
+  ['ck-offer','ck-pd','ck-auto'].forEach(id=>$(id).classList.remove('bad'));
+  const name=$('name').value.trim().replace(/\s+/g,' '),email=$('email').value.trim(),phone=$('phone').value;
+  const bad=[];
+  if(name.length<4)bad.push(['name','Напиши, пожалуйста, имя и фамилию — хотя бы 4 буквы.']);
+  if(!validEmail(email))bad.push(['email','Кажется, в почте опечатка — нужен адрес вида name@mail.ru.']);
+  if(!normPhone(phone))bad.push(['phone','Не получилось разобрать телефон — нужно 10–11 цифр, например 8 916 123-45-67.']);
+  if(bad.length){bad.forEach(b=>$(b[0]).classList.add('bad'));err('err',bad.map(b=>b[1]).join('<br>'));$(bad[0][0]).focus();return;}
+  if(!$('g-wrap').classList.contains('hide')&&!S.gender){err('err','Подскажи, как к тебе обращаться 🙂');return;}
+  if(S.plan==='auto'&&!$('c-auto').checked){$('ck-auto').classList.add('bad');err('err','Для автопродления нужна твоя галочка согласия на автосписание. Или выбери «Разово».');return;}
+  if(!$('c-offer').checked){$('ck-offer').classList.add('bad');err('err','Отметь, пожалуйста, что принимаешь условия участия и правила клуба.');return;}
+  if(!S.renew&&!$('c-pd').checked){$('ck-pd').classList.add('bad');err('err','Без согласия на обработку данных я не смогу открыть тебе доступ 🙏');return;}
+  const plan=S.plan==='auto'?'auto':S.method;
+  // страница оплаты — в новой вкладке: открываем её сразу, пока длится нажатие (иначе браузер её заблокирует)
+  S.win=null;
+  if(plan!=='sbp'){try{S.win=window.open('','_blank');if(S.win){S.win.document.write('<meta name="viewport" content="width=device-width"><body style="background:#0c0c0e;color:#f0ece4;font-family:sans-serif;text-align:center;padding-top:40vh">Готовим страницу оплаты…</body>');}}catch(x){S.win=null;}}
+  const btn=$('go');btn.disabled=true;btn.textContent='Готовим оплату…';
+  const r=await api('start',{name,email,phone,plan,gender:S.gender,offer:true,pd:$('c-pd').checked,auto_consent:$('c-auto').checked,test:TEST},75000);
+  btn.disabled=false;btn.innerHTML='Перейти к оплате · '+esc((S.me&&S.me.price)||'2 500 ₽');
+  const b=r.body||{};
+  if(b.ok){
+    if(plan==='sbp'){showWait(b);return;}
+    if(S.win){try{S.win.location.href=b.url;}catch(x){S.win=null;}}
+    showWait(b);
+    if(!S.win){location.href=b.url;}
+    return;
+  }
+  try{if(S.win)S.win.close();}catch(x){}
+  if(b.error==='gender'){$('g-wrap').classList.remove('hide');err('err','Подскажи, как к тебе обращаться — и жми ещё раз 🙂');$('g-wrap').scrollIntoView({behavior:'smooth',block:'center'});return;}
+  if(b.error==='exists'){toLogin(b);return;}
+  const M={fields:'Проверь, пожалуйста, имя, почту и телефон.',consents:'Нужны галочки согласия.',auto_consent:'Для автопродления нужна галочка согласия на автосписание.',
+    soon:'Вступление на сайте пока не открыто.',pay_off:'Оплата на сайте временно недоступна — попробуй чуть позже или вступи через Telegram.',
+    rate:'Слишком много попыток подряд — подожди немного и попробуй ещё раз.',pay_failed:'Ой, не получилось создать оплату 🙏 Попробуй ещё раз через минуту. Если повторится — напиши на club@maxmagia.ru.'};
+  err('err',M[b.error]||'Нет связи с сервером — проверь интернет и попробуй ещё раз.');
+}
+$('form').addEventListener('submit',submit);
+
+// ── ждём оплату ──
+function showWait(b){
+  show('v-wait');
+  const sbp=b.method==='sbp';
+  $('qr').classList.toggle('hide',!(sbp&&b.qr));if(sbp&&b.qr)$('qr').src=b.qr;
+  $('sbp-btn').classList.toggle('hide',!(sbp&&b.url));if(sbp&&b.url)$('sbp-btn').href=b.url;
+  $('pay-again').classList.toggle('hide',sbp||!b.url);if(!sbp&&b.url)$('pay-again').href=b.url;
+  $('wait-p').textContent=sbp?'С телефона — нажми кнопку ниже, откроется приложение твоего банка. За компьютером — отсканируй QR-код камерой телефона. Как только оплата пройдёт, эта страница сама откроет кабинет.':
+    (b.again?'Если вкладка с оплатой закрылась — открой её ещё раз кнопкой ниже. Как только оплата пройдёт, эта страница сама откроет кабинет.':'Страница оплаты открылась в новой вкладке. Как только оплата пройдёт, эта страница сама откроет кабинет — не закрывай её.');
+  startPoll();
+}
+$('wait-back').onclick=()=>{stopPoll();show('v-form');};
+function stopPoll(){if(S.poll){clearInterval(S.poll);S.poll=null;}}
+function startPoll(){stopPoll();let n=0;S.poll=setInterval(async()=>{n++;if(n>900){stopPoll();return;}await check();},3000);}
+async function check(){
+  const r=await api('status');const b=r.body||{};
+  if(b.state==='done'){stopPoll();showDone(b);}
+  else if(b.state==='failed'){stopPoll();show('v-form');err('err','Оплата не прошла 🙏 Такое бывает: банк перестраховался или не хватило денег. Попробуй ещё раз — можно другой картой или через СБП.');}
+}
+document.addEventListener('visibilitychange',()=>{if(!document.hidden&&S.poll)check();});
+function showDone(b){
+  show('v-done');const until=ru(b.until);
+  $('done-t').textContent=S.renew?'Спасибо, что остаёшься!':'Ура, оплата прошла!';
+  $('done-p').textContent=(S.renew?'Участие продлено — ты с нами до ':'Ты в клубе до ')+until+'. '+(b.login?'Сейчас открою кабинет 🤍':'На почту придёт письмо со входом в кабинет 🤍');
+  if(b.login)setTimeout(()=>{location.href=S.renew?'/':'/?welcome=1';},2600);
+  else $('done-go').href='/';
+}
+
+// ── вход по коду ──
+let L={email:'',ticket:''};
+function toLogin(b){
+  show('v-login');L={email:'',ticket:(b&&b.ticket)||''};
+  $('login-1').classList.toggle('hide',!!L.ticket);$('login-2').classList.add('hide');
+  if(b&&b.error==='exists'){
+    $('login-t').textContent='Ты уже есть в клубе 🤍';
+    $('login-p').textContent=(b.active?'И участие активно. ':'')+(b.hint?'Пришлю код для входа на '+b.hint+' — ту почту, что ты '+g('указывал','указывала','указывал(а)')+' раньше.':'Войди по почте — пришлю код.')+(b.active?'':' После входа можно продлить участие.');
+    if(L.ticket){$('login-2').classList.remove('hide');sendCode();}
+  }else if(S.renew){$('login-t').textContent='Сначала войди';$('login-p').textContent='Чтобы продлить участие, войди по почте — пришлю код, и вернёмся сюда.';}
+  fixG($('v-login'));
+}
+async function sendCode(){
+  err('l-err1','');err('l-err2','');
+  const data=L.ticket?{ticket:L.ticket}:{email:L.email};
+  const r=await api('code',data);const b=r.body||{};
+  if(r.status===200&&b.ok){$('login-1').classList.add('hide');$('login-2').classList.remove('hide');
+    $('l-hint').textContent=(b.hint?'Если '+b.hint+' есть в клубе, код придёт за минуту. ':'Код придёт за минуту. ')+'Не видно — загляни в «Спам» или «Промоакции».';$('l-code').focus();return;}
+  const M={rate:'Слишком много попыток — подожди несколько минут.',no_mail:'Вход по почте ещё настраивается. Напиши на club@maxmagia.ru — помогу войти.',soon:'Вход по почте пока не открыт.',email:'Проверь адрес почты.'};
+  err(L.ticket?'l-err2':'l-err1',M[b.error]||'Нет связи с сервером — попробуй ещё раз.');
+}
+$('l-send').onclick=()=>{L.email=$('l-email').value.trim();if(!validEmail(L.email)){err('l-err1','Проверь адрес почты.');return;}sendCode();};
+$('l-again').onclick=sendCode;
+$('l-go').onclick=async()=>{
+  const code=$('l-code').value.replace(/\D/g,'');if(code.length!==6){err('l-err2','В коде 6 цифр.');return;}
+  const r=await api('verify',L.ticket?{ticket:L.ticket,code}:{email:L.email,code});const b=r.body||{};
+  if(b.ok){if(S.renew||!b.active)location.href='/join/?renew=1';else location.href='/';return;}
+  err('l-err2',{wrong:'Код не подходит — проверь цифры.',expired:'Код устарел — пришлю новый.',tries:'Слишком много попыток — пришлю новый код.',soon:'Вход по почте пока не открыт.',rate:'Слишком много попыток — подожди немного.'}[b.error]||'Нет связи с сервером — попробуй ещё раз.');
+};
+$('l-code').addEventListener('input',e=>{if(e.target.value.replace(/\D/g,'').length===6)$('l-go').click();});
+
+// ── старт ──
+async function start(){
+  const r=await api('me'+(TEST?'?test='+encodeURIComponent(TEST):''));
+  const me=r.body||{};S.me=me;
+  if(r.status!==200){show('v-soon');$('lead').textContent='Нет связи с сервером. Проверь интернет и обнови страницу.';return;}
+  const price=(me.price||'2 500 ₽').replace(/ /g,'\u00a0');['price','go-price','ab-price','ck-price'].forEach(id=>$(id).textContent=price);
+  $('price-d').textContent='за '+(me.days||31)+' день';
+  if(me.bot){$('tg-link').href=me.bot;$('soon-bot').href=me.bot;}
+  const u=me.user;
+  if(!me.open||!me.pay){show('v-soon');if(!me.pay&&me.open)$('v-soon').querySelector('p').textContent='Оплата на сайте временно недоступна. Вступить можно через бота клуба в Telegram — это пара минут.';return;}
+  if(!me.auto){$('plan-auto').classList.add('hide');setPlan('once');}else setPlan('auto');
+  if(u&&u.active&&!S.renew){$('member-t').textContent=(u.name?u.name+', ты':'Ты')+' уже в клубе 🤍';$('member-p').textContent='Участие активно до '+ru(u.until)+'. Продлить можно уже сейчас — новые дни прибавятся к текущему сроку.';show('v-member');return;}
+  if(u){S.renew=true;
+    $('h1').innerHTML=u.active?'Продлить <em>участие</em>':'С возвращением <em>в клуб</em>';
+    $('lead').textContent=(u.name?u.name+', ':'')+(u.active?'новые 31 день прибавятся к текущему сроку (до '+ru(u.until)+') — продлевать можно заранее.':'рад, что ты снова с нами. Продли участие — и кабинет откроется со всеми твоими отметками и заметками.');
+    $('inside').classList.add('hide');$('price-note').classList.add('hide');$('ck-pd').classList.add('hide');$('alt-tg').classList.add('hide');$('alt-in').classList.add('hide');
+    const p=u.prefill||{};$('name').value=p.name||'';$('email').value=p.email||'';$('phone').value=p.phone||'';
+    if(u.autorenew&&u.autorenew.on){$('plan-auto').classList.add('hide');setPlan('once');}
+    document.title='Продлить участие — клуб #MaxMagia';
+  }else if(S.renew){toLogin(null);return;}
+  show('v-form');
+  // вернулись на страницу, пока оплата ещё идёт
+  const st=await api('status');const b=st.body||{};
+  if(b.fresh&&b.state==='wait'){showWait({method:b.method,url:b.url,qr:'',again:true});}
+  else if(b.fresh&&b.state==='done'){showDone(b);}
+}
+start();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>Как слушать гипно-медитации дома</title>
+<link rel="icon" type="image/png" href="/icons/icon-192.png">
+<script src="/telegram-web-app.js"></script>
+<style>
+@font-face{font-family:'Cormorant Garamond';font-style:normal;font-weight:600;font-display:swap;src:url(/fonts/cormorant-garamond-cyrillic-600-normal.woff2) format('woff2');unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:'Cormorant Garamond';font-style:normal;font-weight:600;font-display:swap;src:url(/fonts/cormorant-garamond-latin-600-normal.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+20AC,U+2122,U+2212}
+@font-face{font-family:'Cormorant Garamond';font-style:italic;font-weight:600;font-display:swap;src:url(/fonts/cormorant-garamond-cyrillic-600-italic.woff2) format('woff2');unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:'Cormorant Garamond';font-style:italic;font-weight:600;font-display:swap;src:url(/fonts/cormorant-garamond-latin-600-italic.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+20AC,U+2122,U+2212}
+@font-face{font-family:'Manrope';font-style:normal;font-weight:200 800;font-display:swap;src:url(/fonts/manrope-cyrillic-wght-normal.woff2) format('woff2');unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:'Manrope';font-style:normal;font-weight:200 800;font-display:swap;src:url(/fonts/manrope-latin-wght-normal.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+20AC,U+2122,U+2212}
+
+:root{
+  --bg:#FFFFFF;--card:#F4F3EF;--ink:#2F2F2F;--ink2:#5a5852;--muted:#77746c;--line:rgba(47,47,47,.12);
+  --acc:#9A6A2E;--fill:#D4B48A;--on-fill:#1c1a17;--glow:rgba(154,106,46,.08);--yel:rgba(242,201,76,.35);
+  --serif:'Cormorant Garamond',Georgia,serif;--sans:'Manrope',system-ui,-apple-system,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0C0C0E;--card:#18181A;--ink:#F0ECE4;--ink2:rgba(240,236,228,.78);--muted:rgba(240,236,228,.55);--line:rgba(240,236,228,.10);
+  --acc:#D4B48A;--fill:#D4B48A;--on-fill:#141210;--glow:rgba(212,180,138,.09);--yel:rgba(242,201,76,.22)}}
+:root[data-theme="dark"]{
+  --bg:#0C0C0E;--card:#18181A;--ink:#F0ECE4;--ink2:rgba(240,236,228,.78);--muted:rgba(240,236,228,.55);--line:rgba(240,236,228,.10);
+  --acc:#D4B48A;--fill:#D4B48A;--on-fill:#141210;--glow:rgba(212,180,138,.09);--yel:rgba(242,201,76,.22)}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{overflow-x:clip}
+body{background:var(--bg);color:var(--ink);font:16.5px/1.65 var(--sans);-webkit-font-smoothing:antialiased}
+.wrap{max-width:720px;margin:0 auto;padding:0 20px}
+
+.hero{text-align:center;padding:clamp(64px,12vh,120px) 0 40px;background:radial-gradient(ellipse 620px 320px at 50% 0,var(--glow),transparent 70%)}
+.badge{width:76px;height:76px;margin:0 auto 22px;border-radius:50%;background:#F7F4EE;display:flex;align-items:center;justify-content:center;
+  box-shadow:0 6px 24px rgba(0,0,0,.18)}
+.badge img{width:62px;height:62px;object-fit:contain}
+.label{font-size:10.5px;letter-spacing:4px;text-transform:uppercase;color:var(--acc);font-weight:600;margin-bottom:16px}
+h1{font-family:var(--serif);font-weight:600;font-size:clamp(34px,7vw,54px);line-height:1.06;margin-bottom:18px}
+h1 em{font-style:italic;color:var(--acc)}
+.sub{max-width:540px;margin:0 auto;color:var(--ink2);font-size:17px}
+.sub b{font-family:var(--serif);font-style:italic;font-weight:600;font-size:21px;color:var(--ink);display:block;margin-top:10px}
+
+.orn{display:flex;align-items:center;justify-content:center;gap:14px;margin:34px 0 26px;color:var(--acc)}
+.orn::before,.orn::after{content:'';flex:0 1 90px;height:1px;background:linear-gradient(90deg,transparent,currentColor)}
+.orn::after{transform:scaleX(-1)}
+
+.callout{background:var(--card);border-left:2px solid var(--acc);border-radius:0 18px 18px 0;padding:20px 22px;font-size:17px;color:var(--ink)}
+.callout .big{font-family:var(--serif);font-size:24px;font-weight:600;line-height:1.25;display:block;margin-bottom:6px}
+
+.phase{font-size:10.5px;letter-spacing:3.5px;text-transform:uppercase;color:var(--muted);font-weight:600;margin:44px 0 14px;display:flex;align-items:center;gap:12px}
+.phase::after{content:'';flex:1;height:1px;background:var(--line)}
+.step{position:relative;background:var(--card);border:1px solid var(--line);border-radius:20px;padding:22px 22px 20px 74px;margin-bottom:12px}
+.num{position:absolute;left:20px;top:20px;width:38px;height:38px;border-radius:50%;border:1px solid var(--acc);color:var(--acc);
+  font-family:var(--serif);font-size:21px;font-weight:600;display:flex;align-items:center;justify-content:center}
+.step h3{font-family:var(--serif);font-size:24px;font-weight:600;line-height:1.2;margin-bottom:8px}
+.step p{color:var(--ink2);margin-bottom:8px}
+.step p:last-child{margin-bottom:0}
+.list{list-style:none;margin:6px 0 10px}
+.list li{position:relative;padding-left:22px;margin-bottom:4px;color:var(--ink2)}
+.list li::before{content:'☀';position:absolute;left:0;top:0;color:var(--acc);font-size:13px}
+.mark{background:linear-gradient(transparent 55%,var(--yel) 55%);color:var(--ink);font-weight:600;padding:0 2px}
+.q{font-family:var(--serif);font-style:italic;font-size:20px;color:var(--ink);line-height:1.35;margin:4px 0}
+
+.band{text-align:center;padding:46px 10px;margin:34px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);opacity:0;transform:translateY(14px);transition:opacity .8s,transform .8s}
+.band.seen{opacity:1;transform:none}
+.band p{font-family:var(--serif);font-size:clamp(23px,4.6vw,32px);line-height:1.25;color:var(--ink)}
+.band p.hot{color:var(--acc);font-style:italic;margin-top:8px}
+@media (prefers-reduced-motion:reduce){.band{opacity:1;transform:none;transition:none}}
+
+.check{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:20px 20px 12px}
+.check h3{font-family:var(--serif);font-size:24px;font-weight:600;margin-bottom:4px}
+.check .hint{font-size:14px;color:var(--muted);margin-bottom:12px}
+.ck{display:flex;align-items:center;gap:12px;width:100%;padding:12px 4px;border:none;border-top:1px solid var(--line);background:none;color:var(--ink);font:inherit;font-size:15.5px;text-align:left;cursor:pointer}
+.ck .box{width:24px;height:24px;border-radius:7px;border:1.5px solid var(--acc);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:14px;color:transparent;transition:all .2s}
+.ck[aria-pressed="true"] .box{background:var(--fill);border-color:var(--fill);color:var(--on-fill)}
+.ck[aria-pressed="true"] .t{color:var(--muted);text-decoration:line-through;text-decoration-color:var(--line)}
+.ready{display:none;font-family:var(--serif);font-style:italic;font-size:20px;color:var(--acc);text-align:center;padding:10px 0 6px}
+.ready.on{display:block}
+
+.sci{border-left:2px solid var(--acc);padding:6px 0 6px 20px;margin:36px 0 0}
+.sci .label{margin-bottom:8px}
+.sci p{color:var(--ink2);font-size:15px;margin-bottom:8px}
+.sci b{color:var(--ink)}
+
+.final{text-align:center;padding:40px 0 10px}
+.final h2{font-family:var(--serif);font-size:clamp(30px,6vw,42px);font-weight:600;line-height:1.1;margin-bottom:16px}
+.final h2 em{font-style:italic;color:var(--acc)}
+.final p{color:var(--ink2);max-width:520px;margin:0 auto 10px}
+.final .last{font-family:var(--serif);font-size:23px;font-style:italic;color:var(--ink);margin-top:18px}
+.sign{margin-top:26px;font-size:15px;color:var(--muted)}
+.sign b{display:block;font-family:var(--serif);font-size:22px;font-weight:600;color:var(--ink);font-style:italic}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:13px 26px;border-radius:14px;border:none;cursor:pointer;
+  font:700 15px/1.2 var(--sans);text-decoration:none;background:var(--fill);color:var(--on-fill)}
+.go-back{text-align:center;margin:34px 0 10px}
+footer{margin-top:40px;padding:26px 0 calc(36px + env(safe-area-inset-bottom,0px));border-top:1px solid var(--line);text-align:center;font-size:12.5px;color:var(--muted);line-height:1.6}
+footer b{color:var(--ink);font-weight:600}
+footer a{color:var(--acc)}
+
+.topback{position:fixed;top:calc(10px + env(safe-area-inset-top,0px));left:10px;z-index:50;display:none;align-items:center;gap:6px;min-height:36px;padding:7px 14px 7px 11px;border-radius:999px;
+  background:rgba(22,18,26,.8);color:#F4EFE6;border:1px solid rgba(212,180,138,.4);font:600 13px/1 var(--sans);text-decoration:none;-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+.topback span{font-size:19px;line-height:1;margin-top:-2px}
+.topback.on{display:inline-flex}
+@media (max-width:480px){
+  .step{padding:20px 18px 18px}
+  .num{position:static;margin-bottom:10px}
+  .step h3{font-size:22px}
+}
+</style>
+</head>
+<body>
+<a class="topback" id="topback" href="/"><span aria-hidden="true">‹</span>Кабинет</a>
+
+<header class="hero"><div class="wrap">
+  <div class="badge"><img src="/practices/img/emblem.png" alt="MaxMagia"></div>
+  <div class="label">Клуб #MaxMagia · гипно-медитации</div>
+  <h1>Как слушать гипно-медитации дома — <em>с&nbsp;максимальной пользой</em></h1>
+  <p class="sub">Вам не нужно уметь медитировать, входить в транс или как-то специально себя настраивать.
+    <b>Достаточно создать условия — и позволить себе слушать.</b></p>
+</div></header>
+
+<main class="wrap">
+  <div class="callout"><span class="big">Здесь не нужно стараться сделать «правильно».</span>
+    Гипно-медитация работает по другому принципу: чем меньше вы контролируете процесс, тем больше места для того, что может произойти внутри.</div>
+
+  <div class="phase">Перед практикой</div>
+
+  <section class="step"><div class="num">1</div>
+    <h3>Выберите время, когда вас не будут отвлекать</h3>
+    <p>Возьмите время с запасом — чтобы не думать, что через 20 минут нужно куда-то бежать.</p>
+    <ul class="list">
+      <li>Телефон — на беззвучный режим.</li>
+      <li>Уведомления — прочь.</li>
+      <li>Близких предупредите, что вас какое-то время лучше не трогать. <span class="mark">Вообще не трогать. Даже на секундочку. Даже один вопрос.</span></li>
+    </ul>
+    <p>А чтобы наверняка не слышать домашних и не отвлекаться — слушайте в наушниках.</p>
+  </section>
+
+  <section class="step"><div class="num">2</div>
+    <h3>Устройтесь удобно</h3>
+    <p>Лёжа или сидя — выбирайте положение, в котором сможете спокойно оставаться достаточно долго.</p>
+    <p>«Идеальная поза» не нужна. Главное — чтобы телу было удобно и ничто не отвлекало.</p>
+  </section>
+
+  <section class="step"><div class="num">3</div>
+    <h3>Не пытайтесь специально расслабиться</h3>
+    <p><span class="mark">Это важно.</span></p>
+    <ul class="list">
+      <li>Напряжены — слушайте напряжённым.</li>
+      <li>Мысли скачут — пусть скачут.</li>
+      <li>Настроение плохое — пусть будет таким.</li>
+    </ul>
+    <p>Не нужно сначала приводить себя в «правильное состояние», чтобы начать. Начинайте с того, что есть.</p>
+  </section>
+
+  <div class="phase">Во время прослушивания</div>
+
+  <section class="step"><div class="num">4</div>
+    <h3>Просто слушайте</h3>
+    <p>Не нужно запоминать текст, разбирать каждую фразу или понимать, что именно сейчас происходит.</p>
+    <p>Иногда вы будете внимательно слушать. Иногда — отвлекаться. Иногда какие-то слова будут проходить мимо. <b>Это нормально.</b></p>
+    <p>Вы можете заметить, что перестали следить за текстом, а потом снова услышали голос. Можете почувствовать тяжесть в теле, тепло, сонливость, расслабление — или вообще ничего необычного.</p>
+    <p>И не нужно проверять, работает ли медитация.</p>
+  </section>
+
+  <div class="band" id="band">
+    <p>Вопрос «Ну что, я уже в трансе?» —</p>
+    <p class="hot">самый надёжный способ из него выйти :)</p>
+  </div>
+
+  <section class="step"><div class="num">5</div>
+    <h3>Не пытайтесь вызвать конкретные ощущения</h3>
+    <p>Тепло, лёгкость, глубокое расслабление, яркие картинки — всё это не обязательно. У каждого человека опыт свой, и он может быть совсем разным.</p>
+    <p>Ваша задача — не получить определённое ощущение, а <span class="mark">дать себе пройти через практику своим способом.</span></p>
+  </section>
+
+  <section class="step"><div class="num">6</div>
+    <h3>Отвлеклись — ничего страшного</h3>
+    <p>Просто снова обратите внимание на голос и продолжайте слушать.</p>
+    <p>Не нужно отматывать назад или ругать себя за то, что «не получилось сосредоточиться». Даже если часть времени вы были заняты своими мыслями, практика не становится бесполезной.</p>
+  </section>
+
+  <div class="phase">После</div>
+
+  <section class="step"><div class="num">7</div>
+    <h3>Не оценивайте результат сразу</h3>
+    <p>Когда медитация закончится, не спешите разбирать:</p>
+    <p class="q">«Что со мной произошло?»<br>«Почему я ничего не почувствовал?»<br>«А был ли это вообще гипноз?»</p>
+    <p>Иногда изменения ощущаются сразу. Иногда — спустя время. А иногда вы замечаете их только в жизни: вдруг реагируете на что-то <b>немного иначе</b>.</p>
+    <p>Поэтому после практики подарите себе несколько минут тишины — и только потом возвращайтесь к делам.</p>
+  </section>
+
+  <div class="orn">✦</div>
+
+  <section class="check" aria-label="Перед прослушиванием">
+    <h3>Готовы слушать?</h3>
+    <div class="hint">Отметьте перед медитацией — займёт полминуты.</div>
+    <button class="ck" type="button" data-k="phone" aria-pressed="false"><span class="box">✓</span><span class="t">Телефон на беззвучном, уведомления выключены</span></button>
+    <button class="ck" type="button" data-k="family" aria-pressed="false"><span class="box">✓</span><span class="t">Близкие знают, что меня пока не трогать</span></button>
+    <button class="ck" type="button" data-k="phones" aria-pressed="false"><span class="box">✓</span><span class="t">Наушники рядом</span></button>
+    <button class="ck" type="button" data-k="comfy" aria-pressed="false"><span class="box">✓</span><span class="t">Мне удобно, и времени с запасом</span></button>
+    <div class="ready" id="ready">Всё готово. Можно просто слушать 🌿</div>
+  </section>
+
+  <section class="sci">
+    <div class="label">Почему это работает</div>
+    <p>Психолог <b>Дэниел Вегнер</b> описал «иронические процессы» контроля: чем сильнее мы стараемся не думать о чём-то или «правильно» расслабиться, тем чаще получаем обратное. Поэтому в медитации мы не боремся с мыслями и напряжением.</p>
+    <p>А в подходе <b>Милтона Эриксона</b> всё, что есть у человека в моменте — напряжение, скачущие мысли, отвлечения, — не мешает трансу, а становится его частью.</p>
+  </section>
+
+  <section class="final">
+    <div class="orn">✦</div>
+    <h2>И самое главное: <em>вам не нужно заставлять себя меняться</em></h2>
+    <p>Не нужно верить каждой фразе, специально представлять образы или добиваться определённого состояния.</p>
+    <p>Ваше сознание может заниматься своими делами, а вы можете позволить себе чуть меньше контролировать происходящее.</p>
+    <p class="last">Иногда этого уже достаточно, чтобы внутри начало происходить что-то новое.</p>
+    <div class="sign">С большой любовью к вашим прекрасным состояниям,<b>психолог Макс Гущин</b></div>
+  </section>
+
+  <div class="go-back"><a class="btn" id="go-back" href="/">‹ К гипно-медитациям</a></div>
+</main>
+
+<footer><div class="wrap">
+  <b>Клуб #MaxMagia</b><br>
+  Клуб — не терапия и не медицинская помощь. Если вам очень тяжело — звоните 112 или напишите мне: <a href="https://t.me/MaxGuschin" target="_blank" rel="noopener">t.me/MaxGuschin</a>.<br>
+  Отметки «Готовы слушать?» хранятся только в этом браузере.
+</div></footer>
+
+<script>
+(function(){
+  var KEY='maxmagia-hypno-howto-v1',st={};
+  try{st=JSON.parse(localStorage.getItem(KEY)||'{}')||{};}catch(e){st={};}
+  var btns=document.querySelectorAll('.ck'),ready=document.getElementById('ready');
+  function paint(){var all=true;btns.forEach(function(b){var on=!!st[b.dataset.k];b.setAttribute('aria-pressed',on?'true':'false');if(!on)all=false;});ready.classList.toggle('on',all);}
+  btns.forEach(function(b){b.addEventListener('click',function(){st[b.dataset.k]=!st[b.dataset.k];try{localStorage.setItem(KEY,JSON.stringify(st));}catch(e){}paint();});});
+  paint();
+
+  var band=document.getElementById('band');
+  if('IntersectionObserver' in window){var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){band.classList.add('seen');io.disconnect();}});},{threshold:.4});io.observe(band);}
+  else band.classList.add('seen');
+
+  // Как вернуться в кабинет: в Telegram — его кнопка «Назад», в приложении с ярлыка — кнопка сверху
+  function home(){location.href='/';}
+  var tg=null;try{tg=window.Telegram&&Telegram.WebApp&&Telegram.WebApp.initData?Telegram.WebApp:null;}catch(e){}
+  if(tg){try{tg.ready();tg.BackButton.onClick(home);tg.BackButton.show();}catch(e){}}
+  var app=false;try{app=navigator.standalone===true||matchMedia('(display-mode: standalone)').matches;}catch(e){}
+  if(app&&!tg)document.getElementById('topback').classList.add('on');
+  // Тёмная тема кабинета — и здесь тёмная
+  try{var t=localStorage.getItem('mm_theme');if(t){t=JSON.parse(t);document.documentElement.setAttribute('data-theme',t==='light'?'light':'dark');}
+      else document.documentElement.setAttribute('data-theme','dark');}catch(e){}
+})();
+</script>
+</body>
+</html>

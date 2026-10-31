@@ -1,0 +1,1475 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<script src="/practices/lib/mm-sync.js?v=3"></script>
+<title>Карьерный помощник</title>
+<meta name="robots" content="noindex, nofollow">
+<script src="/telegram-web-app.js"></script>
+<link rel="stylesheet" href="/practices/fonts/fonts.css">
+<style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style>
+<style>
+
+:root{
+  --bg:#FFFFFF; --bg2:#F4F3EF; --card:#F4F3EF; --ink:#2F2F2F; --dim:#4D4D4D; --mute:#696969; --num:#E4E1DA;
+  --line:rgba(47,47,47,.12); --line2:rgba(47,47,47,.24);
+  --acc:#9A6A2E; --acc-fill:#D4B48A; --on-fill:#141414; --mark:#F6EC6E; --hot:#B23A2E;
+  --glow:rgba(212,180,138,.22); --tile:#2F2F2F; --tile-line:rgba(212,180,138,.6);
+  --gem-base:#8C8680; --gem-lit:#D4A86A;
+  --band1:#2A2420; --band2:#0C0C0E; --band-ink:#F0ECE4; --band-hot:#F49385; --yel:#2F2F2F; --yel-bg:#F6EC6E; --strike:#D2402F;
+  --serif:'Cormorant Garamond',Georgia,'Times New Roman',serif;
+  --sans:'Manrope',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --ease:cubic-bezier(.2,.8,.2,1);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --yel:#F3E37C; --yel-bg:transparent; --strike:#EF5A47;
+    --bg:#0C0C0E; --bg2:#0F0F11; --card:#18181A; --ink:#F0ECE4; --dim:#B9B2A8; --mute:#9C958C; --num:#232326;
+    --line:rgba(240,236,228,.08); --line2:rgba(240,236,228,.16);
+    --acc:#D4B48A; --acc-fill:#D4B48A; --on-fill:#0C0C0E; --mark:rgba(212,180,138,.26); --hot:#EF7A6B;
+    --glow:rgba(212,180,138,.12); --tile:#18181A; --tile-line:rgba(212,180,138,.4);
+    --gem-base:#2C2730; --gem-lit:#E2C79C;
+  }
+}
+:root[data-theme="dark"]{
+  --yel:#F3E37C; --yel-bg:transparent; --strike:#EF5A47;
+  --bg:#0C0C0E; --bg2:#0F0F11; --card:#18181A; --ink:#F0ECE4; --dim:#B9B2A8; --mute:#9C958C; --num:#232326;
+  --line:rgba(240,236,228,.08); --line2:rgba(240,236,228,.16);
+  --acc:#D4B48A; --acc-fill:#D4B48A; --on-fill:#0C0C0E; --mark:rgba(212,180,138,.26); --hot:#EF7A6B;
+  --glow:rgba(212,180,138,.12); --tile:#18181A; --tile-line:rgba(212,180,138,.4);
+  --gem-base:#2C2730; --gem-lit:#E2C79C;
+}
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px);scroll-behavior:smooth}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.7;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+h1,h2,h3{font-family:var(--serif);font-weight:500;margin:0;line-height:1.08;text-wrap:balance}
+p{margin:0}
+button,input{font:inherit;color:inherit;touch-action:manipulation}
+:focus-visible{outline:2px solid var(--acc);outline-offset:4px;border-radius:6px}
+[hidden]{display:none!important}
+.wrap{max-width:1200px;margin:0 auto;padding:0 clamp(20px,4vw,48px)}
+.center{text-align:center}
+.col{max-width:780px;margin-left:auto;margin-right:auto}
+.sec{--gap:clamp(72px,11vh,128px);padding:var(--gap) 0}
+.sec.orn-top{padding-top:0}
+.sec.orn-top > .wrap > .rule-orn{margin:0 auto var(--gap)}
+.label{display:block;font-size:13px;font-weight:600;letter-spacing:.28em;text-transform:uppercase;color:var(--acc);margin-bottom:22px}
+h2{font-size:clamp(38px,5vw,68px);font-weight:400;max-width:20ch;margin:0 auto}
+h2 em{font-style:italic;color:var(--acc)}
+.lede{font-size:clamp(18px,1.4vw,20px);color:var(--dim);max-width:58ch;margin:24px auto 0}
+mark{background:linear-gradient(transparent 60%,var(--mark) 60%);color:inherit;padding:0 .06em}
+.rule-orn{display:flex;align-items:center;justify-content:center;gap:14px;margin:0 auto 26px;color:var(--acc)}
+.rule-orn::before,.rule-orn::after{content:"";width:56px;height:1px;background:linear-gradient(90deg,transparent,var(--acc))}
+.rule-orn::after{transform:scaleX(-1)}
+.rule-orn i{width:6px;height:6px;background:var(--acc);transform:rotate(45deg)}
+
+/* Hero */
+.hero{min-height:100vh;min-height:100svh;display:grid;place-items:center;text-align:center;padding:clamp(40px,8vh,80px) 0;position:relative;overflow:hidden}
+.hero::before{content:"";position:absolute;left:50%;top:40%;width:min(110vw,980px);aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(circle,var(--glow),transparent 64%);pointer-events:none}
+.hero > div{position:relative;width:100%;min-width:0}
+.badge{width:clamp(112px,13vw,144px);aspect-ratio:1;border-radius:50%;margin:0 auto;display:grid;place-items:center;background:#F7F4EE;box-shadow:0 0 0 1px var(--line2),0 24px 60px -24px rgba(0,0,0,.45);animation:rise 1s var(--ease) both}
+.badge img{width:52%;height:auto;display:block}
+.hero .label{margin:30px 0 0;animation:rise 1s .1s var(--ease) both}
+.hero h1{font-size:clamp(38px,11.4vw,132px);font-weight:400;line-height:.95;margin-top:18px;animation:rise 1s .18s var(--ease) both}
+.hero .sub{font-family:var(--serif);font-size:clamp(22px,2.3vw,31px);line-height:1.38;color:var(--dim);margin:30px auto 0;animation:rise 1s .26s var(--ease) both}
+.hero .sub b{font-style:italic;font-weight:600;color:var(--ink)}
+.hero .go{display:inline-flex;flex-direction:column;align-items:center;gap:10px;margin-top:48px;color:var(--mute);font-size:13px;letter-spacing:.2em;text-transform:uppercase;text-decoration:none;animation:rise 1s .34s var(--ease) both}
+.hero .go i{width:1px;height:40px;background:linear-gradient(var(--acc),transparent)}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+
+/* Statement typography */
+.big{font-family:var(--serif);font-size:clamp(26px,2.8vw,38px);line-height:1.28;max-width:30ch;margin:34px auto 0}
+.body{font-size:clamp(18px,1.4vw,20px);color:var(--dim);max-width:60ch;margin:22px auto 0}
+
+/* Cards (landing style) */
+.cards{display:grid;gap:4px;margin-top:clamp(44px,7vh,72px)}
+.cards.c2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.cards.c3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.cards.c4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.card{position:relative;background:var(--card);padding:clamp(34px,4.5vw,56px) clamp(22px,3vw,40px) clamp(34px,4vw,48px);text-align:center}
+.card::before{content:"";position:absolute;left:0;right:0;top:0;height:2px;background:linear-gradient(90deg,var(--acc),transparent)}
+.card .num{display:block;font-family:var(--serif);font-weight:600;font-size:clamp(56px,6vw,84px);line-height:.9;color:var(--num);margin-bottom:12px;font-variant-numeric:oldstyle-nums}
+.card .label{margin-bottom:14px}
+.card h3{font-size:clamp(26px,2.4vw,34px);font-weight:500}
+.card p{color:var(--dim);margin-top:12px}
+.callout{margin-top:4px;background:var(--card);border-left:2px solid var(--acc);padding:clamp(24px,3vw,36px) clamp(24px,4vw,56px);color:var(--dim);font-size:clamp(17px,1.3vw,19px)}
+.callout b{color:var(--acc);font-weight:600}
+
+/* Ways grid */
+.ways{list-style:none;margin:clamp(44px,7vh,72px) 0 0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px;counter-reset:w}
+.ways li{counter-increment:w;position:relative;background:var(--card);padding:28px 18px 26px;text-align:center;font-family:var(--serif);font-size:clamp(20px,1.7vw,24px);line-height:1.2;min-height:150px;display:flex;flex-direction:column;justify-content:flex-end;align-items:center}
+.ways li::before{content:counter(w,decimal-leading-zero);font-family:var(--serif);font-weight:600;font-size:50px;line-height:.9;color:var(--num);margin-bottom:auto;padding-bottom:12px;font-variant-numeric:oldstyle-nums}
+.ways li.span2{grid-column:span 2;font-style:italic;color:var(--acc);font-size:clamp(21px,1.9vw,26px)}
+.ways li.span2::before{content:"…";color:var(--num)}
+.examples{list-style:none;margin:clamp(48px,8vh,80px) auto 0;padding:0;max-width:820px}
+.examples li{font-family:var(--serif);font-size:clamp(25px,2.8vw,38px);line-height:1.2;padding:12px 0;text-align:center}
+.examples li span{color:var(--mute);font-style:italic}
+.examples li.last{color:var(--acc);font-style:italic}
+.whole{margin:clamp(40px,6vh,60px) auto 0}
+
+/* Cinematic band */
+.band{position:relative;overflow:hidden;padding:clamp(110px,20vh,220px) 0;text-align:center;color:var(--band-ink);background:radial-gradient(ellipse 70% 90% at 72% 60%,var(--band1),var(--band2) 70%)}
+.band::before{content:"";position:absolute;inset:-20%;background:radial-gradient(circle at 30% 40%,rgba(212,180,138,.14),transparent 40%),radial-gradient(circle at 75% 65%,rgba(239,122,107,.12),transparent 38%);animation:drift 18s ease-in-out infinite alternate}
+.band::after{content:"";position:absolute;inset:0;opacity:.09;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+.band .fade-top,.band .fade-bot{position:absolute;left:0;right:0;height:30%;pointer-events:none;z-index:1}
+.band .fade-top{top:0;background:linear-gradient(var(--bg),transparent)}
+.band .fade-bot{bottom:0;background:linear-gradient(transparent,var(--bg))}
+.band .in{position:relative;z-index:2}
+.band p{font-family:var(--serif);font-style:italic;font-size:clamp(26px,3.2vw,46px);line-height:1.5;opacity:0;transform:translateY(12px);transition:opacity 1.2s var(--ease),transform 1.2s var(--ease)}
+.band.seen p{opacity:.92;transform:none}
+.band.seen p:nth-child(2){transition-delay:.5s}
+.band.seen p:nth-child(3){transition-delay:1.2s}
+.band p.hot{color:var(--band-hot);font-size:clamp(46px,6.4vw,92px);line-height:1.2;margin-top:12px;opacity:0}
+.band.seen p.hot{opacity:1}
+@keyframes drift{from{transform:translate(-3%,-2%)}to{transform:translate(3%,2%)}}
+
+.ghost{min-height:44px;padding:0 20px;border-radius:999px;border:1px solid var(--line2);background:none;cursor:pointer;font-size:14px;letter-spacing:.06em}
+.ghost:hover{border-color:var(--acc)}
+footer{padding:70px 0 90px;border-top:1px solid var(--line);color:var(--mute);font-size:14px;text-align:center}
+footer .sign{font-family:var(--serif);font-style:italic;font-size:22px;color:var(--acc);margin-bottom:10px}
+footer p + p{margin-top:8px}
+footer a{color:var(--acc)}
+.series{display:inline-flex;flex-wrap:wrap;gap:4px 18px;justify-content:center}
+
+@media (max-width:980px){.ways,.cards.c4{grid-template-columns:repeat(2,minmax(0,1fr))}.cards.c3{grid-template-columns:1fr}}
+@media (max-width:640px){
+  .cards.c2{grid-template-columns:1fr}
+  .ways li{min-height:118px;font-size:17px;padding:22px 10px;hyphens:auto;-webkit-hyphens:auto;overflow-wrap:break-word}
+  .ways li::before{font-size:40px}
+  .answers button{flex:1 1 auto}
+  .tiles{gap:3px}
+  .stage{width:min(100%,300px)}
+}
+@media (prefers-reduced-motion: reduce){
+  *{animation:none!important;transition:none!important}
+  html{scroll-behavior:auto}
+  .band p{opacity:.92!important;transform:none!important}
+}
+.yel{color:var(--yel);background:linear-gradient(transparent 58%,var(--yel-bg) 58%);-webkit-box-decoration-break:clone;box-decoration-break:clone}
+.def-not{display:block;font-family:var(--serif);font-size:clamp(20px,1.8vw,26px);line-height:1.3;color:var(--mute);margin:14px 0 10px;font-weight:400}
+.def-not s{text-decoration:line-through;text-decoration-color:var(--strike);text-decoration-thickness:2px}
+h2.def-yes{max-width:22ch}
+h2.caps{text-transform:uppercase;letter-spacing:.06em;font-size:clamp(34px,5vw,64px)}
+.ps-line{font-family:var(--serif);font-size:clamp(21px,2vw,27px);line-height:1.45;color:var(--dim);max-width:44ch;margin:clamp(36px,6vh,56px) auto 0}
+.ps-line .ps-tag{font-family:var(--sans);font-size:13px;font-weight:700;letter-spacing:.2em;color:var(--acc);margin-right:4px}
+.ps-line b{color:var(--ink);font-weight:600}
+h2.ex-h{margin-top:clamp(64px,10vh,110px)}
+.band p.hot:only-child{margin-top:0}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:54px;padding:0 30px;border-radius:999px;border:0;background:var(--acc-fill);color:var(--on-fill);font-weight:700;font-size:16px;cursor:pointer;text-decoration:none;transition:transform .2s var(--ease),filter .2s}
+.btn:hover{filter:brightness(1.06)}
+.btn:active{transform:scale(.97)}
+.btn svg{width:20px;height:20px;flex:none}
+.photo{margin-top:34px}
+.note-s{font-size:14px;color:var(--mute);margin-top:10px;min-height:1.2em}
+.next-btn{margin-top:30px}
+.goals-ex{list-style:none;margin:clamp(40px,6vh,60px) auto 0;padding:0;max-width:820px;display:grid;gap:4px}
+.goals-ex li{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:16px;align-items:center;background:var(--card);padding:18px clamp(18px,3vw,32px);text-align:left}
+.goals-ex li span{font-family:var(--serif);font-size:clamp(20px,1.8vw,24px)}
+.goals-ex li b{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--acc);font-weight:600;text-align:right}
+.err{color:var(--hot);font-size:15px;margin-top:10px}
+.err:empty{display:none}
+.goal-pin{font-size:13px;letter-spacing:.2em;text-transform:uppercase;color:var(--mute);text-align:center}
+.goal-pin b{display:block;font-family:var(--serif);font-weight:500;font-size:clamp(24px,2.4vw,32px);letter-spacing:0;text-transform:none;color:var(--ink);line-height:1.15;margin-top:6px}
+/* traffic light */
+:root{--c-red:#B8352A;--c-yel:#8A6200;--c-grn:#23744A}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--c-red:#F06A57;--c-yel:#F2C94C;--c-grn:#5CC587}}
+:root[data-theme="dark"]{--c-red:#F06A57;--c-yel:#F2C94C;--c-grn:#5CC587}
+.c-red{color:var(--c-red)!important}.c-yel{color:var(--c-yel)!important}.c-grn{color:var(--c-grn)!important}
+.q[data-c="red"]{--qc:var(--c-red)}.q[data-c="yel"]{--qc:var(--c-yel)}.q[data-c="grn"]{--qc:var(--c-grn)}
+.q::before{background:linear-gradient(90deg,var(--qc),transparent)!important;height:3px}
+.q h3{color:var(--qc)}
+.q small{color:var(--qc)}
+.q .lamp{width:12px;height:12px;border-radius:50%;background:var(--qc);box-shadow:0 0 14px var(--qc);margin-bottom:4px}
+.q[aria-pressed="true"]{background:color-mix(in srgb,var(--card) 86%,var(--qc));box-shadow:inset 0 0 0 1px var(--qc)}
+.q-detail{border-left-color:var(--qc,var(--acc))}
+.q-detail h3{color:var(--qc,var(--ink))}
+.gdot{background:var(--qc,var(--acc-fill))}
+.gdot[data-c="red"]{--qc:var(--c-red)}.gdot[data-c="yel"]{--qc:var(--c-yel)}.gdot[data-c="grn"]{--qc:var(--c-grn)}
+.gdot{box-shadow:0 0 0 4px color-mix(in srgb,var(--qc) 30%,transparent),0 0 18px color-mix(in srgb,var(--qc) 70%,transparent)!important}
+.gdot b{color:#0C0C0E}
+.callout-yel{background:color-mix(in srgb,var(--card) 88%,#F2C94C);border-left-color:#F2C94C}
+.callout-yel > b{color:var(--c-yel)}
+.ps-note{display:block;margin-top:12px;font-size:15px;color:var(--dim)}
+.ps-note b{color:var(--acc)}
+.mini-note{margin:22px auto 0;font-size:16px;color:var(--dim)}
+.mini-note a{color:var(--acc);font-weight:600}
+
+
+.tlink{background:none;border:0;color:var(--mute);cursor:pointer;text-decoration:underline;text-underline-offset:3px;font-size:14px;padding:6px 4px;font-family:var(--sans)}
+.tlink:hover{color:var(--ink)}
+.sci{max-width:760px;margin:clamp(28px,4vh,40px) auto 0;padding:18px 22px;border-left:2px solid var(--acc);background:var(--card);text-align:left;font-size:15px;color:var(--dim)}
+.sci .label{margin-bottom:6px}
+.sci b{color:var(--ink)}
+.bact{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:18px}
+.links{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px;margin-top:clamp(32px,5vh,48px);text-align:left}
+.lk{background:var(--card);padding:20px;text-decoration:none;color:var(--ink);display:flex;flex-direction:column;gap:6px;position:relative}
+.lk b{font-family:var(--serif);font-weight:500;font-size:23px;line-height:1.2}
+.lk small{font-size:14px;color:var(--dim)}
+.lk .tag{font-size:11px;letter-spacing:.18em;text-transform:uppercase;font-weight:700;color:var(--acc)}
+.lk.soon .tag{color:var(--mute)}
+.lk.soon{opacity:.75}
+
+/* ===== Карьерный помощник ===== */
+html,body{overflow-x:clip}
+.wrap{padding-left:max(clamp(16px,4vw,48px),env(safe-area-inset-left,0px));padding-right:max(clamp(16px,4vw,48px),env(safe-area-inset-right,0px))}
+.seg{display:inline-flex;padding:4px;border:1px solid var(--line2);border-radius:999px;gap:4px;margin-top:clamp(28px,4vh,40px);background:var(--card)}
+.seg button{min-height:44px;padding:0 26px;border-radius:999px;border:0;background:none;cursor:pointer;font-weight:600;font-size:15px;color:var(--dim)}
+.seg button[aria-pressed="true"]{background:var(--acc-fill);color:var(--on-fill)}
+:root:not([data-app="gpt"]) .only-gpt{display:none}
+:root[data-app="gpt"] .only-claude{display:none}
+.prog{max-width:420px;height:3px;background:var(--line2);margin:28px auto 0;border-radius:3px;overflow:hidden}
+.prog i{display:block;height:100%;width:0;background:var(--acc);transition:width .5s var(--ease)}
+.prog-t{font-size:14px;color:var(--mute);margin-top:10px;font-variant-numeric:tabular-nums}
+.steps{list-style:none;padding:0;margin:clamp(36px,5vh,56px) auto 0;max-width:880px;display:grid;gap:4px;text-align:left}
+.st{background:var(--card);padding:clamp(22px,3.5vw,40px);display:grid;grid-template-columns:auto minmax(0,1fr);gap:22px;position:relative;transition:background .3s}
+.st::before{content:"";position:absolute;left:0;right:0;top:0;height:2px;background:linear-gradient(90deg,var(--acc),transparent)}
+.st-b{min-width:0}
+.chk{width:46px;height:46px;border-radius:50%;border:1px solid var(--line2);background:var(--bg);display:grid;place-items:center;font-family:var(--serif);font-weight:600;font-size:23px;color:var(--acc);cursor:pointer;transition:background .25s,color .25s,border-color .25s}
+.chk:hover{border-color:var(--acc)}
+.chk[aria-pressed="true"]{background:var(--acc-fill);color:var(--on-fill);border-color:transparent;font-family:var(--sans);font-size:20px}
+.st .label{margin-bottom:8px}
+.st h3{font-size:clamp(27px,2.7vw,36px)}
+.st.done h3{color:var(--dim)}
+.tx{color:var(--dim);margin-top:12px;font-size:17px}
+.tx p + p{margin-top:10px}
+.tx b{color:var(--ink)}
+.tx ul{margin:0;padding-left:20px;display:grid;gap:8px}
+.warn-l b{color:var(--c-red)}
+.ok-l{margin-top:14px!important;font-family:var(--serif);font-style:italic;font-size:22px;color:var(--c-grn)}
+.ui{margin-top:14px;padding:14px 18px;background:var(--bg);border-radius:12px;font-size:16px;color:var(--dim)}
+.ui small{display:block;font-size:11px;letter-spacing:.2em;text-transform:uppercase;font-weight:700;color:var(--acc);margin-bottom:4px}
+.ui b{color:var(--ink);font-weight:600}
+.pr{margin:18px 0 0;background:var(--bg);border:1px solid var(--line2);border-radius:14px;overflow:hidden}
+.pr figcaption{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:8px 8px 8px 18px;border-bottom:1px solid var(--line);font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--acc);font-weight:700}
+.pr figcaption span{min-width:0}
+.cp{flex:none;min-height:38px;padding:0 16px;border-radius:999px;border:1px solid var(--line2);background:var(--card);cursor:pointer;font-size:14px;font-weight:600;letter-spacing:0;text-transform:none;color:var(--ink);white-space:nowrap}
+.cp:hover{border-color:var(--acc)}
+.cp.ok{border-color:var(--c-grn);color:var(--c-grn)}
+.pr pre{margin:0;padding:18px;white-space:pre-wrap;overflow-wrap:anywhere;font-family:var(--sans);font-size:15px;line-height:1.65;color:var(--ink);max-height:380px;overflow:auto}
+.ph{background:var(--mark);border-radius:4px;padding:0 3px;color:var(--ink)}
+.pd{margin-top:8px;border-top:1px solid var(--line)}
+.pd summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px 2px;font-family:var(--serif);font-size:clamp(21px,2vw,25px);line-height:1.2}
+.pd summary::-webkit-details-marker{display:none}
+.pd summary::after{content:"+";font-family:var(--sans);font-size:22px;color:var(--acc);flex:none;width:30px;text-align:center}
+.pd[open] summary::after{content:"–"}
+.pd summary em{font-style:normal;color:var(--acc);margin-right:8px;font-variant-numeric:tabular-nums}
+.pd .pr{margin-top:2px;margin-bottom:12px}
+.pd:first-of-type{margin-top:18px}
+.hint{font-size:15px;color:var(--mute);margin:-4px 0 14px}
+.st > .st-b > .pd + .pd{margin-top:0}
+.done-msg{margin-top:28px;font-family:var(--serif);font-style:italic;font-size:clamp(24px,2.4vw,30px);color:var(--acc)}
+.tips .card{text-align:left}
+.tips .card h3{font-size:clamp(25px,2.2vw,30px)}
+@media (max-width:640px){
+  .st{grid-template-columns:1fr;gap:12px}
+  .chk{width:40px;height:40px;font-size:20px}
+  .pr pre{font-size:14px;padding:14px}
+  .pr figcaption{padding-left:14px}
+  .seg button{padding:0 20px}
+}
+.setup{max-width:880px;margin:clamp(32px,5vh,48px) auto 0;background:var(--card);padding:clamp(20px,3vw,32px);display:grid;gap:18px;text-align:left;position:relative}
+.setup::before{content:"";position:absolute;left:0;right:0;top:0;height:2px;background:linear-gradient(90deg,var(--acc),transparent)}
+.set-row{display:grid;grid-template-columns:minmax(0,220px) minmax(0,1fr);gap:16px;align-items:center}
+.set-l{font-weight:600;font-size:15px;line-height:1.35}
+.set-l small{display:block;font-weight:400;color:var(--mute);font-size:13px}
+.setup .seg{margin-top:0;justify-self:start;background:var(--bg)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chips button{min-height:44px;padding:0 18px;border-radius:999px;border:1px solid var(--line2);background:var(--bg);cursor:pointer;font-weight:600;font-size:15px;color:var(--dim);transition:background .2s,color .2s,border-color .2s}
+.chips button:hover{border-color:var(--acc)}
+.chips button[aria-pressed="true"]{background:var(--acc-fill);color:var(--on-fill);border-color:transparent}
+.chips button[aria-pressed="true"]::before{content:"✓ "}
+.set-echo{font-family:var(--serif);font-style:italic;font-size:clamp(19px,1.8vw,22px);color:var(--acc);border-top:1px solid var(--line);padding-top:14px;line-height:1.35}
+.callout-red{margin:4px auto 0;text-align:left;border-left-color:var(--c-red)}
+.callout-red > b{color:var(--c-red)}
+.tips .card .label{margin-bottom:10px}
+@media (max-width:640px){.set-row{grid-template-columns:1fr;gap:8px}.chips button{padding:0 14px}}
+/* Чек-лист */
+.ckl{margin-top:22px;background:var(--bg);border:1px solid var(--line2);border-radius:16px;padding:clamp(18px,3vw,28px)}
+.ckl-h .label{margin-bottom:6px}
+.ckl h4{font-family:var(--serif);font-weight:500;font-size:clamp(24px,2.3vw,30px);margin:0;line-height:1.15}
+.ckl-p{font-size:14px;color:var(--mute);margin-top:6px;font-variant-numeric:tabular-nums}
+.ck-list{list-style:none;padding:0;margin:14px 0 0;display:grid;gap:2px}
+.ck-list label{display:grid;grid-template-columns:auto minmax(0,1fr);gap:12px;align-items:start;padding:10px 8px;border-radius:10px;cursor:pointer;font-size:16px;color:var(--dim);line-height:1.5}
+.ck-list label:hover{background:var(--card)}
+.ck-list b{color:var(--ink);font-weight:600}
+.ck-list input{appearance:none;-webkit-appearance:none;width:24px;height:24px;margin:1px 0 0;border:1.5px solid var(--line2);border-radius:7px;background:var(--bg);display:grid;place-items:center;cursor:pointer}
+.ck-list input:checked{background:var(--c-grn);border-color:var(--c-grn)}
+.ck-list input:checked::after{content:"";width:6px;height:11px;border:solid var(--bg);border-width:0 2.5px 2.5px 0;transform:translateY(-1px) rotate(45deg)}
+.ck-list input:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+.ck-list input:checked + span{opacity:.75}
+.ckl-ok{font-family:var(--serif);font-style:italic;font-size:22px;color:var(--c-grn);margin-top:12px}
+.ckl .bact{justify-content:flex-start;margin-top:12px}
+/* Пример */
+.ex-tabs{display:flex;flex-wrap:wrap;justify-content:center;gap:4px;margin-top:clamp(32px,5vh,48px)}
+.ex-tabs button{min-height:46px;padding:0 20px;border:0;background:var(--card);cursor:pointer;font-weight:600;font-size:15px;color:var(--dim);border-bottom:2px solid transparent}
+.ex-tabs button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--acc)}
+.ex-lang{display:inline-flex;gap:4px;margin-top:14px;padding:3px;border:1px solid var(--line2);border-radius:999px}
+.ex-lang button{min-height:36px;min-width:52px;border:0;border-radius:999px;background:none;cursor:pointer;font-weight:700;font-size:13px;letter-spacing:.12em;color:var(--mute)}
+.ex-lang button[aria-pressed="true"]{background:var(--acc-fill);color:var(--on-fill)}
+:root:not([data-exl="en"]) .ex-panel [lang="en"]{display:none}
+:root[data-exl="en"] .ex-panel [lang="ru"]{display:none}
+.ex-panel{max-width:880px;margin:22px auto 0;text-align:left}
+.paper{background:var(--card);padding:clamp(22px,4vw,44px);position:relative;font-size:16px;line-height:1.6;color:var(--dim)}
+.paper::before{content:"";position:absolute;left:0;right:0;top:0;height:2px;background:linear-gradient(90deg,var(--acc),transparent)}
+.paper h5{font-family:var(--serif);font-weight:500;font-size:clamp(24px,2.3vw,30px);color:var(--ink);margin:6px 0 0;line-height:1.2}
+.paper h5 small{display:block;font-family:var(--sans);font-size:14px;color:var(--mute);margin-top:4px}
+.paper ul{margin:10px 0 0;padding-left:20px;display:grid;gap:6px}
+.paper ul ul{margin-top:6px}
+.paper b{color:var(--ink);font-weight:600}
+.pp-k{font-size:11px;letter-spacing:.2em;text-transform:uppercase;font-weight:700;color:var(--acc);margin-top:26px}
+.pp-k:first-child{margin-top:0}
+.pp-m{margin-top:6px;color:var(--ink);font-weight:600}
+.en-eq{color:var(--mute);font-weight:400}
+.tag{font-size:13px;color:var(--acc);white-space:nowrap}
+.star{display:grid;grid-template-columns:auto minmax(0,1fr);gap:6px 14px;margin:10px 0 0}
+.star dt{font-family:var(--serif);font-weight:600;font-size:22px;color:var(--acc);line-height:1.2}
+.star dd{margin:0}
+.kw{margin-top:8px}
+.kw i{color:var(--ink)}
+.ex-note{margin-top:14px;font-size:15px;color:var(--mute);text-align:center}
+.ba{display:grid;gap:4px}
+.ba-row{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:4px}
+.ba-row p{background:var(--card);padding:18px 20px;margin:0}
+.was{color:var(--mute);font-size:16px;text-decoration:line-through;text-decoration-color:var(--strike);text-decoration-thickness:1.5px}
+.now{font-family:var(--serif);font-size:clamp(19px,1.8vw,22px);line-height:1.4;color:var(--ink);border-left:2px solid var(--c-grn)}
+.vac{font-size:15px;color:var(--dim);margin-bottom:12px;text-align:center}
+.vac b{color:var(--ink)}
+.cv{font-size:15px}
+.cv .cv-n{font-size:clamp(28px,3vw,36px)}
+.cv-t{color:var(--ink);font-weight:600;margin-top:2px}
+.cv-c{font-size:14px;color:var(--mute)}
+.cv-h{font-size:11px;letter-spacing:.2em;text-transform:uppercase;font-weight:700;color:var(--acc);margin-top:20px;padding-bottom:4px;border-bottom:1px solid var(--line)}
+.cv-h + p{margin-top:8px}
+.cv-j{margin-top:8px}
+.cv-more{margin-top:12px;font-style:italic;color:var(--mute)}
+@media (max-width:640px){.ba-row{grid-template-columns:1fr}.ba-row .was{padding-bottom:10px}.ex-tabs button{flex:1 1 100%}}
+.inl{color:var(--acc);font-weight:600;text-decoration:none;border-bottom:1px solid currentColor}
+.ck-list span{min-width:0;overflow-wrap:anywhere}
+/* Follow-up и смена профессии */
+.fu-when{font-size:15px;color:var(--dim);background:var(--card);padding:14px 18px;border-left:2px solid var(--acc);margin-bottom:4px}
+.fu-when b{color:var(--ink)}
+#followup .ex-panel .pr{margin-top:12px}
+.fu-own,.ch-prompts{max-width:880px;margin-left:auto;margin-right:auto;text-align:left}
+.fu-own{margin-top:clamp(28px,4vh,40px)!important}
+.ch-prompts{margin-top:clamp(32px,5vh,48px)}
+.ch-prompts .pd:first-of-type{margin-top:0}
+.links-s{display:flex;flex-wrap:wrap;gap:8px 20px;margin-top:10px}
+</style>
+</head>
+<body>
+<a id="mm-pill" class="mm-pill" href="/">‹ Мои AI решения</a>
+<style>
+.mm-pill{position:fixed;top:calc(10px + env(safe-area-inset-top,0px));left:calc(12px + env(safe-area-inset-left,0px));z-index:60;
+  padding:7px 14px;border-radius:999px;background:rgba(255,255,255,.92);border:1px solid var(--line2,rgba(0,0,0,.2));color:var(--ink,#2f2f2f);
+  font:600 13px/1.2 Manrope,-apple-system,BlinkMacSystemFont,sans-serif;text-decoration:none;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);
+  box-shadow:0 4px 14px rgba(0,0,0,.08);transition:transform .25s ease,opacity .25s ease}
+.mm-pill.hide{transform:translateY(-70px);opacity:0}
+</style>
+<script>
+/* «назад»: пилюля сверху (в приложении с иконки её заменяет «‹ Кабинет» из mm-sync) + кнопка «Назад» Telegram */
+(function(){
+  var pill=document.getElementById('mm-pill'),onArt=location.pathname.indexOf('/art/')===0;
+  var app=false;try{app=navigator.standalone===true||matchMedia('(display-mode: standalone)').matches;}catch(e){}
+  if(app){pill.remove();}
+  else{
+    if(onArt){pill.textContent='‹ Все практики';pill.href='/art/';}
+    pill.addEventListener('click',function(e){if(history.length>1&&document.referrer){e.preventDefault();history.back();}});
+    var lastY=0;addEventListener('scroll',function(){var y=pageYOffset||0;pill.classList.toggle('hide',y>lastY&&y>120);lastY=y;},{passive:true});
+  }
+  try{var tg=window.Telegram&&Telegram.WebApp;if(tg&&tg.initData&&tg.BackButton&&!onArt){tg.BackButton.show();
+    tg.BackButton.onClick(function(){if(history.length>1)history.back();else location.href='/';});}}catch(e){}
+})();
+</script>
+<main>
+
+<header class="hero" style="min-height:auto;padding-block:clamp(70px,14vh,140px)">
+  <div class="wrap">
+    <div class="badge"><img src="/practices/img/emblem.png" alt="MaxMagia"></div>
+    <span class="label">Клуб #MaxMagia · ИИ в помощь</span>
+    <h1>Карьерный помощник</h1>
+    <p class="sub">Расскажи ИИ о своём опыте один раз.<br>Дальше он соберёт резюме и сопроводительное на русском или английском<br><b>под любую вакансию: в России, Европе или онлайн.</b></p>
+    <a class="go" href="#how">Ниже подробнее<i></i></a>
+  </div>
+</header>
+
+<section class="sec orn-top" id="how">
+  <div class="wrap center">
+    <div class="rule-orn"><i></i></div>
+    <span class="label">Как это работает</span>
+    <h2>Опыт большой. <em>Перебирать его заново</em> больше не нужно</h2>
+    <p class="lede">Ты создаёшь в Claude или ChatGPT отдельный проект. ИИ один раз проводит с тобой очень подробное интервью, как опытный HR, и собирает всё в один файл. Этот файл живёт в проекте, и под каждую вакансию помощник берёт из него нужное: с учётом страны, языка и автоматических фильтров отбора.</p>
+    <div class="cards c3">
+      <div class="card"><span class="num">1</span><span class="label">Один раз</span><h3>Интервью</h3><p>ИИ расспрашивает про каждое место работы, проекты, цифры, навыки и условия. Помогает вспомнить то, что давно забылось.</p></div>
+      <div class="card"><span class="num">2</span><span class="label">Один раз</span><h3>Карьерная база</h3><p>Всё рассказанное собирается в мастер-файл с русскими и английскими формулировками. В нём есть даже то, что не влезает ни в одно резюме.</p></div>
+      <div class="card"><span class="num">3</span><span class="label">Каждый раз</span><h3>Отклики</h3><p>Вставляешь текст вакансии и получаешь разбор, резюме под фильтры отбора, сопроводительное и подготовку к собеседованию.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec orn-top" id="steps">
+  <div class="wrap center">
+    <div class="rule-orn"><i></i></div>
+    <span class="label">Практика</span>
+    <h2>Восемь шагов <em>к своему помощнику</em></h2>
+    <p class="lede">Сначала настрой страницу под себя: промты ниже перестроятся под твой выбор. Отмечай пройденные шаги кружком слева, отметки и настройки сохранятся.</p>
+
+    <div class="setup">
+      <div class="set-row">
+        <span class="set-l">Где собираешь проект</span>
+        <div class="seg" role="group" aria-label="Где собираешь проект">
+          <button type="button" id="appClaude" data-app="claude" aria-pressed="true">Claude</button>
+          <button type="button" id="appGpt" data-app="gpt" aria-pressed="false">ChatGPT</button>
+        </div>
+      </div>
+      <div class="set-row">
+        <span class="set-l">Где ищешь работу <small>можно несколько</small></span>
+        <div class="chips" role="group" aria-label="Где ищешь работу">
+          <button type="button" id="mkRu" data-mk="ru" aria-pressed="true">Россия</button>
+          <button type="button" id="mkEu" data-mk="eu" aria-pressed="false">Европа</button>
+          <button type="button" id="mkRm" data-mk="rm" aria-pressed="false">Удалённо и онлайн</button>
+        </div>
+      </div>
+      <div class="set-row">
+        <span class="set-l">Языки документов <small>можно оба</small></span>
+        <div class="chips" role="group" aria-label="Языки документов">
+          <button type="button" id="lgRu" data-lg="ru" aria-pressed="true">Русский</button>
+          <button type="button" id="lgEn" data-lg="en" aria-pressed="false">Английский</button>
+        </div>
+      </div>
+      <p class="set-echo" id="setEcho"></p>
+    </div>
+
+    <div class="prog" aria-hidden="true"><i id="progBar"></i></div>
+    <p class="prog-t" id="progT">Пройдено 0 из 8 шагов</p>
+
+    <ol class="steps">
+
+      <li class="st" data-step="1">
+        <button type="button" class="chk" aria-pressed="false" aria-label="Отметить шаг 1">1</button>
+        <div class="st-b">
+          <span class="label">Шаг 1 · минут 15</span>
+          <h3>Собери материалы</h3>
+          <div class="tx">
+            <p>Возьми всё, что есть: старые резюме любых лет на любом языке, профиль с hh.ru или LinkedIn (в LinkedIn можно скачать профиль в PDF), список курсов и сертификатов, рекомендательные письма, отзывы, портфолио. Устаревшее и неполное тоже подойдёт, ИИ разберётся.</p>
+            <p data-need="eu">Для Европы добавь: языковые сертификаты, переводы дипломов (если есть), англоязычные описания проектов.</p>
+            <p data-need="rm">Для удалёнки добавь: ссылки на портфолио и кейсы, профили на фриланс-площадках, отзывы клиентов.</p>
+            <p class="warn-l"><b>Важно:</b> убери из файлов паспортные данные, СНИЛС и точный адрес.</p>
+          </div>
+        </div>
+      </li>
+
+      <li class="st" data-step="2">
+        <button type="button" class="chk" aria-pressed="false" aria-label="Отметить шаг 2">2</button>
+        <div class="st-b">
+          <span class="label">Шаг 2</span>
+          <h3>Создай проект</h3>
+          <div class="ui only-claude"><small>В Claude</small>Открой claude.ai → слева раздел <b>Projects</b> → <b>New project</b>.</div>
+          <div class="ui only-gpt"><small>В ChatGPT</small>В левой панели раздел <b>Проекты</b> → <b>Новый проект</b>.</div>
+          <div class="tx"><p>Название, например: «Карьера и поиск работы».</p></div>
+        </div>
+      </li>
+
+      <li class="st" data-step="3">
+        <button type="button" class="chk" aria-pressed="false" aria-label="Отметить шаг 3">3</button>
+        <div class="st-b">
+          <span class="label">Шаг 3</span>
+          <h3>Загрузи материалы в проект</h3>
+          <div class="ui only-claude"><small>В Claude</small>На странице проекта справа блок <b>Files</b> (или <b>Project knowledge</b>) → плюсик → загрузи файлы из шага 1.</div>
+          <div class="ui only-gpt"><small>В ChatGPT</small>На странице проекта нажми <b>Добавить файлы</b> и загрузи всё из шага 1.</div>
+        </div>
+      </li>
+
+      <li class="st" data-step="4">
+        <button type="button" class="chk" aria-pressed="false" aria-label="Отметить шаг 4">4</button>
+        <div class="st-b">
+          <span class="label">Шаг 4</span>
+          <h3>Вставь инструкции проекта</h3>
+          <div class="ui only-claude"><small>В Claude</small>На странице проекта блок <b>Instructions</b> → <b>Set project instructions</b>. Вставь текст ниже целиком и сохрани.</div>
+          <div class="ui only-gpt"><small>В ChatGPT</small>В проекте открой настройки (значок ⋯ или шестерёнка) → <b>Инструкции</b>. Вставь текст ниже целиком и сохрани.</div>
+          <div class="tx"><p>Это «характер» и знания твоего помощника: правила для твоих рынков и языков, как проходить автоматический отбор резюме. Он будет помнить это в каждом чате проекта. Текст уже собран под твои настройки выше.</p></div>
+          <figure class="pr" data-title="Инструкции проекта">
+            <figcaption><span>Инструкции проекта</span><button type="button" class="cp">Скопировать</button></figcaption>
+<pre data-tpl="instr"></pre>
+          </figure>
+        </div>
+      </li>
+
+      <li class="st" data-step="5">
+        <button type="button" class="chk" aria-pressed="false" aria-label="Отметить шаг 5">5</button>
+        <div class="st-b">
+          <span class="label">Шаг 5 · самый важный</span>
+          <h3>Пройди карьерное интервью</h3>
+          <div class="tx">
+            <p>Внутри проекта открой новый чат и вставь промт. Интервью сделано максимально подробным: ИИ пройдёт по каждому месту работы, вытащит цифры, проекты, навыки и истории, а в конце проверит, не забыто ли что-то. Отвечать можно как угодно: сумбурно, кусками, голосом.</p>
+            <p>Не торопись. При большом опыте это займёт 3–5 вечеров, и это нормально: интервью делается один раз на годы вперёд.</p>
+          </div>
+          <figure class="pr" data-title="Карьерное интервью">
+            <figcaption><span>Промт · интервью</span><button type="button" class="cp">Скопировать</button></figcaption>
+<pre data-tpl="interview"></pre>
+          </figure>
+          <details class="pd">
+            <summary><span>Если нужно продолжить в новом чате</span></summary>
+            <figure class="pr" data-title="Продолжить интервью">
+              <figcaption><span>Промт · продолжение</span><button type="button" class="cp">Скопировать</button></figcaption>
+<pre>Продолжаем карьерное интервью по тем же правилам, что и раньше. Вот что уже собрано: <span class="ph">[вставь промежуточный итог]</span>. Скажи, на каком блоке мы остановились, и продолжи с него.</pre>
+            </figure>
+            <p class="hint">Совет: сохраняй каждый промежуточный итог в файл и тоже загружай в проект, тогда ничего не потеряется.</p>
+          </details>
+        </div>
+      </li>
+
+      <li class="st" data-step="6">
+        <button type="button" class="chk" aria-pressed="false" aria-label="Отметить шаг 6">6</button>
+        <div class="st-b">
+          <span class="label">Шаг 6</span>
+          <h3>Собери «Карьерную базу»</h3>
+          <div class="tx"><p>Когда интервью закончено, напиши в том же чате:</p></div>
+          <figure class="pr" data-title="Сборка Карьерной базы">
+            <figcaption><span>Промт · сборка базы</span><button type="button" class="cp">Скопировать</button></figcaption>
+<pre data-tpl="base"></pre>
+          </figure>
+          <p class="hint">Если база получилась очень длинной и ответ оборвался, напиши: «Продолжи с того места, где остановился».</p>
+        </div>
+      </li>
+
+      <li class="st" data-step="7">
+        <button type="button" class="chk" aria-pressed="false" aria-label="Отметить шаг 7">7</button>
+        <div class="st-b">
+          <span class="label">Шаг 7</span>
+          <h3>Положи базу в проект</h3>
+          <div class="tx">
+            <ul>
+              <li>Внимательно прочитай базу. Проверь даты, цифры и названия компаний: ИИ может ошибиться или приукрасить. Поправь прямо в чате.</li>
+              <li>Скопируй итоговый текст в документ (Word, Google Docs или обычный текстовый файл) и назови его «Карьерная база».</li>
+              <li>Загрузи этот файл в проект так же, как в шаге 3.</li>
+            </ul>
+            <p class="ok-l">Готово. Теперь у помощника есть вся информация о тебе.</p>
+            <p><a class="inl" href="#example">Посмотреть, как выглядит фрагмент базы ↓</a></p>
+          </div>
+        </div>
+      </li>
+
+      <li class="st" data-step="8">
+        <button type="button" class="chk" aria-pressed="false" aria-label="Отметить шаг 8">8</button>
+        <div class="st-b">
+          <span class="label">Шаг 8 · каждый раз</span>
+          <h3>Откликайся на вакансии</h3>
+          <div class="tx">
+            <p><b>Одна вакансия — один новый чат внутри проекта.</b> Вставляй текст вакансии целиком, а не ссылку: ИИ не всегда может открыть сайт с вакансией.</p>
+            <p class="links-s"><a class="inl" href="#followup">Шаблоны follow-up писем ↓</a><a class="inl" href="#change">Меняешь профессию? ↓</a></p>
+          </div>
+
+          <details class="pd" open>
+            <summary><span><em>8.1</em> Разбор вакансии</span></summary>
+            <figure class="pr" data-title="Разбор вакансии">
+              <figcaption><span>Промт · разбор</span><button type="button" class="cp">Скопировать</button></figcaption>
+<pre data-tpl="analyze"></pre>
+            </figure>
+          </details>
+
+          <details class="pd">
+            <summary><span><em>8.2</em> Резюме под вакансию</span></summary>
+            <figure class="pr" data-title="Резюме под вакансию">
+              <figcaption><span>Промт · резюме</span><button type="button" class="cp">Скопировать</button></figcaption>
+<pre data-tpl="resume"></pre>
+            </figure>
+            <p class="hint" data-need="ru">Для hh.ru допиши в конце: «Разбей по полям hh.ru, чтобы мне было удобно копировать».</p>
+          </details>
+
+          <details class="pd">
+            <summary><span><em>8.3</em> Проверка на фильтры отбора (ATS)</span></summary>
+            <figure class="pr" data-title="Проверка на ATS">
+              <figcaption><span>Промт · ATS-проверка</span><button type="button" class="cp">Скопировать</button></figcaption>
+<pre data-tpl="ats"></pre>
+            </figure>
+          </details>
+
+          <details class="pd">
+            <summary><span><em>8.4</em> Сопроводительное письмо</span></summary>
+            <figure class="pr" data-title="Сопроводительное письмо">
+              <figcaption><span>Промт · письмо</span><button type="button" class="cp">Скопировать</button></figcaption>
+<pre data-tpl="letter"></pre>
+            </figure>
+          </details>
+
+          <details class="pd">
+            <summary><span><em>8.5</em> Английская версия документов</span></summary>
+            <figure class="pr" data-title="Английская версия">
+              <figcaption><span>Промт · английский</span><button type="button" class="cp">Скопировать</button></figcaption>
+<pre data-tpl="english"></pre>
+            </figure>
+          </details>
+
+          <details class="pd">
+            <summary><span><em>8.6</em> Профиль LinkedIn</span></summary>
+            <figure class="pr" data-title="Профиль LinkedIn">
+              <figcaption><span>Промт · LinkedIn</span><button type="button" class="cp">Скопировать</button></figcaption>
+<pre data-tpl="linkedin"></pre>
+            </figure>
+            <p class="hint">Делается один раз, потом обновляется вместе с базой.</p>
+          </details>
+
+          <details class="pd">
+            <summary><span><em>8.7</em> Вопросы работодателя при отклике</span></summary>
+            <figure class="pr" data-title="Вопросы работодателя">
+              <figcaption><span>Промт · вопросы</span><button type="button" class="cp">Скопировать</button></figcaption>
+<pre>Работодатель задаёт вопросы при отклике:
+<span class="ph">[вставь вопросы]</span>
+Ответь от моего имени на языке вопросов, коротко и по делу, опираясь на Карьерную базу. Отдельно отметь вопросы, по которым может сработать автоматический отказ (опыт, язык, право на работу, зарплата, переезд), и проверь, что мои ответы точные и совпадают с резюме.</pre>
+            </figure>
+          </details>
+
+          <details class="pd">
+            <summary><span><em>8.8</em> Подготовка к собеседованию</span></summary>
+            <figure class="pr" data-title="Подготовка к собеседованию">
+              <figcaption><span>Промт · собеседование</span><button type="button" class="cp">Скопировать</button></figcaption>
+<pre>У меня собеседование на эту вакансию <span class="ph">[с кем: HR / будущий руководитель / финальное]</span>, язык собеседования: <span class="ph">[русский / английский]</span>.
+Подготовь на языке собеседования:
+1) 10 вероятных вопросов, включая неудобные (перерывы в работе, причины ухода, зарплата, переезд или часовой пояс), и черновики ответов на основе моих STAR-историй;
+2) короткий рассказ о себе на 1–2 минуты;
+3) 5 сильных вопросов, которые я задам им.
+Потом проведи со мной тренировочное собеседование: задавай по одному вопросу, а после моего ответа давай честную обратную связь и предлагай, как ответить сильнее. Если собеседование на английском, поправляй и мой английский.</pre>
+            </figure>
+          </details>
+
+          <details class="pd">
+            <summary><span><em>8.9</em> Обновить базу</span></summary>
+            <figure class="pr" data-title="Обновление базы">
+              <figcaption><span>Промт · обновление</span><button type="button" class="cp">Скопировать</button></figcaption>
+<pre>Обнови Карьерную базу: <span class="ph">[что нового: работа, проект, курс, достижение]</span>. Задай уточняющие вопросы по тем же правилам, что в карьерном интервью: с цифрами и результатами. Потом выдай обновлённый документ целиком.</pre>
+            </figure>
+            <p class="hint">Потом замени старый файл в проекте новым.</p>
+          </details>
+
+          <div class="ckl" id="ckl">
+            <div class="ckl-h">
+              <span class="label">Перед отправкой отклика</span>
+              <h4>Чек-лист на каждую вакансию</h4>
+              <p class="ckl-p" id="cklP">Отмечено 0 из 8</p>
+            </div>
+            <ul class="ck-list">
+              <li><label><input type="checkbox" id="ck1" data-ck="1"><span><b>Факты сверены с базой.</b> Даты, должности и цифры те же, ничего не приукрашено.</span></label></li>
+              <li><label><input type="checkbox" id="ck2" data-ck="2"><span><b>Слова вакансии на месте.</b> Должность в заголовке и главные требования совпадают с вакансией; ATS-проверка (8.3) пройдена.</span></label></li>
+              <li><label><input type="checkbox" id="ck3" data-ck="3"><span><b>Вёрстка для ATS.</b> Одна колонка, без таблиц и картинок; .docx или текстовый PDF с именем Имя_Фамилия_Должность.</span></label></li>
+              <li><label><input type="checkbox" id="ck4" data-ck="4"><span><b>Формат под рынок.</b> Язык вакансии, традиции страны (фото, личные данные), объём.</span></label></li>
+              <li><label><input type="checkbox" id="ck5" data-ck="5"><span><b>Письмо для этой компании.</b> Есть её название и задача, первая фраза не шаблонная.</span></label></li>
+              <li><label><input type="checkbox" id="ck6" data-ck="6"><span><b>Анкета отклика точная.</b> Опыт, языки, зарплата, переезд или часовой пояс совпадают с резюме.</span></label></li>
+              <li><label><input type="checkbox" id="ck7" data-ck="7"><span><b>Профили совпадают.</b> LinkedIn или hh.ru не противоречат резюме; контакты рабочие.</span></label></li>
+              <li><label><input type="checkbox" id="ck8" data-ck="8"><span><b>Прочитала вслух.</b> Особенно английскую версию: звучит как я, без чужих сложных фраз.</span></label></li>
+            </ul>
+            <p class="ckl-ok" id="cklOk" hidden>Можно отправлять. Удачи!</p>
+            <div class="bact"><button type="button" class="ghost" id="cklReset">Новый отклик: очистить чек-лист</button></div>
+          </div>
+        </div>
+      </li>
+    </ol>
+    <p class="done-msg" id="doneMsg" hidden>Все восемь шагов пройдены. Твой карьерный помощник готов к работе.</p>
+  </div>
+</section>
+
+
+<section class="sec orn-top" id="example">
+  <div class="wrap center">
+    <div class="rule-orn"><i></i></div>
+    <span class="label">Пример</span>
+    <h2>Как выглядит <em>результат</em></h2>
+    <p class="lede">Так может выглядеть работа помощника. Ольга — 12 лет в B2B-продажах и работе с ключевыми клиентами в логистике. Человек и компания вымышленные, цифры придуманы для наглядности.</p>
+
+    <div class="ex-tabs" role="tablist" aria-label="Пример результата">
+      <button type="button" role="tab" id="exT1" data-ex="1" aria-selected="true" aria-controls="exP1">Фрагмент базы</button>
+      <button type="button" role="tab" id="exT2" data-ex="2" aria-selected="false" aria-controls="exP2">Строки резюме: было → стало</button>
+      <button type="button" role="tab" id="exT3" data-ex="3" aria-selected="false" aria-controls="exP3">Резюме под вакансию</button>
+    </div>
+    <div class="ex-lang" role="group" aria-label="Язык примера">
+      <button type="button" id="exRu" data-exl="ru" aria-pressed="true">RU</button>
+      <button type="button" id="exEn" data-exl="en" aria-pressed="false">EN</button>
+    </div>
+
+    <!-- 1. Фрагмент Карьерной базы -->
+    <div class="ex-panel" role="tabpanel" id="exP1" aria-labelledby="exT1">
+      <div class="paper">
+        <p class="pp-k">Карьерная база · раздел «Опыт работы» · фрагмент</p>
+        <h5>ООО «Северная Магистраль» <small>грузоперевозки по России и СНГ, ≈ 800 сотрудников</small></h5>
+        <p class="pp-m">03.2019 – 08.2025 · Руководитель отдела по работе с ключевыми клиентами<span class="en-eq"> · EN: Head of Key Account Management</span></p>
+        <ul>
+          <li><b>Команда:</b> 6 менеджеров в подчинении; подчинялась коммерческому директору; работала с операционным и юридическим отделами.</li>
+          <li><b>Зона ответственности:</b> 40 ключевых клиентов, ≈ 55% выручки компании; годовой план отдела ≈ 1,2 млрд ₽.</li>
+          <li><b>Достижения:</b>
+            <ul>
+              <li>Удержание ключевых клиентов выросло с 78% до 94% за 2 года: ввела квартальные бизнес-ревью и карту рисков по каждому клиенту. <span class="tag">#удержание</span> <span class="tag">#управление</span></li>
+              <li>Запустила направление мультимодальных перевозок: 9 новых клиентов и ≈ 140 млн ₽ выручки за первый год. <span class="tag">#продажи</span> <span class="tag">#запуск</span></li>
+              <li>Сократила срок согласования договоров с 21 до 9 дней: шаблоны и регламент вместе с юристами. <span class="tag">#процессы</span></li>
+            </ul>
+          </li>
+          <li><b>Инструменты:</b> Bitrix24, 1С, Excel (сводные таблицы), Power BI (базово).</li>
+          <li><b>Почему ушла</b> <i>(для себя)</i>: компанию купили, отдел расформировали.</li>
+        </ul>
+        <p class="pp-k">STAR-история · «Клиент на грани ухода»</p>
+        <dl class="star">
+          <dt>S</dt><dd>Крупнейший клиент (≈ 12% выручки) объявил тендер после серии срывов сроков.</dd>
+          <dt>T</dt><dd>Сохранить клиента за 6 недель.</dd>
+          <dt>A</dt><dd>Разобрала причины срывов с операционным отделом, предложила персонального координатора и еженедельный отчёт, лично вела переговоры с топ-менеджментом клиента.</dd>
+          <dt>R</dt><dd>Клиент продлил контракт на 2 года и увеличил объём на 15%.</dd>
+        </dl>
+        <p class="pp-k">Банк ключевых слов</p>
+        <p class="kw">работа с ключевыми клиентами · <i>Key Account Management (KAM)</i> &nbsp;/&nbsp; удержание клиентов · <i>client retention</i> &nbsp;/&nbsp; B2B-продажи · <i>B2B sales</i> &nbsp;/&nbsp; управление командой · <i>team leadership</i> &nbsp;/&nbsp; логистика, цепи поставок · <i>logistics, supply chain</i> &nbsp;/&nbsp; CRM (Bitrix24)</p>
+      </div>
+      <p class="ex-note">Обрати внимание: в базе есть всё, даже причина ухода и примерные цифры с «≈». В резюме попадёт только нужное.</p>
+    </div>
+
+    <!-- 2. Было → стало -->
+    <div class="ex-panel" role="tabpanel" id="exP2" aria-labelledby="exT2" hidden>
+      <div class="ba">
+        <div class="ba-row"><p class="was">Работала с ключевыми клиентами</p>
+          <p class="now" lang="ru">Руководила портфелем из 40 ключевых клиентов (≈ 55% выручки компании); повысила удержание с 78% до 94% за 2 года</p>
+          <p class="now" lang="en">Managed a portfolio of 40 key accounts (~55% of company revenue); increased client retention from 78% to 94% in two years</p></div>
+        <div class="ba-row"><p class="was">Занималась развитием новых направлений</p>
+          <p class="now" lang="ru">Запустила направление мультимодальных перевозок: 9 новых клиентов и ≈ 140 млн ₽ выручки за первый год</p>
+          <p class="now" lang="en">Launched a multimodal transportation line, winning 9 new clients and ~RUB 140M in first-year revenue</p></div>
+        <div class="ba-row"><p class="was">Ответственная, коммуникабельная, стрессоустойчивая</p>
+          <p class="now" lang="ru">Сохранила крупнейшего клиента (≈ 12% выручки) в ситуации тендера: лично вела переговоры с топ-менеджментом и ввела еженедельную отчётность по сервису</p>
+          <p class="now" lang="en">Retained the largest client (~12% of revenue) during a competitive tender by leading C-level negotiations and introducing weekly service reporting</p></div>
+        <div class="ba-row"><p class="was">Оптимизировала работу с договорами</p>
+          <p class="now" lang="ru">Сократила срок согласования договоров с 21 до 9 дней за счёт шаблонов и регламента с юридическим отделом</p>
+          <p class="now" lang="en">Cut contract approval time from 21 to 9 days by introducing templates and a joint workflow with the legal team</p></div>
+      </div>
+      <p class="ex-note">Слева то, что пишут обычно. Справа то, что помощник собирает из базы: действие, масштаб, результат в цифрах.</p>
+    </div>
+
+    <!-- 3. Резюме под вакансию -->
+    <div class="ex-panel" role="tabpanel" id="exP3" aria-labelledby="exT3" hidden>
+      <p class="vac" lang="ru"><b>Вакансия:</b> Руководитель направления по работе с ключевыми клиентами, логистическая компания, Москва, гибрид.</p>
+      <p class="vac" lang="en"><b>Vacancy:</b> Key Account Manager, international freight forwarder, Berlin or remote within the EU.</p>
+      <div class="paper cv" lang="ru">
+        <h5 class="cv-n">Ольга Ветрова</h5>
+        <p class="cv-t">Руководитель направления по работе с ключевыми клиентами · B2B, логистика</p>
+        <p class="cv-c">Москва · гибрид или офис · email · телефон · Telegram</p>
+        <p class="cv-h">О себе</p>
+        <p>12 лет в B2B-продажах и работе с ключевыми клиентами в логистике. Руковожу портфелями до 40 клиентов и командами до 6 человек. Повышаю удержание и выручку через системную работу: бизнес-ревью, карты рисков, понятные регламенты.</p>
+        <p class="cv-h">Ключевые навыки</p>
+        <p>Key Account Management (KAM) · удержание клиентов · B2B-продажи · переговоры с топ-менеджментом · управление командой · CRM (Bitrix24) · Power BI</p>
+        <p class="cv-h">Опыт работы</p>
+        <p class="cv-j"><b>Руководитель отдела по работе с ключевыми клиентами</b><br>ООО «Северная Магистраль», Москва · 03.2019 – 08.2025</p>
+        <ul>
+          <li>Руководила портфелем из 40 ключевых клиентов (≈ 55% выручки компании); повысила удержание с 78% до 94% за 2 года</li>
+          <li>Запустила направление мультимодальных перевозок: 9 новых клиентов и ≈ 140 млн ₽ выручки за первый год</li>
+          <li>Сохранила крупнейшего клиента в ситуации тендера; контракт продлён на 2 года с ростом объёма на 15%</li>
+        </ul>
+        <p class="cv-more">… далее предыдущие места работы, образование, языки</p>
+      </div>
+      <div class="paper cv" lang="en">
+        <h5 class="cv-n">Olga Vetrova</h5>
+        <p class="cv-t">Key Account Manager · B2B Logistics · Client Retention</p>
+        <p class="cv-c">Moscow, Russia · open to relocation to Germany · email · phone · LinkedIn</p>
+        <p class="cv-h">Summary</p>
+        <p>Key account leader with 12 years in B2B logistics sales. Manages portfolios of up to 40 clients and teams of up to 6. Grows retention and revenue through structured account management: quarterly business reviews, risk mapping, clear processes. Russian (native), English (C1).</p>
+        <p class="cv-h">Skills</p>
+        <p>Key Account Management (KAM) · Client Retention · B2B Sales · C-level Negotiation · Team Leadership · CRM (Bitrix24) · Power BI</p>
+        <p class="cv-h">Experience</p>
+        <p class="cv-j"><b>Head of Key Account Management</b><br>Severnaya Magistral (Russian freight carrier, ~800 employees) · Moscow, Russia · 03/2019 – 08/2025</p>
+        <ul>
+          <li>Managed a portfolio of 40 key accounts (~55% of company revenue); increased client retention from 78% to 94% in two years</li>
+          <li>Launched a multimodal transportation line, winning 9 new clients and ~RUB 140M in first-year revenue</li>
+          <li>Retained the largest client during a competitive tender; contract extended for 2 years with 15% volume growth</li>
+        </ul>
+        <p class="cv-more">… earlier roles, education, languages</p>
+      </div>
+      <p class="ex-note">Заголовок повторяет должность из вакансии, ключевые слова стоят в «О себе», навыках и опыте, вёрстка в одну колонку. Английская версия — не перевод: компания пояснена одной фразой, указаны переезд и уровень языка.</p>
+    </div>
+  </div>
+</section>
+
+<section class="band" aria-label="Главная мысль">
+  <div class="fade-top"></div><div class="fade-bot"></div>
+  <div class="wrap in">
+    <p>Ты рассказываешь о себе один раз.</p>
+    <p>Дальше помощник берёт всё из базы.</p>
+    <p class="hot">Отклик за минуты</p>
+  </div>
+</section>
+
+<section class="sec orn-top" id="ats">
+  <div class="wrap center">
+    <div class="rule-orn"><i></i></div>
+    <span class="label">Автоматический отбор</span>
+    <h2>Как резюме проходит <em>через фильтры</em></h2>
+    <p class="lede">Во многих компаниях резюме сначала читает программа: система отбора кандидатов (ATS). Она ищет в тексте нужные слова и отсеивает по ответам в анкете. Помощник знает эти правила и собирает резюме так, чтобы оно дошло до человека.</p>
+    <div class="cards c3 tips">
+      <div class="card"><span class="label c-grn">Работает</span><h3>Слова из вакансии</h3><p>Названия навыков, инструментов и должности так, как они написаны в вакансии. Аббревиатура вместе с расшифровкой. Главные требования встречаются в «О себе», навыках и последнем опыте.</p></div>
+      <div class="card"><span class="label c-grn">Работает</span><h3>Простая вёрстка</h3><p>Одна колонка, стандартные заголовки разделов, без таблиц, иконок и картинок. Файл .docx или текстовый PDF, даты в одном формате.</p></div>
+      <div class="card"><span class="label c-grn">Работает</span><h3>Точная анкета</h3><p>Отказ часто ставится автоматически по ответам на вопросы при отклике: опыт, язык, зарплата, переезд. Ответы должны быть точными и совпадать с резюме.</p></div>
+    </div>
+    <div class="callout callout-red">
+      <b>Не работает:</b> белый текст с ключевыми словами, скрытые списки, копирование всей вакансии в резюме. Современные системы и рекрутеры это замечают, и такого кандидата отклоняют. После программы резюме всегда читает человек.
+    </div>
+  </div>
+</section>
+
+
+<section class="sec orn-top" id="followup" data-txt="FOLLOW-UP ПИСЬМА">
+  <div class="wrap center">
+    <div class="rule-orn"><i></i></div>
+    <span class="label">После отклика</span>
+    <h2>Follow-up: <em>напомнить о себе</em></h2>
+    <p class="lede">Отклики теряются в потоке, рекрутеры болеют и уходят в отпуск. Короткое вежливое письмо через несколько дней часто возвращает тебя в список. Правило простое: одно конкретное достижение, понятный следующий шаг и не больше двух напоминаний на одну вакансию.</p>
+
+    <div class="ex-tabs" role="tablist" aria-label="Ситуация">
+      <button type="button" role="tab" id="fuT1" data-fu="1" aria-selected="true" aria-controls="fuP1">После отклика</button>
+      <button type="button" role="tab" id="fuT2" data-fu="2" aria-selected="false" aria-controls="fuP2">После собеседования</button>
+      <button type="button" role="tab" id="fuT3" data-fu="3" aria-selected="false" aria-controls="fuP3">Если тишина</button>
+      <button type="button" role="tab" id="fuT4" data-fu="4" aria-selected="false" aria-controls="fuP4">После отказа</button>
+    </div>
+    <div class="ex-lang" role="group" aria-label="Язык шаблонов">
+      <button type="button" id="fuRu" data-exl="ru" aria-pressed="true">RU</button>
+      <button type="button" id="fuEn" data-exl="en" aria-pressed="false">EN</button>
+    </div>
+
+    <div class="ex-panel" role="tabpanel" id="fuP1" aria-labelledby="fuT1">
+      <p class="fu-when"><b>Когда:</b> через 5–7 рабочих дней после отклика. <b>Куда:</b> email рекрутера, сообщение в LinkedIn или чат с работодателем на hh.ru.</p>
+      <figure class="pr" lang="ru" data-title="Follow-up после отклика · RU">
+        <figcaption><span>Шаблон · RU</span><button type="button" class="cp">Скопировать</button></figcaption>
+<pre>Тема: Отклик на вакансию <span class="ph">[должность]</span> — <span class="ph">[Имя Фамилия]</span>
+
+Здравствуйте, <span class="ph">[имя]</span>!
+
+<span class="ph">[Дата]</span> я откликнулась на вакансию <span class="ph">[должность]</span>. Хочу уточнить, актуальна ли она и есть ли решение по моей кандидатуре.
+
+Коротко, чем могу быть полезна: <span class="ph">[одно достижение с цифрой, которое закрывает главную задачу вакансии]</span>.
+
+Буду рада созвониться в удобное для вас время. Резюме прикладываю ещё раз.
+
+С уважением,
+<span class="ph">[Имя Фамилия]</span>
+<span class="ph">[телефон · Telegram · LinkedIn]</span></pre>
+      </figure>
+      <figure class="pr" lang="en" data-title="Follow-up после отклика · EN">
+        <figcaption><span>Шаблон · EN</span><button type="button" class="cp">Скопировать</button></figcaption>
+<pre>Subject: Following up on my application — <span class="ph">[Position]</span>, <span class="ph">[Full Name]</span>
+
+Dear <span class="ph">[Name]</span>,
+
+I applied for the <span class="ph">[Position]</span> role on <span class="ph">[date]</span> and wanted to follow up to confirm my application was received and ask whether there is any update.
+
+In short, here is what I would bring: <span class="ph">[one quantified achievement that matches the role's main task]</span>.
+
+I would be glad to schedule a short call at your convenience. My CV is attached again for reference.
+
+Best regards,
+<span class="ph">[Full Name]</span>
+<span class="ph">[phone · email · LinkedIn]</span></pre>
+      </figure>
+    </div>
+
+    <div class="ex-panel" role="tabpanel" id="fuP2" aria-labelledby="fuT2" hidden>
+      <p class="fu-when"><b>Когда:</b> в тот же день или в течение суток после собеседования. <b>Кому:</b> тем, с кем говорила; если контактов нет — рекрутеру с просьбой передать.</p>
+      <figure class="pr" lang="ru" data-title="Благодарность после собеседования · RU">
+        <figcaption><span>Шаблон · RU</span><button type="button" class="cp">Скопировать</button></figcaption>
+<pre>Тема: Спасибо за встречу — <span class="ph">[должность]</span>
+
+Здравствуйте, <span class="ph">[имя]</span>!
+
+Спасибо за сегодняшний разговор. Было интересно узнать про <span class="ph">[конкретная деталь из разговора: задача, проект, планы команды]</span>.
+
+После встречи я ещё больше уверена, что мой опыт в <span class="ph">[навык или достижение]</span> поможет вам <span class="ph">[их задача]</span>.
+
+Если нужна дополнительная информация или рекомендации, с радостью пришлю.
+
+Хорошего дня,
+<span class="ph">[Имя Фамилия]</span></pre>
+      </figure>
+      <figure class="pr" lang="en" data-title="Благодарность после собеседования · EN">
+        <figcaption><span>Шаблон · EN</span><button type="button" class="cp">Скопировать</button></figcaption>
+<pre>Subject: Thank you — <span class="ph">[Position]</span> interview
+
+Dear <span class="ph">[Name]</span>,
+
+Thank you for taking the time to speak with me today. I especially enjoyed learning about <span class="ph">[specific detail from the conversation]</span>.
+
+Our conversation confirmed my interest in the role. I believe my experience in <span class="ph">[skill or achievement]</span> would help the team <span class="ph">[their goal]</span>.
+
+Please let me know if you need any further information or references.
+
+Kind regards,
+<span class="ph">[Full Name]</span></pre>
+      </figure>
+    </div>
+
+    <div class="ex-panel" role="tabpanel" id="fuP3" aria-labelledby="fuT3" hidden>
+      <p class="fu-when"><b>Когда:</b> на следующий день после обещанного срока решения; если срок не называли — через 7–10 дней после собеседования. Второе напоминание — не раньше чем через неделю, и на этом всё.</p>
+      <figure class="pr" lang="ru" data-title="Если тишина после собеседования · RU">
+        <figcaption><span>Шаблон · RU</span><button type="button" class="cp">Скопировать</button></figcaption>
+<pre>Тема: <span class="ph">[должность]</span> — уточнение по следующим шагам
+
+Здравствуйте, <span class="ph">[имя]</span>!
+
+<span class="ph">[Дата]</span> мы встречались по вакансии <span class="ph">[должность]</span>. Подскажите, пожалуйста, на каком этапе сейчас отбор и когда можно ожидать решения?
+
+Позиция мне по-прежнему очень интересна. Если нужно что-то дополнительно — пример работы, рекомендации, ответы на вопросы — пришлю.
+
+С уважением,
+<span class="ph">[Имя Фамилия]</span></pre>
+      </figure>
+      <figure class="pr" lang="en" data-title="Если тишина после собеседования · EN">
+        <figcaption><span>Шаблон · EN</span><button type="button" class="cp">Скопировать</button></figcaption>
+<pre>Subject: <span class="ph">[Position]</span> — next steps
+
+Dear <span class="ph">[Name]</span>,
+
+I hope you are well. Following our interview on <span class="ph">[date]</span> for the <span class="ph">[Position]</span> role, I wanted to check in on the timeline for next steps.
+
+I remain very interested in the position. If anything else would help — a work sample, references or answers to further questions — I would be happy to send it.
+
+Best regards,
+<span class="ph">[Full Name]</span></pre>
+      </figure>
+    </div>
+
+    <div class="ex-panel" role="tabpanel" id="fuP4" aria-labelledby="fuT4" hidden>
+      <p class="fu-when"><b>Когда:</b> в течение пары дней после отказа. Такое письмо оставляет хорошее впечатление: компании часто возвращаются к сильным кандидатам, когда открывается новая позиция.</p>
+      <figure class="pr" lang="ru" data-title="После отказа · RU">
+        <figcaption><span>Шаблон · RU</span><button type="button" class="cp">Скопировать</button></figcaption>
+<pre>Тема: Спасибо за обратную связь
+
+Здравствуйте, <span class="ph">[имя]</span>!
+
+Спасибо, что сообщили о решении и уделили мне время. Жаль, но я понимаю.
+
+Если будет минутка, поделитесь, пожалуйста, что стоило бы усилить в моём опыте или резюме — это очень поможет. И если появятся похожие задачи, буду рада вернуться к разговору.
+
+Всего доброго,
+<span class="ph">[Имя Фамилия]</span></pre>
+      </figure>
+      <figure class="pr" lang="en" data-title="После отказа · EN">
+        <figcaption><span>Шаблон · EN</span><button type="button" class="cp">Скопировать</button></figcaption>
+<pre>Subject: Thank you for the update
+
+Dear <span class="ph">[Name]</span>,
+
+Thank you for letting me know and for your time throughout the process. While I'm disappointed, I appreciated the opportunity to learn about <span class="ph">[Company]</span>.
+
+If you have a moment, I would be grateful for any feedback on how I could strengthen my application. I would also be glad to be considered for future roles that match my experience.
+
+Best regards,
+<span class="ph">[Full Name]</span></pre>
+      </figure>
+    </div>
+
+    <details class="pd fu-own">
+      <summary><span>Персональное письмо через помощника</span></summary>
+      <figure class="pr" data-title="Follow-up через помощника">
+        <figcaption><span>Промт · follow-up</span><button type="button" class="cp">Скопировать</button></figcaption>
+<pre data-tpl="follow"></pre>
+      </figure>
+      <p class="hint">Удобно писать в том же чате, где готовила отклик на эту вакансию: помощник уже знает детали.</p>
+    </details>
+  </div>
+</section>
+
+<section class="sec orn-top" id="change" data-txt="ДОПОЛНЕНИЕ: СМЕНА ПРОФЕССИИ">
+  <div class="wrap center">
+    <div class="rule-orn"><i></i></div>
+    <span class="label">Дополнение</span>
+    <h2>Если меняешь <em>профессию</em></h2>
+    <p class="lede">Когда опыт из одной сферы, а цель в другой, обычное резюме не срабатывает: система отбора не находит нужных слов, а рекрутер не видит связи. Здесь помощник находит переносимые навыки, проверяет новые роли на реальных вакансиях и помогает честно упаковать переход. Всё работает в том же проекте, на основе твоей Карьерной базы.</p>
+    <div class="cards c3">
+      <div class="card"><span class="num">1</span><span class="label">Мосты</span><h3>Что переносится</h3><p>Навыки и опыт, которые ценятся в новой сфере, и роли, где прошлое становится преимуществом.</p></div>
+      <div class="card"><span class="num">2</span><span class="label">Проверка</span><h3>Чего не хватает</h3><p>Ядро новой профессии по реальным вакансиям и план закрытия пробелов на 1–3 месяца.</p></div>
+      <div class="card"><span class="num">3</span><span class="label">Упаковка</span><h3>Как рассказать</h3><p>Резюме, письмо и ответ на вопрос «почему вы меняете профессию», где переход звучит как сила.</p></div>
+    </div>
+
+    <div class="ch-prompts">
+      <details class="pd" open>
+        <summary><span><em>1</em> Карта переносимых навыков и новых ролей</span></summary>
+        <figure class="pr" data-title="Смена профессии: карта навыков и ролей">
+          <figcaption><span>Промт · мосты</span><button type="button" class="cp">Скопировать</button></figcaption>
+<pre data-tpl="ch1"></pre>
+        </figure>
+      </details>
+      <details class="pd">
+        <summary><span><em>2</em> Проверка на реальных вакансиях и план</span></summary>
+        <figure class="pr" data-title="Смена профессии: проверка и план">
+          <figcaption><span>Промт · проверка</span><button type="button" class="cp">Скопировать</button></figcaption>
+<pre data-tpl="ch2"></pre>
+        </figure>
+        <p class="hint">Возьми 3–5 вакансий одного типа: так видно, что в профессии обязательно, а что зависит от компании.</p>
+      </details>
+      <details class="pd">
+        <summary><span><em>3</em> Резюме и письмо для перехода</span></summary>
+        <figure class="pr" data-title="Смена профессии: резюме и письмо">
+          <figcaption><span>Промт · упаковка</span><button type="button" class="cp">Скопировать</button></figcaption>
+<pre data-tpl="ch3"></pre>
+        </figure>
+      </details>
+      <details class="pd">
+        <summary><span><em>4</em> Ответ «Почему вы меняете профессию?»</span></summary>
+        <figure class="pr" data-title="Смена профессии: подготовка к вопросам">
+          <figcaption><span>Промт · собеседование</span><button type="button" class="cp">Скопировать</button></figcaption>
+<pre>Подготовь мои ответы на вопросы о смене профессии:
+— «Почему вы уходите из <span class="ph">[прежняя сфера]</span>?»
+— «Почему мы должны взять вас без опыта в этой роли?»
+— «Не захотите ли вы вернуться обратно?»
+Ответы на 30–60 секунд, на языке собеседования <span class="ph">[русский / английский]</span>: честные, без оправданий, с опорой на мои переносимые навыки из Карьерной базы и шаги, которые я уже сделала для перехода.
+Потом потренируй меня: задавай эти вопросы по одному, после моего ответа давай обратную связь и предлагай, как сказать сильнее.</pre>
+        </figure>
+      </details>
+    </div>
+  </div>
+</section>
+
+<section class="sec orn-top" id="tips">
+  <div class="wrap center">
+    <div class="rule-orn"><i></i></div>
+    <span class="label">Лайфхаки</span>
+    <h2>Чтобы помощник <em>работал на тебя</em></h2>
+    <div class="cards c3 tips">
+      <div class="card"><h3>Проверяй факты</h3><p>Перечитывай всё перед отправкой. ИИ иногда приукрашивает, а на собеседовании каждая строчка резюме должна сходиться с тем, что ты расскажешь.</p></div>
+      <div class="card"><h3>Учи на удачных</h3><p>Резюме и письма, на которые пришёл ответ, сохраняй и загружай в проект как образцы. Следующие получатся ещё точнее.</p></div>
+      <div class="card"><h3>Правь тон словами</h3><p>Если звучит «не как ты», так и скажи: «слишком официально, сделай проще» или «добавь энергии». Править можно сколько угодно раз.</p></div>
+      <div class="card"><h3>Одна правда на всех</h3><p>Даты, должности и цифры в резюме, LinkedIn и анкетах должны совпадать. Рекрутеры часто сверяют их между собой.</p></div>
+      <div class="card"><h3>Английский вслух</h3><p>Английскую версию прочитай вслух. Если фраза звучит так, как ты бы никогда не сказала, попроси помощника переписать её проще.</p></div>
+      <div class="card"><h3>Рынок решает формат</h3><p>Для России, Европы и удалёнки нужны разные резюме и письма. Помощник определяет рынок по вакансии, но ты всегда можешь уточнить страну.</p></div>
+    </div>
+    <div class="sci">
+      <span class="label">Почему это работает</span>
+      <p>Рекрутеры обычно тратят на первое знакомство с резюме считаные секунды и смотрят на совпадение с вакансией. Поэтому резюме под конкретную роль, с её ключевыми словами и измеримыми результатами, работает лучше одного универсального. Схема <b>STAR</b> (ситуация, задача, действия, результат) широко используется на поведенческих интервью: она помогает отвечать конкретно, а не общими словами.</p>
+    </div>
+  </div>
+</section>
+
+<section class="sec orn-top" id="save">
+  <div class="wrap center">
+    <div class="rule-orn"><i></i></div>
+    <span class="label">Забери с собой</span>
+    <h2>Все промты <em>одним файлом</em></h2>
+    <p class="lede">Сохрани инструкцию текстом с твоими настройками, чтобы промты всегда были под рукой.</p>
+    <div class="bact">
+      <button type="button" class="btn" id="dlTxt"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11"/><path d="m7 10 5 5 5-5"/><path d="M5 20h14"/></svg>Скачать текстом</button>
+      <button type="button" class="ghost" id="resetBtn">Сбросить отметки</button>
+    </div>
+    <p class="note-s" id="dlNote"></p>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="sign">Клуб #MaxMagia</div>
+    <p>Кнопки в Claude и ChatGPT иногда меняют названия. Если нужной кнопки не видно, ищи по смыслу. ИИ может ошибаться, поэтому проверяй факты перед отправкой работодателю.</p>
+    <p>Вопросы и разбор своей ситуации: <a href="https://t.me/MaxGuschin" target="_blank" rel="noopener">t.me/MaxGuschin</a></p>
+    
+  </div>
+</footer>
+</main>
+
+<script>
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const esc = x => String(x == null ? '' : x).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+const RM = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const bio = 'IntersectionObserver' in window ? new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting){ e.target.classList.add('seen'); bio.unobserve(e.target); } }), {threshold:.35}) : null;
+$$('.band').forEach(b => (RM || !bio) ? b.classList.add('seen') : bio.observe(b));
+
+const KEY = 'maxmagia-career-ai-v1';
+const blank = () => ({v:1, app:'claude', done:{}, mk:{ru:true, eu:false, rm:false}, lg:{ru:true, en:false}, ck:{}, exl:''});
+let S = blank();
+try { const r = localStorage.getItem(KEY); if (r){ const d = JSON.parse(r); S = Object.assign(blank(), d); S.mk = Object.assign(blank().mk, d.mk || {}); S.lg = Object.assign(blank().lg, d.lg || {}); } } catch(e){}
+const save = () => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch(e){} };
+
+function setApp(a, focus){
+  S.app = a === 'gpt' ? 'gpt' : 'claude';
+  document.documentElement.setAttribute('data-app', S.app);
+  $$('.seg button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.app === S.app)));
+  save();
+}
+$$('.seg button').forEach(b => b.addEventListener('click', () => setApp(b.dataset.app)));
+
+/* ===== Шаблоны промтов (собираются под настройки) ===== */
+const MK_NAME = {ru:'Россия', eu:'Европа', rm:'удалённая работа и онлайн по всему миру'};
+const LG_NAME = {ru:'русский', en:'английский'};
+const mkList = () => ['ru','eu','rm'].filter(k => S.mk[k]);
+const lgList = () => ['ru','en'].filter(k => S.lg[k]);
+const mkText = () => mkList().map(k => MK_NAME[k]).join('; ');
+const lgText = () => lgList().map(k => LG_NAME[k]).join(' и ');
+const both = () => S.lg.ru && S.lg.en;
+const lgPick = () => both() ? '[русский / английский]' : LG_NAME[lgList()[0]];
+
+const T = {};
+
+T.instr = () => {
+  const p = [];
+  p.push(`Ты мой личный карьерный консультант и HR-эксперт с 15+ годами опыта в рекрутинге, составлении резюме, сопроводительных писем и подготовке к собеседованиям. Ты знаешь рынки труда, на которых я ищу работу, и глубоко понимаешь, как работают системы автоматического отбора резюме (ATS) и как рекрутеры читают резюме.
+
+МОИ ПАРАМЕТРЫ
+— Где ищу работу: ${mkText()}.
+— Языки документов: ${lgText()}.
+
+ИСТОЧНИК ПРАВДЫ
+Файл «Карьерная база» в материалах проекта и мои сообщения.
+
+ГЛАВНЫЕ ПРАВИЛА
+1. Никогда не выдумывай опыт, цифры, должности, даты, навыки и уровень языков. Если для вакансии чего-то не хватает, спроси меня или честно скажи, что этого в базе нет.
+2. Переформулировать, расставлять акценты, выбирать релевантное и переводить мой опыт на язык конкретной вакансии можно и нужно, но без искажения фактов.
+3. Пиши живо и конкретно, без канцелярита и штампов вроде «ответственная, стрессоустойчивая, коммуникабельная». Достижения описывай через результат и цифры.
+4. Если файла «Карьерная база» ещё нет, предложи начать с карьерного интервью.
+5. Когда я присылаю вакансию, сначала определи рынок и страну вакансии и применяй их правила оформления. Если я прислала вакансию без пояснений, сделай короткий разбор соответствия и спроси, что подготовить.
+6. Если я упоминаю новый факт о своём опыте, которого нет в базе, в конце ответа предложи готовый фрагмент текста для добавления в базу.
+7. Общайся со мной на русском, на «ты». Язык документов — по правилам раздела «ЯЗЫКИ».
+
+ATS: КАК ЧЕСТНО ПРОХОДИТЬ АВТОМАТИЧЕСКИЙ ОТБОР
+— Ключевые слова: названия навыков, инструментов, методик и должности бери из текста вакансии в той же формулировке, если они правдивы для меня. Пиши и аббревиатуру, и расшифровку: «CRM (Customer Relationship Management)».
+— Главные требования вакансии должны встречаться в «О себе», в «Навыках» и в описании последних мест работы, естественно, без повторов подряд.
+— Должность в заголовке резюме — как в вакансии, если она честно соответствует моему опыту.
+— Стандартные заголовки разделов: «Опыт работы», «Образование», «Навыки» / Experience, Education, Skills.
+— ATS-вёрстка: одна колонка, без таблиц, текстовых блоков, картинок, иконок и шкал навыков; важное не уноси в колонтитулы.
+— У каждой позиции: должность, компания, город или формат, период; даты в одном формате (MM.ГГГГ или MM/YYYY).
+— Файл: .docx или текстовый PDF (не скан). Имя файла: Имя_Фамилия_Должность.
+— Отсеивающие вопросы анкеты (опыт, языки, право на работу, зарплата, переезд, график) часто дают автоматический отказ: помогай отвечать точно и одинаково с резюме.
+— Если вакансия просит «X лет опыта в Y», явно покажи этот опыт в резюме с датами.
+— Никогда не предлагай белый текст, скрытые ключевые слова или копирование вакансии: системы и рекрутеры это видят, кандидата отклоняют. После ATS резюме читает человек, текст должен быть естественным.`);
+
+  if (S.mk.ru) p.push(`РОССИЯ
+— Площадки: hh.ru, SuperJob, Хабр Карьера (для IT), Telegram-каналы с вакансиями, прямые контакты с рекрутерами.
+— На hh.ru резюме заполняется по полям: желаемая должность, ключевые навыки (тегами), «О себе», опыт. Работодатели фильтруют по должности, навыкам, опыту, зарплате, городу и графику, и задают вопросы при отклике — заполняй эти поля осознанно.
+— Объём 1–2 страницы, фото по желанию.
+— Сопроводительное: 500–1500 знаков, по делу, без шаблонных фраз.
+— Компании часто используют свои системы отбора (например Хантфлоу, Potok): правила ATS выше действуют и здесь.`);
+
+  if (S.mk.eu) p.push(`ЕВРОПА
+— Площадки: LinkedIn, Indeed, StepStone, Xing (немецкоязычные страны), EURES, сайты компаний, местные порталы страны.
+— CV — на английском или на языке страны вакансии. Учитывай традиции страны: в Великобритании и Ирландии фото, возраст и семейное положение не указывают; в немецкоязычных странах фото ещё встречается, но не обязательно. Если традиция неясна — без фото и без личных данных, кроме контактов.
+— Объём 1–2 страницы, обратная хронология, достижения с цифрами.
+— Чётко указывай: страну и город, готовность к переезду, право на работу или визовую ситуацию (только если я её указала), уровни языков по шкале CEFR (A1–C2).
+— Cover letter — полноценное письмо на 3–4 абзаца, не больше страницы, под конкретную компанию.
+— Профиль LinkedIn должен совпадать с CV по датам и должностям.
+— Крупные компании используют ATS вроде Workday, Greenhouse, Lever, SmartRecruiters, SAP SuccessFactors; правила ATS выше для них особенно важны.`);
+
+  if (S.mk.rm) p.push(`УДАЛЁННАЯ РАБОТА И ОНЛАЙН
+— Площадки: LinkedIn, We Work Remotely, Remote OK, Working Nomads, Wellfound, фриланс-биржи (например Upwork), сайты компаний.
+— Подчёркивай навыки удалённой работы: самоорганизация, письменная коммуникация, асинхронная работа, опыт в распределённых командах, инструменты (Slack, Notion, Jira, Zoom и т.п.).
+— Указывай часовой пояс, часы пересечения с командой и формат: полная занятость, частичная, проект, фриланс.
+— Многие удалённые вакансии ограничены страной, регионом или часовым поясом — проверяй это в требованиях и предупреждай меня.
+— Для фриланса: короткий персональный отклик (proposal), который начинается с задачи клиента, а не с рассказа о себе; кейсы и портфолио.`);
+
+  const l = [];
+  if (both()) l.push(`— Готовь документы на том языке, который я укажу. Если не указала: вакансия на английском — документы на английском, на русском — на русском. Если язык неочевиден, спроси.`);
+  else if (S.lg.en) l.push(`— Все документы — на английском, если я не попрошу иначе. Общение со мной — на русском.`);
+  else l.push(`— Все документы — на русском, если я не попрошу иначе.`);
+  if (S.lg.ru) l.push(`— Русский: живой деловой язык, без канцелярита.`);
+  if (S.lg.en) l.push(`— Английский: естественный деловой английский уровня носителя, не дословный перевод. Сильные глаголы действия (led, built, launched, increased, reduced), принятые англоязычные названия должностей, нормы американского или британского английского по стране вакансии (resume или CV, правописание).
+— При переводе адаптируй, а не переводи: российские названия должностей — на понятные эквиваленты, образование — на понятные уровни (Bachelor's, Specialist degree, Master's), незнакомые за рубежом компании — с пояснением одной фразой («leading Russian logistics company, 2,000+ employees»).
+— Уровень языков указывай честно по CEFR.`);
+  p.push('ЯЗЫКИ\n' + l.join('\n'));
+  return p.join('\n\n');
+};
+
+T.interview = () => {
+  const b = [];
+  b.push(`Общая картина: кто я профессионально, общий стаж, направления, как я сама описываю свою карьеру. Цели поиска: какие роли, отрасли, уровень должности, почему ищу именно сейчас.`);
+  b.push(`Каждое место работы — от последнего к первому, включая подработки, фриланс, свой бизнес, стажировки, декрет с подработкой. По каждому выясни:
+   • компания: чем занимается, размер, рынок, известные клиенты или продукты;
+   • период, должность(и), повышения и за что;
+   • кому подчинялась, сколько человек в команде и в подчинении, с какими отделами, клиентами, подрядчиками работала;
+   • зона ответственности и как выглядела типичная неделя;
+   • ключевые задачи и проекты: цель, моя роль, что именно сделала я, результат;
+   • результаты в цифрах (было → стало): деньги, проценты, сроки, объёмы, люди;
+   • бюджеты, которыми управляла;
+   • программы, инструменты, методики;
+   • сложности, кризисы, конфликты и как решала;
+   • ошибки и чему научилась;
+   • отзывы и похвала руководителей, коллег, клиентов;
+   • почему ушла (для меня, не для резюме).`);
+  b.push(`Опыт вне основной работы: волонтёрство, преподавание, наставничество, выступления, публикации, сообщества, пет-проекты, хобби, связанные с профессией.`);
+  b.push(`Образование: вузы, специальности, годы, темы дипломов, отличия. Курсы, программы, сертификаты: год, организация, чему научилась.${S.mk.eu ? ' Есть ли переводы дипломов и их признание в ЕС.' : ''}`);
+  b.push(`Навыки:
+   • профессиональные (hard skills) — с уровнем и где применяла;
+   • программы и цифровые инструменты;
+   • личные качества (soft skills) — только с примерами-доказательствами;
+   • языки: уровень по CEFR (A1–C2), сертификаты, опыт работы на языке.`);
+  b.push(`Топ-достижения: 7–10 главных историй карьеры. Для каждой помоги сформулировать STAR (ситуация → задача → действия → результат) с цифрами.`);
+  b.push(`Сильные стороны и уникальность: чем я отличаюсь от других кандидатов с похожим опытом, с чем ко мне приходят коллеги, в чём меня считают лучшей.`);
+  b.push(`Острые моменты: перерывы в работе, частые смены, понижения, смена профессии, отсутствие диплома и т.п. — что было на самом деле и как об этом спокойно и честно говорить.`);
+  b.push(`Условия: желаемый доход (минимум и комфорт, в какой валюте), формат (офис, гибрид, удалённо), занятость, график, отрасли и компании мечты, чего точно не хочу.`);
+  if (S.mk.eu) b.push(`Европа: страны и города интереса, право на работу или визовая ситуация (если хочу её указать), готовность к переезду и сроки, языки страны, опыт работы с иностранными компаниями, клиентами и командами.`);
+  if (S.mk.rm) b.push(`Удалённая работа: часовой пояс и часы, когда готова быть на связи, опыт удалённой работы и распределённых команд, инструменты, фриланс-опыт и площадки, кейсы для портфолио.`);
+  b.push(`Ссылки и доказательства: портфолио, LinkedIn, публикации, кейсы, кто может дать рекомендацию.`);
+  const blocks = b.map((t, i) => `${i + 1}. ${t}`).join('\n');
+  return `Проведи со мной максимально подробное карьерное интервью. Цель — один раз вытащить ВСЁ о моём опыте, чтобы больше никогда не вспоминать это заново. Из результата соберётся «Карьерная база» для резюме, сопроводительных писем и собеседований${both() ? ' на русском и английском' : S.lg.en ? ' на английском' : ''}. Я ищу работу: ${mkText()}.
+
+ПРАВИЛА ИНТЕРВЬЮ
+— Сначала изучи все загруженные материалы. Составь карту: какие места работы и периоды ты видишь, где пробелы и противоречия в датах. Покажи карту и уточни, всё ли верно.
+— Задавай по 1–3 вопроса за раз и жди ответа. Глубина важнее скорости.
+— Не принимай общие слова. На «занималась продажами» спрашивай: что продавала, кому, какой средний чек, сколько клиентов, какой был план и как я его выполняла, что изменилось благодаря мне.
+— Ищи цифры везде: деньги, проценты, сроки, количество людей, клиентов, проектов, обращений. Если точных цифр нет, помоги оценить примерно и пометь «≈».
+— Помогай вспоминать вопросами-подсказками: за что хвалили, с чем приходили именно ко мне, что я запустила первой, что спасла, что упростила, где сэкономила деньги или время, что делала сверх обязанностей.
+— Называй навыки, которые я сама не замечаю, профессиональными терминами${S.lg.en ? ' на русском и на английском' : ''}.
+— После каждого блока делай краткое резюме и спрашивай: «Что ещё было?» Переходи дальше только когда я скажу.
+— В начале каждого ответа пиши, на каком блоке мы сейчас и сколько блоков осталось.
+— Если разговор становится очень длинным, предупреди и выдай подробный промежуточный итог, чтобы продолжить в новом чате без потерь.
+— Я могу отвечать сумбурно, кусками, голосом. Разбирайся, уточняй, не теряй детали.
+
+БЛОКИ ИНТЕРВЬЮ
+${blocks}
+
+ФИНАЛ
+Пройди ещё раз по всем местам работы и периодам и спроси, что я могла забыть. Проверь, нет ли дыр в датах. Потом скажи, что интервью завершено и можно собирать базу.
+
+Начинай.`;
+};
+
+T.base = () => {
+  const s = [];
+  s.push(`Кратко обо мне: кто я профессионально (3–5 предложений), общий стаж, ключевые специализации.`);
+  s.push(`Цели и условия: роли, уровень, отрасли, формат, доход (минимум и комфорт, валюта), география, чего не хочу.`);
+  s.push(`Опыт работы (от последнего места к первому). По каждому: компания и её сфера; период; должность(и)${S.lg.en ? ' + англоязычный эквивалент' : ''}; команда и подчинение; обязанности; проекты; достижения с цифрами; инструменты; причина ухода (для меня, не для резюме).`);
+  s.push(`Банк достижений: все результаты отдельным списком с тегами по направлениям (например #продажи #управление #процессы).`);
+  s.push(`STAR-истории для собеседований${S.lg.en ? ' — на русском и английском' : ''}.`);
+  s.push(`Навыки: профессиональные, личные (с примерами-подтверждениями), инструменты, языки с уровнем CEFR.`);
+  s.push(`Образование, курсы, сертификаты (с годами)${S.lg.en ? ' + англоязычные названия' : ''}.`);
+  s.push(`Банк ключевых слов для ATS: как мой опыт и навыки называются в вакансиях${S.lg.en ? ' — на русском и на английском' : ''}, включая синонимы и аббревиатуры с расшифровкой.`);
+  s.push(`Готовые блоки «О себе»: 3 варианта (коротко / средне / развёрнуто) под разные направления${both() ? ', каждый на русском и английском' : ''}.`);
+  if (S.mk.eu || S.mk.rm) s.push(`${S.mk.eu ? 'Для Европы: страны, переезд, право на работу (если указала), языки. ' : ''}${S.mk.rm ? 'Для удалёнки: часовой пояс, часы связи, инструменты, опыт удалённой работы, фриланс и портфолио.' : ''}`.trim());
+  s.push(`Острые моменты (перерывы, частые смены и т.п.) и как о них спокойно и честно говорить.`);
+  s.push(`Ссылки: портфолио, профили, рекомендатели.`);
+  s.push(`Открытые вопросы: что ещё стоит уточнить.`);
+  const list = s.map((t, i) => `${i + 1}. ${t}`).join('\n');
+  return `Интервью закончено. Собери из всего, что мы обсудили, и из загруженных материалов итоговый документ «Карьерная база». Это мастер-файл, а не резюме: в нём должно быть ВСЁ, даже то, что не влезет ни в одно резюме. Только факты из моих ответов, ничего не выдумывай. Сам документ пиши на русском${S.lg.en ? ', а англоязычные формулировки давай там, где указано' : ''}.
+
+Структура:
+${list}
+
+Оформи как один цельный документ.`;
+};
+
+T.analyze = () => `Вот вакансия:
+[вставь текст вакансии]
+
+Разбери:
+1) рынок и страна вакансии, формат работы${S.mk.rm ? ', ограничения по стране или часовому поясу' : ''};
+2) что им на самом деле нужно: ключевые требования и скрытые ожидания;
+3) какие ключевые слова и требования, скорее всего, проверяет автоматический отбор (ATS) и анкета отклика;
+4) насколько я подхожу по Карьерной базе: сильные совпадения, слабые места, чего не хватает;
+5) оценка шансов от 1 до 10 и стоит ли откликаться;
+6) какие мои достижения и истории здесь сработают лучше всего.`;
+
+T.resume = () => `Собери резюме под эту вакансию на основе Карьерной базы.
+Язык: ${lgPick()}. Рынок и страну определи по вакансии и примени их правила оформления.
+— Желаемую должность назови так, как в вакансии (если это честно соответствует моему опыту).
+— «О себе»: 3–4 предложения под эту роль, с главными ключевыми словами вакансии.
+— В опыте сделай акцент на релевантных задачах и достижениях, нерелевантное опиши коротко.
+— Ключевые слова из вакансии используй естественно и только правдивые для меня; аббревиатуры с расшифровкой.
+— ATS-вёрстка: одна колонка, стандартные заголовки, без таблиц и иконок, даты в одном формате.
+— Достижения с цифрами, глаголы действия, объём 1–2 страницы.
+Ничего не выдумывай. В конце: какие ключевые слова вакансии вошли, каких нет в моём опыте, что ты подчеркнул и что убрал.`;
+
+T.ats = () => `Проверь моё резюме на прохождение автоматического отбора (ATS) для этой вакансии.
+Вакансия: [вставь текст вакансии]
+Резюме: [вставь текст резюме или приложи файл]
+
+Сделай:
+1) оценку совпадения с вакансией в процентах и список: требование → есть ли в резюме → где именно;
+2) недостающие ключевые слова: какие из них правда есть в моём опыте по Карьерной базе (добавить и куда), а каких нет (не добавлять, честно отметить);
+3) проблемы оформления, которые мешают ATS: колонки, таблицы, колонтитулы, нестандартные заголовки, разный формат дат, аббревиатуры без расшифровки, картинки;
+4) вопросы анкеты отклика, на которых может сработать автоматический отказ, и как ответить точно;
+5) исправленную версию резюме на том же языке.`;
+
+T.letter = () => `Напиши сопроводительное письмо к этой вакансии на основе Карьерной базы.
+Язык: ${lgPick()}. Формат выбери по рынку вакансии:${S.mk.ru ? '\n— Россия: 500–1500 знаков, живо и по делу, без «прошу рассмотреть мою кандидатуру».' : ''}${S.mk.eu ? '\n— Европа: cover letter на 3–4 абзаца, не больше страницы: почему эта компания, что я принесу, 2–3 доказательства с цифрами, призыв к разговору.' : ''}${S.mk.rm ? '\n— Удалёнка и фриланс: короткий отклик, который начинается с задачи работодателя или клиента, плюс 1–2 релевантных кейса.' : ''}
+Первая фраза должна цеплять. Используй 2–3 конкретных достижения, которые закрывают главные задачи вакансии, и естественно включи её ключевые слова.
+Дай 2 варианта: деловой и более тёплый.`;
+
+T.english = () => `Сделай англоязычную версию моего [резюме / сопроводительного письма] для этой вакансии.
+Страна или рынок вакансии: [например: Германия / Великобритания / удалённо в US-компанию].
+— Не переводи дословно: адаптируй под англоязычный рынок и традиции этой страны.
+— Названия должностей — принятые англоязычные эквиваленты; образование — понятные уровни (Bachelor's, Specialist degree, Master's); незнакомые за рубежом компании поясни одной фразой.
+— Сильные глаголы действия, достижения с цифрами, ключевые слова вакансии на английском.
+— Учитывай американский или британский английский по стране.
+— Уровень языков — честно по CEFR.
+В конце отметь места, которые мне стоит проверить, и фразы, которые звучат слишком сложно для живого разговора.`;
+
+T.linkedin = () => `Собери мой профиль LinkedIn на основе Карьерной базы на ${S.lg.en ? (both() ? 'английском (и русскую версию для меня, чтобы понимать смысл)' : 'английском') : 'русском'}.
+Целевые роли: [какие должности ищу]. Рынок: ${mkText()}.
+1) Headline (до 220 знаков): роль + специализация + ключевые слова, по которым меня будут искать рекрутеры.
+2) About (до 2600 знаков): живой текст от первого лица — кто я, что умею, 3–4 достижения с цифрами, что ищу.
+3) Experience: по каждому месту — 3–5 строк достижений, даты и должности строго как в резюме.
+4) Skills: список навыков в порядке важности, с ключевыми словами из целевых вакансий.
+5) Open to work: какие должности, локации и формат указать.
+Ничего не выдумывай.`;
+
+T.follow = () => `Напиши follow-up письмо на основе Карьерной базы.
+Ситуация: [после отклика / после собеседования / тишина после собеседования / после отказа].
+Вакансия и компания: [должность, компания]. Кому: [имя и роль, если знаю]. Дата отклика или встречи: [дата].
+Что важного было в разговоре: [детали, если было собеседование].
+Язык: ${lgPick()}. Канал: [email / LinkedIn / чат на hh.ru].
+Требования: коротко (до 120 слов), вежливо и уверенно, без давления и извинений; одно конкретное достижение, связанное с задачей вакансии; понятный следующий шаг. Для email добавь тему письма.
+Дай 2 варианта: сдержанный и более тёплый.`;
+
+T.ch1 = () => `Я хочу сменить профессию. Сейчас: [кем работаю или работала]. Интересует: [новая сфера или роль; если пока не знаю — так и напиши].
+Я ищу работу: ${mkText()}.
+На основе Карьерной базы:
+1) выдели мои переносимые навыки и опыт (transferable skills), которые ценятся в новой сфере; для каждого — доказательство из базы;
+2) предложи 5–7 реалистичных ролей для входа: от «можно откликаться уже сейчас» до «нужно 3–6 месяцев подготовки»; для каждой — почему подходит и чего не хватает;
+3) назови роли-мосты, где мой прошлый опыт — преимущество: та же отрасль, но новая функция, или та же функция в новой отрасли;
+4) отметь, какие выводы нужно проверить на реальных вакансиях;
+5) задай мне вопросы, если для выводов не хватает информации.
+Ничего не выдумывай про мой опыт.`;
+
+T.ch2 = () => `Вот 3–5 вакансий в новой сфере, которые мне интересны:
+[вставь тексты вакансий]
+
+Сравни их с моей Карьерной базой:
+1) какие требования повторяются почти во всех вакансиях — это ядро профессии;
+2) что из ядра у меня уже есть (с доказательствами из базы), что есть частично, чего нет;
+3) план закрытия пробелов на 1–3 месяца: что изучить, какой учебный проект или кейс сделать для портфолио, какие курсы или сертификаты реально упоминаются в этих вакансиях;
+4) ключевые слова новой сферы для моего резюме и профилей${S.lg.en ? ' — на русском и английском' : ''};
+5) честная оценка: насколько реалистичен переход сейчас и с какой роли лучше начать.`;
+
+T.ch3 = () => `Собери резюме под эту вакансию в новой для меня сфере:
+[вставь текст вакансии]
+Язык: ${lgPick()}.
+— Заголовок и «О себе» строй вокруг целевой роли, а не прошлой должности. В «О себе» одной-двумя фразами честно и уверенно объясни переход: что меня ведёт и что я уже умею для этой роли.
+— Если навыки, курсы и проекты важнее для этой роли, чем прошлый опыт, поставь их выше опыта; добавь учебные и личные проекты.
+— В опыте переформулируй задачи на язык новой сферы: выдели то, что переносится, нерелевантное сократи.
+— Ключевые слова новой сферы — только правдивые для меня. ATS-вёрстка.
+— Ничего не выдумывай и не скрывай, что это переход.
+Потом напиши сопроводительное письмо, где переход — сильная сторона: почему именно эта сфера, какой опыт из прошлого даёт преимущество, что я уже сделала, чтобы подготовиться.`;
+
+function phHtml(s){ return esc(s).replace(/\[([^\]]+)\]/g, '<span class="ph">[$1]</span>'); }
+function renderTpl(){
+  $$('pre[data-tpl]').forEach(pre => { const f = T[pre.dataset.tpl]; if (f) pre.innerHTML = phHtml(f()); });
+  $$('[data-need]').forEach(el => { el.hidden = !S.mk[el.dataset.need]; });
+  $('#setEcho').textContent = `Ищу работу: ${mkText()}. Документы: ${lgText()}.`;
+}
+
+function drawChips(){
+  $$('[data-mk]').forEach(b => { if (b.tagName === 'BUTTON') b.setAttribute('aria-pressed', String(!!S.mk[b.dataset.mk])); });
+  $$('[data-lg]').forEach(b => b.setAttribute('aria-pressed', String(!!S.lg[b.dataset.lg])));
+}
+function toggleIn(obj, k, btn){
+  const on = !obj[k];
+  if (!on && Object.values(obj).filter(Boolean).length === 1){ const n = $('#setEcho'); n.textContent = 'Нужен хотя бы один вариант в каждой строке'; setTimeout(renderTpl, 1800); return; }
+  obj[k] = on; save(); drawChips(); renderTpl(); if (!S.exl && typeof setExl === 'function') setExl(S.lg.ru ? 'ru' : 'en');
+}
+$$('button[data-mk]').forEach(b => b.addEventListener('click', () => toggleIn(S.mk, b.dataset.mk, b)));
+$$('button[data-lg]').forEach(b => b.addEventListener('click', () => toggleIn(S.lg, b.dataset.lg, b)));
+
+const steps = $$('.st');
+function draw(){
+  let n = 0;
+  steps.forEach(li => {
+    const k = li.dataset.step, on = !!S.done[k], b = $('.chk', li);
+    b.setAttribute('aria-pressed', String(on));
+    b.textContent = on ? '✓' : k;
+    li.classList.toggle('done', on);
+    if (on) n++;
+  });
+  $('#progBar').style.width = (n / steps.length * 100) + '%';
+  $('#progT').textContent = `Пройдено ${n} из ${steps.length} шагов`;
+  $('#doneMsg').hidden = n !== steps.length;
+}
+steps.forEach(li => $('.chk', li).addEventListener('click', () => { const k = li.dataset.step; S.done[k] = !S.done[k]; save(); draw(); }));
+
+function selectText(el){ try { const r = document.createRange(); r.selectNodeContents(el); const s = getSelection(); s.removeAllRanges(); s.addRange(r); } catch(e){} }
+$$('.cp').forEach(btn => btn.addEventListener('click', () => {
+  const pre = $('pre', btn.closest('.pr'));
+  const text = pre.textContent.trim();
+  const done = (ok) => {
+    btn.classList.toggle('ok', ok);
+    btn.textContent = ok ? 'Скопировано' : 'Выделено, жми Ctrl+C';
+    if (!ok) selectText(pre);
+    clearTimeout(btn._t); btn._t = setTimeout(() => { btn.textContent = 'Скопировать'; btn.classList.remove('ok'); }, 2200);
+  };
+  try {
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(() => done(true), () => done(false));
+    else done(false);
+  } catch(e){ done(false); }
+}));
+
+function armed(btn, msg, fn){
+  if (btn._armed){ clearTimeout(btn._at); btn._armed = false; btn.textContent = btn._orig; fn(); return; }
+  btn._orig = btn._orig || btn.textContent; btn._armed = true; btn.textContent = msg;
+  btn._at = setTimeout(() => { btn._armed = false; btn.textContent = btn._orig; }, 4000);
+}
+$('#resetBtn').addEventListener('click', e => armed(e.currentTarget, 'Точно сбросить? Нажми ещё раз', () => { S.done = {}; save(); draw(); }));
+
+function buildTxt(){
+  const app = S.app === 'gpt' ? 'ChatGPT' : 'Claude';
+  const out = ['КАРЬЕРНЫЙ ПОМОЩНИК · Клуб #MaxMagia', `Подсказки по кнопкам: ${app}`, `Ищу работу: ${mkText()}. Документы: ${lgText()}.`, ''];
+  steps.forEach(li => {
+    out.push('━━━━━━━━━━━━━━━');
+    out.push(`ШАГ ${li.dataset.step}. ${$('h3', li).textContent.trim()}`);
+    $$('.ui', li).forEach(u => { if (getComputedStyle(u).display !== 'none') out.push($$('small', u).length ? u.textContent.replace($('small', u).textContent, '').trim() : u.textContent.trim()); });
+    const tx = $('.tx', li); if (tx) out.push(tx.innerText.trim());
+    $$('.pr', li).forEach(f => {
+      out.push('', `▼ ${f.dataset.title.toUpperCase()} — копируй отсюда`, $('pre', f).textContent.trim(), '▲ до сюда');
+      const h = f.parentElement.querySelector('.hint'); if (h && !h.hidden && f.parentElement.classList.contains('pd')) out.push(h.textContent.trim());
+    });
+    out.push('');
+  });
+  $$('[data-txt]').forEach(sec => {
+    out.push('━━━━━━━━━━━━━━━', sec.dataset.txt);
+    $$('.pr', sec).forEach(f => out.push('', `▼ ${f.dataset.title.toUpperCase()} — копируй отсюда`, $('pre', f).textContent.trim(), '▲ до сюда'));
+    out.push('');
+  });
+  out.push('━━━━━━━━━━━━━━━', 'ЧЕК-ЛИСТ ПЕРЕД ОТПРАВКОЙ ОТКЛИКА');
+  $$('.ck-list span').forEach(sp => out.push('☐ ' + sp.textContent.trim()));
+  out.push('');
+  out.push('Вопросы: t.me/MaxGuschin');
+  return out.join('\n');
+}
+
+let dlNs = null;
+(async () => { try { if (window.claude && typeof window.claude.use === 'function') dlNs = await window.claude.use('downloads'); } catch(e){ dlNs = null; } })();
+$('#dlTxt').addEventListener('click', async () => {
+  const n = $('#dlNote');
+  const blob = new Blob([buildTxt()], {type:'text/plain;charset=utf-8'});
+  try {
+    if (dlNs){ await dlNs.save({filename:'karernyj-pomoshchnik.txt', data:blob}); n.textContent = 'Готово, файл сохранён'; return; }
+    const a = document.createElement('a');                     // на сайте клуба: обычное скачивание (в Telegram файл пришлёт бот)
+    a.href = URL.createObjectURL(blob); a.download = 'karernyj-pomoshchnik.txt';
+    document.body.appendChild(a); a.click();
+    setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 5000);
+    n.textContent = 'Готово — файл скачан. В Telegram он придёт в чат с ботом клуба 🤍';
+  } catch(e){ n.textContent = e && e.code === 'declined' ? 'Сохранение отменено' : e && e.code === 'rate_limited' ? 'Слишком часто, попробуй через минуту' : 'Не получилось сохранить. Скопируй промты кнопками выше'; }
+});
+
+/* Чек-лист */
+const cks = $$('[data-ck]');
+function drawCk(){
+  let n = 0; cks.forEach(c => { c.checked = !!S.ck[c.dataset.ck]; if (c.checked) n++; });
+  $('#cklP').textContent = `Отмечено ${n} из ${cks.length}`;
+  $('#cklOk').hidden = n !== cks.length;
+}
+cks.forEach(c => c.addEventListener('change', () => { S.ck[c.dataset.ck] = c.checked; save(); drawCk(); }));
+$('#cklReset').addEventListener('click', () => { S.ck = {}; save(); drawCk(); });
+
+/* Follow-up вкладки */
+const fuTabs = $$('[data-fu]');
+function showFu(k, focus){
+  fuTabs.forEach(b => { const on = b.dataset.fu === k; b.setAttribute('aria-selected', String(on)); b.tabIndex = on ? 0 : -1; $('#fuP' + b.dataset.fu).hidden = !on; if (on && focus) b.focus(); });
+}
+fuTabs.forEach((b, i) => {
+  b.addEventListener('click', () => showFu(b.dataset.fu));
+  b.addEventListener('keydown', e => { if (e.key === 'ArrowRight' || e.key === 'ArrowLeft'){ const k = (i + (e.key === 'ArrowRight' ? 1 : -1) + fuTabs.length) % fuTabs.length; showFu(fuTabs[k].dataset.fu, true); e.preventDefault(); } });
+});
+
+/* Пример */
+const exTabs = $$('[data-ex]');
+function showEx(k, focus){
+  exTabs.forEach(b => { const on = b.dataset.ex === k; b.setAttribute('aria-selected', String(on)); b.tabIndex = on ? 0 : -1; $('#exP' + b.dataset.ex).hidden = !on; if (on && focus) b.focus(); });
+}
+exTabs.forEach((b, i) => {
+  b.addEventListener('click', () => showEx(b.dataset.ex));
+  b.addEventListener('keydown', e => { if (e.key === 'ArrowRight' || e.key === 'ArrowLeft'){ const j = (i + (e.key === 'ArrowRight' ? 1 : -1) + exTabs.length) % exTabs.length; showEx(exTabs[j].dataset.ex, true); e.preventDefault(); } });
+});
+function setExl(l){
+  document.documentElement.setAttribute('data-exl', l);
+  $$('[data-exl]').forEach(b => { if (b.tagName === 'BUTTON') b.setAttribute('aria-pressed', String(b.dataset.exl === l)); });
+}
+$$('button[data-exl]').forEach(b => b.addEventListener('click', () => { S.exl = b.dataset.exl; save(); setExl(S.exl); }));
+
+setApp(S.app); drawChips(); renderTpl(); draw(); drawCk(); showEx('1'); showFu('1');
+setExl(S.exl || (S.lg.ru ? 'ru' : 'en'));
+</script>
+</body>
+</html>

@@ -1,0 +1,942 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Любовь к себе — четыре пазла</title>
+<link rel="stylesheet" href="../fonts/fonts.css">
+<style>
+  :root{
+    --bg:#F4EEE8; --card:#FFFCF9; --ink:#33272B; --ink2:#7A6A6E; --line:#DED0C6;
+    --c1:#C4685B; --c2:#D79A4F; --c3:#7E9A84; --c4:#8C7AA9;
+    --yes:#5E8A6C; --no:#C08A5A;
+    --display:"Manrope",system-ui,sans-serif;
+    --body:"Onest",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{margin:0;background:var(--bg);color:var(--ink);font:400 17px/1.62 var(--body);font-variant-numeric:tabular-nums}
+  .wrap{max-width:920px;margin:0 auto;padding:46px 20px 80px;text-align:center}
+  @media (max-width:600px){ .wrap{padding:30px 15px 60px} }
+  h1{margin:0 auto;font:800 clamp(29px,5vw,50px)/1.06 var(--display);letter-spacing:-.035em;max-width:15ch}
+  h1 em{font-style:normal;color:var(--c1)}
+  h2{font:800 clamp(21px,2.8vw,29px)/1.15 var(--display);letter-spacing:-.03em;margin:0 0 12px}
+  h3{font:700 19px/1.2 var(--display);letter-spacing:-.02em;margin:0 0 6px}
+  p{margin:0 auto 14px;max-width:56ch}
+  .lead{font-size:clamp(16.5px,1.9vw,19px);color:var(--ink2);max-width:50ch}
+  .sect{margin:52px 0 0;padding:46px 0 0;border-top:1px solid var(--line)}
+  @media (max-width:600px){ .sect{margin:36px 0 0;padding:32px 0 0} }
+  a{color:var(--c1)}
+
+  .heart{margin:30px auto 0;max-width:560px}
+  .heart svg{width:100%;height:auto;display:block;overflow:visible}
+  .piece{cursor:pointer;transition:fill-opacity .45s ease, transform .25s ease;transform-box:fill-box;transform-origin:center}
+  .piece:hover{transform:scale(1.012)}
+  .piece.pop{animation:pieceIn .5s ease both}
+  @keyframes pieceIn{from{opacity:0}to{opacity:1}}
+
+  .topbar{position:fixed;left:0;right:0;top:0;z-index:40;background:rgba(244,238,232,.94);
+    border-bottom:1px solid var(--line);transform:translateY(-101%);transition:transform .3s ease;
+    backdrop-filter:blur(6px)}
+  .topbar.on{transform:none}
+  .topbar .in{max-width:920px;margin:0 auto;padding:10px 18px;display:flex;align-items:center;gap:14px}
+  .topbar .tt{font:700 14px var(--display);white-space:nowrap}
+  .topbar .track{flex:1;height:9px;border-radius:5px;background:var(--line);overflow:hidden;display:flex}
+  .topbar .track i{display:block;height:100%}
+  .topbar button{font:600 13.5px var(--body);background:var(--ink);color:#fff;border:0;border-radius:99px;
+    padding:7px 14px;cursor:pointer;white-space:nowrap}
+
+  .daily{background:var(--card);border:1.5px solid var(--line);border-radius:14px;padding:20px 20px 18px;
+    margin:26px auto 0;max-width:620px;text-align:left}
+  .daily .tag{display:inline-flex;align-items:center;gap:7px;font:700 12px var(--body);letter-spacing:.04em;
+    text-transform:uppercase;color:var(--c1)}
+  .daily h3{margin:10px 0 0;font-size:19px;line-height:1.3}
+  .daily .where{font-size:13px;color:var(--ink2);margin:4px 0 0}
+  .daily .ms{background:#FBF3EA;border-left:3px solid var(--c1);border-radius:0 8px 8px 0;padding:10px 13px;
+    font-size:15.5px;margin:12px 0 0;line-height:1.45}
+  .daily .acts{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 0}
+  .daily .acts button{font:600 14px var(--body);border-radius:99px;padding:9px 16px;cursor:pointer;
+    border:1.5px solid var(--line);background:#fff;color:var(--ink)}
+  .daily .acts .go{background:var(--yes);border-color:var(--yes);color:#fff}
+  .streak{font-size:14px;color:var(--ink2);margin:10px 0 0}
+  .streak b{color:var(--ink)}
+
+  #shotBox{position:fixed;inset:0;z-index:70;background:rgba(51,39,43,.55);display:none;
+    align-items:center;justify-content:center;padding:20px;overflow:auto}
+  #shotBox.on{display:flex}
+  #shotBox .sheet{background:var(--card);border-radius:16px;padding:18px;max-width:420px;width:100%;text-align:center}
+  #shotBox img{width:100%;height:auto;border-radius:10px;display:block}
+  #shotBox .hint{font-size:14px;color:var(--ink2);margin:12px auto 0;max-width:34ch}
+  #shotBox .sacts{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;align-items:center;margin:6px 0 0}
+  #shotBox .tg{margin-top:12px;border:0;cursor:pointer}
+  #toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);z-index:60;opacity:0;
+    background:var(--ink);color:#fff;font:600 15px var(--body);padding:12px 20px;border-radius:99px;
+    pointer-events:none;transition:opacity .25s ease, transform .25s ease;max-width:90vw;text-align:center}
+  #toast.on{opacity:1;transform:translate(-50%,0)}
+  .seam{fill:none;stroke:var(--bg);stroke-width:5;pointer-events:none}
+  .outline{fill:none;stroke:var(--ink);stroke-width:3.4;stroke-linejoin:round;pointer-events:none}
+  .glare{fill:#fff;opacity:.22;pointer-events:none}
+  .plabel{font:800 16px var(--display);letter-spacing:-.02em;fill:var(--ink);pointer-events:none;text-anchor:middle}
+  .pcount{font:600 13px var(--body);fill:var(--ink2);pointer-events:none;text-anchor:middle}
+  .cap{font-size:15px;color:var(--ink2);margin:14px auto 0;max-width:44ch}
+
+  .panel{background:var(--card);border:1.5px solid var(--line);border-radius:14px;padding:26px 22px;margin:26px 0 0}
+  @media (max-width:600px){ .panel{padding:20px 15px} }
+  .crumb{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;font-size:14px;color:var(--ink2);margin:0 0 14px}
+  .crumb button{background:none;border:0;padding:0;font:600 14px var(--body);color:var(--c1);cursor:pointer;text-decoration:underline}
+  .chip{display:inline-block;padding:3px 11px;border-radius:99px;font:700 12.5px var(--body);color:#fff}
+
+  .tiles{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin:16px 0 0}
+  @media (max-width:620px){ .tiles{grid-template-columns:1fr} }
+  .tile{background:#fff;border:1.5px solid var(--line);border-radius:12px;padding:16px 15px;cursor:pointer;
+    text-align:left;font:inherit;color:inherit;transition:transform .15s ease}
+  .tile:hover{transform:translateY(-2px)}
+  .tile b{display:block;font:700 17px var(--display);letter-spacing:-.02em;margin:0 0 4px}
+  .tile span{font-size:14.5px;color:var(--ink2);line-height:1.4}
+  .tile .bar{display:flex;gap:4px;margin:12px 0 0}
+  .tile .bar i{flex:1;height:7px;border-radius:3px;background:var(--line)}
+  .tile .bar i[data-v="yes"]{background:var(--yes)}
+  .tile .bar i[data-v="no"]{background:var(--no)}
+
+  .items{margin:16px 0 0;text-align:left}
+  .item{border-bottom:1px solid var(--line);padding:14px 0}
+  .item:last-child{border-bottom:0}
+  .row{display:flex;gap:14px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+  .row p{margin:0;font-size:16px;line-height:1.4;flex:1 1 240px;max-width:none}
+  .item[data-v="yes"] .row p{color:var(--yes)}
+  .base{display:inline-block;margin-left:7px;padding:2px 8px;border-radius:99px;font:700 11px var(--body);
+    background:#EFE2D8;color:#8A5A3C;vertical-align:middle;white-space:nowrap}
+  .micro{display:block;margin:10px 0 0;padding:10px 13px;background:#FBF3EA;border-left:3px solid var(--no);
+    border-radius:0 8px 8px 0;font-size:15px;line-height:1.45;color:var(--ink)}
+  .micro b{font-weight:700}
+  .yn{display:flex;gap:7px;flex:0 0 auto}
+  .yn button,.mini{font:600 14px var(--body);border:1.5px solid var(--line);background:#fff;color:var(--ink);
+    border-radius:99px;padding:7px 15px;cursor:pointer;white-space:nowrap}
+  .yn button:hover,.mini:hover{border-color:var(--ink)}
+  .yn button:focus-visible,.mini:focus-visible{outline:3px solid var(--c1);outline-offset:2px}
+  .item[data-v="yes"] .yn button[data-v="yes"]{background:var(--yes);border-color:var(--yes);color:#fff}
+  .item[data-v="no"] .yn button[data-v="no"]{background:var(--no);border-color:var(--no);color:#fff}
+  .addown{display:flex;gap:8px;margin:16px 0 0;flex-wrap:wrap}
+  .addown input{flex:1 1 220px;font:400 15.5px var(--body);padding:10px 14px;border:1.5px solid var(--line);
+    border-radius:99px;background:#fff;color:var(--ink)}
+  .addown input:focus{outline:2px solid var(--c1);outline-offset:1px}
+  .own{font-size:12px;color:var(--ink2);margin-left:7px}
+  .del{background:none;border:0;color:var(--ink2);cursor:pointer;font-size:18px;line-height:1;padding:0 4px}
+  .nav{display:flex;justify-content:space-between;gap:10px;margin:18px 0 0}
+  .nav button{font:600 14.5px var(--body);background:#fff;border:1.5px solid var(--line);border-radius:99px;
+    padding:9px 16px;cursor:pointer;color:var(--ink)}
+  .nav button[disabled]{opacity:.35;cursor:default}
+
+  .stats{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:0 0 20px}
+  .stat{background:var(--card);border:1.5px solid var(--line);border-radius:12px;padding:12px 18px;min-width:118px}
+  .stat b{display:block;font:800 26px var(--display);letter-spacing:-.03em}
+  .stat span{font-size:13.5px;color:var(--ink2)}
+  .plan{text-align:left;margin:0 auto;max-width:660px}
+  .grp{margin:0 0 20px}
+  .grp h4{margin:0 0 10px;font:700 16px var(--display);letter-spacing:-.02em;display:flex;align-items:center;gap:9px}
+  .grp h4 i{width:12px;height:12px;border-radius:4px;display:inline-block}
+  .prow{display:flex;gap:12px;align-items:flex-start;padding:11px 0;border-bottom:1px solid var(--line)}
+  .prow:last-child{border-bottom:0}
+  .prow .txt{flex:1}
+  .prow .txt b{font-weight:500;font-size:15.5px;line-height:1.4;display:block}
+  .prow .txt small{display:block;color:var(--ink2);font-size:13px;margin-top:2px}
+  .star{flex:0 0 auto;background:#fff;border:1.5px solid var(--line);border-radius:99px;cursor:pointer;
+    font:600 13px var(--body);color:var(--ink2);padding:6px 12px;white-space:nowrap}
+  .star:hover{border-color:var(--ink);color:var(--ink)}
+  .star[aria-pressed="true"]{background:var(--c1);border-color:var(--c1);color:#fff}
+  .found{background:#FBF1E8;border:1.5px solid #E6CDB6;border-radius:12px;padding:16px 18px;margin:0 0 22px}
+  .found h4{color:#8A5A3C}
+
+  .week{background:var(--card);border:2px solid var(--c1);border-radius:14px;padding:22px 20px;margin:26px auto 0;
+    max-width:660px;text-align:left}
+  .week h3{text-align:center}
+  .week ol{margin:14px 0 0;padding:0 0 0 22px}
+  .week li{margin:0 0 14px;font-size:16px;line-height:1.45}
+  .week li small{display:block;color:var(--ink2);font-size:13px;margin:2px 0 6px}
+  .week .ms{background:#FBF3EA;border-left:3px solid var(--c1);border-radius:0 8px 8px 0;padding:9px 12px;font-size:15px}
+
+  .soft-note{background:var(--card);border:1.5px solid var(--line);border-radius:14px;padding:24px 22px;margin:26px auto 0;
+    max-width:620px;text-align:left}
+  .soft-note h3{text-align:center}
+  .soft-note p{font-size:16px}
+  .history{background:var(--card);border:1.5px dashed var(--line);border-radius:12px;padding:14px 18px;margin:0 auto 20px;
+    max-width:560px;font-size:15.5px;color:var(--ink2)}
+  .history b{color:var(--ink)}
+  .tools{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:24px 0 0}
+  .tools button{font:600 14.5px var(--body);background:transparent;border:1.5px solid var(--line);
+    border-radius:99px;padding:10px 17px;cursor:pointer;color:var(--ink2)}
+  .tools button:hover{color:var(--ink);border-color:var(--ink)}
+  .tools .main{background:var(--ink);border-color:var(--ink);color:#fff}
+  .tools .main:hover{color:#fff;background:#241B1E}
+  .gentle{margin:24px auto 0;max-width:48ch;font-size:15px;color:var(--ink2);
+    background:var(--card);border:1.5px solid var(--line);border-radius:12px;padding:16px 18px}
+
+  .audio{background:var(--card);border:1.5px solid var(--line);border-radius:14px;padding:24px 22px;margin:22px auto 0;max-width:620px}
+  .audio audio{width:100%;margin:16px 0 0}
+  .audio .listen{margin-top:18px}
+  .micro a,.ms a{color:var(--c1)}
+  .audio .soon{background:#F6EDE4;border-radius:10px;padding:14px;color:var(--ink2);font-size:15px;margin:16px 0 0}
+
+  .card{background:var(--card);border:1.5px solid var(--line);border-radius:14px;padding:28px 24px}
+  @media (max-width:600px){ .card{padding:22px 16px} }
+  .helps{list-style:none;margin:12px auto 0;padding:0;max-width:44ch;text-align:left}
+  .helps li{position:relative;padding:9px 0 9px 30px;border-bottom:1px solid var(--line)}
+  .helps li:last-child{border-bottom:0}
+  .helps li::before{content:"";position:absolute;left:4px;top:19px;width:9px;height:9px;border-radius:50%;
+    background:var(--c2);border:1.5px solid var(--ink)}
+  .tg{display:inline-flex;align-items:center;gap:9px;margin:20px 0 0;text-decoration:none;
+    background:var(--c1);color:#fff;font:700 15.5px var(--body);border-radius:99px;padding:13px 24px}
+  .tg:hover{background:#B0574B}
+  .sign-off{margin:26px 0 0;color:var(--ink2);font:800 15px var(--display)}
+  .end p{font:800 clamp(19px,2.5vw,27px)/1.22 var(--display);letter-spacing:-.03em;max-width:22ch}
+  .fade{animation:fade .28s ease}
+  @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  @keyframes beat{0%,100%{transform:scale(1)}12%{transform:scale(1.035)}24%{transform:scale(1)}36%{transform:scale(1.02)}}
+  #heartGroup{transform-box:fill-box;transform-origin:center;animation:beat 3.6s ease-in-out .4s}
+  @media (prefers-reduced-motion:reduce){ *{animation:none!important;transition:none!important} }
+</style>
+</head>
+<body>
+<div class="topbar" id="topbar"><div class="in">
+  <span class="tt" id="tbText"></span>
+  <span class="track" id="tbTrack"></span>
+  <button type="button" id="tbGo">К плану</button>
+</div></div>
+<div id="toast"></div>
+
+<div class="wrap">
+
+  <header>
+    <h1>Любовь к себе — это не слова, а <em>набор действий</em></h1>
+    <p class="lead" style="margin-top:20px">Многие говорят, что любят себя и что с самооценкой у них всё в порядке. Часто это просто слова. Любовь к себе держится на том, что человек делает для себя снова и снова — и собирается она из четырёх пазлов.</p>
+  </header>
+
+  <div class="daily" id="daily" hidden></div>
+  <p class="streak" id="streak"></p>
+
+  <div class="heart">
+    <svg viewBox="0 0 400 380" role="img" aria-label="Сердце из четырёх пазлов">
+      <defs><clipPath id="hclip">
+        <path d="M200,364 C110,296 12,230 12,136 C12,74 60,30 120,30 C161,30 188,54 200,84 C212,54 239,30 280,30 C340,30 388,74 388,136 C388,230 290,296 200,364 Z"></path>
+      </clipPath></defs>
+      <g id="heartGroup">
+        <g clip-path="url(#hclip)" id="pieces"></g>
+        <ellipse class="glare" cx="128" cy="108" rx="52" ry="30" transform="rotate(-32 128 108)"></ellipse>
+        <ellipse class="glare" cx="168" cy="150" rx="16" ry="9" transform="rotate(-32 168 150)"></ellipse>
+        <path class="outline" d="M200,364 C110,296 12,230 12,136 C12,74 60,30 120,30 C161,30 188,54 200,84 C212,54 239,30 280,30 C340,30 388,74 388,136 C388,230 290,296 200,364 Z"></path>
+        <g id="labels"></g>
+      </g>
+    </svg>
+  </div>
+  <p class="cap">Сердце работает как зеркало: в нём видно, что ты для себя уже делаешь. Нажми на любой кусочек. Пункты с пометкой «опора» — фундамент: без них остальное держится плохо.</p>
+
+  <div class="panel" id="panel" aria-live="polite"></div>
+
+  <section class="sect">
+    <h2>Что стоит начать делать</h2>
+    <p class="lead">Сюда попадает всё, что ты отметил как «пока нет». Это не список провалов, а список точек, где можно вернуть себе немного себя.</p>
+    <div class="history" id="history" hidden></div>
+    <div class="stats" id="stats"></div>
+    <div class="plan" id="plan"></div>
+    <div class="week" id="week" hidden></div>
+    <div class="tools">
+      <button type="button" class="main" id="shot">Картинка для соцсетей</button>
+      <button type="button" id="mark">Отметить результат на сегодня</button>
+      <button type="button" id="copy">Скопировать список</button>
+      <button type="button" id="reset">Сбросить всё</button>
+    </div>
+    <p class="gentle">Это не экзамен. Никто не делает всё и всегда — и человек, у которого отмечено пятнадцать «пока нет», не хуже того, у кого их три. Разница только в том, что первый теперь знает, с чего начать.</p>
+    <div class="soft-note" id="softnote" hidden></div>
+  </section>
+
+  <section class="sect">
+    <h2>Запись на принятие себя</h2>
+    <p class="lead">Короткая запись в формате эриксоновского гипноза. Её можно слушать в наушниках лёжа, в спокойном месте, где тебя не потревожат.</p>
+    <div id="audio"></div>
+  </section>
+
+  <section class="sect">
+    <div class="card">
+      <h2>А если хочется разобраться в себе</h2>
+      <p>Часть пунктов упирается не в лень и не в дисциплину, а в то, что внутри что-то держит: старая боль, привычка терпеть, непринятие себя. Такое разбирают не силой воли, а в работе один на один.</p>
+      <p>Если ты чувствуешь, что что-то из этого хочется — и будет даже намного полезнее — детальнее обсудить с профессионалом. Или если есть что-то, что хочется решить внутри себя, — приходи.</p>
+      <p style="font-weight:700;margin-top:22px">Я помогаю:</p>
+      <ul class="helps">
+        <li>понять свои чувства</li>
+        <li>обсуждать свои чувства без обвинений</li>
+        <li>принять в себе то, что хочется выбросить из себя</li>
+        <li>сформировать внутренние и внешние личные границы</li>
+        <li>научиться себя, свои границы и ценности защищать</li>
+        <li>вернуть любовь к себе и починить самооценку</li>
+        <li>изменить отношение к чему-то</li>
+        <li>отпустить прошлое или чувства из прошлого</li>
+        <li>переработать неприятные чувства</li>
+        <li>возвращать себя в норму экологично</li>
+      </ul>
+      <a class="tg" href="https://t.me/MaxGuschin" target="_blank" rel="noopener">Написать Максу в Telegram</a>
+    </div>
+  </section>
+
+  <footer class="sect end">
+    <p>Любовь к себе — это не чувство, которое однажды включится. Это то, что ты делаешь сегодня.</p>
+    <p class="sign-off">Психолог #MaxMagia</p>
+  </footer>
+
+</div>
+
+<canvas id="cv" width="1080" height="1350" style="display:none"></canvas>
+<div id="shotBox"></div>
+
+<script>
+/* ===== СЮДА ВСТАВИТЬ ПРЯМУЮ ССЫЛКУ НА АУДИО (mp3) =====
+   Пример: const AUDIO_URL = "https://site.ru/audio/prinyatie.mp3";
+   Пока строка пустая — на странице показывается заглушка. */
+const AUDIO_URL = "https://youtu.be/xCJYsMeyUG4";
+
+/* ===== ССЫЛКА НА АРТЕФАКТ ПРО ЛИЧНЫЕ ГРАНИЦЫ =====
+   Пока пусто — в шагах будет просто текст без ссылки. */
+const BOUNDARIES_URL = "";
+
+/* сохранение файлов: в опубликованном артефакте — через окно подтверждения,
+   в обычном html-файле — обычной ссылкой */
+let dlNs = null;
+(async () => {
+  try { if (window.claude && typeof window.claude.use === "function") dlNs = await window.claude.use("downloads"); }
+  catch(e){ dlNs = null; }
+})();
+
+function mtext(m){
+  if(!m) return m;
+  return m.replace(/\{BOUNDARIES\}/g, BOUNDARIES_URL
+    ? '<a href="' + BOUNDARIES_URL + '" target="_blank" rel="noopener">артефакт по личным границам</a>'
+    : "артефакт по личным границам (ссылка скоро появится)");
+}
+
+const DATA = [
+ {t:"Безопасность", raw:"#C4685B",
+  d:"Любить себя — значит давать себе безопасность: телу, состоянию, ценностям и кошельку.",
+  sub:[
+   {t:"Телесная", d:"Тело живёт в режиме, который его не разрушает.", items:[
+     ["Сплю столько, сколько нужно телу, и ложусь примерно в одно время","Сегодня поставь будильник на отбой, а не только на подъём. Один вечер."],
+     ["Ем регулярно и так, чтобы хватало сил, а не «когда вспомню»","Поставь на завтра два напоминания на еду и не переноси их."],
+     ["Отдыхаю до того, как свалюсь, а не после","Найди в календаре ближайшие 20 свободных минут и подпиши их «перерыв»."],
+     ["Хожу к врачам профилактически, а не когда уже невозможно терпеть","Запишись сегодня к одному врачу, к которому давно собирался. Хотя бы найди номер."]]},
+   {t:"Психо-эмоциональная", d:"Я различаю свои состояния и не даю себя расшатывать.", items:[
+     ["Замечаю, что чувствую, и называю это словами","Три раза за день остановись и скажи вслух одно слово: что ты сейчас чувствуешь."],
+     ["Понимаю, о чём сигналит эмоция, вместо того чтобы её глушить","В следующий раз, когда накроет, допиши фразу: «мне так, потому что…»"],
+     ["Узнаю манипуляцию — вину, стыд, срочность — и не ведусь","Вспомни последний разговор, после которого стало тяжело. Как нужно было повести себя там по-другому, чтобы не стало тяжело?"],
+     ["Могу выйти из разговора, в котором меня разрушают","Придумай и запиши свою фразу выхода: «мне нужно остановиться, вернёмся к этому позже»."]]},
+   {t:"Ценностная", d:"То, что мне дорого, защищено — в том числе от меня самого.", items:[
+     ["Знаю, что для меня важно, и могу это назвать вслух","Выпиши пять вещей, без которых ты — не ты. Просто списком. А если не знаешь — проживи <a href=\"https://youtu.be/NTcPuZ00zjE?si=f6OaVfW2HMvZJVTF\" target=\"_blank\" rel=\"noopener\">это видео</a> про вычленение ценностей."],
+     ["Не соглашаюсь на то, что противоречит моим ценностям, даже если выгодно","Вспомни одно недавнее «да» против себя. Что ты хотел сказать вместо него?"],
+     ["Не даю обесценивать то, что мне дорого","Заготовь фразу на такой случай: «для меня это важно, давай без этого». И изучи {BOUNDARIES}."],
+     ["Знаю свои потребности и закрываю их, а не жду, что догадаются","Выбери одну свою потребность и закрой её сегодня, не откладывая на выходные."]]},
+   {t:"Финансовая", d:"Опора, на которой можно стоять и с которой можно уйти.", items:[
+     ["Зарабатываю столько, чтобы хватало на базовое","Посчитай, сколько тебе нужно в месяц на базу. Просто цифру."],
+     ["Остаются деньги не только на нужное, но и на хотелки","Заложи на этот месяц сумму на хотелки — и потрать её на хотелку."],
+     ["Откладываю на подушку, пусть понемногу","Переведи сегодня любую сумму на отдельный счёт и не трогай."],
+     ["Знаю, сколько у меня уходит и на что","Открой выписку за прошлый месяц и назови три самые крупные траты."]]}]},
+
+ {t:"Принятие", raw:"#D79A4F",
+  d:"Принять себя целиком: внешность, сильные стороны, слабости и свою прошлую жизнь.",
+  sub:[
+   {t:"Внешность", d:"Тело как оно есть — без ежедневной драки с отражением.", items:[
+     ["Смотрю в зеркало без внутренней драки с отражением","Подойди к зеркалу и найди три вещи, которые нравятся. Вслух."],
+     ["Не жду «минус десять килограммов», чтобы начать жить","Сделай сегодня то, что откладывал до «когда похудею»."],
+     ["Могу принять комплимент, не отмахиваясь","На следующий комплимент ответь только «спасибо». Без продолжения."],
+     ["Одеваюсь так, как нравится мне, а не чтобы спрятаться","Надень завтра то, что любишь, а не то, в чём незаметно."]]},
+   {t:"Сильные стороны", d:"Своё хорошее — как своё, без обесценивания.", items:[
+     ["Называю свои сильные стороны без «ну это же любой может»","Напиши три своих сильных качества так, будто тебя описывает друг."],
+     ["Помню, что мне удалось, а не только где я облажался","Вспомни три своих результата за год и запиши их в заметки."],
+     ["Не списываю каждый свой успех на везение","Возьми последний успех и назови, что конкретно в нём сделал ты."],
+     ["Могу сказать «я в этом хорош» и не покраснеть","Скажи это вслух про одно своё умение. Прямо сейчас."]]},
+   {t:"Слабости", d:"Слабость — это данность, а не приговор.", items:[
+     ["Признаю, что чего-то не умею, и это не делает меня хуже","Скажи сегодня кому-нибудь «я этого не умею» — без извинений."],
+     ["Не требую от себя быть одинаково сильным во всём","Выбери одно дело, которое ты тянешь зря, и откажись от него."],
+     ["Разрешаю себе просить помощи","Попроси о помощи в одном мелком деле сегодня."],
+     ["Не наказываю себя за ошибки, а делаю выводы","Возьми последнюю ошибку и напиши одной строкой, чему она научила."]]},
+   {t:"Желания и своя жизнь", d:"Мои хотелки нормальны, а прошлое — не список провалов.", items:[
+     ["Считаю свои желания нормальными, даже если другим они кажутся странными","Напиши три своих желания без объяснений, зачем они тебе."],
+     ["Не объясняю себе, что «хотеть этого стыдно»","Найди желание, которое прячешь, и произнеси его вслух."],
+     ["Смотрю на прошлые выборы как на лучшие из доступных мне тогда","Вспомни решение, за которое себя грызёшь, и назови, что ты тогда знал и чего не знал."],
+     ["Не переписываю свою историю в перечень ошибок","Выпиши три момента прошлого, за которые тебе не стыдно."]]}]},
+
+ {t:"Понимание", raw:"#7E9A84",
+  d:"Всё, что не получается принять, важно понять. Понимаю себя — значит люблю.",
+  sub:[
+   {t:"Чувства", d:"Что я сейчас чувствую и откуда это взялось.", items:[
+     ["Могу назвать, что именно я чувствую, а не «всё нормально»","Напиши ИИ: «перечисли с точки зрения эмоционального интеллекта, какие эмоции и чувства существуют, и расскажи мне сегодня об одной из них всё, что можешь»."],
+     ["Нахожу причину: что произошло до того, как меня накрыло","В следующий раз, когда накроет, отмотай назад и найди ту свою мысль, которая вызвала неприятные эмоции."],
+     ["Отличаю свои чувства от тех, что мне навязали другие","Спроси себя после тяжёлой встречи: это моё состояние или я его принёс оттуда?"],
+     ["Понимаю, что стоит за злостью или обидой на самом деле","Возьми последнюю злость и подумай: какое своё желание я не защитил? А ещё почитай <a href=\"https://t.me/MaxMagia/116\" target=\"_blank\" rel=\"noopener\">этот пост</a> и <a href=\"https://t.me/MaxMagia/112\" target=\"_blank\" rel=\"noopener\">этот</a>."]]},
+   {t:"Желания и мечты", d:"Чего хочу я, а не чего от меня ждут.", items:[
+     ["Знаю, чего хочу я, а не чего от меня ждут","Напиши три хотелки на год, в которых нет слова «надо»."],
+     ["Понимаю, чего точно не хочу, и почему","Выпиши пять вещей, которых точно не хочешь в своей жизни."],
+     ["Отличаю настоящее желание от «надо хотеть»","Возьми свою цель и проверь: чья она? Кто расстроится, если ты её бросишь?"],
+     ["Могу описать, как выглядит моя жизнь, если всё сложится","Опиши в пяти строках свой обычный день через три года."]]},
+   {t:"Мотивы и саботаж", d:"Почему я делаю то, что делаю, и почему не делаю.", items:[
+     ["Понимаю, зачем делаю то, что делаю","Возьми дело, которое тянешь, и ответь: ради чего оно?"],
+     ["Замечаю, где откладываю, и вижу, что там страшно","Назови дело, которое откладываешь дольше всего, и то, чего в нём боишься."],
+     ["Вижу сценарии, которые повторяются из раза в раз","Вспомни два похожих финала в разных историях. Что в них общего, кроме тебя?"],
+     ["Понимаю, что я получаю от того, что вроде бы мне мешает","Спроси: что хорошего мне даёт эта привычка? Ответ всегда есть."]]},
+   {t:"Границы и пределы", d:"Где заканчиваюсь я и сколько я реально вывожу.", items:[
+     ["Знаю, что мне приятно, что раздражает, а что недопустимо совсем","Пройди {BOUNDARIES}."],
+     ["Понимаю, где заканчиваюсь я и начинается другой человек","Найди в своём списке дел одно, которое на самом деле чужое."],
+     ["Знаю свои пределы: сколько я вывожу, а сколько уже нет","Назови, после какого количества часов или людей ты перестаёшь быть собой."],
+     ["Отличаю «не могу» от «не хочу»","Возьми три своих «не могу» и честно перепиши те, что на деле «не хочу»."]]}]},
+
+ {t:"Забота", raw:"#8C7AA9",
+  d:"Люблю — значит забочусь: о теле, о состоянии, о своих потребностях и о себе завтрашнем.",
+  sub:[
+   {t:"О теле", d:"Не только полезное, но и приятное.", items:[
+     ["Делаю для тела что-то приятное, а не только полезное","Сделай сегодня одну приятную телу вещь: душ подольше, прогулку, растяжку."],
+     ["Замечаю усталость и реагирую на неё, а не терплю","При первом зевке встань и пройдись. Сегодня — без исключений."],
+     ["Двигаюсь так, как телу в радость, а не как наказание","Выбери движение, которое нравится, и сделай десять минут."],
+     ["Долечиваю до конца, а не бросаю на полпути","Вспомни, что не долечено, и назначь себе дату."]]},
+   {t:"О состоянии", d:"Возвращать себя в норму способами, после которых не хуже.", items:[
+     ["Возвращаю себя в норму так, что потом не становится хуже","Выпиши три способа, после которых тебе правда легче, и один, после которого хуже."],
+     ["Знаю, что меня наполняет, и даю себе это регулярно","Поставь в календарь одно наполняющее дело на эту неделю."],
+     ["Сокращаю контакт с тем, что стабильно меня выжигает","Назови один источник выжигания и убавь его хотя бы наполовину."],
+     ["Разрешаю себе паузу без чувства вины","Сделай сегодня пятнадцать минут ничего и не отчитывайся за них."]]},
+   {t:"О потребностях", d:"Говорить о нужном вовремя и вслух.", items:[
+     ["Говорю о том, что мне нужно, вслух и вовремя","Скажи сегодня одному человеку, что тебе от него нужно. Конкретно."],
+     ["Не жду, пока догадаются","Вспомни, где ждёшь догадки, и просто попроси."],
+     ["Не откладываю своё на потом, когда закрыты все чужие нужды","Поставь своё дело первым в завтрашнем списке."],
+     ["Прошу — и умею принимать, когда мне дают","Когда в следующий раз предложат помощь — согласись. С первого раза."]]},
+   {t:"О себе завтрашнем", d:"Сегодняшние решения с оглядкой на то, каково будет потом.", items:[
+     ["Думаю, каково будет мне завтра от того, что я делаю сегодня","Перед следующим «ещё часок» спроси себя: каково будет мне утром?"],
+     ["Не решаю сиюминутное ценой того, что важно надолго","Найди одно решение, где ты меняешь долгое на быстрое, и притормози."],
+     ["Готовлю опоры заранее: здоровье, деньги, отношения","Выбери одну опору и сделай для неё один шаг сегодня."],
+     ["Держу обещания, которые дал себе","Возьми одно обещание себе и выполни его сегодня. Маленькое."]]}]}
+];
+
+/* пункты-опоры: без них остальное держится плохо */
+const BASE = ["0.0.0","0.0.1","0.1.3","0.3.0","2.0.0","3.1.0"];
+
+const KEY = "maxmagia-love-v2";
+const state = {marks:{}, custom:{}, picks:[], history:[], visits:[], p:0, s:null};
+let dailyOffset = 0;
+
+function save(){
+  try{ localStorage.setItem(KEY, JSON.stringify({marks:state.marks, custom:state.custom, picks:state.picks, history:state.history, visits:state.visits})); }catch(e){}
+}
+function load(){
+  try{
+    const d = JSON.parse(localStorage.getItem(KEY) || "null");
+    if(d && typeof d === "object"){
+      state.marks = d.marks || {};
+      state.custom = d.custom || {};
+      state.picks = Array.isArray(d.picks) ? d.picks : [];
+      state.history = Array.isArray(d.history) ? d.history : [];
+      state.visits = Array.isArray(d.visits) ? d.visits : [];
+    }
+  }catch(e){}
+}
+
+const key = (p,s,i) => p + "." + s + "." + i;
+const isBase = k => BASE.indexOf(k) >= 0;
+const NS = "http://www.w3.org/2000/svg";
+const el = (tag, attrs, parent) => {
+  const n = document.createElementNS(NS, tag);
+  for(const a in attrs) n.setAttribute(a, attrs[a]);
+  if(parent) parent.appendChild(n);
+  return n;
+};
+const esc = t => t.replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+/* список пунктов кусочка: базовые + свои */
+function itemsOf(p,s){
+  const out = DATA[p].sub[s].items.map((it,i)=>({k:key(p,s,i), t:it[0], m:it[1], base:isBase(key(p,s,i))}));
+  Object.keys(state.custom).forEach(k=>{
+    if(k.indexOf(p + "." + s + ".c") === 0) out.push({k, t:state.custom[k], m:null, own:true});
+  });
+  return out;
+}
+function findItem(k){
+  const parts = k.split(".");
+  const p = +parts[0], s = +parts[1];
+  return itemsOf(p,s).filter(x=>x.k === k)[0];
+}
+
+/* ---------- сердце ---------- */
+const PIECE_D = [
+  "M-30,-30 L200,-30 L200,86 A16,16 0 1 1 200,118 L200,190 L116,190 A16,16 0 1 0 84,190 L-30,190 Z",
+  "M200,-30 L430,-30 L430,190 L316,190 A16,16 0 1 1 284,190 L200,190 L200,118 A16,16 0 1 0 200,86 Z",
+  "M-30,190 L84,190 A16,16 0 1 1 116,190 L200,190 L200,244 A16,16 0 1 0 200,276 L200,410 L-30,410 Z",
+  "M200,190 L284,190 A16,16 0 1 0 316,190 L430,190 L430,410 L200,410 L200,276 A16,16 0 1 1 200,244 Z"
+];
+const HEART_D = "M200,364 C110,296 12,230 12,136 C12,74 60,30 120,30 C161,30 188,54 200,84 C212,54 239,30 280,30 C340,30 388,74 388,136 C388,230 290,296 200,364 Z";
+const LABEL_POS = [[110,112],[290,112],[134,240],[266,240]];
+
+function buildHeart(){
+  const host = document.getElementById("pieces"), labels = document.getElementById("labels");
+  DATA.forEach((d,p)=>{
+    const g = el("g", {}, host);
+    const path = el("path", {class:"piece pop", d:PIECE_D[p], fill:d.raw, "fill-opacity":.16,
+      tabindex:"0", role:"button", "aria-label":d.t, "data-p":p}, g);
+    path.style.animationDelay = (p * 0.09) + "s";
+    el("path", {class:"seam", d:PIECE_D[p]}, g);
+    path.addEventListener("click", ()=>goTo(p, null));
+    path.addEventListener("keydown", e=>{ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); goTo(p,null); } });
+    const pos = LABEL_POS[p];
+    el("text", {class:"plabel", x:pos[0], y:pos[1]}, labels).textContent = d.t;
+    el("text", {class:"pcount", x:pos[0], y:pos[1]+20, id:"pc-"+p}, labels).textContent = "";
+  });
+}
+
+function counts(p, s){
+  let yes = 0, no = 0, total = 0;
+  DATA[p].sub.forEach((sub, si)=>{
+    if(s !== null && s !== undefined && si !== s) return;
+    itemsOf(p, si).forEach(it=>{
+      total++;
+      const v = state.marks[it.k];
+      if(v === "yes") yes++; else if(v === "no") no++;
+    });
+  });
+  return {yes, no, total};
+}
+function totals(){
+  let yes=0,no=0,total=0;
+  DATA.forEach((d,p)=>{ const c = counts(p); yes+=c.yes; no+=c.no; total+=c.total; });
+  return {yes,no,total};
+}
+
+function renderHeart(){
+  DATA.forEach((d,p)=>{
+    const c = counts(p);
+    const path = document.querySelector('.piece[data-p="' + p + '"]');
+    path.setAttribute("fill-opacity", (0.16 + 0.84 * (c.yes / c.total)).toFixed(3));
+    path.setAttribute("stroke", p === state.p ? "#33272B" : "none");
+    path.setAttribute("stroke-width", p === state.p ? 3.2 : 0);
+    document.getElementById("pc-"+p).textContent = c.yes + " из " + c.total;
+  });
+}
+
+/* ---------- панель ---------- */
+function goTo(p, s){
+  state.p = p; state.s = s;
+  render();
+  document.getElementById("panel").scrollIntoView({behavior:"smooth", block:"nearest"});
+}
+
+function renderPanel(){
+  const d = DATA[state.p], box = document.getElementById("panel");
+  let html = '<div class="crumb"><span class="chip" style="background:' + d.raw + '">' + d.t + '</span>';
+  if(state.s !== null) html += '<span>→</span><b>' + d.sub[state.s].t + '</b><button type="button" id="back">ко всем кусочкам</button>';
+  html += '</div>';
+
+  if(state.s === null){
+    html += '<h3>' + d.t + '</h3><p style="color:var(--ink2);font-size:16px">' + d.d + '</p><div class="tiles">' +
+      d.sub.map((s,si)=>{
+        const list = itemsOf(state.p, si);
+        return '<button class="tile" type="button" data-s="' + si + '"><b>' + s.t + '</b><span>' + s.d + '</span>' +
+          '<span class="bar">' + list.map(it=>{
+            const v = state.marks[it.k];
+            return '<i' + (v ? ' data-v="' + v + '"' : "") + '></i>';
+          }).join("") + '</span></button>';
+      }).join("") + '</div>';
+  } else {
+    const s = d.sub[state.s], list = itemsOf(state.p, state.s);
+    html += '<h3>' + s.t + '</h3><p style="color:var(--ink2);font-size:16px">' + s.d + '</p><div class="items">' +
+      list.map(it=>{
+        const v = state.marks[it.k];
+        return '<div class="item"' + (v ? ' data-v="' + v + '"' : "") + '>' +
+          '<div class="row"><p>' + esc(it.t) +
+            (it.base ? '<span class="base">опора</span>' : "") +
+            (it.own ? '<span class="own">свой пункт</span><button class="del" data-del="' + it.k + '" title="удалить">×</button>' : "") +
+          '</p><span class="yn">' +
+            '<button type="button" data-k="' + it.k + '" data-v="yes">Делаю</button>' +
+            '<button type="button" data-k="' + it.k + '" data-v="no">Пока нет</button>' +
+          '</span></div>' +
+          (v === "no" && it.m ? '<span class="micro"><b>Шаг на сегодня:</b> ' + mtext(it.m) + '</span>' : "") +
+        '</div>';
+      }).join("") + '</div>' +
+      '<div class="addown"><input type="text" id="ownInput" maxlength="120" placeholder="Добавить свой пункт в «' + s.t + '»">' +
+      '<button class="mini" type="button" id="ownAdd">Добавить</button></div>' +
+      '<div class="nav">' +
+        '<button type="button" id="prev"' + (state.s === 0 ? " disabled" : "") + '>← ' + (state.s > 0 ? d.sub[state.s-1].t : "") + '</button>' +
+        '<button type="button" id="next"' + (state.s === d.sub.length-1 ? " disabled" : "") + '>' + (state.s < d.sub.length-1 ? d.sub[state.s+1].t : "") + ' →</button>' +
+      '</div>';
+  }
+  box.innerHTML = html;
+  box.classList.remove("fade"); void box.offsetWidth; box.classList.add("fade");
+
+  const back = document.getElementById("back");
+  if(back) back.addEventListener("click", ()=>goTo(state.p, null));
+  box.querySelectorAll(".tile").forEach(b=>b.addEventListener("click", ()=>goTo(state.p, +b.dataset.s)));
+  box.querySelectorAll(".yn button").forEach(b=>b.addEventListener("click", ()=>mark(b.dataset.k, b.dataset.v)));
+  box.querySelectorAll("[data-del]").forEach(b=>b.addEventListener("click", ()=>delOwn(b.dataset.del)));
+  const add = document.getElementById("ownAdd"), inp = document.getElementById("ownInput");
+  if(add){
+    const doAdd = ()=>{
+      const t = inp.value.trim();
+      if(!t) return;
+      let n = 0;
+      while(state.custom[state.p + "." + state.s + ".c" + n]) n++;
+      state.custom[state.p + "." + state.s + ".c" + n] = t;
+      save(); render();
+    };
+    add.addEventListener("click", doAdd);
+    inp.addEventListener("keydown", e=>{ if(e.key === "Enter") doAdd(); });
+  }
+  const prev = document.getElementById("prev"), next = document.getElementById("next");
+  if(prev && !prev.disabled) prev.addEventListener("click", ()=>goTo(state.p, state.s-1));
+  if(next && !next.disabled) next.addEventListener("click", ()=>goTo(state.p, state.s+1));
+}
+
+function mark(k, v){
+  const p = +k.split(".")[0];
+  const was = counts(p).yes;
+  const wasPicked = state.picks.indexOf(k) >= 0;
+  if(state.marks[k] === v) delete state.marks[k]; else state.marks[k] = v;
+  if(state.marks[k] !== "no") state.picks = state.picks.filter(x=>x !== k);
+  save(); render();
+  const now = counts(p);
+  if(now.yes === now.total && was < now.total) toast("Пазл «" + DATA[p].t + "» собран полностью");
+  else if(wasPicked && v === "yes") toast("Пункт из твоей тройки закрыт");
+}
+function delOwn(k){
+  delete state.custom[k]; delete state.marks[k];
+  state.picks = state.picks.filter(x=>x !== k);
+  save(); render();
+}
+function togglePick(k){
+  if(state.picks.indexOf(k) >= 0) state.picks = state.picks.filter(x=>x !== k);
+  else if(state.picks.length < 3) state.picks.push(k);
+  save(); render();
+}
+
+/* ---------- план ---------- */
+function noItems(){
+  const rows = [];
+  DATA.forEach((d,p)=>d.sub.forEach((s,si)=>itemsOf(p,si).forEach(it=>{
+    if(state.marks[it.k] === "no") rows.push(Object.assign({}, it, {piece:d.t, raw:d.raw, sub:s.t}));
+  })));
+  return rows;
+}
+
+function renderPlan(){
+  const t = totals();
+  document.getElementById("stats").innerHTML =
+    '<div class="stat"><b style="color:var(--yes)">' + t.yes + '</b><span>уже делаю</span></div>' +
+    '<div class="stat"><b style="color:var(--no)">' + t.no + '</b><span>пока нет</span></div>' +
+    '<div class="stat"><b>' + (t.total - t.yes - t.no) + '</b><span>не отмечено</span></div>';
+
+  const rows = noItems(), plan = document.getElementById("plan");
+  const row = it => '<div class="prow"><div class="txt"><b>' + esc(it.t) + '</b><small>' + it.piece + ' → ' + it.sub + '</small></div>' +
+      '<button class="star" type="button" data-pick="' + it.k + '" aria-pressed="' + (state.picks.indexOf(it.k) >= 0) + '">' +
+      (state.picks.indexOf(it.k) >= 0 ? "в работе" : "взять") + '</button></div>';
+
+  if(!rows.length){
+    plan.innerHTML = t.yes
+      ? '<p style="color:var(--ink2);text-align:center">Пунктов «пока нет» не отмечено. Если это правда, а не привычка отвечать «у меня всё хорошо» — прекрасно.</p>'
+      : '<p style="color:var(--ink2);text-align:center">Пройди по кусочкам сердца и отметь пункты. Всё, что окажется в «пока нет», соберётся сюда.</p>';
+  } else {
+    const base = rows.filter(r=>r.base), rest = rows.filter(r=>!r.base);
+    let html = "";
+    if(base.length) html += '<div class="found"><h4>Сначала опоры</h4>' +
+      '<p style="font-size:15px;color:var(--ink2);margin:0 0 6px">Без этих пунктов остальные держатся плохо. Если брать что-то первым, то это.</p>' +
+      base.map(row).join("") + '</div>';
+    DATA.forEach(d=>{
+      const g = rest.filter(r=>r.piece === d.t);
+      if(!g.length) return;
+      html += '<div class="grp"><h4><i style="background:' + d.raw + '"></i>' + d.t + '</h4>' + g.map(row).join("") + '</div>';
+    });
+    plan.innerHTML = html;
+    plan.querySelectorAll("[data-pick]").forEach(b=>b.addEventListener("click", ()=>togglePick(b.dataset.pick)));
+  }
+
+  /* три пункта на неделю */
+  const week = document.getElementById("week");
+  const picks = state.picks.map(findItem).filter(Boolean);
+  if(rows.length && !picks.length){
+    week.hidden = false;
+    week.innerHTML = '<h3>Возьми три пункта на неделю</h3><p style="text-align:center;color:var(--ink2);font-size:15.5px">' +
+      'Двадцать задач парализуют, три — делаются. Нажми «взять» у тех трёх, которые хромают сильнее всего: с них и начинается починка.</p>';
+  } else if(picks.length){
+    week.hidden = false;
+    week.innerHTML = '<h3>Мои три пункта на неделю</h3><ol>' + picks.map(it=>{
+      const full = noItems().filter(r=>r.k === it.k)[0];
+      return '<li>' + esc(it.t) + (full ? '<small>' + full.piece + ' → ' + full.sub + '</small>' : "") +
+        (it.m ? '<div class="ms"><b>Шаг на сегодня:</b> ' + mtext(it.m) + '</div>' : '<div class="ms">Твой пункт — придумай себе самый маленький первый шаг и сделай его сегодня.</div>') +
+      '</li>';
+    }).join("") + '</ol>' +
+    (picks.length < 3 ? '<p style="color:var(--ink2);font-size:15px;margin-top:6px">Можно взять ещё ' + (3 - picks.length) + '.</p>' : "");
+  } else {
+    week.hidden = true;
+  }
+
+  /* мягкая ветка */
+  const soft = document.getElementById("softnote");
+  if(t.no >= 12 || (t.no >= 6 && t.no / Math.max(1, t.yes + t.no) >= .7)){
+    soft.hidden = false;
+    soft.innerHTML = '<h3>Если «пока нет» оказалось очень много</h3>' +
+      '<p>Такой список легко прочитать как приговор: «я совсем себя не люблю». Это неправда. Длинный список значит ровно одно — тебя долго не было в своих же приоритетах. Обычно так живут те, кто много лет вывозил всех остальных.</p>' +
+      '<p>Не берись за всё. Возьми один пункт — лучше из опор — и делай его неделю. Через неделю посмотри снова: почти всегда рядом с починенным пунктом сами собой подтягиваются два соседних.</p>' +
+      '<p style="margin-bottom:0">И если ловишь себя на мысли «я безнадёжен» — это говорит не факт, а привычка себя так называть. С этой привычкой как раз и работают.</p>';
+  } else soft.hidden = true;
+}
+
+/* ---------- история ---------- */
+function fmt(iso){
+  try{ return new Date(iso).toLocaleDateString("ru-RU", {day:"numeric", month:"long"}); }
+  catch(e){ return iso; }
+}
+function renderHistory(){
+  const box = document.getElementById("history");
+  if(!state.history.length){ box.hidden = true; return; }
+  const last = state.history[state.history.length-1], t = totals();
+  const diff = t.yes - last.y;
+  box.hidden = false;
+  box.innerHTML = 'Прошлая отметка — <b>' + fmt(last.d) + '</b>: было <b>' + last.y + '</b> «делаю». Сейчас: <b>' + t.yes + '</b>. ' +
+    (diff > 0 ? 'Плюс ' + diff + '.' : diff < 0 ? 'Минус ' + Math.abs(diff) + ' — бывает, это тоже данные.' : 'Пока без изменений.');
+}
+
+/* ---------- картинка ---------- */
+function drawHeart(ctx, x, y, w){
+  const k = w / 400;
+  ctx.save();
+  ctx.translate(x, y); ctx.scale(k, k);
+  ctx.save();
+  ctx.clip(new Path2D(HEART_D));
+  DATA.forEach((d,p)=>{
+    const c = counts(p);
+    const path = new Path2D(PIECE_D[p]);
+    ctx.globalAlpha = 0.16 + 0.84 * (c.yes / c.total);
+    ctx.fillStyle = d.raw; ctx.fill(path);
+    ctx.globalAlpha = 1;
+    ctx.strokeStyle = "#F4EEE8"; ctx.lineWidth = 5; ctx.stroke(path);
+  });
+  ctx.restore();
+  ctx.strokeStyle = "#33272B"; ctx.lineWidth = 3.4; ctx.lineJoin = "round";
+  ctx.stroke(new Path2D(HEART_D));
+  ctx.restore();
+}
+
+async function makeShot(btn){
+  const cv = document.getElementById("cv"), ctx = cv.getContext("2d");
+  const t = totals();
+  try{ await document.fonts.ready; }catch(e){}
+  ctx.clearRect(0,0,1080,1350);
+  ctx.fillStyle = "#F4EEE8"; ctx.fillRect(0,0,1080,1350);
+
+  ctx.textAlign = "center"; ctx.fillStyle = "#33272B";
+  ctx.font = '800 76px Manrope, sans-serif';
+  ctx.fillText("Любовь к себе", 540, 150);
+  ctx.font = '400 34px Onest, sans-serif'; ctx.fillStyle = "#7A6A6E";
+  ctx.fillText("это не слова, а набор действий", 540, 205);
+
+  drawHeart(ctx, 230, 250, 620);
+
+  let y = 930;
+  DATA.forEach((d,p)=>{
+    const c = counts(p);
+    ctx.fillStyle = d.raw;
+    ctx.beginPath(); ctx.arc(322, y - 12, 15, 0, Math.PI*2); ctx.fill();
+    ctx.textAlign = "left"; ctx.fillStyle = "#33272B"; ctx.font = '700 34px Manrope, sans-serif';
+    ctx.fillText(d.t, 358, y);
+    ctx.textAlign = "right"; ctx.fillStyle = "#7A6A6E"; ctx.font = '500 32px Onest, sans-serif';
+    ctx.fillText(c.yes + " из " + c.total, 758, y);
+    y += 60;
+  });
+
+  ctx.textAlign = "center"; ctx.fillStyle = "#33272B"; ctx.font = '800 46px Manrope, sans-serif';
+  ctx.fillText("Уже делаю: " + t.yes + " из " + t.total, 540, y + 50);
+  ctx.fillStyle = "#C4685B"; ctx.font = '800 34px Manrope, sans-serif';
+  ctx.fillText("#MaxMagia", 540, 1290);
+
+  let url = "";
+  try{ url = cv.toDataURL("image/png"); }
+  catch(e){ toast("Не удалось собрать картинку"); return; }
+
+  const box = document.getElementById("shotBox");
+  box.innerHTML = '<div class="sheet">' +
+      '<img src="' + url + '" alt="Моё сердце">' +
+      '<p class="hint">На телефоне задержи палец на картинке и выбери «Сохранить». На компьютере нажми кнопку ниже.</p>' +
+      '<div class="sacts">' +
+        '<button type="button" class="tg" id="shotSave">Скачать картинку</button>' +
+        '<button type="button" class="mini" id="shotClose">Закрыть</button>' +
+      '</div></div>';
+  box.classList.add("on");
+  document.getElementById("shotClose").addEventListener("click", ()=>box.classList.remove("on"));
+  document.getElementById("shotSave").addEventListener("click", async ()=>{
+    if(dlNs){
+      try{
+        const blob = await new Promise(r=>cv.toBlob(r, "image/png"));
+        if(!blob) throw new Error("no blob");
+        await dlNs.save({filename:"lyubov-k-sebe.png", data:blob});
+        toast("Картинка сохранена");
+      }catch(e){
+        toast(e && e.code === "declined" ? "Сохранение отменено" : "Сохрани картинку долгим нажатием");
+      }
+      return;
+    }
+    const a = document.createElement("a");
+    a.href = url; a.download = "lyubov-k-sebe.png";
+    document.body.appendChild(a); a.click(); a.remove();
+  });
+  box.addEventListener("click", e=>{ if(e.target === box) box.classList.remove("on"); });
+}
+
+/* ---------- аудио ---------- */
+function renderAudio(){
+  const box = document.getElementById("audio");
+  box.innerHTML = AUDIO_URL
+    ? '<a class="tg" href="' + AUDIO_URL + '" target="_blank" rel="noopener">' +
+      '<svg width="17" height="17" viewBox="0 0 20 20" aria-hidden="true"><path d="M6 4l11 6-11 6z" fill="currentColor"/></svg>' +
+      'Прослушать медитацию</a>'
+    : '<div class="soon">Запись скоро появится здесь.</div>';
+}
+
+/* ---------- тосты ---------- */
+let toastT = null;
+function toast(msg){
+  const t = document.getElementById("toast");
+  t.textContent = msg; t.classList.add("on");
+  clearTimeout(toastT);
+  toastT = setTimeout(()=>t.classList.remove("on"), 2600);
+}
+
+/* ---------- визиты и серия ---------- */
+function today(){ return new Date().toISOString().slice(0,10); }
+function trackVisit(){
+  const d = today();
+  if(state.visits[state.visits.length-1] !== d){
+    state.visits.push(d);
+    if(state.visits.length > 60) state.visits = state.visits.slice(-60);
+    save();
+  }
+}
+function streakDays(){
+  let n = 0;
+  const day = new Date();
+  for(;;){
+    const s = day.toISOString().slice(0,10);
+    if(state.visits.indexOf(s) >= 0){ n++; day.setDate(day.getDate()-1); }
+    else break;
+  }
+  return n;
+}
+function renderStreak(){
+  const box = document.getElementById("streak");
+  const n = streakDays(), all = state.visits.length;
+  if(all <= 1){ box.textContent = ""; return; }
+  box.innerHTML = n >= 2
+    ? 'Ты здесь <b>' + n + '-й день подряд</b>. Это и есть та самая любовь к себе, которая делается, а не говорится.'
+    : 'Всего заходов на страницу: <b>' + all + '</b>. Возвращаться сюда — уже забота о себе.';
+}
+
+/* ---------- шаг дня ---------- */
+function dailyPool(){
+  const no = noItems();
+  const picked = no.filter(it=>state.picks.indexOf(it.k) >= 0);
+  if(picked.length) return picked;
+  if(no.length) return no;
+  const rest = [];
+  DATA.forEach((d,p)=>d.sub.forEach((s,si)=>itemsOf(p,si).forEach(it=>{
+    if(!state.marks[it.k]) rest.push(Object.assign({}, it, {piece:d.t, sub:s.t}));
+  })));
+  return rest;
+}
+function renderDaily(){
+  const box = document.getElementById("daily");
+  const t = totals(), marked = t.yes + t.no;
+  /* карточка появляется, когда человек уже прошёл практику,
+     либо когда вернулся на страницу не в первый раз */
+  if(marked < 8 && !(state.visits.length > 1 && marked > 0)){ box.hidden = true; return; }
+  const pool = dailyPool();
+  if(!pool.length){ box.hidden = true; return; }
+  const seed = today().split("-").join("") | 0;
+  const it = pool[(seed + dailyOffset) % pool.length];
+  const picked = state.picks.indexOf(it.k) >= 0;
+  box.hidden = false;
+  box.innerHTML = '<span class="tag">Шаг дня' + (picked ? ' · из твоей тройки' : "") + '</span>' +
+    '<h3>' + esc(it.t) + '</h3>' +
+    '<p class="where">' + (it.piece || "") + (it.sub ? " → " + it.sub : "") + '</p>' +
+    (it.m ? '<div class="ms"><b>Сегодня:</b> ' + mtext(it.m) + '</div>'
+          : '<div class="ms">Твой пункт. Придумай себе самый маленький первый шаг и сделай его сегодня.</div>') +
+    '<div class="acts">' +
+      '<button type="button" class="go" id="dDone">Сделал сегодня</button>' +
+      '<button type="button" id="dNext">Другой шаг</button>' +
+      '<button type="button" id="dOpen">Открыть кусочек</button>' +
+    '</div>';
+  document.getElementById("dDone").addEventListener("click", ()=>{
+    state.marks[it.k] = "yes";
+    state.picks = state.picks.filter(x=>x !== it.k);
+    save(); render(); toast("Один шаг закрыт. Это уже действие, а не слова.");
+  });
+  document.getElementById("dNext").addEventListener("click", ()=>{ dailyOffset++; renderDaily(); });
+  document.getElementById("dOpen").addEventListener("click", ()=>{
+    const parts = it.k.split(".");
+    goTo(+parts[0], +parts[1]);
+  });
+}
+
+/* ---------- липкая полоса ---------- */
+function renderTopbar(){
+  const t = totals();
+  document.getElementById("tbText").textContent = "Делаю " + t.yes + " из " + t.total;
+  const track = document.getElementById("tbTrack");
+  const w = x => (x / t.total * 100).toFixed(1) + "%";
+  track.innerHTML = '<i style="width:' + w(t.yes) + ';background:var(--yes)"></i>' +
+                    '<i style="width:' + w(t.no) + ';background:var(--no)"></i>';
+}
+function initTopbar(){
+  const bar = document.getElementById("topbar");
+  const heart = document.querySelector(".heart");
+  document.getElementById("tbGo").addEventListener("click", ()=>
+    document.getElementById("plan").scrollIntoView({behavior:"smooth", block:"center"}));
+  if("IntersectionObserver" in window){
+    new IntersectionObserver(es=>{
+      bar.classList.toggle("on", !es[0].isIntersecting && es[0].boundingClientRect.top < 0);
+    }, {threshold:0}).observe(heart);
+  }
+}
+
+function render(){
+  renderHeart(); renderPanel(); renderPlan(); renderHistory();
+  renderDaily(); renderStreak(); renderTopbar();
+}
+
+document.getElementById("mark").addEventListener("click", e=>{
+  const t = totals();
+  state.history.push({d:new Date().toISOString(), y:t.yes, n:t.no});
+  if(state.history.length > 10) state.history = state.history.slice(-10);
+  save(); renderHistory();
+  e.target.textContent = "Результат сохранён";
+  setTimeout(()=>e.target.textContent = "Отметить результат на сегодня", 2200);
+});
+
+document.getElementById("shot").addEventListener("click", ()=>makeShot());
+
+document.getElementById("copy").addEventListener("click", async e=>{
+  const rows = noItems();
+  if(!rows.length) return;
+  const picks = state.picks.map(findItem).filter(Boolean);
+  let text = "Что стоит начать делать:\n\n";
+  DATA.forEach(d=>{
+    const g = rows.filter(r=>r.piece === d.t);
+    if(g.length) text += d.t + ":\n" + g.map(r=>"— " + r.t).join("\n") + "\n\n";
+  });
+  if(picks.length) text += "Три пункта на неделю:\n" + picks.map(p=>"— " + p.t + (p.m ? "\n  Шаг: " + p.m : "")).join("\n");
+  try{
+    await navigator.clipboard.writeText(text.trim());
+    e.target.textContent = "Скопировано";
+  }catch(err){ e.target.textContent = "Не вышло скопировать"; }
+  setTimeout(()=>e.target.textContent = "Скопировать список", 1800);
+});
+
+document.getElementById("reset").addEventListener("click", ()=>{
+  state.marks = {}; state.custom = {}; state.picks = []; save(); render();
+});
+
+load();
+trackVisit();
+buildHeart();
+renderAudio();
+initTopbar();
+render();
+</script>
+</body>
+</html>

@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<script src="/practices/lib/mm-sync.js?v=3"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Самореализация | Клуб #MaxMagia</title>
+<style>
+:root{
+  --bg:#FFFFFF; --bg2:#F4F3EF; --card:#F4F3EF; --ink:#2F2F2F; --dim:#4D4D4D; --mute:#696969; --num:#E4E1DA;
+  --line:rgba(47,47,47,.12); --line2:rgba(47,47,47,.24);
+  --acc:#9A6A2E; --acc-fill:#D4B48A; --on-fill:#141414; --mark:#F6EC6E; --hot:#B23A2E;
+  --glow:rgba(212,180,138,.22); --tile:#2F2F2F; --tile-line:rgba(212,180,138,.6);
+  --gem-base:#8C8680; --gem-lit:#D4A86A;
+  --band1:#2A2420; --band2:#0C0C0E; --band-ink:#F0ECE4; --band-hot:#F49385; --yel:#2F2F2F; --yel-bg:#F6EC6E; --strike:#D2402F;
+  --serif:'Cormorant Garamond',Georgia,'Times New Roman',serif;
+  --sans:'Manrope',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --ease:cubic-bezier(.2,.8,.2,1);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --yel:#F3E37C; --yel-bg:transparent; --strike:#EF5A47;
+    --bg:#0C0C0E; --bg2:#0F0F11; --card:#18181A; --ink:#F0ECE4; --dim:#B9B2A8; --mute:#9C958C; --num:#232326;
+    --line:rgba(240,236,228,.08); --line2:rgba(240,236,228,.16);
+    --acc:#D4B48A; --acc-fill:#D4B48A; --on-fill:#0C0C0E; --mark:rgba(212,180,138,.26); --hot:#EF7A6B;
+    --glow:rgba(212,180,138,.12); --tile:#18181A; --tile-line:rgba(212,180,138,.4);
+    --gem-base:#2C2730; --gem-lit:#E2C79C;
+  }
+}
+:root[data-theme="dark"]{
+  --yel:#F3E37C; --yel-bg:transparent; --strike:#EF5A47;
+  --bg:#0C0C0E; --bg2:#0F0F11; --card:#18181A; --ink:#F0ECE4; --dim:#B9B2A8; --mute:#9C958C; --num:#232326;
+  --line:rgba(240,236,228,.08); --line2:rgba(240,236,228,.16);
+  --acc:#D4B48A; --acc-fill:#D4B48A; --on-fill:#0C0C0E; --mark:rgba(212,180,138,.26); --hot:#EF7A6B;
+  --glow:rgba(212,180,138,.12); --tile:#18181A; --tile-line:rgba(212,180,138,.4);
+  --gem-base:#2C2730; --gem-lit:#E2C79C;
+}
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px);scroll-behavior:smooth}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.7;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+h1,h2,h3{font-family:var(--serif);font-weight:500;margin:0;line-height:1.08;text-wrap:balance}
+p{margin:0}
+button,input{font:inherit;color:inherit;touch-action:manipulation}
+:focus-visible{outline:2px solid var(--acc);outline-offset:4px;border-radius:6px}
+[hidden]{display:none!important}
+.wrap{max-width:1200px;margin:0 auto;padding:0 clamp(20px,4vw,48px)}
+.center{text-align:center}
+.col{max-width:780px;margin-left:auto;margin-right:auto}
+.sec{--gap:clamp(72px,11vh,128px);padding:var(--gap) 0}
+.sec.orn-top{padding-top:0}
+.sec.orn-top > .wrap > .rule-orn{margin:0 auto var(--gap)}
+.label{display:block;font-size:13px;font-weight:600;letter-spacing:.28em;text-transform:uppercase;color:var(--acc);margin-bottom:22px}
+h2{font-size:clamp(38px,5vw,68px);font-weight:400;max-width:20ch;margin:0 auto}
+h2 em{font-style:italic;color:var(--acc)}
+.lede{font-size:clamp(18px,1.4vw,20px);color:var(--dim);max-width:58ch;margin:24px auto 0}
+mark{background:linear-gradient(transparent 60%,var(--mark) 60%);color:inherit;padding:0 .06em}
+.rule-orn{display:flex;align-items:center;justify-content:center;gap:14px;margin:0 auto 26px;color:var(--acc)}
+.rule-orn::before,.rule-orn::after{content:"";width:56px;height:1px;background:linear-gradient(90deg,transparent,var(--acc))}
+.rule-orn::after{transform:scaleX(-1)}
+.rule-orn i{width:6px;height:6px;background:var(--acc);transform:rotate(45deg)}
+
+/* Hero */
+.hero{min-height:100vh;min-height:100svh;display:grid;place-items:center;text-align:center;padding:clamp(40px,8vh,80px) 0;position:relative;overflow:hidden}
+.hero::before{content:"";position:absolute;left:50%;top:40%;width:min(110vw,980px);aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(circle,var(--glow),transparent 64%);pointer-events:none}
+.hero > div{position:relative;width:100%;min-width:0}
+.badge{width:clamp(112px,13vw,144px);aspect-ratio:1;border-radius:50%;margin:0 auto;display:grid;place-items:center;background:#F7F4EE;box-shadow:0 0 0 1px var(--line2),0 24px 60px -24px rgba(0,0,0,.45);animation:rise 1s var(--ease) both}
+.badge img{width:52%;height:auto;display:block}
+.hero .label{margin:30px 0 0;animation:rise 1s .1s var(--ease) both}
+.hero h1{font-size:clamp(38px,11.4vw,132px);font-weight:400;line-height:.95;margin-top:18px;animation:rise 1s .18s var(--ease) both}
+.hero .sub{font-family:var(--serif);font-size:clamp(22px,2.3vw,31px);line-height:1.38;color:var(--dim);margin:30px auto 0;animation:rise 1s .26s var(--ease) both}
+.hero .sub b{font-style:italic;font-weight:600;color:var(--ink)}
+.hero .go{display:inline-flex;flex-direction:column;align-items:center;gap:10px;margin-top:48px;color:var(--mute);font-size:13px;letter-spacing:.2em;text-transform:uppercase;text-decoration:none;animation:rise 1s .34s var(--ease) both}
+.hero .go i{width:1px;height:40px;background:linear-gradient(var(--acc),transparent)}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+
+/* Statement typography */
+.big{font-family:var(--serif);font-size:clamp(26px,2.8vw,38px);line-height:1.28;max-width:30ch;margin:34px auto 0}
+.body{font-size:clamp(18px,1.4vw,20px);color:var(--dim);max-width:60ch;margin:22px auto 0}
+
+/* Cards (landing style) */
+.cards{display:grid;gap:4px;margin-top:clamp(44px,7vh,72px)}
+.cards.c2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.cards.c3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.cards.c4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.card{position:relative;background:var(--card);padding:clamp(34px,4.5vw,56px) clamp(22px,3vw,40px) clamp(34px,4vw,48px);text-align:center}
+.card::before{content:"";position:absolute;left:0;right:0;top:0;height:2px;background:linear-gradient(90deg,var(--acc),transparent)}
+.card .num{display:block;font-family:var(--serif);font-weight:600;font-size:clamp(56px,6vw,84px);line-height:.9;color:var(--num);margin-bottom:12px;font-variant-numeric:oldstyle-nums}
+.card .label{margin-bottom:14px}
+.card h3{font-size:clamp(26px,2.4vw,34px);font-weight:500}
+.card p{color:var(--dim);margin-top:12px}
+.callout{margin-top:4px;background:var(--card);border-left:2px solid var(--acc);padding:clamp(24px,3vw,36px) clamp(24px,4vw,56px);color:var(--dim);font-size:clamp(17px,1.3vw,19px)}
+.callout b{color:var(--acc);font-weight:600}
+
+/* Ways grid */
+.ways{list-style:none;margin:clamp(44px,7vh,72px) 0 0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px;counter-reset:w}
+.ways li{counter-increment:w;position:relative;background:var(--card);padding:28px 18px 26px;text-align:center;font-family:var(--serif);font-size:clamp(20px,1.7vw,24px);line-height:1.2;min-height:150px;display:flex;flex-direction:column;justify-content:flex-end;align-items:center}
+.ways li::before{content:counter(w,decimal-leading-zero);font-family:var(--serif);font-weight:600;font-size:50px;line-height:.9;color:var(--num);margin-bottom:auto;padding-bottom:12px;font-variant-numeric:oldstyle-nums}
+.ways li.span2{grid-column:span 2;font-style:italic;color:var(--acc);font-size:clamp(21px,1.9vw,26px)}
+.ways li.span2::before{content:"…";color:var(--num)}
+.examples{list-style:none;margin:clamp(48px,8vh,80px) auto 0;padding:0;max-width:820px}
+.examples li{font-family:var(--serif);font-size:clamp(25px,2.8vw,38px);line-height:1.2;padding:12px 0;text-align:center}
+.examples li span{color:var(--mute);font-style:italic}
+.examples li.last{color:var(--acc);font-style:italic}
+.whole{margin:clamp(40px,6vh,60px) auto 0}
+
+/* Cinematic band */
+.band{position:relative;overflow:hidden;padding:clamp(110px,20vh,220px) 0;text-align:center;color:var(--band-ink);background:radial-gradient(ellipse 70% 90% at 72% 60%,var(--band1),var(--band2) 70%)}
+.band::before{content:"";position:absolute;inset:-20%;background:radial-gradient(circle at 30% 40%,rgba(212,180,138,.14),transparent 40%),radial-gradient(circle at 75% 65%,rgba(239,122,107,.12),transparent 38%);animation:drift 18s ease-in-out infinite alternate}
+.band::after{content:"";position:absolute;inset:0;opacity:.09;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+.band .fade-top,.band .fade-bot{position:absolute;left:0;right:0;height:30%;pointer-events:none;z-index:1}
+.band .fade-top{top:0;background:linear-gradient(var(--bg),transparent)}
+.band .fade-bot{bottom:0;background:linear-gradient(transparent,var(--bg))}
+.band .in{position:relative;z-index:2}
+.band p{font-family:var(--serif);font-style:italic;font-size:clamp(26px,3.2vw,46px);line-height:1.5;opacity:0;transform:translateY(12px);transition:opacity 1.2s var(--ease),transform 1.2s var(--ease)}
+.band.seen p{opacity:.92;transform:none}
+.band.seen p:nth-child(2){transition-delay:.5s}
+.band.seen p:nth-child(3){transition-delay:1.2s}
+.band p.hot{color:var(--band-hot);font-size:clamp(46px,6.4vw,92px);line-height:1.2;margin-top:12px;opacity:0}
+.band.seen p.hot{opacity:1}
+@keyframes drift{from{transform:translate(-3%,-2%)}to{transform:translate(3%,2%)}}
+
+/* Facets */
+.facet-zone{max-width:640px;margin:clamp(28px,5vh,48px) auto 0;text-align:center}
+.stage{position:relative;aspect-ratio:1/1;width:min(100%,420px);margin:0 auto}
+.stage::before{content:"";position:absolute;inset:10%;border-radius:50%;background:radial-gradient(circle,var(--glow),transparent 68%)}
+.float{position:absolute;inset:0;animation:float 6s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translateY(-2.5%)}50%{transform:translateY(2.5%)}}
+.shadow{position:absolute;left:30%;right:30%;bottom:9%;height:5%;border-radius:50%;background:radial-gradient(closest-side,rgba(0,0,0,.3),transparent);animation:shadow 6s ease-in-out infinite}
+@keyframes shadow{0%,100%{transform:scale(.8);opacity:.5}50%{transform:scale(1);opacity:.85}}
+#gl,#gemFallback{position:absolute;inset:0;width:100%;height:100%;display:block}
+.count{position:absolute;left:0;right:0;bottom:-2%;text-align:center}
+.count b{display:block;font-family:var(--serif);font-weight:400;font-size:clamp(44px,5vw,60px);line-height:1;color:var(--acc);font-variant-numeric:lining-nums tabular-nums}
+.count span{font-size:14px;color:var(--mute)}
+.rule{font-size:17px;color:var(--dim);margin-top:44px}
+.rule b{color:var(--ink);font-weight:600}
+.facet-form{margin-top:30px;text-align:left}
+.facet-form label{display:block;font-size:15px;font-weight:600;margin-bottom:6px}
+.facet-form label span{font-weight:400;color:var(--mute)}
+.field{display:flex;align-items:center;border-bottom:1px solid var(--line2);transition:border-color .3s}
+.field:focus-within{border-color:var(--acc)}
+.field input{flex:1;min-width:0;background:transparent;border:0;padding:14px 0;font-size:18px;outline:none}
+.field input::placeholder{color:var(--mute)}
+.light-btn{border:0;background:none;color:var(--acc);font-weight:700;cursor:pointer;min-height:48px;padding:0 4px 0 16px;display:inline-flex;align-items:center;gap:8px;white-space:nowrap}
+.light-btn svg{width:18px;height:18px}
+.facets{list-style:none;margin:18px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+.facets li{display:inline-flex;align-items:center;gap:2px;border:1px solid var(--line2);border-radius:999px;padding:3px 3px 3px 14px;font-size:15px;animation:rise .5s var(--ease)}
+.facets li button{width:36px;height:36px;border:0;background:none;border-radius:50%;cursor:pointer;color:var(--mute);display:grid;place-items:center}
+.facets li button:hover{color:var(--ink);background:var(--line)}
+.facets svg{width:14px;height:14px}
+.sugg{margin-top:26px}
+.sugg p{font-size:14px;color:var(--mute);margin-bottom:10px}
+.sugg ul{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+.sugg button{min-height:40px;border:1px dashed var(--line2);background:transparent;border-radius:999px;padding:6px 16px;cursor:pointer;font-size:15px;color:var(--dim);display:inline-flex;align-items:center;gap:8px;animation:rise .5s var(--ease)}
+.sugg button:hover{border-color:var(--acc);color:var(--ink)}
+.sugg button b{color:var(--acc);font-weight:700}
+
+/* Questions cards */
+.qcard{text-align:center;display:flex;flex-direction:column}
+.qcard .answers{margin-top:auto;padding-top:26px;gap:8px}
+#h-imp{max-width:24ch}
+.qcard h3{font-size:clamp(26px,2.4vw,34px);max-width:22ch;margin:0 auto}
+.qcard .clar{font-size:15px;color:var(--mute);max-width:44ch;margin:14px auto 0}
+.qcard .clar b{color:var(--dim);font-weight:600}
+.answers{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:26px}
+.answers button{min-height:50px;padding:0 18px;border-radius:999px;border:1px solid var(--line2);background:transparent;cursor:pointer;font-size:16px;transition:background .2s,border-color .2s,transform .15s}
+.answers button:hover{border-color:var(--acc)}
+.answers button:active{transform:scale(.97)}
+.answers button[aria-pressed="true"]{background:var(--acc-fill);border-color:var(--acc-fill);color:var(--on-fill);font-weight:700}
+.verdict{margin:20px auto 0;color:var(--dim);min-height:3.2em;max-width:42ch;font-size:16px}
+.verdict b{color:var(--ink);font-weight:700}
+
+/* Field of wonders */
+.wonders{margin-top:clamp(44px,7vh,72px);display:grid;gap:clamp(40px,7vh,64px);justify-items:center}
+.word{display:grid;gap:18px;justify-items:center;text-align:center}
+.tiles{display:flex;flex-wrap:wrap;gap:6px;justify-content:center}
+.tile{width:clamp(18px,5.4vw,58px);aspect-ratio:3/4;perspective:600px;border:0;background:none;padding:0;cursor:pointer}
+.tile > span{position:relative;display:block;width:100%;height:100%;transform-style:preserve-3d;transition:transform .7s var(--ease)}
+.tile b,.tile i{position:absolute;inset:0;display:grid;place-items:center;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:4px;font-style:normal}
+.tile i{background:var(--tile);border:1px solid var(--tile-line)}
+.tile i::after{content:"";width:24%;aspect-ratio:1;border:1px solid var(--tile-line);transform:rotate(45deg)}
+.tile b{transform:rotateY(180deg);background:var(--acc-fill);color:var(--on-fill);font-family:var(--serif);font-weight:600;font-size:clamp(14px,3.6vw,40px)}
+.tile.open > span{transform:rotateY(180deg)}
+.ghost{min-height:44px;padding:0 20px;border-radius:999px;border:1px solid var(--line2);background:none;cursor:pointer;font-size:14px;letter-spacing:.06em}
+.ghost:hover{border-color:var(--acc)}
+.word-desc{max-width:52ch;color:var(--dim);animation:rise .6s var(--ease)}
+.word:not(.open) .word-desc{display:none}
+.word-desc .label{margin-bottom:8px}
+.word-desc b{display:block;font-family:var(--serif);font-weight:500;font-size:clamp(24px,2.4vw,32px);line-height:1.2;color:var(--ink);margin-bottom:10px}
+
+footer{padding:70px 0 90px;border-top:1px solid var(--line);color:var(--mute);font-size:14px;text-align:center}
+footer .sign{font-family:var(--serif);font-style:italic;font-size:22px;color:var(--acc);margin-bottom:10px}
+footer p + p{margin-top:8px}
+footer a{color:var(--acc)}
+.series{display:inline-flex;flex-wrap:wrap;gap:4px 18px;justify-content:center}
+
+@media (max-width:980px){.ways,.cards.c4{grid-template-columns:repeat(2,minmax(0,1fr))}.cards.c3{grid-template-columns:1fr}}
+@media (max-width:640px){
+  .cards.c2{grid-template-columns:1fr}
+  .ways li{min-height:118px;font-size:17px;padding:22px 10px;hyphens:auto;-webkit-hyphens:auto;overflow-wrap:break-word}
+  .ways li::before{font-size:40px}
+  .answers button{flex:1 1 auto}
+  .tiles{gap:3px}
+  .stage{width:min(100%,300px)}
+}
+@media (prefers-reduced-motion: reduce){
+  *{animation:none!important;transition:none!important}
+  html{scroll-behavior:auto}
+  .band p{opacity:.92!important;transform:none!important}
+}
+
+/* ===== v4 ===== */
+.yel{color:var(--yel);background:linear-gradient(transparent 58%,var(--yel-bg) 58%);-webkit-box-decoration-break:clone;box-decoration-break:clone}
+.def-not{display:block;font-family:var(--serif);font-size:clamp(20px,1.8vw,26px);line-height:1.3;color:var(--mute);margin:14px 0 10px;font-weight:400}
+.def-not s{text-decoration:line-through;text-decoration-color:var(--strike);text-decoration-thickness:2px}
+h2.def-yes{max-width:22ch}
+h2.caps{text-transform:uppercase;letter-spacing:.06em;font-size:clamp(34px,5vw,64px)}
+.ps-line{font-family:var(--serif);font-size:clamp(21px,2vw,27px);line-height:1.45;color:var(--dim);max-width:44ch;margin:clamp(36px,6vh,56px) auto 0}
+.ps-line .ps-tag{font-family:var(--sans);font-size:13px;font-weight:700;letter-spacing:.2em;color:var(--acc);margin-right:4px}
+.ps-line b{color:var(--ink);font-weight:600}
+h2.ex-h{margin-top:clamp(64px,10vh,110px)}
+.band p.hot:only-child{margin-top:0}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:54px;padding:0 30px;border-radius:999px;border:0;background:var(--acc-fill);color:var(--on-fill);font-weight:700;font-size:16px;cursor:pointer;text-decoration:none;transition:transform .2s var(--ease),filter .2s}
+.btn:hover{filter:brightness(1.06)}
+.btn:active{transform:scale(.97)}
+.btn svg{width:20px;height:20px;flex:none}
+.photo{margin-top:34px}
+.note-s{font-size:14px;color:var(--mute);margin-top:10px;min-height:1.2em}
+.next-btn{margin-top:30px}
+/* sparkles when full */
+.sparkles{position:absolute;inset:0;z-index:2;pointer-events:none}
+.sparkles i{position:absolute;width:34px;height:34px;opacity:0;background:radial-gradient(circle,#fff 0 12%,transparent 13%),linear-gradient(transparent 45%,rgba(255,244,214,.95) 45% 55%,transparent 55%),linear-gradient(90deg,transparent 45%,rgba(255,244,214,.95) 45% 55%,transparent 55%);clip-path:polygon(50% 0,58% 42%,100% 50%,58% 58%,50% 100%,42% 58%,0 50%,42% 42%);filter:drop-shadow(0 0 6px rgba(255,230,170,.9))}
+.stage.full .sparkles i{animation:twinkle 2.6s ease-in-out infinite}
+.sparkles i:nth-child(1){left:26%;top:22%;animation-delay:0s}
+.sparkles i:nth-child(2){left:68%;top:18%;animation-delay:.5s;transform:scale(.7)}
+.sparkles i:nth-child(3){left:78%;top:42%;animation-delay:1.1s}
+.sparkles i:nth-child(4){left:18%;top:46%;animation-delay:1.6s;transform:scale(.6)}
+.sparkles i:nth-child(5){left:48%;top:12%;animation-delay:.9s;transform:scale(1.2)}
+.sparkles i:nth-child(6){left:58%;top:58%;animation-delay:2s;transform:scale(.5)}
+.sparkles i:nth-child(7){left:36%;top:52%;animation-delay:1.4s;transform:scale(.8)}
+@keyframes twinkle{0%,100%{opacity:0;scale:.3;rotate:0deg}45%{opacity:1;scale:1;rotate:45deg}60%{opacity:.9}}
+.stage.full::before{background:radial-gradient(circle,rgba(255,226,160,.30),transparent 66%);animation:halo 3.2s ease-in-out infinite}
+@keyframes halo{0%,100%{opacity:.7;transform:scale(.96)}50%{opacity:1;transform:scale(1.06)}}
+.stage.burst::after{content:"";position:absolute;left:50%;top:42%;width:30%;aspect-ratio:1;border-radius:50%;transform:translate(-50%,-50%);border:2px solid rgba(255,226,160,.8);animation:burst 1.2s ease-out forwards;z-index:3}
+@keyframes burst{from{opacity:1;width:20%}to{opacity:0;width:110%}}
+@media (prefers-reduced-motion: reduce){.stage.full .sparkles i{opacity:.8}}
+
+</style>
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="/practices/fonts/fonts.css">
+<script src="/telegram-web-app.js"></script>
+<script>
+/* MaxMagia: практика внутри кабинета Telegram */
+(function(){
+  var tg = window.Telegram && Telegram.WebApp;
+  var inTg = !!(tg && tg.platform && tg.platform !== 'unknown');
+  function ext(href){
+    try {
+      var u = new URL(href, location.href);
+      if (u.origin === location.origin) { location.href = u.pathname + u.search + u.hash; return true; }
+      if (!inTg) return false;
+      if (u.hostname === 't.me' && tg.openTelegramLink) tg.openTelegramLink(u.href);
+      else tg.openLink(u.href, {try_instant_view:false});
+      return true;
+    } catch(e){ return false; }
+  }
+  document.addEventListener('click', function(e){
+    var a = e.target && e.target.closest ? e.target.closest('a[href]') : null;
+    if (!a) return;
+    var h = a.getAttribute('href') || '';
+    if (!h || h.charAt(0) === '#' || /^(javascript|blob|data|mailto|tel):/i.test(h)) return;
+    if (ext(h)) e.preventDefault();
+  }, true);
+  if (!inTg) return;
+  var wo = window.open;
+  window.open = function(url){
+    var s = String(url || '');
+    if (/^(blob|data):/i.test(s)) return null;      /* картинку внутри Telegram открыть нельзя — страница сама предложит скриншот */
+    if (s && ext(s)) return {};
+    return wo.apply(window, arguments);
+  };
+  try {
+    tg.ready(); tg.expand();
+    tg.setHeaderColor && tg.setHeaderColor('#ffffff');
+    tg.setBackgroundColor && tg.setBackgroundColor('#ffffff');
+    tg.BackButton.show();
+    tg.BackButton.onClick(function(){ location.href = '/'; });
+  } catch(e){}
+})();
+</script>
+</head>
+<body>
+<main>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="badge"><img src="/practices/img/emblem.png" alt="Логотип клуба MaxMagia"></div>
+    <span class="label">Клуб #MaxMagia</span>
+    <h1>Самореализация</h1>
+    <p class="sub">В душе мы все хотим всего лишь одного —<br><b>смысла. Смысла быть. Смысла жить.</b><br>И чтобы он появился, хотя бы минимальный,<br>нам важно самореализоваться.</p>
+    <a class="go" href="#what">Ниже подробнее<i aria-hidden="true"></i></a>
+  </div>
+</header>
+
+<section class="sec" id="what" aria-labelledby="h-what">
+<div class="wrap center">
+  <span class="label">Определение</span>
+  <h2 id="h-what" class="def-yes">Самореализация&nbsp;—<span class="def-not"><s>это не просто получить желаемое.</s></span>это создавать в&nbsp;своей реальной жизни то, что действительно важно и&nbsp;ценно для тебя.</h2>
+  <p class="body">То есть создавать такую жизнь, в которой есть место тому, что <mark>действительно твоё</mark>: твоим желаниям, ценностям, отношениям, интересам, способностям и способам жить.</p>
+  <div class="callout col" style="margin-top:clamp(44px,7vh,64px);text-align:left"><b>Ключевое.</b> Понять себя недостаточно. Важно, чтобы твоё получило место и воплощение в реальной жизни. И это не обязательно что-то большое.</div>
+</div>
+</section>
+
+<section class="sec orn-top" id="path" aria-labelledby="h-path">
+<div class="wrap center">
+  <div class="rule-orn" aria-hidden="true"><i></i></div>
+  <h2 id="h-path" class="caps">Начни путь к себе</h2>
+  <div class="cards c2">
+    <div class="card"><span class="num">01</span><span class="label">Не с вопроса</span><h3>«Кем мне стать?»</h3></div>
+    <div class="card"><span class="num">02</span><span class="label">А с вопроса</span><h3>«Что из важного для меня я хочу видеть в своей реальной жизни?»</h3></div>
+  </div>
+  <p class="ps-line"><span class="ps-tag">P.S.</span> <i>Первый вопрос заставляет искать идеальную версию себя где-то в будущем, а второй даёт <b>право жить полноценно уже сейчас</b>.</i></p>
+</div>
+</section>
+
+<section class="sec orn-top" id="important" aria-labelledby="h-imp" style="padding-bottom:0">
+<div class="wrap center">
+  <div class="rule-orn" aria-hidden="true"><i></i></div>
+  <span class="label">Важно!</span>
+  <h2 id="h-imp">Запомни, пожалуйста: <span class="yel">не&nbsp;существует одной главной точки, которая обязана оправдать существование человека.</span></h2>
+</div>
+</section>
+
+<section class="band" id="band1" aria-label="Про великое предназначение">
+  <div class="fade-top"></div><div class="fade-bot"></div>
+  <div class="in wrap">
+    <p>Культура постоянно подсовывает нам идею:</p>
+    <p>«Найди одно великое предназначение и&nbsp;реализуй его».</p>
+    <p class="hot">Хуй там.</p>
+  </div>
+</section>
+
+<section class="sec" style="padding-top:0" aria-label="Много способов быть собой">
+<div class="wrap center">
+  <p class="big" style="margin-top:0">У человека может быть много маленьких и больших способов быть собой в собственной жизни.</p>
+  <p class="body">Поэтому мы говорим не об одной точке реализации, а о гранях.</p>
+</div>
+</section>
+
+<section class="sec orn-top" id="facets" aria-labelledby="h-facets">
+<div class="wrap center">
+  <div class="rule-orn" aria-hidden="true"><i></i></div>
+  <span class="label">Грани</span>
+  <h2 id="h-facets">Человек может реализовываться через:</h2>
+  <ul class="ways">
+    <li>профессию</li><li>творчество</li><li>отношения</li><li>родительство</li>
+    <li>предпринимательство</li><li>тело и спорт</li><li>интеллектуальное развитие</li><li>создание чего-то нового</li>
+    <li>помощь другим</li><li>образ жизни</li><li>сексуальность и близость</li><li>социальную роль</li>
+    <li>свободу</li><li>исследование мира</li>
+    <li class="span2">и даже просто способность наконец жить так, как тебе действительно подходит</li>
+  </ul>
+
+  <h2 class="ex-h">Например:</h2>
+  <ul class="examples">
+    <li><span>я самореализуюсь</span> в отношениях</li>
+    <li><span>я самореализуюсь</span> как отец</li>
+    <li><span>я самореализуюсь</span> в творчестве</li>
+    <li><span>я самореализуюсь</span> в своей профессии</li>
+    <li><span>я самореализуюсь</span> в способности заботиться о себе</li>
+    <li><span>я самореализуюсь,</span> когда создаю что-то новое</li>
+    <li class="last">я самореализуюсь даже в том, что офигенно мою посуду 😄</li>
+  </ul>
+</div>
+</section>
+
+<section class="band" id="band-whole" aria-label="Не нужно реализовать себя целиком">
+  <div class="fade-top"></div><div class="fade-bot"></div>
+  <div class="in wrap">
+    <p>И тебе не нужно реализовать себя целиком.</p>
+    <p>Достаточно, чтобы в твоей жизни были места, где ты чувствуешь:</p>
+    <p class="hot">«Вот здесь я есть».</p>
+  </div>
+</section>
+
+<section class="sec orn-top" id="your" aria-labelledby="h-your">
+<div class="wrap center">
+  <div class="rule-orn" aria-hidden="true"><i></i></div>
+  <span class="label">Твоя очередь</span>
+  <h2 id="h-your">А твои грани самореализации какие?</h2>
+  <div class="facet-zone">
+    <div class="stage" id="stage"><div class="sparkles" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+      <div class="float"><canvas id="gl" aria-hidden="true"></canvas><svg id="gemFallback" viewBox="40 40 320 280" hidden aria-hidden="true"></svg></div>
+      <div class="shadow" aria-hidden="true"></div>
+      <div class="count" aria-live="polite"><b id="cnt">0</b><span id="cntLbl">граней пока не названо</span></div>
+    </div>
+    <p class="rule"><b>Главный критерий: не то, за что тебя похвалят, а то, что ты сам(а) считаешь своей жизнью.</b> Гранью не должно быть то, за что тебе говорят: «Вах, какой ты арбузик спелый!» А то, чем ты сам(а) гордишься или чем доволен(льна). Каждая грань загорается на бриллианте.</p>
+    <form class="facet-form" id="facetForm">
+      <label for="facIn">Моя грань <span>— например: «Я умею эмпатично слушать других»</span></label>
+      <div class="field"><input id="facIn" type="text" maxlength="90" autocomplete="off" placeholder="Я умею…"><button class="light-btn" type="submit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M12 3l2.2 5.8L20 11l-5.8 2.2L12 19l-2.2-5.8L4 11l5.8-2.2z"/></svg>Зажечь</button></div>
+      <ul class="facets" id="facList" aria-label="Твои грани"></ul>
+    </form>
+    <div class="sugg" id="sugg" hidden><p>Может, это тоже про тебя? Нажми, чтобы зажечь.</p><ul id="suggList"></ul></div>
+    <div class="photo" id="photoBox" hidden><button type="button" class="btn" id="photoBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg>Сделать фото своих граней самореализации</button><p class="note-s" id="photoNote" aria-live="polite"></p><p class="note-s" id="photoHint">Картинку можно сохранить в телефон или переслать.</p></div>
+  </div>
+</div>
+</section>
+
+<section class="sec orn-top" id="success" aria-labelledby="h-succ">
+<div class="wrap center">
+  <div class="rule-orn" aria-hidden="true"><i></i></div>
+  <span class="label">Интересное различие</span>
+  <h2 id="h-succ">Самореализация <em>≠</em> успех</h2>
+  <div class="cards c2">
+    <div class="card"><span class="num">01</span><span class="label">Успех</span><h3>«Насколько хорошо у меня получилось?»</h3><p>Можно быть очень успешным и при этом чувствовать: <i>«Я вообще не понимаю, чью жизнь я сейчас живу».</i></p></div>
+    <div class="card"><span class="num">02</span><span class="label">Самореализация</span><h3>«А это вообще моя жизнь?»</h3><p>Человек может не иметь впечатляющих достижений, но ощущать: <i>«Вот это — моя жизнь. Я в ней есть».</i></p></div>
+  </div>
+</div>
+</section>
+
+<section class="sec orn-top" id="questions" aria-labelledby="h-q">
+<div class="wrap center">
+  <div class="rule-orn" aria-hidden="true"><i></i></div>
+  <span class="label">Самопроверка</span>
+  <h2 id="h-q">Два каверзных вопроса тебе</h2>
+  <p class="lede">Нелюбимых, бесячих. Ответь себе честно.</p>
+  <div class="cards c2">
+    <div class="card qcard"><span class="num">01</span><h3 id="q1h"><span class="yel">Соответствует ли то, как я сейчас живу, тому, как я желаю жить?</span></h3>
+      <p class="clar"><b>Иначе говоря:</b> насколько моя сегодняшняя жизнь похожа на ту, которую я действительно хочу жить?</p>
+      <div class="answers" data-q="q1" role="group" aria-labelledby="q1h"><button type="button" data-v="yes" aria-pressed="false">Да</button><button type="button" data-v="part" aria-pressed="false">Отчасти</button><button type="button" data-v="no" aria-pressed="false">Нет</button></div>
+      <p class="verdict" id="v-q1" aria-live="polite"></p></div>
+    <div class="card qcard"><span class="num">02</span><h3 id="q2h"><span class="yel">Что я сегодня выбираю делать, чтобы наполнять свою жизнь смыслом и ценностью?</span></h3>
+      <p class="clar"><b>Иначе говоря:</b> что я сегодня делаю, чтобы моя реальная жизнь становилась больше похожей на желаемую?</p>
+      <div class="answers" data-q="q2" role="group" aria-labelledby="q2h"><button type="button" data-v="yes" aria-pressed="false">Знаю и делаю</button><button type="button" data-v="part" aria-pressed="false">Иногда</button><button type="button" data-v="no" aria-pressed="false">Честно — ничего</button></div>
+      <p class="verdict" id="v-q2" aria-live="polite"></p></div>
+  </div>
+  <div class="callout" style="text-align:left;font-style:italic"><b style="font-style:normal">Совет:</b> второй вопрос клёво было бы выписать и повесить дома в разных местах. Пусть поначалу триггерит. Бесячая штука — но бесит нас ровно то, что мы себе не позволяем. Пусть побесит настолько, чтобы ты на себя разозлился(лась) и начал(а) разрешать себе то, что наполняет жизнь смыслом.</div>
+</div>
+</section>
+
+<section class="sec orn-top" id="skills" aria-labelledby="h-skills">
+<div class="wrap center">
+  <div class="rule-orn" aria-hidden="true"><i></i></div>
+  <span class="label">Поле чудес</span>
+  <h2 id="h-skills">Два базовых навыка, необходимых для самореализации</h2>
+  <p class="lede">Чтобы ответить на эти вопросы не абстрактно, а реально изменить свою жизнь, нам нужны две вещи. Угадаешь?</p>
+  <div class="wonders">
+    <div class="word" data-word="ОСОЗНАННОСТЬ">
+      <div class="tiles" role="group" aria-label="Первое слово, 12 букв"></div>
+      <button type="button" class="ghost" data-openall>Открыть слово</button>
+      <div class="word-desc"><span class="label">Мышление</span><b>Я понимаю, чего действительно хочу и что со мной происходит.</b></div>
+    </div>
+    <div class="word" data-word="ОТВЕТСТВЕННОСТЬ">
+      <div class="tiles" role="group" aria-label="Второе слово, 15 букв"></div>
+      <button type="button" class="ghost" data-openall>Открыть слово</button>
+      <div class="word-desc"><span class="label">Действие</span><b>Беру на себя то, что в моей зоне контроля и влияния, и делаю то, что реально меня приближает к желанию.</b></div>
+    </div>
+  </div>
+</div>
+</section>
+
+<section class="sec orn-top" id="truth" aria-labelledby="h-truth" style="padding-bottom:0">
+<div class="wrap center">
+  <div class="rule-orn" aria-hidden="true"><i></i></div>
+  <span class="label">Правда о тебе</span>
+  <h2 id="h-truth">Я знаю твою отличительную черту</h2>
+  <p class="body">Ты знаешь, что подхрамываешь или где подхрамываешь, и точно знаешь, где чего-то пока что не хватает. И потому ты пришёл(ла) в это пространство клуба #MaxMagia по собственному зову — потому что точно знаешь, что здесь мы все найдём то, чего не хватает, и сможем прийти к той самореализации, к тому «месту под солнцем», которое нам безумно важно найти.</p>
+</div>
+</section>
+
+<section class="band" id="band-truth" aria-label="Правда о тебе">
+  <div class="fade-top"></div><div class="fade-bot"></div>
+  <div class="in wrap">
+    <p>Тебе уже не всё равно на себя.</p>
+    <p>А это и есть начало осознанности и ответственности.</p>
+  </div>
+</section>
+
+<section class="sec orn-top" id="itogo" aria-labelledby="h-itogo" style="padding-bottom:0">
+<div class="wrap center">
+  <div class="rule-orn" aria-hidden="true"><i></i></div>
+  <span class="label">Итого</span>
+  <h2 id="h-itogo">Вся система в трёх строчках</h2>
+  <div class="cards c3">
+    <div class="card"><span class="num">01</span><span class="label">Самореализация</span><h3>Что я хочу воплотить в своей жизни?</h3></div>
+    <div class="card"><span class="num">02</span><span class="label">Осознанность</span><h3>Действительно ли это моё?</h3></div>
+    <div class="card"><span class="num">03</span><span class="label">Ответственность</span><h3>Что я делаю, чтобы это стало реальностью?</h3></div>
+  </div>
+</div>
+</section>
+
+<section class="band" id="band2" aria-label="Финальная мысль">
+  <div class="fade-top"></div><div class="fade-bot"></div>
+  <div class="in wrap">
+    <p>Самореализация — это не стать кем-то.</p>
+    <p>Это постепенно сделать свою жизнь похожей</p>
+    <p>на ту, которую ты действительно хочешь жить.</p>
+  </div>
+</section>
+
+<section class="sec next-sec" aria-labelledby="h-next" style="padding-top:clamp(40px,6vh,72px)">
+<div class="wrap center">
+  <span class="label">Следующий шаг</span>
+  <h2 id="h-next">2 навыка самореализации</h2>
+  <p class="body">Где ты сейчас между осознанностью и ответственностью — и где застряли твои цели.</p>
+  <a class="btn next-btn" id="nextBtn" href="/practices/dva-navyka/">Перейти к следующему шагу<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+  <p class="note-s" id="nextNote" aria-live="polite"></p>
+</div>
+</section>
+</main>
+
+<div class="wrap">
+  <footer>
+    <div class="sign">Клуб #MaxMagia</div>
+    <p>Клуб — не терапия и не медицинская помощь. Если в процессе поднимается много тяжёлого, можно написать мне: <a href="https://t.me/MaxGuschin" target="_blank" rel="noopener">t.me/MaxGuschin</a>.</p>
+    <p>Ответы хранятся только в этом браузере.</p>
+    <p>Максим Гущин · самозанятый · ИНН 616616544435</p>
+    <p><a href="https://maxmagia.ru/">Клуб #MaxMagia</a> · <a href="https://maxmagia.ru/oferta.html">Условия участия</a> · <a href="https://maxmagia.ru/rules.html">Правила клуба</a> · <a href="https://maxmagia.ru/privacy.html">Политика обработки данных</a> · <a href="https://maxmagia.ru/consent.html">Согласие на обработку данных</a></p>
+  </footer>
+</div>
+
+<script src="/practices/lib/three.min.js"></script>
+<script>
+
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+const RM = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const KEY = 'maxmagia-selfreal-v2';
+let S = {facets:[], q1:null, q2:null, revealed:{}};
+try { const r = localStorage.getItem(KEY); if (r) S = Object.assign(S, JSON.parse(r)); } catch(e){}
+try { if (!localStorage.getItem(KEY)){ const o = JSON.parse(localStorage.getItem('maxmagia-selfreal-v1') || 'null'); if (o){ ['facets','q1','q2'].forEach(k => { if (o[k]) S[k] = o[k]; }); } } } catch(e){}
+const save = () => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch(e){} };
+function plural(n, a, b, c){ const m10 = n % 10, m100 = n % 100; return m10 === 1 && m100 !== 11 ? a : (m10 >= 2 && m10 <= 4 && (m100 < 10 || m100 >= 20) ? b : c); }
+const cssVar = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const X = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>';
+
+/* =========== Gem =========== */
+const PROFILE = [[0,-1.18],[0.6,-0.42],[1.0,0.04],[1.0,0.14],[0.8,0.40],[0.52,0.56],[0,0.56]];
+const SEG = 8, BANDS = PROFILE.length - 1, NF = SEG * BANDS;
+const ORDER = (() => { const o = []; const bandsOrder = [5,4,1,0,2,3]; for (let k = 0; k < SEG; k++) for (const b of bandsOrder) o.push(((k * 3) % SEG) * BANDS + b); return o; })();
+let gem = null;
+
+function hexRGB(h){ h = h.replace('#',''); return [0,2,4].map(i => parseInt(h.slice(i, i+2), 16) / 255); }
+function initGL(){
+  if (!window.THREE) return false;
+  const canvas = $('#gl');
+  let renderer;
+  try { renderer = new THREE.WebGLRenderer({canvas, antialias:true, alpha:true}); } catch(e){ return false; }
+  renderer.setPixelRatio(Math.min(devicePixelRatio || 1, 2));
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(32, 1, 0.1, 50); camera.position.set(0, 0.35, 5.0); camera.lookAt(0, 0.05, 0);
+  const pts = PROFILE.map(([x, y]) => new THREE.Vector2(Math.max(x, 0.0001), y));
+  let geo = new THREE.LatheGeometry(pts, SEG).toNonIndexed();
+  const triCount = geo.attributes.position.count / 3;
+  const colors = new Float32Array(geo.attributes.position.count * 3);
+  geo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+  geo.computeVertexNormals();
+  const mat = new THREE.MeshPhongMaterial({vertexColors:true, flatShading:true, shininess:90, specular:new THREE.Color(0x7d6d5c), transparent:true, opacity:.96});
+  const mesh = new THREE.Mesh(geo, mat);
+  const edges = new THREE.LineSegments(new THREE.EdgesGeometry(geo, 1), new THREE.LineBasicMaterial({color:0xE9D2A2, transparent:true, opacity:.28}));
+  const group = new THREE.Group(); group.add(mesh); group.add(edges); group.rotation.x = 0.42; group.position.y = 0.42; scene.add(group);
+  scene.add(new THREE.AmbientLight(0x6a5470, 0.75));
+  const l1 = new THREE.PointLight(0xF2D9A8, 1.25); l1.position.set(3, 3, 4); scene.add(l1);
+  const l2 = new THREE.PointLight(0xD9788C, 0.85); l2.position.set(-4, -1, 2.5); scene.add(l2);
+  const l3 = new THREE.PointLight(0xffffff, 0.5); l3.position.set(0, 4, -3); scene.add(l3);
+  // facet state
+  const jitter = Array.from({length: NF}, (_, i) => 0.82 + 0.36 * ((Math.sin(i * 12.9898) * 43758.5453) % 1 + 1) % 1);
+  const cur = Array.from({length: NF}, () => [0,0,0]), tgt = Array.from({length: NF}, () => [0,0,0]);
+  const flash = new Float32Array(NF);
+  function setTargets(n, instant){
+    const base = hexRGB(cssVar('--gem-base')), lit = hexRGB(cssVar('--gem-lit'));
+    const litSet = new Set(ORDER.slice(0, Math.min(NF, Math.round(n * NF / 9))));
+    for (let f = 0; f < NF; f++){ const c = litSet.has(f) ? lit : base; const j = litSet.has(f) ? (0.9 + (jitter[f] - 0.82) * .3) : jitter[f]; tgt[f] = c.map(v => Math.min(1, v * j)); if (instant) cur[f] = tgt[f].slice(); }
+  }
+  function paint(){
+    for (let t = 0; t < triCount; t++){
+      const f = Math.floor(t / 2) % NF; const fl = flash[f];
+      const c = cur[f].map(v => Math.min(1, v + fl));
+      for (let k = 0; k < 3; k++){ const o = (t * 3 + k) * 3; colors[o] = c[0]; colors[o+1] = c[1]; colors[o+2] = c[2]; }
+    }
+    geo.attributes.color.needsUpdate = true;
+  }
+  function resize(){ const r = canvas.getBoundingClientRect(); renderer.setSize(r.width, r.height, false); camera.aspect = r.width / r.height || 1; camera.updateProjectionMatrix(); }
+  new ResizeObserver(resize).observe(canvas); resize();
+  let px = 0, py = 0, spin = 0, last = performance.now(), boost = 0, visible = true;
+  addEventListener('pointermove', e => { px = (e.clientX / innerWidth - .5); py = (e.clientY / innerHeight - .5); }, {passive:true});
+  new IntersectionObserver(es => { visible = es[0].isIntersecting; if (visible) requestAnimationFrame(loop); }).observe(canvas);
+  function loop(now){
+    if (!visible) return;
+    const dt = Math.min(0.05, (now - last) / 1000); last = now;
+    if (!RM) spin += dt * (0.22 + boost); boost *= 0.94;
+    group.rotation.y = spin + px * 0.5; group.rotation.x = 0.42 + py * 0.25;
+    l1.position.x = 3 * Math.cos(spin * .7); l1.position.z = 4 * Math.sin(spin * .7) + 1;
+    let moving = false;
+    for (let f = 0; f < NF; f++){ for (let k = 0; k < 3; k++){ const d = tgt[f][k] - cur[f][k]; if (Math.abs(d) > .002){ cur[f][k] += d * Math.min(1, dt * 4); moving = true; } } if (flash[f] > .01){ flash[f] *= 0.9; moving = true; } else flash[f] = 0; }
+    if (full && !RM){ const tt = now / 1000; l3.intensity = 0.5 + 0.55 * Math.max(0, Math.sin(tt * 1.7)); l1.intensity = 1.25 + 0.35 * Math.sin(tt * 1.1); moving = true; } else { l3.intensity = 0.5; l1.intensity = 1.25; }
+    paint();
+    renderer.render(scene, camera);
+    if (!RM || moving) requestAnimationFrame(loop);
+  }
+  matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => { setTargets(S.facets.length, false); requestAnimationFrame(loop); });
+  let full = false;
+  gem = {
+    snap(){ const a1 = l1.intensity, a3 = l3.intensity; l1.intensity = 1.05; l3.intensity = 0.35; for (let f = 0; f < NF; f++){ flash[f] = 0; cur[f] = tgt[f].slice(); } paint(); renderer.render(scene, camera); let u = null; try { u = canvas.toDataURL('image/png'); } catch(e){} l1.intensity = a1; l3.intensity = a3; return u; },
+    set(n, celebrate){
+      full = n >= 9;
+      const before = new Set(ORDER.slice(0, Math.round((n - 1) * NF / 9)));
+      setTargets(n, !celebrate);
+      if (celebrate){ ORDER.slice(0, Math.min(NF, Math.round(n * NF / 9))).forEach(f => { if (!before.has(f)) flash[f] = .55; }); boost = RM ? 0 : 1.6; }
+      requestAnimationFrame(loop);
+    }
+  };
+  setTargets(S.facets.length, true); requestAnimationFrame(loop);
+  return true;
+}
+
+/* Fallback: flat SVG gem */
+const P = {T1:[130,60],T2:[270,60],G0:[60,110],G1:[130,110],G2:[200,110],G3:[270,110],G4:[340,110],C:[200,300]};
+const FF = [['T1','T2','G2'],['G1','G2','C'],['G2','G3','C'],['T1','G2','G1'],['T2','G3','G2'],['G0','G1','C'],['G3','G4','C'],['G0','T1','G1'],['T2','G4','G3']];
+function initFallback(){
+  const svg = $('#gemFallback'); svg.removeAttribute('hidden'); $('#gl').hidden = true;
+  gem = { snap(){ return null; }, set(n){ svg.innerHTML = FF.map((f, i) => `<polygon points="${f.map(k => P[k].join(',')).join(' ')}" fill="${i < n ? 'var(--gem-lit)' : 'var(--gem-base)'}" stroke="var(--acc)" stroke-opacity=".4"/>`).join('') + `<polygon points="${['G0','T1','T2','G4','C'].map(k => P[k].join(',')).join(' ')}" fill="none" stroke="var(--acc)" stroke-width="1.5"/>`; } };
+  gem.set(S.facets.length);
+}
+
+
+
+/* ===== Facets + suggestions ===== */
+const TPL = ['Я умею держать слово','Я умею радоваться мелочам','Я забочусь о своём теле','Я умею просить о помощи','Я умею говорить «нет»','Я создаю уют вокруг себя','Я умею поддержать в трудный момент','Я довожу начатое до конца','Я умею учиться новому','Я вкусно готовлю','Я умею рассмешить','Я умею отдыхать без чувства вины','Я хорошо разбираюсь в своём деле','Я умею находить общий язык с детьми','Я замечаю красоту вокруг','Я умею признавать свои ошибки','Я умею мириться после ссоры','Я умею говорить себе правду','Я умею беречь свои границы','Я умею дружить'];
+function nextTpl(){ return TPL.find(t => t && !S.facets.includes(t) && !(S.tplUsed || []).includes(t)) || null; }
+function drawSugg(){
+  const box = $('#sugg');
+  if (S.sugg && S.facets.includes(S.sugg)) S.sugg = null;
+  if (!S.sugg){ box.hidden = true; return; }
+  box.hidden = false;
+  $('#suggList').innerHTML = `<li><button type="button" data-tpl="${esc(S.sugg)}"><b aria-hidden="true">+</b>${esc(S.sugg)}</button></li>`;
+  $$('[data-tpl]').forEach(b => b.onclick = () => { const t = b.dataset.tpl; S.tplUsed = (S.tplUsed || []).concat(t); S.facets.push(t); S.sugg = nextTpl(); save(); drawFacets(true); });
+}
+function addOwn(v){
+  S.facets.push(v); S.own = (S.own || 0) + 1;
+  if (!S.suggEver && S.own >= 2){ S.suggEver = true; S.sugg = nextTpl(); }
+  save(); drawFacets(true);
+}
+function drawFacets(celebrate){
+  const n = S.facets.length;
+  $('#facList').innerHTML = S.facets.map((f, i) => `<li><span>${esc(f)}</span><button type="button" data-df="${i}" aria-label="Погасить грань «${esc(f)}»">${X}</button></li>`).join('');
+  $$('[data-df]').forEach(b => b.onclick = () => { S.facets.splice(+b.dataset.df, 1); save(); drawFacets(false); });
+  $('#cnt').textContent = n;
+  $('#cntLbl').textContent = n === 0 ? 'граней пока не названо' : n < 3 ? `${plural(n,'грань светится','грани светятся','граней светится')} — назови ещё` : n < 9 ? `${plural(n,'грань','грани','граней')} — это уже твоя самореализация` : 'бриллиант сияет целиком';
+  if (gem) gem.set(n, celebrate);
+  const st = $('#stage'); const wasFull = st.classList.contains('full'); st.classList.toggle('full', n >= 9);
+  if (n >= 9 && !wasFull && celebrate && !RM){ st.classList.remove('burst'); void st.offsetWidth; st.classList.add('burst'); }
+  $('#photoBox').hidden = n === 0;
+  drawSugg();
+}
+$('#facetForm').addEventListener('submit', e => { e.preventDefault(); const v = $('#facIn').value.trim(); if (!v) return; $('#facIn').value = ''; addOwn(v); });
+
+/* ===== Two questions ===== */
+const VER = {
+  q1:{yes:'<b>Кайф.</b> Тогда задача — беречь то, что есть, и не пилить себя за выпадения.',
+      part:'<b>Честно.</b> Значит, где-то уже хорошо, а где-то ещё подхрамываешь. Это нормальное состояние живого человека.',
+      no:'<b>Вот поэтому мы здесь.</b> Честное «нет» — не приговор, а уже осознанность: ты видишь разрыв, значит, можешь его сокращать.'},
+  q2:{yes:'<b>Красота.</b> Значит, мост между желаемой и реальной жизнью уже строится. Запомни это ощущение.',
+      part:'<b>Иногда — это уже много.</b> Даже время, которое ты сейчас нашёл(ла) на себя, — тоже точечка самореализации, которой можно гордиться.',
+      no:'<b>Знакомо.</b> Быт сжирает время, а время на близких, которое мы как будто обязаны провести, забирает остальное. Ценно хотя бы то, что ты сейчас здесь.'}
+};
+$$('#questions .answers').forEach(g => g.addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; S[g.dataset.q] = b.dataset.v; save(); drawQ(); }));
+function drawQ(){ ['q1','q2'].forEach(q => { $$(`.answers[data-q="${q}"] button`).forEach(b => b.setAttribute('aria-pressed', b.dataset.v === S[q])); $('#v-' + q).innerHTML = S[q] ? VER[q][S[q]] : ''; }); }
+
+/* ===== Field of wonders ===== */
+$$('.word').forEach((w, wi) => {
+  const word = w.dataset.word; const tiles = $('.tiles', w);
+  const rev = S.revealed[wi] || (S.revealed[wi] = word.split('').map((c, i) => i === word.length - 1)); rev[word.length - 1] = true;
+  tiles.innerHTML = word.split('').map((c, i) => `<button type="button" class="tile${rev[i] ? ' open' : ''}" data-i="${i}" aria-label="${rev[i] ? 'Буква ' + c : 'Закрытая буква ' + (i + 1)}"><span><i></i><b>${c}</b></span></button>`).join('');
+  const check = () => { const all = rev.every(Boolean); w.classList.toggle('open', all); $('[data-openall]', w).hidden = all; };
+  tiles.addEventListener('click', e => { const t = e.target.closest('.tile'); if (!t) return; const i = +t.dataset.i; if (rev[i]) return; rev[i] = true; t.classList.add('open'); t.setAttribute('aria-label', 'Буква ' + word[i]); save(); check(); });
+  $('[data-openall]', w).onclick = () => { $$('.tile', w).forEach((t, i) => { if (!rev[i]){ rev[i] = true; setTimeout(() => { t.classList.add('open'); t.setAttribute('aria-label', 'Буква ' + word[i]); }, RM ? 0 : i * 70); } }); save(); setTimeout(check, RM ? 0 : word.length * 70); };
+  check();
+});
+
+/* ===== Init ===== */
+function boot(){ if (!initGL()) initFallback(); drawFacets(false); }
+if (window.THREE) boot(); else addEventListener('load', boot);
+drawQ();
+/* ===== Bands reveal ===== */
+const bio = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting){ e.target.classList.add('seen'); bio.unobserve(e.target); } }), {threshold:.35});
+$$('.band').forEach(b => RM ? b.classList.add('seen') : bio.observe(b));
+
+/* ===== Photo of facets ===== */
+let dl = null;
+(async () => { try { if (window.claude && claude.use) dl = await claude.use('downloads'); } catch(e){} })();
+function loadImg(src){ return new Promise(res => { const im = new Image(); im.onload = () => res(im); im.onerror = () => res(null); im.src = src; }); }
+function wrapText(ctx, text, maxW){ const words = text.split(' '); const lines = []; let line = ''; for (const w of words){ const t = line ? line + ' ' + w : w; if (ctx.measureText(t).width > maxW && line){ lines.push(line); line = w; } else line = t; } if (line) lines.push(line); return lines; }
+async function facetsPNG(){
+  try { await Promise.all([document.fonts.load('500 80px "Cormorant Garamond"'), document.fonts.load('italic 500 40px "Cormorant Garamond"'), document.fonts.load('600 26px Manrope')]); } catch(e){}
+  const W = 1080, H = 1350, M = 90;
+  const cv = document.createElement('canvas'); cv.width = W; cv.height = H; const x = cv.getContext('2d');
+  const g = x.createLinearGradient(0, 0, 0, H); g.addColorStop(0, '#16141A'); g.addColorStop(1, '#0C0C0E'); x.fillStyle = g; x.fillRect(0, 0, W, H);
+  const rg = x.createRadialGradient(W / 2, 400, 20, W / 2, 400, 460); rg.addColorStop(0, 'rgba(212,180,138,.30)'); rg.addColorStop(1, 'rgba(212,180,138,0)'); x.fillStyle = rg; x.fillRect(0, 0, W, H);
+  x.textAlign = 'center';
+  x.fillStyle = '#D4B48A'; x.font = '600 24px Manrope, system-ui, sans-serif';
+  const lbl = 'КЛУБ  #MAXMAGIA'; x.fillText(lbl.split('').join('\u200A'), W / 2, 96);
+  x.fillStyle = '#F0ECE4'; x.font = '500 68px "Cormorant Garamond", Georgia, serif'; x.fillText('Мои грани', W / 2, 176); x.fillText('самореализации', W / 2, 246);
+  const shot = gem && gem.snap ? gem.snap() : null; const im = shot ? await loadImg(shot) : null;
+  if (im){ const s = 440; x.drawImage(im, W / 2 - s / 2, 270, s, s); }
+  else { x.save(); x.translate(W / 2 - 200 * 1.1, 300); x.scale(1.1, 1.1); FF.forEach((f, i) => { x.beginPath(); f.forEach((k, j) => { const [px, py] = P[k]; j ? x.lineTo(px, py) : x.moveTo(px, py); }); x.closePath(); x.fillStyle = i < S.facets.length ? '#E2C79C' : '#2C2730'; x.fill(); x.strokeStyle = 'rgba(212,180,138,.5)'; x.lineWidth = 2; x.stroke(); }); x.restore(); }
+  if (S.facets.length >= 9){ x.fillStyle = 'rgba(255,240,210,.9)'; [[330,330,1],[760,320,.7],[800,520,.9],[290,560,.6],[540,290,1.1]].forEach(([sx, sy, k]) => { x.save(); x.translate(sx, sy); x.scale(k, k); x.beginPath(); x.moveTo(0,-18); x.lineTo(4,-4); x.lineTo(18,0); x.lineTo(4,4); x.lineTo(0,18); x.lineTo(-4,4); x.lineTo(-18,0); x.lineTo(-4,-4); x.closePath(); x.fill(); x.restore(); }); }
+  let y = 760;
+  const items = S.facets.slice(0, 12); const size = items.length > 8 ? 34 : 40; const lh = size * 1.32;
+  x.font = `italic 500 ${size}px "Cormorant Garamond", Georgia, serif`; x.fillStyle = '#F0ECE4';
+  for (const f of items){ for (const ln of wrapText(x, f, W - M * 2)){ if (y > H - 150){ break; } x.fillText(ln, W / 2, y); y += lh; } y += 6; }
+  if (S.facets.length > 12){ x.fillStyle = '#9C958C'; x.font = '500 26px Manrope, system-ui, sans-serif'; x.fillText(`и ещё ${S.facets.length - 12}`, W / 2, Math.min(y + 10, H - 120)); }
+  x.strokeStyle = 'rgba(212,180,138,.5)'; x.lineWidth = 1.5; x.beginPath(); x.moveTo(W / 2 - 60, H - 104); x.lineTo(W / 2 + 60, H - 104); x.stroke();
+  x.fillStyle = '#9C958C'; x.font = '500 24px Manrope, system-ui, sans-serif'; x.fillText('Самореализация — это создавать в своей жизни то, что важно для тебя', W / 2, H - 62);
+  return new Promise(res => cv.toBlob(res, 'image/png'));
+}
+$('#photoBtn').onclick = async () => {
+  const n = $('#photoNote'); n.textContent = 'Делаю фото…';
+  try {
+    const blob = await facetsPNG();
+    if (dl){ await dl.save({filename: 'moi-grani-samorealizacii.png', data: blob}); n.textContent = 'Готово — фото сохранено.'; return; }
+    const url = URL.createObjectURL(blob); const w = window.open(url, '_blank');
+    n.textContent = w ? 'Фото открылось в новой вкладке — сохрани его оттуда.' : 'Не получилось сохранить здесь. Можно сделать скриншот бриллианта и граней.';
+  } catch(e){ n.textContent = e && e.code === 'declined' ? 'Сохранение отменено.' : e && e.code === 'rate_limited' ? 'Окно сохранения уже открыто — подтверди его.' : 'Не получилось сохранить. Можно сделать скриншот бриллианта и граней.'; }
+};
+/* ===== Next step ===== */
+const NEXT_URL = '/practices/dva-navyka/';
+$('#nextBtn').onclick = e => { if (!NEXT_URL){ e.preventDefault(); $('#nextNote').textContent = 'Следующий шаг скоро появится — ссылку добавим сюда.'; } else $('#nextBtn').href = NEXT_URL; };
+if (NEXT_URL) $('#nextBtn').href = NEXT_URL;
+
+</script>
+</body>
+</html>

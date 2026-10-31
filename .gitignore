@@ -1,0 +1,20 @@
+# ключи, базы, журналы, медиа — в git не кладём
+*.env
+.env*
+*.key
+*.pem
+*.db
+*.sqlite
+*.log
+*.bak*
+*.prev*
+*.mp4
+*.mov
+*.webm
+*.mp3
+*.m4a
+*.wav
+*.zip
+*.tgz
+*.gz
+.DS_Store
