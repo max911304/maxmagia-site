@@ -6412,5 +6412,228 @@ html[data-theme="light"] .hbs-in,html[data-theme="light"] .hbs-ok{border-color:#
   chOpen=async function(id){if(CH.room!==id){CH.pin=null;CH.typing=[];CH.editId=0;drawPin();drawTyping();}return _open.apply(this,arguments);};
 })();
 </script>
+<!-- ═════ GIFTWEB v1 (12.11): подарить участие прямо в кабинете — без Telegram ═════ -->
+<style>
+.gw-hero{display:flex;gap:14px;align-items:center;padding:14px;border-radius:18px;margin-bottom:14px;background:linear-gradient(135deg,rgba(var(--gold-rgb),.16),rgba(var(--gold-rgb),.04));border:1px solid var(--gold-border)}
+.gw-hero img{width:74px;height:auto;border-radius:10px;flex:none;transform:rotate(-3deg);box-shadow:0 8px 20px rgba(0,0,0,.35)}
+.gw-hero b{display:block;font-size:15px;color:var(--white);margin-bottom:3px}
+.gw-hero span{font-size:13px;line-height:1.5;color:var(--muted)}
+.gw-hero em{font-style:normal;color:var(--gold-hi);font-weight:700}
+.gw-f{margin-bottom:12px}
+.gw-f>label{display:block;font-size:12px;color:var(--muted);margin:0 0 6px 2px}
+.gw-f input,.gw-f textarea{width:100%;min-height:48px;border-radius:14px;border:1px solid rgba(var(--fg),.14);background:var(--surface);color:var(--white);font:inherit;font-size:16px;padding:12px 14px;outline:none}
+.gw-f textarea{min-height:96px;resize:vertical;line-height:1.45}
+.gw-f input:focus,.gw-f textarea:focus{border-color:var(--gold)}
+.gw-f.bad input,.gw-f.bad textarea{border-color:#e8806f}
+.gw-cnt{float:right;font-size:11px;color:var(--muted)}
+.gw-when{display:flex;gap:8px}
+.gw-when button{flex:1;min-height:46px;border-radius:13px;border:1px solid rgba(var(--fg),.14);background:none;color:var(--muted);font:600 14px var(--font-sans,inherit);cursor:pointer}
+.gw-when button.on{border-color:var(--gold);color:var(--white);background:rgba(var(--gold-rgb),.12)}
+.gw-payer{font-size:13px;color:var(--muted);line-height:1.5;margin:4px 2px 10px}
+.gw-payer b{color:var(--white);font-weight:600}
+.gw-payer button{background:none;border:none;color:var(--gold);font:inherit;cursor:pointer;padding:0;text-decoration:underline}
+.gw-ck{display:flex;gap:10px;align-items:flex-start;font-size:13px;line-height:1.5;color:var(--muted);margin:8px 2px 4px;cursor:pointer}
+.gw-ck input{flex:none;width:19px;height:19px;margin-top:1px;accent-color:var(--gold)}
+.gw-ck a{color:var(--gold)}
+.gw-ck.bad{color:#e8806f}
+.gw-err{display:none;margin:10px 0 0;padding:10px 12px;border-radius:12px;background:rgba(232,128,111,.1);color:#e8806f;font-size:13px;line-height:1.5}
+.gw-btn2{width:100%;min-height:48px;margin-top:10px;border-radius:var(--r-sm,14px);border:1px solid var(--gold-border);background:none;color:var(--gold);font:700 14px var(--font-sans,inherit);cursor:pointer}
+.gw-h{font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin:22px 2px 10px}
+.gw-it{padding:12px 14px;border-radius:14px;background:var(--surface);border:1px solid rgba(var(--fg),.08);margin-bottom:8px}
+.gw-it .t{display:flex;justify-content:space-between;gap:10px;font-size:14px;color:var(--white);font-weight:600}
+.gw-it .t span{font-weight:500;font-size:12px;color:var(--muted);white-space:nowrap}
+.gw-it .s{font-size:12.5px;color:var(--muted);margin-top:3px;line-height:1.45}
+.gw-it .a{display:flex;gap:8px;margin-top:9px}
+.gw-it .a button{flex:1;min-height:38px;border-radius:11px;border:1px solid var(--gold-border);background:none;color:var(--gold);font:600 13px var(--font-sans,inherit);cursor:pointer}
+.gw-wait{text-align:center;padding:16px 4px}
+.gw-wait .sp{width:42px;height:42px;margin:6px auto 14px;border-radius:50%;border:3px solid rgba(var(--gold-rgb),.2);border-top-color:var(--gold);animation:spin .9s linear infinite}
+.gw-wait h3,.gw-done h3{font-family:var(--font-serif,Georgia,serif);font-size:26px;font-weight:600;color:var(--white);margin-bottom:8px}
+.gw-wait p,.gw-done p{font-size:14px;line-height:1.55;color:var(--muted)}
+.gw-wait p b,.gw-done p b{color:var(--white)}
+.gw-qr{display:block;width:190px;height:190px;margin:14px auto 0;border-radius:12px;background:#fff;padding:8px}
+.gw-done{text-align:center;padding:6px 2px}
+.gw-done img.pc{width:150px;border-radius:12px;transform:rotate(-2.5deg);box-shadow:0 14px 34px rgba(0,0,0,.45);margin:4px auto 14px;display:block;animation:gwIn .9s cubic-bezier(.2,.9,.25,1.2) both}
+@keyframes gwIn{0%{opacity:0;transform:translateY(30px) rotate(8deg) scale(.8)}100%{opacity:1;transform:rotate(-2.5deg)}}
+.gw-link{margin:14px 0 4px;padding:12px;border-radius:12px;background:var(--surface);border:1px dashed var(--gold-border);font-size:13px;color:var(--gold-hi);word-break:break-all;user-select:all;-webkit-user-select:all}
+.gw-tg{text-align:center;font-size:12.5px;color:var(--muted);margin-top:14px;line-height:1.5}
+.gw-tg a{color:var(--gold);cursor:pointer}
+.gw-msg{text-align:center;padding:18px 6px;font-size:14px;line-height:1.6;color:var(--muted)}
+.gw-msg .big{font-size:44px;margin-bottom:8px}
+</style>
+<script>
+(function(){
+  if(window.__GW)return;window.__GW=1;
+  var D=null,F={to:'',note:'',when:'now',date:'',name:'',email:'',phone:'',offer:false,payer:false},GID=0,PAY=null,TIMER=null,T0=0;
+  var PC='/gift/postcard.jpg';
+  function E(s){try{return escHtml(s==null?'':String(s));}catch(e){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return '&#'+c.charCodeAt(0)+';';});}}
+  function toast(t){try{showToast(t);}catch(e){}}
+  function el(){return document.getElementById('gw-modal');}
+  function shell(body,sub){
+    return '<div class="modal-sheet full"><div class="modal-drag"></div><div class="modal-head"><div class="modal-title-wrap"><span class="modal-notebook-icon">🎁</span><div>'+
+      '<div class="modal-title">Подарить участие</div><div class="modal-subtitle">'+(sub||'Месяц в клубе — близкому человеку')+'</div></div></div>'+
+      '<button class="modal-close" aria-label="Закрыть" onclick="gwClose()">✕</button></div><div class="notify-body" id="gw-body">'+body+'</div></div>';
+  }
+  function put(body,sub){var m=el();if(m)m.innerHTML=shell(body,sub);}
+  function store(k,v){try{if(v==null)localStorage.removeItem(k);else localStorage.setItem(k,v);}catch(e){}}
+  function read(k){try{return localStorage.getItem(k)||'';}catch(e){return '';}}
+  function tgGift(){
+    var url='https://t.me/clubeshnik911_bot?start=gift';
+    try{if(IN_TG&&Telegram.WebApp.openTelegramLink){Telegram.WebApp.openTelegramLink(url);setTimeout(function(){try{Telegram.WebApp.close();}catch(e){}},400);return;}}catch(e){}
+    window.open(url,'_blank','noopener');
+  }
+  window.gwTg=tgGift;
+
+  window.openGift=async function(){
+    try{haptic('light');}catch(e){}try{ntfAway();}catch(e){}
+    var m=el();
+    if(!m){m=document.createElement('div');m.id='gw-modal';m.className='modal-overlay';m.onclick=function(e){if(e.target===m)gwClose();};document.body.appendChild(m);}
+    put('<div class="hb-empty">Загружаю…</div>');requestAnimationFrame(function(){m.classList.add('open');});
+    var r=await API.request('/gift/me');
+    if(r.status===401){put('<div class="gw-msg"><div class="big">🔐</div>Чтобы подарить участие, войди в кабинет.</div>');return;}
+    if(!API.ok(r)){put('<div class="gw-msg"><div class="big">📡</div>Не получилось загрузить — проверь интернет и открой ещё раз.</div>');return;}
+    D=r.body;
+    if(!F.name&&!F.email){F.name=D.payer.name||'';F.email=D.payer.email||'';F.phone=D.payer.phone||'';}
+    var pend=parseInt(read('mm_gift_pending')||'0',10);
+    if(pend){var s=await API.request('/gift/status?id='+pend);
+      if(API.ok(s)&&(s.body.pay==='done')){store('mm_gift_pending',null);return done(s.body.gift,false);}
+      if(API.ok(s)&&s.body.pay==='wait'&&s.body.gift.state==='draft'){GID=pend;return wait(true);}
+      store('mm_gift_pending',null);}
+    form();
+  };
+  window.gwClose=function(){var m=el();if(m)m.classList.remove('open');stopPoll();try{ntfBack();}catch(e){}};
+
+  function intro(){
+    return '<div class="gw-hero"><img src="'+PC+'" alt=""><div><b>Близкий получает '+D.days+' день в клубе</b>'+
+      '<span>Ты платишь <em>'+E(D.price)+'</em> разово, без автопродления. А тебе — <em>+'+D.bonus+' дней</em> к участию в благодарность 🤍</span></div></div>';
+  }
+  function form(){
+    stopPoll();
+    if(D.why){
+      var t={soon:'Дарить участие пока можно только в боте клуба — скоро здесь тоже.',pay_off:'Оплата сейчас на паузе — загляни чуть позже 🙏',
+        no_access:'Дарить участие могут участники с действующим доступом. Продли своё участие — и возвращайся 🤍'}[D.why]||'Сейчас подарить не получится.';
+      put(intro()+'<div class="gw-msg">'+t+'</div>'+(D.why==='soon'&&D.tg?'<button class="notify-save-btn" onclick="gwTg()">🎁 Подарить в боте клуба</button>':'')+list());return;
+    }
+    var full=F.name&&F.email&&F.phone,max=D.note_max||500;
+    var maxd=new Date(Date.now()+(D.ahead||180)*864e5).toISOString().slice(0,10);
+    put(intro()+
+      '<div class="gw-f" id="gwf-to"><label>Кому дарим</label><input id="gw-to" maxlength="40" placeholder="Имя близкого — например, Аня" value="'+E(F.to)+'"></div>'+
+      '<div class="gw-f"><label>Пара тёплых слов <span class="gw-cnt" id="gw-cnt">'+F.note.length+' / '+max+'</span></label><textarea id="gw-note" maxlength="'+max+'" placeholder="Они будут на открытке. Например — почему тебе хочется подарить именно это.">'+E(F.note)+'</textarea></div>'+
+      '<div class="gw-f"><label>Когда вручить</label><div class="gw-when"><button type="button" data-w="now" class="'+(F.when==='now'?'on':'')+'">🎁 Сразу</button><button type="button" data-w="day" class="'+(F.when==='day'?'on':'')+'">📅 В особый день</button></div></div>'+
+      '<div class="gw-f'+(F.when==='day'?'':' hide-gw')+'" id="gwf-date" style="'+(F.when==='day'?'':'display:none')+'"><label>День вручения — в этот день в 10:00 открытка придёт тебе на почту и сюда</label><input id="gw-date" type="date" min="'+E(D.today)+'" max="'+maxd+'" value="'+E(F.date)+'"></div>'+
+      (full&&!F.payer?'<div class="gw-payer">Чек и открытка придут на <b>'+E(F.email)+'</b> · <button type="button" onclick="gwPayer()">изменить</button></div>':
+        '<div class="gw-f" id="gwf-name"><label>Твоё имя и фамилия (для чека)</label><input id="gw-name" maxlength="60" autocomplete="name" value="'+E(F.name)+'"></div>'+
+        '<div class="gw-f" id="gwf-email"><label>Твоя почта — сюда придут чек и открытка</label><input id="gw-email" type="email" inputmode="email" autocomplete="email" value="'+E(F.email)+'"></div>'+
+        '<div class="gw-f" id="gwf-phone"><label>Телефон</label><input id="gw-phone" type="tel" inputmode="tel" autocomplete="tel" value="'+E(F.phone)+'" placeholder="+7…"></div>')+
+      '<label class="gw-ck" id="gwck"><input type="checkbox" id="gw-offer"'+(F.offer?' checked':'')+'><span>Принимаю <a href="https://maxmagia.ru/oferta.html#gift" target="_blank" rel="noopener">условия подарочного доступа</a></span></label>'+
+      '<div class="gw-err" id="gw-err"></div>'+
+      '<button class="notify-save-btn" style="margin-top:12px" onclick="gwPay(\'card\')">💳 Оплатить картой · '+E(D.price)+'</button>'+
+      '<button class="gw-btn2" onclick="gwPay(\'sbp\')">📲 Оплатить через СБП</button>'+
+      list()+
+      (D.tg?'<div class="gw-tg">Привык(ла) к Telegram? <a onclick="gwTg()">Подарить через бот клуба</a></div>':''));
+    var n=document.getElementById('gw-note');n.oninput=function(){document.getElementById('gw-cnt').textContent=n.value.length+' / '+max;};
+    el().querySelectorAll('.gw-when button').forEach(function(b){b.onclick=function(){keep();F.when=b.dataset.w;form();if(F.when==='day')setTimeout(function(){var d=document.getElementById('gw-date');if(d)try{d.showPicker();}catch(e){d.focus();}},60);};});
+  }
+  window.gwPayer=function(){keep();F.payer=true;form();};
+  function v(id){var x=document.getElementById(id);return x?(x.type==='checkbox'?x.checked:x.value.trim()):null;}
+  function keep(){
+    var t;if((t=v('gw-to'))!==null)F.to=t;if((t=v('gw-note'))!==null)F.note=t;if((t=v('gw-date'))!==null)F.date=t;
+    if((t=v('gw-name'))!==null)F.name=t;if((t=v('gw-email'))!==null)F.email=t;if((t=v('gw-phone'))!==null)F.phone=t;
+    var o=document.getElementById('gw-offer');if(o)F.offer=o.checked;
+  }
+  function err(t){var e=document.getElementById('gw-err');if(e){e.textContent=t||'';e.style.display=t?'block':'none';}}
+  function bad(id,on){var x=document.getElementById(id);if(x)x.classList.toggle('bad',!!on);}
+  var ERR={fields:'Проверь имя, почту и телефон — они нужны для чека.',offer:'Отметь согласие с условиями подарочного доступа.',when:'Выбери день вручения.',
+    when_range:'День вручения — от сегодня и не дальше чем через полгода.',note_long:'Записка длинновата — сократи, пожалуйста.',rate:'Слишком много попыток — подожди несколько минут.',
+    pay_failed:'Не получилось создать оплату 🙏 Попробуй через минуту — Максим уже знает.',soon:'Дарить пока можно только в боте клуба.',no_access:'Дарить могут участники с действующим доступом.',pay_off:'Оплата сейчас на паузе.'};
+  window.gwPay=async function(method){
+    keep();err('');
+    if(F.when==='day'&&!F.date){bad('gwf-date',true);return err(ERR.when);}
+    if(!F.offer){bad('gwck',true);return err(ERR.offer);}
+    bad('gwck',false);
+    var b=el().querySelectorAll('.notify-save-btn,.gw-btn2');b.forEach(function(x){x.disabled=true;});
+    var r=await API.post('/gift/start',{id:GID||null,to:F.to,note:F.note,when:F.when==='day'?F.date:'',method:method,name:F.name,email:F.email,phone:F.phone,offer:F.offer});
+    b.forEach(function(x){x.disabled=false;});
+    var o=r&&r.body||{};
+    if(!API.ok(r)){
+      if(o.id)GID=o.id;
+      if(o.error==='fields'){F.payer=true;form();(o.fields||[]).forEach(function(f){bad('gwf-'+f,true);});return err(ERR.fields);}
+      return err(ERR[o.error]||(r.status===0?'Нет связи — проверь интернет.':'Что-то пошло не так 🙏 Попробуй ещё раз.'));
+    }
+    try{haptic('success');}catch(e){}
+    GID=o.id;PAY={url:o.url,qr:o.qr,method:method};store('mm_gift_pending',String(GID));
+    try{openLink(o.url);}catch(e){window.open(o.url,'_blank');}
+    wait(false);
+  };
+  function wait(resumed){
+    var qr=PAY&&PAY.method==='sbp'&&PAY.qr&&!/Android|iPhone|iPad/i.test(navigator.userAgent)?'<img class="gw-qr" src="'+E(PAY.qr)+'" alt="QR-код СБП"><p style="margin-top:8px">За компьютером — отсканируй камерой телефона</p>':'';
+    put('<div class="gw-wait"><div class="sp"></div><h3>Жду оплату…</h3><p id="gw-ws">Оплати на странице Ckassa — я сам увижу оплату. Можно вернуться сюда в любой момент.</p>'+qr+
+      (PAY&&PAY.url?'<button class="notify-save-btn" style="margin-top:16px" onclick="gwReopen()">Открыть оплату ещё раз</button>':'')+
+      '<button class="gw-btn2" onclick="gwBack()">✏️ Изменить подарок</button></div>','Оплата подарка');
+    startPoll();
+  }
+  window.gwReopen=function(){if(PAY&&PAY.url){try{openLink(PAY.url);}catch(e){window.open(PAY.url,'_blank');}}};
+  window.gwBack=function(){stopPoll();store('mm_gift_pending',null);form();};
+  function startPoll(){stopPoll();T0=Date.now();TIMER=setInterval(check,3500);document.addEventListener('visibilitychange',vis);}
+  function stopPoll(){if(TIMER)clearInterval(TIMER);TIMER=null;document.removeEventListener('visibilitychange',vis);}
+  function vis(){if(!document.hidden)check();}
+  async function check(){
+    if(!GID)return;
+    if(Date.now()-T0>20*60e3){stopPoll();var w=document.getElementById('gw-ws');if(w)w.textContent='Оплату пока не вижу. Если ты уже оплатил(а) — открой это окно чуть позже, подарок не потеряется.';return;}
+    var s=await API.request('/gift/status?id='+GID);if(!API.ok(s))return;
+    var w=document.getElementById('gw-ws');
+    if(s.body.pay==='done'){stopPoll();store('mm_gift_pending',null);var g=s.body.gift;GID=0;F.to='';F.note='';F.when='now';F.date='';done(g,true);return;}
+    if(s.body.pay==='failed'){stopPoll();store('mm_gift_pending',null);put('<div class="gw-msg"><div class="big">🙈</div>Оплата не прошла — деньги не списаны. Можно попробовать ещё раз.</div><button class="notify-save-btn" onclick="gwBack()">Попробовать ещё раз</button>','Оплата подарка');return;}
+    if(s.body.paid&&w)w.innerHTML='<b>Оплата получена!</b> Готовлю открытку…';
+  }
+  function share(link,to){
+    var t='Это тебе подарок от меня 🤍 Месяц в клубе #MaxMagia — открой открытку:';
+    if(navigator.share){navigator.share({title:'🎁 Тебе подарок',text:t,url:link}).catch(function(){});return;}
+    copy(t+' '+link,'✓ Скопировано — вставь в чат близкому');
+  }
+  function copy(t,msg){
+    function ok(){toast(msg||'✓ Ссылка скопирована');try{haptic('success');}catch(e){}}
+    try{if(navigator.clipboard&&window.isSecureContext){navigator.clipboard.writeText(t).then(ok,function(){fb(t);ok();});return;}}catch(e){}
+    fb(t);ok();
+  }
+  function fb(t){var ta=document.createElement('textarea');ta.value=t;ta.style.cssText='position:fixed;top:0;opacity:0';document.body.appendChild(ta);ta.select();try{document.execCommand('copy');}catch(e){}ta.remove();}
+  window.gwShare=function(i){var g=(D.gifts||[])[i];if(g&&g.link)share(g.link,g.to);};
+  window.gwCopy=function(i){var g=(D.gifts||[])[i];if(g&&g.link)copy(g.link);};
+  async function reload(){var r=await API.request('/gift/me');if(API.ok(r))D=r.body;}
+  async function done(g,fresh){
+    await reload();
+    var idx=(D.gifts||[]).findIndex(function(x){return x.id===g.id;});if(idx<0){D.gifts=[g].concat(D.gifts||[]);idx=0;}
+    g=D.gifts[idx];
+    var bonus=g.bonus?'Тебе — <b>+'+D.bonus+' дней</b>: ты в клубе до <b>'+E(fmt(g.bonus))+'</b> 🤍<br><br>':'';
+    var body='<div class="gw-done"><img class="pc" src="'+PC+'" alt=""><h3>'+(fresh?'Спасибо за такой подарок!':'Подарок оплачен')+'</h3><p>'+bonus+
+      (g.link?'Перешли близкому'+(g.to?' — <b>'+E(g.to)+'</b> —':'')+' эту ссылку в любой мессенджер или письмом. По ней откроется открытка с твоей запиской, а принять подарок можно без Telegram.':
+       'Открытка придёт тебе <b>'+E(g.when_ru)+'</b> в 10:00 — на почту и сюда, во «Входящие». Останется переслать её близкому.')+'</p>'+
+      (g.link?'<div class="gw-link">'+E(g.link)+'</div><button class="notify-save-btn" style="margin-top:10px" onclick="gwShare('+idx+')">📤 Отправить близкому</button><button class="gw-btn2" onclick="gwCopy('+idx+')">📋 Скопировать ссылку</button>'+
+       '<p style="margin-top:12px;font-size:12.5px">Ссылка срабатывает один раз и действует до '+E(g.expires_ru)+'. Копия открытки — у тебя на почте.</p>':'')+
+      '</div>'+list(g.id);
+    put(body,'Открытка готова');
+    try{haptic('success');}catch(e){}
+  }
+  function fmt(iso){try{var d=new Date(iso+'T12:00:00');return d.getDate()+' '+MONTHS_GEN[d.getMonth()];}catch(e){return iso;}}
+  var ST={paid:'ждёт дня вручения',delivered:'открытка у тебя — перешли близкому',claimed:'открыт в Telegram, ещё не принят',redeemed:'✅ принят',expired:'⌛ срок истёк'};
+  function list(skip){
+    var a=(D&&D.gifts||[]);if(!a.length)return '';
+    var h='<div class="gw-h">Мои подарки</div>';
+    a.forEach(function(g,i){
+      if(g.id===skip)return;
+      var st=g.state==='paid'&&g.link?'открытка у тебя — перешли близкому':(ST[g.state]||g.state);
+      if(g.state==='paid'&&!g.link&&g.when_ru)st='открытка придёт '+g.when_ru;
+      if(g.state==='redeemed'&&g.rcp)st='✅ принял(а) '+g.rcp;
+      h+='<div class="gw-it"><div class="t">'+(g.to?E(g.to):'Подарок')+'<span>'+E(g.paid?fmt(g.paid):'')+'</span></div><div class="s">'+E(st)+(g.note?' · «'+E(g.note.length>60?g.note.slice(0,60)+'…':g.note)+'»':'')+'</div>'+
+        (g.link&&g.state!=='redeemed'?'<div class="a"><button onclick="gwShare('+i+')">📤 Отправить</button><button onclick="gwCopy('+i+')">📋 Ссылка</button></div>':'')+'</div>';
+    });
+    return h;
+  }
+  // ?open=gift — из письма и оповещения «Мои подарки»
+  try{if(new URLSearchParams(location.search).get('open')==='gift'){history.replaceState(null,'',location.pathname);
+    var go=function(){setTimeout(function(){openGift();},1300);};
+    if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',go);else go();}}catch(e){}
+})();
+</script>
+<!-- /GIFTWEB v1 -->
 </body>
 </html>
