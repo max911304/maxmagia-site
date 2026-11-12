@@ -6216,5 +6216,201 @@ html[data-theme="light"] .hbs-in,html[data-theme="light"] .hbs-ok{border-color:#
   window.mp2PhotoRm=async function(){var r=await API.post('/me/photo',{remove:1});if(API.ok(r)){P.photo='';draw();showToast('Фото убрано — в болталках вернётся фото из Telegram');}};
 })();
 </script>
+
+<!-- ═════ CHATPRO v1 (12.11.2026): болталки — правка своего сообщения, «печатает…», поиск, закреп, превью ссылок ═════ -->
+<style>
+.ch-sbtn{background:none;border:1px solid rgba(var(--gold-rgb),.4);color:var(--gold-hi);border-radius:999px;width:34px;height:31px;font-size:14px;cursor:pointer;flex-shrink:0;display:grid;place-items:center;padding:0}
+.ch-pin{display:flex;align-items:center;gap:10px;padding:8px 12px;border-bottom:1px solid rgba(var(--gold-rgb),.12);background:rgba(var(--gold-rgb),.06);cursor:pointer;flex-shrink:0}
+.ch-pin[hidden]{display:none}
+.ch-pin .pi{font-size:15px}
+.ch-pin .pt{flex:1;min-width:0;font-size:12.5px;line-height:1.35;color:var(--white)}
+.ch-pin .pt b{display:block;font-size:11px;color:var(--gold);font-weight:600}
+.ch-pin .pt span{display:block;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.ch-pin .px{background:none;border:none;color:var(--muted);font-size:15px;cursor:pointer;padding:4px 6px}
+.ch-typ{max-width:860px;margin:0 auto 6px;font-size:12px;color:var(--gold);min-height:0;display:flex;align-items:center;gap:6px}
+.ch-typ[hidden]{display:none}
+.ch-typ i{display:inline-flex;gap:3px}
+.ch-typ i b{width:5px;height:5px;border-radius:50%;background:var(--gold);animation:chTyp 1.2s infinite}
+.ch-typ i b:nth-child(2){animation-delay:.2s}.ch-typ i b:nth-child(3){animation-delay:.4s}
+@keyframes chTyp{0%,60%,100%{opacity:.25;transform:translateY(0)}30%{opacity:1;transform:translateY(-2px)}}
+.ch-srch{position:absolute;inset:0;z-index:5;background:var(--bg);display:flex;flex-direction:column}
+.ch-srch[hidden]{display:none}
+.ch-srch-h{display:flex;gap:8px;align-items:center;padding:calc(10px + env(safe-area-inset-top,0px)) 12px 10px;border-bottom:1px solid rgba(var(--gold-rgb),.12)}
+.ch-srch-h input{flex:1;min-width:0;min-height:42px;border-radius:21px;border:1px solid rgba(var(--fg),.14);background:var(--surface);color:var(--white);font:inherit;font-size:16px;padding:9px 16px;outline:none}
+.ch-srch-h input:focus{border-color:rgba(var(--gold-rgb),.5)}
+.ch-srch-h button{background:none;border:none;color:var(--gold);font:inherit;font-size:14px;cursor:pointer;padding:8px}
+.ch-srch-l{flex:1;overflow-y:auto;padding:6px 8px calc(16px + env(safe-area-inset-bottom,0px))}
+.ch-srch-i{display:block;width:100%;text-align:left;border:none;background:none;padding:10px 10px;border-radius:12px;cursor:pointer;font:inherit;color:var(--white)}
+.ch-srch-i:hover,.ch-srch-i:active{background:rgba(var(--fg),.05)}
+.ch-srch-i .m{display:flex;justify-content:space-between;gap:8px;font-size:12px;color:var(--gold);font-weight:600;margin-bottom:3px}
+.ch-srch-i .m span{color:var(--muted);font-weight:400}
+.ch-srch-i .t{font-size:13.5px;line-height:1.45;color:var(--white)}
+.ch-srch-i mark{background:rgba(var(--gold-rgb),.3);color:inherit;border-radius:3px;padding:0 1px}
+.ch-srch-e{text-align:center;color:var(--muted);font-size:13.5px;padding:30px 16px;line-height:1.5}
+.ch-lp{display:block;margin-top:7px;border-left:3px solid var(--gold);border-radius:4px 10px 10px 4px;background:rgba(var(--gold-rgb),.07);padding:7px 10px;text-decoration:none;color:var(--white);max-width:340px}
+.ch-lp .s{font-size:11px;color:var(--gold);font-weight:600}
+.ch-lp b{display:block;font-size:13px;line-height:1.35;margin-top:2px}
+.ch-lp .d{font-size:12px;line-height:1.4;color:var(--muted);margin-top:3px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.ch-lp img{display:block;width:100%;max-height:180px;object-fit:cover;border-radius:8px;margin-top:7px}
+.ch-ctx .q.ed{border-left-color:#7fb3ff}
+</style>
+<script>
+(function(){
+  if(typeof CH==='undefined'||typeof chView!=='function')return;
+  function E(s){return escHtml(s==null?'':String(s));}
+  function hap(t){try{haptic(t);}catch(e){}}
+  function isAdmin(){return !!(CH.me&&CH.me.admin);}
+
+  // ── ответ сервера на /chat/msgs: кто печатает и что закреплено ──
+  var _rq=API.request;
+  API.request=async function(p){
+    var r=await _rq.apply(API,arguments);
+    try{
+      if(String(p).indexOf('/chat/msgs')===0&&API.ok(r)&&r.body&&CH.room&&String(p).indexOf('room='+encodeURIComponent(CH.room))>0){
+        if('typing' in r.body){CH.typing=r.body.typing||[];drawTyping();}
+        if('pin' in r.body){CH.pin=r.body.pin||null;drawPin();}
+      }
+    }catch(e){}
+    return r;
+  };
+
+  // ── окно: кнопка поиска, закреп, «печатает…», панель поиска ──
+  function setup(v){
+    var tg=v.querySelector('#ch-tgl');
+    if(tg){var b=document.createElement('button');b.className='ch-sbtn';b.setAttribute('aria-label','Поиск по болталке');b.textContent='🔍';b.onclick=srchOpen;tg.parentNode.insertBefore(b,tg);}
+    var tabs=v.querySelector('#ch-tabs');
+    if(tabs)tabs.insertAdjacentHTML('afterend','<div class="ch-pin" id="ch-pin" hidden onclick="chpPinJump(event)"><span class="pi">📌</span><div class="pt" id="ch-pin-t"></div></div>');
+    var bar=v.querySelector('.ch-bar');
+    if(bar)bar.insertAdjacentHTML('afterbegin','<div class="ch-typ" id="ch-typ" hidden></div>');
+    v.insertAdjacentHTML('beforeend','<div class="ch-srch" id="ch-srch" hidden><div class="ch-srch-h"><input id="ch-sq" type="search" placeholder="Поиск по болталке…" enterkeyhint="search" autocomplete="off"><button onclick="chpSrchClose()">Закрыть</button></div><div class="ch-srch-l" id="ch-sl"></div></div>');
+    var sq=v.querySelector('#ch-sq'),t=0;
+    sq.addEventListener('input',function(){clearTimeout(t);t=setTimeout(srchRun,350);});
+    sq.addEventListener('keydown',function(e){if(e.key==='Escape')chpSrchClose();if(e.key==='Enter'){clearTimeout(t);srchRun();}});
+    var ta=v.querySelector('#ch-ta'),last=0;
+    ta.addEventListener('input',function(){
+      if(!CH.room||CH.editId||!ta.value.trim())return;
+      var now=Date.now();if(now-last<3500)return;last=now;
+      API.post('/chat/typing',{room:CH.room}).catch(function(){});
+    });
+    ta.addEventListener('keydown',function(e){if(e.key==='Escape'&&CH.editId){e.preventDefault();chpEditCancel();}});
+  }
+  var _v=chView;
+  chView=function(){var had=!!document.getElementById('ch-view');var v=_v();if(!had){try{setup(v);}catch(e){}}return v;};
+
+  function drawTyping(){
+    var el=document.getElementById('ch-typ');if(!el)return;
+    var n=CH.typing||[];
+    if(!n.length){el.hidden=true;el.innerHTML='';return;}
+    var who=n.length===1?n[0]+' печатает':(n.length===2?n[0]+' и '+n[1]+' печатают':n[0]+', '+n[1]+' и ещё кто-то печатают');
+    el.innerHTML='<i><b></b><b></b><b></b></i>'+E(who)+'…';el.hidden=false;
+  }
+  function drawPin(){
+    var el=document.getElementById('ch-pin'),t=document.getElementById('ch-pin-t');if(!el||!t)return;
+    var p=CH.pin;if(!p){el.hidden=true;return;}
+    t.innerHTML='<b>Закреплено · '+E(p.name||'')+'</b><span>'+E(p.t||'')+'</span>';
+    var x=el.querySelector('.px');if(x)x.remove();
+    if(isAdmin())el.insertAdjacentHTML('beforeend','<button class="px" aria-label="Открепить" onclick="event.stopPropagation();chpPin(0)">✕</button>');
+    el.hidden=false;
+  }
+  window.chpPinJump=function(){if(CH.pin)chpJump(CH.pin.id);};
+  window.chpPin=async function(id){
+    if(!CH.room)return;
+    var r=await API.post('/chat/pin',{room:CH.room,id:id||0});
+    if(API.ok(r)&&r.body.ok){CH.pin=r.body.pin||null;drawPin();hap('success');showToast(id?'📌 Закреплено — и в Telegram тоже':'Откреплено');}
+    else showToast('⚠ Не получилось — проверь интернет');
+  };
+
+  // переход к сообщению: если его ещё нет на экране — подгружаем историю
+  window.chpJump=async function(id){
+    if(CH.byId[id]){chJump(id);return;}
+    showToast('🔎 Ищу в истории…');
+    for(var i=0;i<60&&!CH.byId[id]&&!CH.oldDone;i++){
+      var before=CH.items.length;await chLoadOld();
+      if(CH.items.length===before)await new Promise(function(r){setTimeout(r,250);});
+    }
+    if(CH.byId[id])setTimeout(function(){chJump(id);},60);else showToast('Это сообщение уже не найти — оно очень старое');
+  };
+
+  // ── поиск ──
+  function srchOpen(){var p=document.getElementById('ch-srch');if(!p)return;p.hidden=false;var q=document.getElementById('ch-sq');q.value='';
+    document.getElementById('ch-sl').innerHTML='<div class="ch-srch-e">Напиши слово или имя — найду в этой болталке 🤍</div>';setTimeout(function(){q.focus();},50);hap('light');}
+  window.chpSrchClose=function(){var p=document.getElementById('ch-srch');if(p)p.hidden=true;};
+  async function srchRun(){
+    var q=document.getElementById('ch-sq').value.trim(),l=document.getElementById('ch-sl');
+    if(q.length<2){l.innerHTML='<div class="ch-srch-e">Напиши хотя бы 2 буквы</div>';return;}
+    l.innerHTML='<div class="ch-srch-e">Ищу…</div>';
+    var r=await API.request('/chat/search?room='+encodeURIComponent(CH.room)+'&q='+encodeURIComponent(q));
+    if(!API.ok(r)){l.innerHTML='<div class="ch-srch-e">Не получилось — проверь интернет</div>';return;}
+    var f=r.body.found||[];
+    if(!f.length){l.innerHTML='<div class="ch-srch-e">Ничего не нашла по «'+E(q)+'»</div>';return;}
+    var rx=new RegExp('('+q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&').replace(/[её]/gi,'[её]')+')','gi');
+    l.innerHTML=f.map(function(x){
+      var d=new Date(x.at*1000),when=d.toLocaleDateString('ru-RU',{day:'numeric',month:'short'})+' · '+d.toLocaleTimeString('ru-RU',{hour:'2-digit',minute:'2-digit'});
+      return '<button class="ch-srch-i" onclick="chpSrchClose();chpJump('+x.id+')"><div class="m">'+E(x.name)+'<span>'+E(when)+'</span></div><div class="t">'+E(x.t).replace(rx,'<mark>$1</mark>')+'</div></button>';
+    }).join('');
+  }
+
+  // ── меню сообщения: «Изменить», «Закрепить» ──
+  var _menu=chMenu;
+  chMenu=function(id){
+    _menu(id);
+    var m=CH.byId[id],box=document.getElementById('ch-menu-in');if(!m||!box)return;
+    var rp=[].find.call(box.querySelectorAll('button'),function(b){return /Ответить/.test(b.textContent);});
+    var add=function(txt,fn){var b=document.createElement('button');b.textContent=txt;b.onclick=fn;if(rp)rp.insertAdjacentElement('afterend',b);else box.appendChild(b);};
+    if(isAdmin()&&m.st!=='blocked'){var pinned=CH.pin&&CH.pin.id===id;add(pinned?'📌 Открепить':'📌 Закрепить',function(){chMenuClose();chpPin(pinned?0:id);});}
+    if(m.edit)add('✏️ Изменить',function(){chMenuClose();chpEdit(id);});
+  };
+
+  // ── правка ──
+  function plainOf(m){var d=document.createElement('div');d.innerHTML=(m.html||'').replace(/<br\s*\/?>/gi,'\n');return d.textContent||'';}
+  window.chpEdit=function(id){
+    var m=CH.byId[id];if(!m)return;
+    CH.editId=id;CH.reply=null;CH.photo=null;
+    var ta=document.getElementById('ch-ta');ta.value=plainOf(m);chCtx();chAutosize();chBtns();
+    ta.focus();try{ta.setSelectionRange(ta.value.length,ta.value.length);}catch(e){}
+  };
+  window.chpEditCancel=function(){CH.editId=0;var ta=document.getElementById('ch-ta');ta.value='';chCtx();chAutosize();chBtns();};
+  var _ctx=chCtx;
+  chCtx=function(){
+    if(!CH.editId)return _ctx.apply(this,arguments);
+    var c=document.getElementById('ch-ctx');if(!c)return;
+    var m=CH.byId[CH.editId];
+    c.innerHTML='<div class="q ed">✏️ <b>Изменение</b> '+E(m?plainOf(m).slice(0,80):'')+'</div><button onclick="chpEditCancel()" aria-label="Не изменять">✕</button>';
+    c.hidden=false;var ta=document.getElementById('ch-ta');if(ta)ta.maxLength=m&&m.kind==='photo'?900:3500;
+    chBtns();
+  };
+  var _btns=chBtns;
+  chBtns=function(){_btns.apply(this,arguments);if(!CH.editId)return;var mic=document.getElementById('ch-mic'),snd=document.getElementById('ch-send');if(mic)mic.hidden=true;if(snd)snd.hidden=false;};
+  var _send=chSend;
+  chSend=async function(){
+    if(!CH.editId)return _send.apply(this,arguments);
+    if(CH.sending)return;
+    var id=CH.editId,ta=document.getElementById('ch-ta'),text=ta.value.trim(),m=CH.byId[id];
+    if(!text&&m&&m.kind==='text'){showToast('Пустым сообщение не сделать — можно удалить его в меню');return;}
+    CH.sending=true;
+    try{
+      var r=await API.post('/chat/edit',{id:id,text:text});
+      if(!API.ok(r)||!r.body.ok){showToast('⚠ '+({too_old:'Изменить можно только в течение недели',cant_edit:'Это сообщение изменить нельзя',too_long:'Слишком длинное сообщение'}[r.body&&r.body.error]||'Не получилось — проверь интернет'));return;}
+      CH.editId=0;ta.value='';chAutosize();chCtx();chMerge([r.body.item]);chRender();hap('success');showToast('✏️ Изменено'+(m&&m.tg?' — и в Telegram тоже':''));
+    }finally{CH.sending=false;}
+  };
+
+  // ── превью ссылок ──
+  var _msg=chMsgHtml;
+  chMsgHtml=function(m,p,n){
+    var h=_msg(m,p,n);
+    var v=m.prev;
+    if(v&&v.t&&v.u&&/^https?:\/\//.test(v.u)){
+      var card='<a class="ch-lp" href="'+E(v.u)+'" target="_blank" rel="noopener" onclick="event.stopPropagation()"><div class="s">'+E(v.s||'')+'</div><b>'+E(v.t)+'</b>'+
+        (v.d?'<div class="d">'+E(v.d)+'</div>':'')+(v.i&&/^https:\/\//.test(v.i)?'<img src="'+E(v.i)+'" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">':'')+'</a>';
+      var k=h.lastIndexOf('<div class="ch-f">');if(k>0)h=h.slice(0,k)+card+h.slice(k);
+    }
+    return h;
+  };
+
+  var _open=chOpen;
+  chOpen=async function(id){if(CH.room!==id){CH.pin=null;CH.typing=[];CH.editId=0;drawPin();drawTyping();}return _open.apply(this,arguments);};
+})();
+</script>
 </body>
 </html>
