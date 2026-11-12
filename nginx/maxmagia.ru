@@ -49,6 +49,13 @@ server {
     location = /art {
         return 301 /art/;
     }
+    # mm-open-nasilie
+    location = /art/nasilie { return 301 /art/nasilie/; }
+    location ^~ /art/nasilie/ {
+        alias /var/www/maxmagia.ru/art-open/nasilie/;
+        index index.html;
+        add_header Cache-Control "no-cache";
+    }
     location ^~ /art/ {
         alias /var/www/app.maxmagia.ru/practices/;
         index index.html;

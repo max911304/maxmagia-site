@@ -1,0 +1,469 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<script src="/practices/lib/mm-sync.js?v=3"></script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#0c0b0e">
+<title>Вернуть себя себе. 90 шагов — клуб #MaxMagia</title>
+<script src="/telegram-web-app.js"></script>
+<style>
+@font-face{font-family:'Cormorant Garamond';font-style:normal;font-weight:600;font-display:swap;src:url(/fonts/cormorant-garamond-cyrillic-600-normal.woff2) format('woff2');unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:'Cormorant Garamond';font-style:normal;font-weight:600;font-display:swap;src:url(/fonts/cormorant-garamond-latin-600-normal.woff2) format('woff2');unicode-range:U+0000-00FF,U+2000-206F}
+@font-face{font-family:'Cormorant Garamond';font-style:italic;font-weight:600;font-display:swap;src:url(/fonts/cormorant-garamond-cyrillic-600-italic.woff2) format('woff2');unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:'Manrope';font-style:normal;font-weight:200 800;font-display:swap;src:url(/fonts/manrope-cyrillic-wght-normal.woff2) format('woff2');unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:'Manrope';font-style:normal;font-weight:200 800;font-display:swap;src:url(/fonts/manrope-latin-wght-normal.woff2) format('woff2');unicode-range:U+0000-00FF,U+2000-206F}
+:root{
+  --bg:#0c0b0e;--ink:#f0ece4;--muted:rgba(240,236,228,.66);--gold:#d4b48a;--gold2:#b8956a;--violet:#a98bea;
+  --paper:#f6efe2;--paper2:#efe5d2;--pink:#2a2219;--pink2:#5d5145;--pv:#6a3fb0;--line:rgba(93,81,69,.18);
+  --serif:'Cormorant Garamond',Georgia,'Times New Roman',serif;--text:Georgia,'PT Serif','Noto Serif','Times New Roman',serif;
+  --sans:'Manrope',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent}
+body{min-height:100vh;overflow-x:hidden}
+button{font:inherit;color:inherit;cursor:pointer}
+.scr{display:none;min-height:100vh}
+.scr.on{display:block}
+.amb{position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:radial-gradient(60% 40% at 50% 0%,rgba(169,139,234,.13),transparent 70%),radial-gradient(50% 35% at 50% 100%,rgba(212,180,138,.08),transparent 70%)}
+.mms-back{display:none!important}
+.topbar{position:sticky;top:0;z-index:20;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:8px;padding:calc(10px + env(safe-area-inset-top,0px)) 16px 10px;
+  background:linear-gradient(to bottom,rgba(12,11,14,.94),rgba(12,11,14,.8));-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+.pill{display:inline-flex;align-items:center;gap:6px;min-height:40px;padding:8px 15px 8px 12px;border-radius:999px;border:1px solid rgba(212,180,138,.38);background:rgba(255,255,255,.03);color:var(--gold);
+  font:600 13.5px var(--sans);text-decoration:none}
+.pill span{font-size:19px;line-height:1;margin-top:-2px}
+.pill.ghost{border-color:transparent;color:var(--muted)}
+.topbar .l{justify-self:start}.topbar .r{justify-self:end}
+.tb-title{justify-self:center;font:600 13.5px var(--sans);color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:42vw}
+.pill.close{border-color:rgba(240,236,228,.14);color:var(--muted);padding:8px 12px 8px 14px}
+.pill.close b{font-size:16px;font-weight:400;line-height:1;margin-left:2px}
+#cover .cv-top{position:absolute;top:calc(12px + env(safe-area-inset-top,0px));right:14px}
+
+/* ───── обложка ───── */
+#cover{position:relative;z-index:1;display:none;flex-direction:column;align-items:center;justify-content:center;padding:calc(70px + env(safe-area-inset-top,0px)) 20px 40px;text-align:center}
+#cover.on{display:flex}
+#cover .back{position:absolute;top:calc(12px + env(safe-area-inset-top,0px));left:14px}
+.stage3d{perspective:1800px;margin:4px 0 26px}
+.book{position:relative;width:min(300px,72vw);aspect-ratio:2/3;transform-style:preserve-3d;transform:rotateY(-14deg) rotateX(4deg);transition:transform .9s cubic-bezier(.2,.7,.2,1);
+  cursor:pointer;border:0;padding:0;background:none;animation:float 6s ease-in-out infinite}
+@keyframes float{0%,100%{translate:0 0}50%{translate:0 -8px}}
+.book:hover,.book:focus-visible{transform:rotateY(-6deg) rotateX(2deg)}
+.book:focus-visible{outline:2px solid var(--gold);outline-offset:10px;border-radius:6px}
+.book .pages{position:absolute;inset:6px 0 6px 8px;border-radius:2px 8px 8px 2px;
+  background:repeating-linear-gradient(to right,#efe4cc 0 2px,#d9cbb0 2px 3px);transform:translateZ(-22px);box-shadow:0 30px 60px rgba(0,0,0,.6)}
+.book .lid{position:absolute;inset:0;transform-origin:left center;transform-style:preserve-3d;transition:transform 1.25s cubic-bezier(.55,.05,.35,1)}
+.book .front,.book .inner{position:absolute;inset:0;border-radius:3px 9px 9px 3px;backface-visibility:hidden;overflow:hidden}
+.book .front{background:#1a1420 center/cover no-repeat;box-shadow:0 26px 60px rgba(0,0,0,.55),0 0 0 1px rgba(212,180,138,.25)}
+.book .front::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0,.45) 0,rgba(0,0,0,.08) 4%,rgba(255,255,255,.08) 5.5%,transparent 9%,transparent 85%,rgba(255,255,255,.06))}
+.book .front::after{content:'';position:absolute;inset:-40%;background:linear-gradient(115deg,transparent 40%,rgba(255,244,220,.16) 50%,transparent 60%);animation:shine 7s ease-in-out infinite}
+@keyframes shine{0%,70%{transform:translateX(-60%)}100%{transform:translateX(60%)}}
+.book .inner{transform:rotateY(180deg);background:linear-gradient(90deg,#e9dcc2,#f6efe2);}
+.book.open{transform:rotateY(0) rotateX(0) scale(1.04);animation:none}
+.book.open .lid{transform:rotateY(-165deg)}
+.hint{font:500 13px var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--gold);opacity:.85;animation:breathe 2.6s ease-in-out infinite}
+@keyframes breathe{0%,100%{opacity:.45}50%{opacity:1}}
+.cv-sub{font:italic 600 21px var(--serif);color:var(--muted);margin:10px 0 0;max-width:360px;line-height:1.35}
+
+/* ───── карта пути ───── */
+#map{position:relative;z-index:1}
+.wrap{max-width:720px;margin:0 auto;padding:0 18px 60px}
+.mhead{text-align:center;padding:18px 6px 6px}
+.orn{display:flex;align-items:center;justify-content:center;gap:12px;color:var(--gold);opacity:.8;margin:2px 0 10px}
+.orn i{display:block;width:56px;height:1px;background:linear-gradient(90deg,transparent,var(--gold2),transparent)}
+.mhead h1{margin:0;font:600 40px/1.05 var(--serif);letter-spacing:.01em}
+.mhead h1 em{color:var(--gold);font-style:italic}
+.mhead p{margin:10px auto 0;max-width:520px;color:var(--muted);font-size:14.5px;line-height:1.6}
+.prog{margin:22px 0 8px;padding:16px 18px;border-radius:18px;border:1px solid rgba(212,180,138,.22);background:linear-gradient(135deg,rgba(212,180,138,.09),rgba(169,139,234,.05))}
+.prog-row{display:flex;justify-content:space-between;align-items:baseline;font-size:13px;color:var(--muted)}
+.prog-row b{font:600 22px var(--serif);color:var(--gold)}
+.bar{height:5px;border-radius:5px;background:rgba(255,255,255,.07);margin:10px 0 0;overflow:hidden}
+.bar i{display:block;height:100%;width:0;border-radius:5px;background:linear-gradient(90deg,var(--gold2),var(--gold),var(--violet));transition:width .8s}
+.cont{display:flex;width:100%;margin-top:14px;min-height:48px;align-items:center;justify-content:center;gap:8px;border:none;border-radius:14px;background:var(--gold);color:#17120c;font:700 15px var(--sans)}
+.sec{margin:30px 0 10px;text-align:center}
+.sec .no{font:600 12px var(--sans);letter-spacing:.3em;text-transform:uppercase;color:var(--gold2)}
+.sec h2{margin:6px 0 4px;font:600 28px/1.1 var(--serif)}
+.sec p{margin:0 auto;max-width:520px;font:italic 600 17px/1.4 var(--serif);color:var(--muted)}
+.toc{list-style:none;margin:0;padding:0}
+.it{display:flex;align-items:center;gap:14px;width:100%;min-height:60px;padding:12px 14px 12px 16px;margin:0 0 8px;border-radius:16px;border:1px solid rgba(255,255,255,.06);
+  background:rgba(255,255,255,.025);text-align:left;transition:border-color .2s,background .2s,transform .2s}
+.it:hover{border-color:rgba(212,180,138,.35);background:rgba(212,180,138,.05)}
+.it:active{transform:scale(.99)}
+.it .n{flex:0 0 34px;font:600 22px/1 var(--serif);color:var(--gold2);text-align:center;font-variant-numeric:oldstyle-nums}
+.it .tt{flex:1;min-width:0;font-size:15.5px;line-height:1.35}
+.it .tt small{display:block;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--violet);margin-bottom:2px}
+.it .ck{flex:0 0 30px;height:30px;border-radius:50%;border:1.5px solid rgba(240,236,228,.18);display:flex;align-items:center;justify-content:center;font-size:14px;color:transparent}
+.it.done{border-color:rgba(212,180,138,.28);background:linear-gradient(90deg,rgba(212,180,138,.10),rgba(212,180,138,.02))}
+.it.done .ck{background:var(--gold);border-color:var(--gold);color:#17120c}
+.it.stop .n{color:var(--violet)}
+.it.special .n{font-size:20px;color:var(--gold)}
+.it.soon{opacity:.42;cursor:default}
+.it.soon:hover{border-color:rgba(255,255,255,.06);background:rgba(255,255,255,.025)}
+.it.soon .ck{border:none;font:500 10.5px var(--sans);letter-spacing:.1em;color:var(--muted);text-transform:uppercase;width:auto;flex:0 0 auto}
+.it.last{box-shadow:0 0 0 1px rgba(169,139,234,.45) inset}
+.mapfoot{margin-top:28px;text-align:center;color:var(--muted);font-size:12.5px;line-height:1.6}
+
+/* ───── страница книги ───── */
+#page{position:relative;z-index:1;perspective:2200px}
+.sheet{position:relative;max-width:760px;margin:6px auto 0;background:var(--paper);color:var(--pink);border-radius:4px 14px 14px 4px;
+  box-shadow:0 30px 70px rgba(0,0,0,.55),inset 14px 0 22px -14px rgba(90,60,30,.35);transform-origin:left center;
+  background-image:radial-gradient(120% 60% at 50% 0%,rgba(255,255,255,.55),transparent 60%),linear-gradient(90deg,rgba(120,90,50,.10),transparent 6%)}
+.sheet.turn{animation:turn .95s cubic-bezier(.25,.8,.25,1) both}
+.sheet.turn::after{content:'';position:absolute;inset:0;border-radius:inherit;pointer-events:none;background:linear-gradient(90deg,rgba(40,25,10,.35),transparent 70%);animation:shade .95s ease both}
+@keyframes turn{0%{transform:rotateY(-78deg) translateX(-30px);opacity:.2}55%{opacity:1}100%{transform:rotateY(0) translateX(0)}}
+@keyframes shade{0%{opacity:1}100%{opacity:0}}
+.leaf{padding:40px 30px 46px}
+.kicker{text-align:center;font:700 11.5px var(--sans);letter-spacing:.32em;text-transform:uppercase;color:#9b7a4e}
+.ttl{margin:10px 0 0;text-align:center;font:600 34px/1.1 var(--serif);color:#21180f}
+.ttl+.rule{margin:16px auto 26px}
+.rule{display:flex;align-items:center;justify-content:center;gap:10px;color:#a8875a}
+.rule i{width:70px;height:1px;background:linear-gradient(90deg,transparent,#b89567,transparent)}
+.pic{display:block;width:100%;border-radius:10px;margin:0 0 26px;box-shadow:0 10px 30px rgba(60,40,20,.25)}
+.prose p{margin:0 0 1.05em;font:400 18.5px/1.72 var(--text);color:var(--pink)}
+.prose p:first-child::first-letter{float:left;font:600 64px/.82 var(--serif);color:#8a6a3c;margin:6px 8px 0 0}
+.prose .nodrop p:first-child::first-letter{all:unset}
+.prose b{font-weight:700;color:#1b130b}
+.prose em{font-style:italic}
+.prose .sg{color:var(--pv);font-weight:600}
+.legend{display:flex;flex-wrap:wrap;gap:6px 14px;justify-content:center;margin:-8px 0 24px;font:500 12px var(--sans);color:var(--pink2)}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend .d{width:8px;height:8px;border-radius:50%}
+.card{margin:26px 0;padding:20px 20px 18px;border-radius:16px;background:var(--paper2);border:1px solid var(--line)}
+.card .ch{display:flex;align-items:baseline;gap:10px;margin:0 0 10px}
+.card .cn{flex:0 0 auto;width:32px;height:32px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;background:#21180f;color:var(--gold);font:600 18px var(--serif)}
+.card h3{margin:0;flex:1;font:600 23px/1.2 var(--serif);color:#21180f}
+.card .mn{flex:0 0 auto;font:600 11.5px var(--sans);color:#8a6a3c;letter-spacing:.06em;white-space:nowrap}
+.card .prose p{font-size:17.5px;margin-bottom:.8em}
+.card .prose p:first-child::first-letter{all:unset}
+.ans{display:block;width:100%;min-height:120px;margin-top:6px;padding:14px 16px;border-radius:12px;border:1px solid rgba(138,106,60,.35);resize:vertical;
+  background:#fffaf0;
+  color:#22170c;font:400 17px/1.6 var(--text);outline:none;transition:border-color .2s,box-shadow .2s}
+.ans:focus{border-color:#8a6a3c;box-shadow:0 0 0 4px rgba(138,106,60,.12)}
+.ans::placeholder{color:#a9977f;font-style:italic}
+.saved{height:16px;margin-top:6px;text-align:right;font:500 12px var(--sans);color:#8a6a3c;opacity:0;transition:opacity .3s}
+.saved.on{opacity:1}
+.card.soft{background:linear-gradient(135deg,#efe6f7,#f3ecdf);border-color:rgba(106,63,176,.18)}
+.card.soft h3{color:#4b2c80}
+.card.day{background:#f1e7d0}
+.card.guide{background:#20181a;color:var(--ink);border:1px solid rgba(169,139,234,.35)}
+.card.guide h3{color:var(--ink)}
+.card.guide .q{margin:4px 0 14px;padding:14px 16px;border-radius:12px;border-left:3px solid var(--violet);background:rgba(169,139,234,.1);font:italic 600 20px/1.4 var(--serif);color:#efe8ff}
+.card.guide p.sm{margin:0 0 12px;font:400 14px/1.55 var(--sans);color:rgba(240,236,228,.72)}
+.btns{display:flex;flex-wrap:wrap;gap:8px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:46px;padding:10px 16px;border-radius:12px;border:1px solid rgba(212,180,138,.45);background:transparent;color:var(--gold);font:600 14px var(--sans)}
+.btn.main{background:var(--gold);border-color:var(--gold);color:#17120c}
+.btn.paper{border-color:rgba(138,106,60,.45);color:#6b4e27}
+.btn.paper.main{background:#21180f;border-color:#21180f;color:var(--gold)}
+.donebox{margin:36px 0 6px;text-align:center}
+.donebtn{min-height:54px;padding:14px 28px;border-radius:999px;border:1.5px solid #21180f;background:transparent;color:#21180f;font:700 15.5px var(--sans);transition:all .25s}
+.donebtn.on{background:#21180f;color:var(--gold)}
+.donebox p{margin:10px 0 0;font:italic 600 17px var(--serif);color:var(--pink2)}
+.pnav{display:flex;justify-content:space-between;gap:10px;max-width:760px;margin:18px auto 0;padding:0 2px}
+.pnav .btn{flex:1;max-width:48%;text-decoration:none}
+.btn{text-decoration:none}
+.sig{margin-top:22px;text-align:right;font:italic 600 22px var(--serif);color:#5a4026}
+.ann-ol{margin:0 0 1em;padding-left:1.3em;font:400 18px/1.7 var(--text)}
+.ann-ol li{margin:0 0 .4em}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%) translateY(20px);z-index:99;max-width:min(92vw,440px);
+  padding:12px 18px;border-radius:14px;background:rgba(24,20,28,.96);color:var(--ink);border:1px solid rgba(212,180,138,.4);font:500 14px/1.45 var(--sans);text-align:center;opacity:0;pointer-events:none;transition:all .3s}
+.toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
+footer{height:8px}
+@media (max-width:560px){
+  .leaf{padding:30px 18px 36px}
+  .ttl{font-size:29px}
+  .prose p{font-size:17.5px}
+  .mhead h1{font-size:34px}
+  .card{padding:18px 15px 16px;margin:22px -4px}
+  .card h3{font-size:21px}
+  .sheet{border-radius:3px 10px 10px 3px}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="amb" aria-hidden="true"></div>
+
+<section id="cover" class="scr" aria-label="Обложка книги">
+  <a class="pill close cv-top" id="toCab" href="/">Кабинет <b aria-hidden="true">✕</b></a>
+  <div class="stage3d">
+    <button class="book" id="book" type="button" aria-label="Открыть книгу «Вернуть себя себе. 90 шагов»">
+      <span class="pages" aria-hidden="true"></span>
+      <span class="lid" aria-hidden="true"><span class="front" style="background-image:url(cover.jpg)"></span><span class="inner"></span></span>
+    </button>
+  </div>
+  <div class="hint">Нажми на книгу, чтобы открыть</div>
+  <p class="cv-sub">Книга неизданных практик AI Милтона Эриксона. Только для клуба #MaxMagia.</p>
+</section>
+
+<section id="map" class="scr" aria-label="Твоя карта пути">
+  <div class="topbar">
+    <a class="pill l" id="mapBack" href="#"><span aria-hidden="true">‹</span>Обложка</a>
+    <span class="tb-title">Карта пути</span>
+    <a class="pill close r" id="toCab2" href="/">Кабинет <b aria-hidden="true">✕</b></a>
+  </div>
+  <div class="wrap">
+    <div class="mhead">
+      <div class="orn" aria-hidden="true"><i></i>✦<i></i></div>
+      <h1>Твоя <em>карта пути</em></h1>
+      <p id="mapLead"></p>
+    </div>
+    <div class="prog">
+      <div class="prog-row"><span>Пройдено шагов</span><span><b id="pDone">0</b> из 90</span></div>
+      <div class="bar"><i id="pBar"></i></div>
+      <button class="cont" id="contBtn" type="button"></button>
+    </div>
+    <div id="toc"></div>
+    <div class="mapfoot">Шаги выходят постепенно. Можно идти своим шагом:<br>здесь невозможно отстать.</div>
+  </div>
+</section>
+
+<section id="page" class="scr" aria-label="Страница книги">
+  <div class="topbar">
+    <a class="pill l" href="#map"><span aria-hidden="true">‹</span>Карта пути</a>
+    <span class="tb-title" id="pgNo"></span>
+    <a class="pill close r" id="toCab3" href="/">Кабинет <b aria-hidden="true">✕</b></a>
+  </div>
+  <div class="wrap" style="max-width:800px;padding-left:12px;padding-right:12px">
+    <article class="sheet" id="sheet"><div class="leaf" id="leaf"></div></article>
+    <nav class="pnav" id="pnav"></nav>
+  </div>
+  <footer></footer>
+</section>
+
+<div class="toast" id="toast" role="status"></div>
+
+<script src="content.js?v=2"></script>
+<script>
+(function(){
+'use strict';
+var B = window.BOOK90 || {stages:[],steps:{},intro:[],ann:[]};
+var ANN_ZIP = '';            // ссылка на архив файлов для Энн — впишем, когда Энн будет готова
+var IN_ART = location.pathname.indexOf('/art/') === 0;
+var CAB = IN_ART ? '/art/' : '/';
+var TG = window.Telegram && Telegram.WebApp && Telegram.WebApp.initData ? Telegram.WebApp : null;
+var $ = function(id){return document.getElementById(id);};
+function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function pad(n){return (n<10?'0':'')+n;}
+function plain(h){var d=document.createElement('div');d.innerHTML=h;return (d.textContent||'').trim();}
+
+/* ── авторское слово ── */
+var AUTHOR = [
+ 'Эта книга родилась из одного желания: прикоснуться к мудрости человека, который своим способом думать изменил судьбы тысяч людей. Милтон Эриксон умел сказать так, что человек вдруг слышал в себе то, что <em>всегда там было</em>.',
+ 'Я создавал её вместе с Claude: искусственным интеллектом, которого мы долго и бережно настраивали быть цифровой копией Милтона — с его историями, его неторопливостью, его любовью удивлять. Создавал для себя самого. И, конечно же, для вас, мои Хорошие 🙏',
+ 'Всё, что будет в этой книге, точно поможет нам узнать кое-что новое о себе… А может быть, поможет даже <em>забыть кое-что, что мы давно «знали» о себе</em>… Или позволит ощутить полностью всё то, что мы давно знаем, но привыкли обесценивать.',
+ 'Читайте медленно. Возвращайтесь, когда захочется. И, может быть, вы заметите, <span class="sg">как с каждым шагом внутри становится чуть больше места</span> — не торопитесь объяснять себе, откуда оно берётся. <span class="sg">Бессознательное умеет учиться само</span>, пока вы просто идёте.',
+ 'Этих практик нет ни в одной изданной книге, и нигде, кроме нашего клуба, они не появятся. <b>Они ждали именно вас.</b> И кажется, <span class="sg">вы пришли как раз вовремя</span>.',
+ 'С очень большой любовью к себе и к вам ❤'
+];
+
+/* ── хранилище ответов (синхронизирует mm-sync.js) ── */
+function stageOf(n){for(var i=0;i<B.stages.length;i++){var s=B.stages[i].steps;if(n>=s[0].n&&n<=s[s.length-1].n)return i+1;}return 1;}
+function lget(k){try{return JSON.parse(localStorage.getItem(k)||'null');}catch(e){return null;}}
+function lset(k,v){try{localStorage.setItem(k,JSON.stringify(v));return true;}catch(e){return false;}}
+var META = lget('mm90-meta') || {done:{},last:''};
+if(!META.done) META.done = {};
+function saveMeta(){lset('mm90-meta',META);}
+var cache = {};
+function stKey(n){return 'mm90-st'+stageOf(n);}
+function getAns(n,id){var k=stKey(n);if(!cache[k])cache[k]=lget(k)||{};return cache[k]['s'+n+'-'+id]||'';}
+var timers = {};
+function setAns(n,id,v){var k=stKey(n);if(!cache[k])cache[k]=lget(k)||{};
+  if(v)cache[k]['s'+n+'-'+id]=v;else delete cache[k]['s'+n+'-'+id];
+  clearTimeout(timers[k]);timers[k]=setTimeout(function(){lset(k,cache[k]);},500);}
+window.addEventListener('pagehide',function(){Object.keys(timers).forEach(function(k){clearTimeout(timers[k]);lset(k,cache[k]);});});
+
+/* ── список страниц книги ── */
+function hasStep(n){return !!B.steps[n];}
+var ORDER = ['author','intro'];
+B.stages.forEach(function(st){st.steps.forEach(function(s){if(hasStep(s.n)){ORDER.push('s'+s.n);if(s.n===1)ORDER.push('ann');}});});
+function doneCount(){var c=0;for(var n=1;n<=90;n++)if(META.done['s'+n])c++;return c;}
+
+/* ── экраны и навигация ── */
+function show(id){['cover','map','page'].forEach(function(x){$(x).classList.toggle('on',x===id);});window.scrollTo(0,0);tgBack(id);}
+function route(){
+  var h=decodeURIComponent(location.hash.slice(1));
+  if(!h){show('cover');return;}
+  if(h==='map'){renderMap();show('map');return;}
+  if(ORDER.indexOf(h)>=0){renderPage(h);show('page');return;}
+  renderMap();show('map');
+}
+function go(h){if(location.hash.slice(1)===h)route();else location.hash=h;}
+window.addEventListener('hashchange',route);
+
+function tgBack(id){
+  if(!TG||!TG.BackButton)return;
+  try{TG.BackButton.show();}catch(e){}
+}
+if(TG){try{TG.ready();TG.expand();TG.BackButton.onClick(function(){
+  var h=location.hash.slice(1);
+  if(!h){location.href=CAB;}else if(h==='map'){location.hash='';}else{location.hash='map';}
+});}catch(e){}}
+
+$('toCab').href=CAB;$('toCab2').href=CAB;$('toCab3').href=CAB;
+$('mapBack').addEventListener('click',function(e){e.preventDefault();history.replaceState(null,'',location.pathname+location.search);route();});
+
+/* ── обложка: книга открывается ── */
+var opening=false;
+$('book').addEventListener('click',function(){
+  if(opening)return;opening=true;
+  var b=$('book');b.classList.add('open');
+  var rm=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+  setTimeout(function(){opening=false;b.classList.remove('open');go('map');},rm?0:1150);
+});
+
+/* ── карта пути ── */
+function item(key,num,title,cls,small){
+  var done=META.done[key];
+  return '<li><button type="button" class="it '+(cls||'')+(done?' done':'')+(META.last===key?' last':'')+'" data-k="'+key+'">'+
+    '<span class="n">'+num+'</span><span class="tt">'+(small?'<small>'+small+'</small>':'')+esc(title)+'</span><span class="ck" aria-hidden="true">✓</span></button></li>';
+}
+function renderMap(){
+  $('mapLead').textContent='Четыре этапа, девяносто шагов. Сначала опора, потом желания, потом «я могу», потом движение. Каждый седьмой шаг — остановка, чтобы оглянуться.';
+  var h='<ul class="toc" style="margin-top:22px">'+item('author','✦','Пара слов от автора','special')+item('intro','✦','Несколько слов, прежде чем ты начнёшь','special')+'</ul>';
+  var roman=['Этап первый','Этап второй','Этап третий','Этап четвёртый'];
+  B.stages.forEach(function(st,i){
+    var nm=st.name.replace(/^Этап[^.]*\.\s*/,'');
+    h+='<div class="sec"><div class="no">'+roman[i]+'</div><h2>'+esc(nm)+'</h2><p>'+esc(st.sub.replace(/^Шаги[^.]*\.\s*/,''))+'</p></div><ul class="toc">';
+    st.steps.forEach(function(s){
+      var title=s.t, small='';
+      var m=title.match(/^(Остановка [^.]+)\.\s*(.*)$/);
+      if(m){small=m[1];title=m[2];}
+      if(hasStep(s.n)){
+        h+=item('s'+s.n,pad(s.n),title,s.stop?'stop':'',small);
+        if(s.n===1)h+=item('ann','✧','Твой проводник: познакомься с Энн','special');
+      }else{
+        h+='<li><div class="it soon'+(s.stop?' stop':'')+'" aria-disabled="true"><span class="n">'+pad(s.n)+'</span><span class="tt">'+(small?'<small>'+esc(small)+'</small>':'')+esc(title)+'</span><span class="ck">скоро</span></div></li>';
+      }
+    });
+    h+='</ul>';
+  });
+  $('toc').innerHTML=h;
+  var c=doneCount();$('pDone').textContent=c;$('pBar').style.width=(c/90*100)+'%';
+  var next=ORDER.filter(function(k){return !META.done[k];})[0];
+  var target=META.last&&ORDER.indexOf(META.last)>=0&&!META.done[META.last]?META.last:(next||'author');
+  $('contBtn').textContent=(META.last||c)?'Продолжить: '+label(target):'Начать путь';
+  $('contBtn').onclick=function(){go(target);};
+  [].forEach.call(document.querySelectorAll('#toc button.it'),function(b){b.addEventListener('click',function(){go(b.dataset.k);});});
+  var l=document.querySelector('#toc .it.last');if(l&&location.hash==='#map'&&window.__mapScrolled!==true){window.__mapScrolled=true;setTimeout(function(){l.scrollIntoView({block:'center'});},60);}
+}
+function label(k){
+  if(k==='author')return 'Пара слов от автора';if(k==='intro')return 'Несколько слов';if(k==='ann')return 'Знакомство с Энн';
+  var n=+k.slice(1);return 'шаг '+pad(n);
+}
+
+/* ── страница ── */
+function para(arr,cls){return '<div class="prose'+(cls?' '+cls:'')+'">'+arr.map(function(p){return '<p>'+p+'</p>';}).join('')+'</div>';}
+function rule(){return '<div class="rule" aria-hidden="true"><i></i>✦<i></i></div>';}
+function ansBox(n,id,ph){
+  return '<label class="sr" style="position:absolute;left:-9999px" for="a-'+n+'-'+id+'">Твой ответ</label><textarea class="ans" id="a-'+n+'-'+id+'" data-n="'+n+'" data-id="'+id+'" placeholder="'+esc(ph)+'">'+esc(getAns(n,id))+'</textarea><div class="saved" id="sv-'+n+'-'+id+'">сохранено ✓</div>';
+}
+function renderPage(k){
+  var leaf=$('leaf'),h='',nav='';
+  META.last=k;saveMeta();
+  var idx=ORDER.indexOf(k),prev=ORDER[idx-1],next=ORDER[idx+1];
+  if(k==='author'){
+    $('pgNo').textContent='Вступление';
+    h='<div class="kicker">От автора</div><h1 class="ttl">Пара слов от автора</h1>'+rule()+para(AUTHOR)+'<div class="sig">© Макс Гущин</div>';
+  }else if(k==='intro'){
+    $('pgNo').textContent='Вступление';
+    h='<div class="kicker">AI Милтон Эриксон</div><h1 class="ttl">Несколько слов, прежде чем ты начнёшь</h1>'+rule()+para(B.intro);
+  }else if(k==='ann'){
+    $('pgNo').textContent='Проводник';
+    var a=B.ann.slice(),body='';
+    if(a.length&&/^<b>[^<]*<\/b>$/.test(a[0]))a.shift();
+    a.forEach(function(x){body+= typeof x==='string'?'<p>'+x+'</p>':'<ol class="ann-ol">'+x.ol.map(function(li){return '<li>'+li+'</li>';}).join('')+'</ol>';});
+    h='<div class="kicker">Твой проводник</div><h1 class="ttl">Познакомься с Энн</h1>'+rule()+'<div class="prose">'+body+'</div>'+
+      '<div class="card guide"><h3>Файлы для Энн</h3>'+(ANN_ZIP?'<p class="sm">Архив из четырёх файлов — по кнопке ниже.</p><div class="btns"><a class="btn main" href="'+esc(ANN_ZIP)+'" download>⬇ Скачать файлы для Энн</a></div>':
+      '<p class="sm" style="margin:0">Архив из четырёх файлов появится здесь, как только Энн будет готова к встрече. А пока просто пиши ответы в книге: здесь же их можно будет скопировать и отнести ей.</p>')+'</div>';
+  }else{
+    var n=+k.slice(1),s=B.steps[n],meta=findMeta(n);
+    $('pgNo').textContent='Шаг '+n+' из 90';
+    var title=s.t.replace(/^Остановка [^.]+\.\s*/,'');
+    var kick=meta&&meta.stop?(s.t.match(/^(Остановка [^.]+)/)||['','Остановка'])[1]+' · шаг '+pad(n):'Шаг '+pad(n);
+    h='<div class="kicker">'+esc(kick)+'</div><h1 class="ttl">'+esc(title)+'</h1>'+rule()+
+      '<img class="pic" alt="" src="img/'+encodeURIComponent('шаг-'+pad(n)+'.jpg')+'" onerror="if(!this.dataset.f){this.dataset.f=1;this.src=this.src.replace(/\\.jpg$/,\'.png\');}else{this.remove();}">'+
+      para(s.story);
+    var guideQ='';
+    s.parts.forEach(function(p,i){
+      if(p.k==='task'){
+        h+='<section class="card"><div class="ch"><span class="cn">'+p.no+'</span><h3>'+esc(p.t)+'</h3>'+(p.min?'<span class="mn">'+esc(p.min)+' мин</span>':'')+'</div>'+para(p.p)+ansBox(n,'t'+p.no,'Твой ответ… можно с ошибками и недописанными фразами')+'</section>';
+      }else if(p.k==='day'){
+        h+='<section class="card day"><div class="ch"><h3>🌿 Маленькое задание на день</h3></div>'+para(p.p)+ansBox(n,'day','Как прошло? Можно записать вечером — по желанию')+'</section>';
+      }else if(p.k==='soft'){
+        h+='<section class="card soft"><div class="ch"><h3>Если стало тяжело</h3></div>'+para(p.p)+'</section>';
+      }else if(p.k==='guide'){
+        guideQ=p.q||'';
+      }else{
+        h+='<section class="card"><div class="ch"><h3>'+esc(p.t)+'</h3></div>'+para(p.p)+'</section>';
+      }
+    });
+    var stop=meta&&meta.stop;
+    h+='<section class="card guide"><div class="ch"><h3>✧ Для разговора с Энн</h3></div>'+
+      (guideQ?'<div class="q">«'+esc(guideQ)+'»</div>':'')+
+      '<p class="sm">'+(stop?'В день остановки неси Энн ответы за всю неделю целиком — там она видит больше всего.':'Скопируй ответы этого шага вместе с вопросом и вставь в разговор с Энн.')+'</p>'+
+      '<div class="btns">'+(guideQ?'<button class="btn" type="button" data-copy="q">📋 Вопрос</button>':'')+
+      '<button class="btn main" type="button" data-copy="all">📋 Мои ответы'+(guideQ?' + вопрос':'')+'</button>'+
+      (stop?'<button class="btn" type="button" data-copy="week">📋 Ответы за неделю</button>':'')+'</div></section>';
+    h+='<div class="donebox"><button class="donebtn" id="doneBtn" type="button"></button><p id="doneTxt"></p></div>';
+    leaf.dataset.q=guideQ;
+  }
+  if(k==='author'||k==='intro'||k==='ann'){
+    h+='<div class="donebox"><button class="donebtn" id="doneBtn" type="button"></button><p id="doneTxt"></p></div>';
+  }
+  leaf.innerHTML=h;
+  // навигация
+  if(prev)nav+='<a class="btn" href="#'+prev+'">‹ '+esc(label(prev))+'</a>';else nav+='<a class="btn" href="#map">‹ Карта пути</a>';
+  if(next)nav+='<a class="btn main" href="#'+next+'">'+esc(label(next))+' ›</a>';else nav+='<a class="btn main" href="#map">Карта пути ›</a>';
+  $('pnav').innerHTML=nav;
+  // поля ответов
+  [].forEach.call(leaf.querySelectorAll('textarea.ans'),function(t){
+    var grow=function(){t.style.height='auto';t.style.height=Math.max(124,t.scrollHeight+2)+'px';};grow();
+    var sv=$('sv-'+t.dataset.n+'-'+t.dataset.id),st=null;
+    t.addEventListener('input',function(){grow();setAns(+t.dataset.n,t.dataset.id,t.value);clearTimeout(st);sv.classList.add('on');st=setTimeout(function(){sv.classList.remove('on');},1400);});
+  });
+  [].forEach.call(leaf.querySelectorAll('[data-copy]'),function(b){b.addEventListener('click',function(){copyFor(k,b.dataset.copy);});});
+  var db=$('doneBtn');
+  function paint(){var on=!!META.done[k];db.classList.toggle('on',on);db.textContent=on?'✓ Пройдено':(k.charAt(0)==='s'?'Отметить шаг пройденным':'Прочитано');
+    $('doneTxt').textContent=on?(k.charAt(0)==='s'?'Засчитано. Можно вернуться к этому шагу в любой день.':''):'';}
+  paint();
+  db.addEventListener('click',function(){if(META.done[k])delete META.done[k];else{META.done[k]=1;toast(k.charAt(0)==='s'?'Шаг засчитан ✨':'Отмечено ✨');}saveMeta();paint();});
+  // лист перелистывается
+  var sh=$('sheet');sh.classList.remove('turn');void sh.offsetWidth;sh.classList.add('turn');
+}
+function findMeta(n){for(var i=0;i<B.stages.length;i++)for(var j=0;j<B.stages[i].steps.length;j++)if(B.stages[i].steps[j].n===n)return B.stages[i].steps[j];return null;}
+
+/* ── копирование для Энн ── */
+function stepText(n){
+  var s=B.steps[n];if(!s)return '';
+  var out=['Шаг '+n+'. '+s.t],any=false;
+  s.parts.forEach(function(p){
+    if(p.k==='task'){var a=getAns(n,'t'+p.no).trim();out.push('\n'+p.no+'. '+p.t+'\nМой ответ: '+(a||'(не написал(а))'));if(a)any=true;}
+    if(p.k==='day'){var d=getAns(n,'day').trim();if(d){out.push('\nМаленькое задание на день\nКак прошло: '+d);any=true;}}
+  });
+  return any?out.join('\n'):'';
+}
+function copyFor(k,what){
+  var n=+k.slice(1),q=$('leaf').dataset.q||'',txt='';
+  if(what==='q'){txt=q;}
+  else if(what==='week'){
+    var parts=[];for(var i=Math.max(1,n-6);i<=n;i++){var t=stepText(i);if(t)parts.push(t);}
+    txt=(parts.length?'Мои ответы за неделю (шаги '+Math.max(1,n-6)+'–'+n+'):\n\n'+parts.join('\n\n———\n\n'):'')+(q?'\n\nМой вопрос: '+q:'');
+  }else{
+    var t=stepText(n);txt=(t||'Шаг '+n+'. '+B.steps[n].t+'\n(ответов пока нет)')+(q?'\n\nМой вопрос: '+q:'');
+  }
+  if(!txt.trim()){toast('Пока нечего копировать — сначала напиши ответы');return;}
+  copy(txt.trim(),what==='q'?'Вопрос скопирован — вставь его в разговор с Энн':'Скопировано — вставь в разговор с Энн 🤍');
+}
+function copy(text,msg){
+  var ok=function(){toast(msg);},fb=function(){var ta=document.createElement('textarea');ta.value=text;ta.setAttribute('readonly','');ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);ta.select();
+    try{document.execCommand('copy');ok();}catch(e){toast('Не получилось скопировать — выдели текст вручную');}ta.remove();};
+  if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(text).then(ok,fb);else fb();
+}
+var tt=null;function toast(m){var t=$('toast');t.textContent=m;t.classList.add('on');clearTimeout(tt);tt=setTimeout(function(){t.classList.remove('on');},2600);}
+
+route();
+})();
+</script>
+</body>
+</html>

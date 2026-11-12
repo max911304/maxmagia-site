@@ -387,5 +387,18 @@ async function start(){
 start();
 })();
 </script>
+
+<!-- JOINBACK v1 (12.11.2026): «‹ В кабинет» — вернуться в «Моё участие» (в приложении с иконки нет кнопки «назад») -->
+<script>
+(function(){
+  var sa=false;try{sa=matchMedia('(display-mode: standalone)').matches||navigator.standalone===true;}catch(e){}
+  if(!sa&&!/renew=1/.test(location.search))return;
+  var b=document.createElement('a');b.href='/?open=notify';b.textContent='‹ В кабинет';b.setAttribute('aria-label','Вернуться в кабинет');
+  b.style.cssText='position:fixed;top:calc(10px + env(safe-area-inset-top,0px));left:10px;z-index:99999;padding:9px 15px;border-radius:999px;'+
+    'background:rgba(20,20,22,.88);border:1px solid rgba(212,180,138,.45);color:#d4b48a;font:600 14px Manrope,system-ui,sans-serif;'+
+    'text-decoration:none;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);box-shadow:0 6px 18px rgba(0,0,0,.3)';
+  (document.body||document.documentElement).appendChild(b);
+})();
+</script>
 </body>
 </html>
