@@ -1,5 +1,5 @@
 <!doctype html><html lang="ru"><head><meta charset="utf-8">
-<!-- GIFTPAGE v3 -->
+<!-- GIFTPAGE v3 --><!-- GIFTPAGE v3.1 -->
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#0c0c0e"><meta name="robots" content="noindex">
 <title>🎁 Тебе подарок — месяц в клубе #MaxMagia</title>
@@ -139,8 +139,9 @@ h1 em{font-style:italic;color:var(--gold)}
 .tg{font-size:13px;color:var(--mut);text-align:center;line-height:1.55;margin-top:6px}
 .tg a{color:var(--gold)}
 .gets{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:0 0 18px}
-.gets div{border:1px solid rgba(240,236,228,.08);background:var(--card);border-radius:14px;padding:12px;font-size:13px;color:var(--mut);line-height:1.4}
-.gets b{display:block;color:var(--txt);font-size:14px;margin-bottom:2px}
+.gets div{border:1px solid rgba(240,236,228,.08);background:var(--card);border-radius:14px;padding:14px 12px;font-size:13px;color:var(--mut);line-height:1.45;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.gets b{display:block;color:var(--txt);font-size:14.5px;margin-bottom:4px}
+.gets i{display:block;font-style:normal;font-size:22px;line-height:1;margin-bottom:6px}
 .msg{text-align:center;padding:6px 4px}
 .msg .big{font-size:54px;line-height:1;margin-bottom:12px}
 .foot{text-align:center;font-size:12.5px;color:var(--dim);line-height:1.7;margin-top:22px}
@@ -155,6 +156,7 @@ h1 em{font-style:italic;color:var(--gold)}
   .top{grid-column:1 / -1;align-self:end;margin:0}
   .scene{margin:0}
   .stage{align-self:center}
+  .opened .stage{align-self:start;position:sticky;top:40px}
   .card{max-width:420px}
   .side h1,.side .lead,.side .msg{text-align:left}
   .side .lead{margin-left:0}
@@ -272,8 +274,8 @@ h1 em{font-style:italic;color:var(--gold)}
       res({ok:true,done:true,new:true,until_ru:'15 декабря 2026',demo:true});
     },500);});
   }
-  var GETS='<div class="gets"><div><b>🎥 Живые эфиры</b>встречи, практикумы, вопросы Максиму</div><div><b>🌙 Медитации</b>гипно-медитации, чтобы выдохнуть</div>'+
-    '<div><b>📼 Все записи</b>смотреть, когда удобно</div><div><b>💬 Сообщество</b>тёплые люди рядом</div></div>';
+  var GETS='<div class="gets"><div><i>🎥</i><b>Живые эфиры</b>встречи, практикумы, вопросы Максиму — чтобы разобраться с тем, что важно</div><div><i>🌙</i><b>Медитации</b>гипно-медитации, чтобы выдохнуть стресс и успокоить душу</div>'+
+    '<div><i>🗡</i><b>Арсенал практик</b>решай проблемы, когда тебе удобно</div><div><i>💬</i><b>Своя стая</b>поддерживающее окружение рядом</div></div>';
   function rv(html,d){return '<div class="rv" style="--d:'+d+'s">'+html+'</div>';}
   function noteHtml(){
     if(!D.note)return '';
@@ -281,7 +283,7 @@ h1 em{font-style:italic;color:var(--gold)}
   }
   function head(){
     var to=D.to?E(D.to)+', '+'тебе':'Тебе';
-    return '<h1>'+to+' <em>подарок</em></h1><p class="lead"><b>'+E(D.giver)+'</b> '+E(D.gave)+' тебе <b>'+D.days+' день</b> в клубе #MaxMagia — живые эфиры, практики, медитации и тёплое сообщество. Платить ничего не нужно.</p>';
+    return '<h1>'+to+' <em>подарок</em></h1><p class="lead"><b>'+E(D.giver)+'</b> '+E(D.gave)+' тебе <b>'+D.days+' день</b> в клубе #MaxMagia — месте, где хорошо быть. Живые встречи с психологом, гипно-медитации, практики на каждый день и люди, рядом с которыми становится легче. Платить ничего не нужно — просто прими подарок 🤍</p>';
   }
   function msg(icon,title,text,extra){app.innerHTML=rv('<div class="msg"><div class="big">'+icon+'</div><h1 style="font-size:34px">'+title+'</h1><p class="lead">'+text+'</p>'+(extra||'')+'</div>',0);}
   var TGLINK=function(){return '<div class="tg">Удобнее в Telegram? <a href="'+E(D.tg)+'">Принять подарок через бот клуба</a></div>';};
@@ -321,7 +323,7 @@ h1 em{font-style:italic;color:var(--gold)}
     setTimeout(function(){showCard(true);render();if(innerWidth<1024)window.scrollTo({top:0,behavior:'smooth'});},1900);
   }
   function showCard(anim){
-    scene.classList.add('hid');card.classList.remove('hid');if(anim)card.classList.add('rise');
+    scene.classList.add('hid');card.classList.remove('hid');gp.classList.add('opened');if(anim)card.classList.add('rise');
     if(D&&D.free)document.getElementById('ribbon').classList.remove('hide');
     phase='done';
   }
@@ -355,8 +357,10 @@ h1 em{font-style:italic;color:var(--gold)}
       form='<div class="box"><h2>👋 '+(me.name?E(me.name)+', ':'')+'ты уже в клубе</h2><p class="sub">'+(me.member?'Подарок добавит <b>'+D.days+' день</b> к твоему участию.':'Остался один шаг — согласия ниже.')+'</p>'+
         (me.member?'':consents())+'<div class="err" id="err"></div><button class="btn gold" id="go">🎁 Принять подарок</button></div>';
     } else {
-      form='<div class="box"><h2>✨ Добро пожаловать в клуб</h2><p class="sub">Telegram не нужен. Напиши, как тебя зовут, и свою почту — на неё придёт ссылка для входа в личный кабинет. Уже в клубе? Впиши почту, которую указывал(а) в клубе, — дни добавятся к твоему участию.</p>'+
-        '<div class="f" id="f-name"><label>Как тебя зовут</label><input id="name" maxlength="60" autocomplete="given-name" placeholder="Имя"></div>'+
+      form='<div class="box"><h2>✨ Добро пожаловать в клуб</h2><p class="sub">'+(D.to?'Если хочешь, измени имя — так оно будет отображаться в клубе. А ещё напиши свою почту — на неё придёт ссылка для входа в личный кабинет.'
+          :'Напиши, как тебя зовут, — так имя будет отображаться в клубе. А ещё напиши свою почту — на неё придёт ссылка для входа в личный кабинет.')+
+        '<br><br>А если ты уже в клубе, просто впиши почту, которую '+GW('указывал','указывала','указывал(а)')+' в клубе, — дни добавятся к твоему участию. Telegram для этого не нужен.</p>'+
+        '<div class="f" id="f-name"><label>Как тебя зовут в клубе</label><input id="name" maxlength="60" autocomplete="given-name" placeholder="Имя"'+(D.to?' value="'+E(D.to)+'"':'')+'></div>'+
         '<div class="f" id="f-email"><label>Почта</label><input id="email" type="email" inputmode="email" autocomplete="email" placeholder="you@mail.ru"></div>'+
         '<div class="f hide" id="f-g"><label>Как к тебе обращаться?</label><div class="seg"><button type="button" data-g="f">Я — она</button><button type="button" data-g="m">Я — он</button></div></div>'+
         consents()+'<div class="err" id="err"></div><button class="btn gold" id="go">🎁 Принять подарок</button>'+
@@ -364,7 +368,8 @@ h1 em{font-style:italic;color:var(--gold)}
     }
     app.innerHTML=rv(head(),0)+rv(noteHtml(),.15*k)+rv(GETS,.35*k)+rv(form,.5*k)+rv('<p class="tg" style="margin-top:10px">Подарок можно открыть до <b>'+E(D.expires)+'</b>. Ссылка срабатывает один раз.</p>',.6*k);
     document.getElementById('go').onclick=go;
-    app.querySelectorAll('.seg button').forEach(function(b){b.onclick=function(){G=b.dataset.g;app.querySelectorAll('.seg button').forEach(function(x){x.classList.toggle('on',x===b);});};});
+    var ni=document.getElementById('name');if(ni)ni.addEventListener('input',applyG);applyG();
+    app.querySelectorAll('.seg button').forEach(function(b){b.onclick=function(){G=b.dataset.g;app.querySelectorAll('.seg button').forEach(function(x){x.classList.toggle('on',x===b);});applyG();};});
     type(fast);
   }
   function type(fast){
@@ -378,9 +383,25 @@ h1 em{font-style:italic;color:var(--gold)}
       i++;q.textContent='«'+chars.slice(0,i).join('');setTimeout(tick,step);
     },700);
   }
+  /* род по имени: только для слов на странице; если не уверены — «(а)» */
+  var MALE_X={'никита':1,'илья':1,'кузьма':1,'фома':1,'лука':1,'савва':1,'миша':1,'ваня':1,'петя':1,'дима':1,'коля':1,'толя':1,'вова':1,'гоша':1,'леша':1,'паша':1,'даня':1,'сеня':1,'федя':1,'юра':1,'гриша':1,'степа':1,'тема':1,'вася':1,'костя':1,'митя':1,'боря':1,'леня':1,'рома':1,'сережа':1,'алеша':1,'ильюша':1};
+  var AMB={'саша':1,'женя':1,'валя':1,'слава':1,'шура':1,'сима':1,'шурик':0};
+  var MALE_STEM=/^(макс|серг|сереж|андр|дим|миш|вань|ванюш|петь|пет[ея]ньк|вов|влад|юр|паш|кост|леш|алеш|гош|тем|артем|степ|фед|гриш|бор[яи]|ром[аы]?ш|никит|илюш|егор|игор|стас|толь|тол[яи]к|ден[иь]с|жор)/;
+  function gOf(n){
+    n=String(n||'').trim().toLowerCase().replace(/ё/g,'е').split(/[\s,]+/)[0]||'';
+    if(!n||!/^[а-я-]+$/.test(n)||AMB[n])return '';
+    if(MALE_X[n]||MALE_STEM.test(n))return 'm';
+    if(/[ая]$/.test(n))return 'f';
+    if(/[бвгджзклмнпрстфхцчшщй]$/.test(n))return 'm';
+    return '';
+  }
+  function curG(){if(G)return G;var ni=document.getElementById('name');return gOf(ni?ni.value:(D&&D.to)||'');}
+  function GW(m,f,x){var g=curG();return '<span class="gw" data-m="'+m+'" data-f="'+f+'" data-x="'+x+'">'+(g==='m'?m:g==='f'?f:x)+'</span>';}
+  function applyG(){var g=curG();app.querySelectorAll('.gw').forEach(function(s){s.textContent=g==='m'?s.dataset.m:g==='f'?s.dataset.f:s.dataset.x;});
+    var fg=document.getElementById('f-g');if(fg&&!fg.classList.contains('hide')&&!G){app.querySelectorAll('.seg button').forEach(function(b){b.classList.toggle('on',b.dataset.g===(g==='m'?'m':g==='f'?'f':''));});}}
   function consents(){
     return '<label class="ck" id="ck-offer"><input type="checkbox" id="offer"><span>Принимаю <a href="https://maxmagia.ru/oferta.html#gift" target="_blank">условия участия</a> и <a href="https://maxmagia.ru/rules.html" target="_blank">правила клуба</a></span></label>'+
-      '<label class="ck" id="ck-pd"><input type="checkbox" id="pd"><span>Согласен(на) на <a href="https://maxmagia.ru/consent.html" target="_blank">обработку персональных данных</a> по <a href="https://maxmagia.ru/privacy.html" target="_blank">политике конфиденциальности</a></span></label>';
+      '<label class="ck" id="ck-pd"><input type="checkbox" id="pd"><span>'+GW('Согласен','Согласна','Согласен(на)')+' на <a href="https://maxmagia.ru/consent.html" target="_blank">обработку персональных данных</a> по <a href="https://maxmagia.ru/privacy.html" target="_blank">политике конфиденциальности</a></span></label>';
   }
   function val(id){var el=document.getElementById(id);return el?(el.type==='checkbox'?el.checked:el.value.trim()):'';}
   function bad(id,on){var el=document.getElementById(id);if(el)el.classList.toggle('bad',!!on);}
@@ -402,7 +423,7 @@ h1 em{font-style:italic;color:var(--gold)}
       b.disabled=false;b.innerHTML='🎁 Принять подарок';
       if(r&&r.ok&&r.done)return done(r);
       var e=r&&r.error;
-      if(e==='gender'){document.getElementById('f-g').classList.remove('hide');}
+      if(e==='gender'){document.getElementById('f-g').classList.remove('hide');var gg=curG();if(gg){G=gg;app.querySelectorAll('.seg button').forEach(function(x){x.classList.toggle('on',x.dataset.g===gg);});}}
       if(e==='fields'){(r.fields||[]).forEach(function(f){bad('f-'+f,true);});}
       if(e==='use_tg'||e==='redeemed'||e==='expired'||e==='taken'){D.state=e==='use_tg'?D.state:e;}
       err(ERR[e]||'Что-то пошло не так 🙏 Попробуй ещё раз или напиши Максиму.');
