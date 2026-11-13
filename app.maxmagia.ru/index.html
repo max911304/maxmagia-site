@@ -6412,7 +6412,7 @@ html[data-theme="light"] .hbs-in,html[data-theme="light"] .hbs-ok{border-color:#
   chOpen=async function(id){if(CH.room!==id){CH.pin=null;CH.typing=[];CH.editId=0;drawPin();drawTyping();}return _open.apply(this,arguments);};
 })();
 </script>
-<!-- ═════ GIFTWEB v1 (12.11): подарить участие прямо в кабинете — без Telegram ═════ -->
+<!-- ═════ GIFTWEB v2 (13.11): подарить участие прямо в кабинете — без Telegram ═════ -->
 <style>
 .gw-hero{display:flex;gap:14px;align-items:center;padding:14px;border-radius:18px;margin-bottom:14px;background:linear-gradient(135deg,rgba(var(--gold-rgb),.16),rgba(var(--gold-rgb),.04));border:1px solid var(--gold-border)}
 .gw-hero img{width:74px;height:auto;border-radius:10px;flex:none;transform:rotate(-3deg);box-shadow:0 8px 20px rgba(0,0,0,.35)}
@@ -6429,6 +6429,8 @@ html[data-theme="light"] .hbs-in,html[data-theme="light"] .hbs-ok{border-color:#
 .gw-when{display:flex;gap:8px}
 .gw-when button{flex:1;min-height:46px;border-radius:13px;border:1px solid rgba(var(--fg),.14);background:none;color:var(--muted);font:600 14px var(--font-sans,inherit);cursor:pointer}
 .gw-when button.on{border-color:var(--gold);color:var(--white);background:rgba(var(--gold-rgb),.12)}
+.gw-hint{font-size:12px;color:var(--muted);line-height:1.5;margin:7px 2px 0}
+.gw-sub{font-size:12px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);margin:6px 2px 10px}
 .gw-payer{font-size:13px;color:var(--muted);line-height:1.5;margin:4px 2px 10px}
 .gw-payer b{color:var(--white);font-weight:600}
 .gw-payer button{background:none;border:none;color:var(--gold);font:inherit;cursor:pointer;padding:0;text-decoration:underline}
@@ -6463,7 +6465,7 @@ html[data-theme="light"] .hbs-in,html[data-theme="light"] .hbs-ok{border-color:#
 <script>
 (function(){
   if(window.__GW)return;window.__GW=1;
-  var D=null,F={to:'',note:'',when:'now',date:'',name:'',email:'',phone:'',offer:false,payer:false},GID=0,PAY=null,TIMER=null,T0=0;
+  var D=null,F={free:false,to_email:'',to:'',note:'',when:'now',date:'',name:'',email:'',phone:'',offer:false,payer:false},GID=0,PAY=null,TIMER=null,T0=0;
   var PC='/gift/postcard.jpg';
   function E(s){try{return escHtml(s==null?'':String(s));}catch(e){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return '&#'+c.charCodeAt(0)+';';});}}
   function toast(t){try{showToast(t);}catch(e){}}
@@ -6503,6 +6505,7 @@ html[data-theme="light"] .hbs-in,html[data-theme="light"] .hbs-ok{border-color:#
   window.gwClose=function(){var m=el();if(m)m.classList.remove('open');stopPoll();try{ntfBack();}catch(e){}};
 
   function intro(){
+    if(F.free)return '<div class="gw-hero"><img src="'+PC+'" alt=""><div><b>Подарок от клуба — '+D.days+' день</b><span>Без оплаты. Открытка придёт от твоего имени — отличный повод познакомить близких с клубом 🤍</span></div></div>';
     return '<div class="gw-hero"><img src="'+PC+'" alt=""><div><b>Близкий получает '+D.days+' день в клубе</b>'+
       '<span>Ты платишь <em>'+E(D.price)+'</em> разово, без автопродления. А тебе — <em>+'+D.bonus+' дней</em> к участию в благодарность 🤍</span></div></div>';
   }
@@ -6516,27 +6519,34 @@ html[data-theme="light"] .hbs-in,html[data-theme="light"] .hbs-ok{border-color:#
     var full=F.name&&F.email&&F.phone,max=D.note_max||500;
     var maxd=new Date(Date.now()+(D.ahead||180)*864e5).toISOString().slice(0,10);
     put(intro()+
+      (D.admin?'<div class="gw-f"><label>Какой подарок</label><div class="gw-when gw-kind"><button type="button" data-k="pay" class="'+(F.free?'':'on')+'">💳 Обычный</button><button type="button" data-k="free" class="'+(F.free?'on':'')+'">🤍 От клуба — бесплатно</button></div>'+
+        (F.free?'<div class="gw-hint">Только для тебя, Максим: без оплаты и без бонусных дней. Близкий получит открытку «Максим Гущин дарит тебе месяц» — и '+D.days+' день в клубе.</div>':'')+'</div>':'')+
       '<div class="gw-f" id="gwf-to"><label>Кому дарим</label><input id="gw-to" maxlength="40" placeholder="Имя близкого — например, Аня" value="'+E(F.to)+'"></div>'+
+      '<div class="gw-f" id="gwf-to_email"><label>Почта близкого — по желанию</label><input id="gw-toemail" type="email" inputmode="email" autocomplete="off" placeholder="anya@mail.ru" value="'+E(F.to_email)+'">'+
+        '<div class="gw-hint">Если укажешь — открытка сама придёт близкому на почту'+(F.when==='day'?' в день вручения':F.free?' сразу':' сразу после оплаты')+'. Можно не указывать: ссылку на открытку ты получишь в любом случае и перешлёшь сам(а) — в WhatsApp, Telegram, куда угодно.</div></div>'+
       '<div class="gw-f"><label>Пара тёплых слов <span class="gw-cnt" id="gw-cnt">'+F.note.length+' / '+max+'</span></label><textarea id="gw-note" maxlength="'+max+'" placeholder="Они будут на открытке. Например — почему тебе хочется подарить именно это.">'+E(F.note)+'</textarea></div>'+
       '<div class="gw-f"><label>Когда вручить</label><div class="gw-when"><button type="button" data-w="now" class="'+(F.when==='now'?'on':'')+'">🎁 Сразу</button><button type="button" data-w="day" class="'+(F.when==='day'?'on':'')+'">📅 В особый день</button></div></div>'+
       '<div class="gw-f'+(F.when==='day'?'':' hide-gw')+'" id="gwf-date" style="'+(F.when==='day'?'':'display:none')+'"><label>День вручения — в этот день в 10:00 открытка придёт тебе на почту и сюда</label><input id="gw-date" type="date" min="'+E(D.today)+'" max="'+maxd+'" value="'+E(F.date)+'"></div>'+
-      (full&&!F.payer?'<div class="gw-payer">Чек и открытка придут на <b>'+E(F.email)+'</b> · <button type="button" onclick="gwPayer()">изменить</button></div>':
-        '<div class="gw-f" id="gwf-name"><label>Твоё имя и фамилия (для чека)</label><input id="gw-name" maxlength="60" autocomplete="name" value="'+E(F.name)+'"></div>'+
-        '<div class="gw-f" id="gwf-email"><label>Твоя почта — сюда придут чек и открытка</label><input id="gw-email" type="email" inputmode="email" autocomplete="email" value="'+E(F.email)+'"></div>'+
-        '<div class="gw-f" id="gwf-phone"><label>Телефон</label><input id="gw-phone" type="tel" inputmode="tel" autocomplete="tel" value="'+E(F.phone)+'" placeholder="+7…"></div>')+
+      (F.free?'<div class="gw-err" id="gw-err"></div><button class="notify-save-btn" style="margin-top:12px" onclick="gwFree()">🎁 Создать подарок от клуба</button>':
+      (full&&!F.payer?'<div class="gw-payer">🧾 <b>Твои</b> данные для чека: '+E(F.name)+', <b>'+E(F.email)+'</b> — сюда же придёт копия открытки · <button type="button" onclick="gwPayer()">изменить</button></div>':
+        '<div class="gw-sub">🧾 Твои данные — для чека</div>'+
+        '<div class="gw-f" id="gwf-name"><label>Твоё имя и фамилия</label><input id="gw-name" maxlength="60" autocomplete="name" value="'+E(F.name)+'"></div>'+
+        '<div class="gw-f" id="gwf-email"><label>Твоя почта — сюда придут чек и копия открытки</label><input id="gw-email" type="email" inputmode="email" autocomplete="email" value="'+E(F.email)+'"></div>'+
+        '<div class="gw-f" id="gwf-phone"><label>Твой телефон</label><input id="gw-phone" type="tel" inputmode="tel" autocomplete="tel" value="'+E(F.phone)+'" placeholder="+7…"></div>')+
       '<label class="gw-ck" id="gwck"><input type="checkbox" id="gw-offer"'+(F.offer?' checked':'')+'><span>Принимаю <a href="https://maxmagia.ru/oferta.html#gift" target="_blank" rel="noopener">условия подарочного доступа</a></span></label>'+
       '<div class="gw-err" id="gw-err"></div>'+
       '<button class="notify-save-btn" style="margin-top:12px" onclick="gwPay(\'card\')">💳 Оплатить картой · '+E(D.price)+'</button>'+
-      '<button class="gw-btn2" onclick="gwPay(\'sbp\')">📲 Оплатить через СБП</button>'+
+      '<button class="gw-btn2" onclick="gwPay(\'sbp\')">📲 Оплатить через СБП</button>')+
       list()+
       (D.tg?'<div class="gw-tg">Привык(ла) к Telegram? <a onclick="gwTg()">Подарить через бот клуба</a></div>':''));
     var n=document.getElementById('gw-note');n.oninput=function(){document.getElementById('gw-cnt').textContent=n.value.length+' / '+max;};
-    el().querySelectorAll('.gw-when button').forEach(function(b){b.onclick=function(){keep();F.when=b.dataset.w;form();if(F.when==='day')setTimeout(function(){var d=document.getElementById('gw-date');if(d)try{d.showPicker();}catch(e){d.focus();}},60);};});
+    el().querySelectorAll('.gw-kind button').forEach(function(b){b.onclick=function(){keep();F.free=b.dataset.k==='free';form();};});
+    el().querySelectorAll('.gw-when:not(.gw-kind) button').forEach(function(b){b.onclick=function(){keep();F.when=b.dataset.w;form();if(F.when==='day')setTimeout(function(){var d=document.getElementById('gw-date');if(d)try{d.showPicker();}catch(e){d.focus();}},60);};});
   }
   window.gwPayer=function(){keep();F.payer=true;form();};
   function v(id){var x=document.getElementById(id);return x?(x.type==='checkbox'?x.checked:x.value.trim()):null;}
   function keep(){
-    var t;if((t=v('gw-to'))!==null)F.to=t;if((t=v('gw-note'))!==null)F.note=t;if((t=v('gw-date'))!==null)F.date=t;
+    var t;if((t=v('gw-to'))!==null)F.to=t;if((t=v('gw-toemail'))!==null)F.to_email=t;if((t=v('gw-note'))!==null)F.note=t;if((t=v('gw-date'))!==null)F.date=t;
     if((t=v('gw-name'))!==null)F.name=t;if((t=v('gw-email'))!==null)F.email=t;if((t=v('gw-phone'))!==null)F.phone=t;
     var o=document.getElementById('gw-offer');if(o)F.offer=o.checked;
   }
@@ -6544,6 +6554,7 @@ html[data-theme="light"] .hbs-in,html[data-theme="light"] .hbs-ok{border-color:#
   function bad(id,on){var x=document.getElementById(id);if(x)x.classList.toggle('bad',!!on);}
   var ERR={fields:'Проверь имя, почту и телефон — они нужны для чека.',offer:'Отметь согласие с условиями подарочного доступа.',when:'Выбери день вручения.',
     when_range:'День вручения — от сегодня и не дальше чем через полгода.',note_long:'Записка длинновата — сократи, пожалуйста.',rate:'Слишком много попыток — подожди несколько минут.',
+    to_email:'Проверь почту близкого — похоже, в ней опечатка. Или оставь поле пустым.',to_email_own:'Это твоя почта 🙂 Сюда впиши почту близкого — или оставь поле пустым.',
     pay_failed:'Не получилось создать оплату 🙏 Попробуй через минуту — Максим уже знает.',soon:'Дарить пока можно только в боте клуба.',no_access:'Дарить могут участники с действующим доступом.',pay_off:'Оплата сейчас на паузе.'};
   window.gwPay=async function(method){
     keep();err('');
@@ -6551,11 +6562,12 @@ html[data-theme="light"] .hbs-in,html[data-theme="light"] .hbs-ok{border-color:#
     if(!F.offer){bad('gwck',true);return err(ERR.offer);}
     bad('gwck',false);
     var b=el().querySelectorAll('.notify-save-btn,.gw-btn2');b.forEach(function(x){x.disabled=true;});
-    var r=await API.post('/gift/start',{id:GID||null,to:F.to,note:F.note,when:F.when==='day'?F.date:'',method:method,name:F.name,email:F.email,phone:F.phone,offer:F.offer});
+    var r=await API.post('/gift/start',{id:GID||null,to:F.to,to_email:F.to_email,note:F.note,when:F.when==='day'?F.date:'',method:method,name:F.name,email:F.email,phone:F.phone,offer:F.offer});
     b.forEach(function(x){x.disabled=false;});
     var o=r&&r.body||{};
     if(!API.ok(r)){
       if(o.id)GID=o.id;
+      if(o.error==='to_email'||o.error==='to_email_own'){bad('gwf-to_email',true);return err(ERR[o.error]);}
       if(o.error==='fields'){F.payer=true;form();(o.fields||[]).forEach(function(f){bad('gwf-'+f,true);});return err(ERR.fields);}
       return err(ERR[o.error]||(r.status===0?'Нет связи — проверь интернет.':'Что-то пошло не так 🙏 Попробуй ещё раз.'));
     }
@@ -6563,6 +6575,17 @@ html[data-theme="light"] .hbs-in,html[data-theme="light"] .hbs-ok{border-color:#
     GID=o.id;PAY={url:o.url,qr:o.qr,method:method};store('mm_gift_pending',String(GID));
     try{openLink(o.url);}catch(e){window.open(o.url,'_blank');}
     wait(false);
+  };
+  window.gwFree=async function(){
+    keep();err('');
+    if(F.when==='day'&&!F.date){bad('gwf-date',true);return err(ERR.when);}
+    var b=el().querySelector('.notify-save-btn');if(b)b.disabled=true;
+    var r=await API.post('/gift/free',{to:F.to,to_email:F.to_email,note:F.note,when:F.when==='day'?F.date:''});
+    if(b)b.disabled=false;
+    var o=r&&r.body||{};
+    if(!API.ok(r)){if(o.error==='to_email'||o.error==='to_email_own')bad('gwf-to_email',true);return err(ERR[o.error]||'Что-то пошло не так 🙏 Попробуй ещё раз.');}
+    F.to='';F.note='';F.to_email='';F.when='now';F.date='';F.free=false;
+    done(o.gift,true);
   };
   function wait(resumed){
     var qr=PAY&&PAY.method==='sbp'&&PAY.qr&&!/Android|iPhone|iPad/i.test(navigator.userAgent)?'<img class="gw-qr" src="'+E(PAY.qr)+'" alt="QR-код СБП"><p style="margin-top:8px">За компьютером — отсканируй камерой телефона</p>':'';
@@ -6581,7 +6604,7 @@ html[data-theme="light"] .hbs-in,html[data-theme="light"] .hbs-ok{border-color:#
     if(Date.now()-T0>20*60e3){stopPoll();var w=document.getElementById('gw-ws');if(w)w.textContent='Оплату пока не вижу. Если ты уже оплатил(а) — открой это окно чуть позже, подарок не потеряется.';return;}
     var s=await API.request('/gift/status?id='+GID);if(!API.ok(s))return;
     var w=document.getElementById('gw-ws');
-    if(s.body.pay==='done'){stopPoll();store('mm_gift_pending',null);var g=s.body.gift;GID=0;F.to='';F.note='';F.when='now';F.date='';done(g,true);return;}
+    if(s.body.pay==='done'){stopPoll();store('mm_gift_pending',null);var g=s.body.gift;GID=0;F.to='';F.note='';F.to_email='';F.when='now';F.date='';done(g,true);return;}
     if(s.body.pay==='failed'){stopPoll();store('mm_gift_pending',null);put('<div class="gw-msg"><div class="big">🙈</div>Оплата не прошла — деньги не списаны. Можно попробовать ещё раз.</div><button class="notify-save-btn" onclick="gwBack()">Попробовать ещё раз</button>','Оплата подарка');return;}
     if(s.body.paid&&w)w.innerHTML='<b>Оплата получена!</b> Готовлю открытку…';
   }
@@ -6604,7 +6627,8 @@ html[data-theme="light"] .hbs-in,html[data-theme="light"] .hbs-ok{border-color:#
     var idx=(D.gifts||[]).findIndex(function(x){return x.id===g.id;});if(idx<0){D.gifts=[g].concat(D.gifts||[]);idx=0;}
     g=D.gifts[idx];
     var bonus=g.bonus?'Тебе — <b>+'+D.bonus+' дней</b>: ты в клубе до <b>'+E(fmt(g.bonus))+'</b> 🤍<br><br>':'';
-    var body='<div class="gw-done"><img class="pc" src="'+PC+'" alt=""><h3>'+(fresh?'Спасибо за такой подарок!':'Подарок оплачен')+'</h3><p>'+bonus+
+    var body='<div class="gw-done"><img class="pc" src="'+PC+'" alt=""><h3>'+(g.free?'Подарок от клуба готов':fresh?'Спасибо за такой подарок!':'Подарок оплачен')+'</h3><p>'+bonus+
+      (g.to_email?(g.link?'📧 Открытка уже летит на почту <b>'+E(g.to_email)+'</b>. ':'📧 В день вручения открытка сама придёт на почту <b>'+E(g.to_email)+'</b>. ')+(g.link?'На всякий случай перешли ссылку и сам(а) — письма иногда попадают в «Спам».<br><br>':''):'')+
       (g.link?'Перешли близкому'+(g.to?' — <b>'+E(g.to)+'</b> —':'')+' эту ссылку в любой мессенджер или письмом. По ней откроется открытка с твоей запиской, а принять подарок можно без Telegram.':
        'Открытка придёт тебе <b>'+E(g.when_ru)+'</b> в 10:00 — на почту и сюда, во «Входящие». Останется переслать её близкому.')+'</p>'+
       (g.link?'<div class="gw-link">'+E(g.link)+'</div><button class="notify-save-btn" style="margin-top:10px" onclick="gwShare('+idx+')">📤 Отправить близкому</button><button class="gw-btn2" onclick="gwCopy('+idx+')">📋 Скопировать ссылку</button>'+
@@ -6623,6 +6647,7 @@ html[data-theme="light"] .hbs-in,html[data-theme="light"] .hbs-ok{border-color:#
       var st=g.state==='paid'&&g.link?'открытка у тебя — перешли близкому':(ST[g.state]||g.state);
       if(g.state==='paid'&&!g.link&&g.when_ru)st='открытка придёт '+g.when_ru;
       if(g.state==='redeemed'&&g.rcp)st='✅ принял(а) '+g.rcp;
+      if(g.free)st='🤍 от клуба · '+st;if(g.to_email&&g.state!=='redeemed')st+=' · 📧 '+g.to_email;
       h+='<div class="gw-it"><div class="t">'+(g.to?E(g.to):'Подарок')+'<span>'+E(g.paid?fmt(g.paid):'')+'</span></div><div class="s">'+E(st)+(g.note?' · «'+E(g.note.length>60?g.note.slice(0,60)+'…':g.note)+'»':'')+'</div>'+
         (g.link&&g.state!=='redeemed'?'<div class="a"><button onclick="gwShare('+i+')">📤 Отправить</button><button onclick="gwCopy('+i+')">📋 Ссылка</button></div>':'')+'</div>';
     });
@@ -6634,6 +6659,6 @@ html[data-theme="light"] .hbs-in,html[data-theme="light"] .hbs-ok{border-color:#
     if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',go);else go();}}catch(e){}
 })();
 </script>
-<!-- /GIFTWEB v1 -->
+<!-- /GIFTWEB v2 -->
 </body>
 </html>
