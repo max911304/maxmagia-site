@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>MONEY-ARCHETYPE.AI | Клуб #MaxMagia</title>
+<link rel="stylesheet" href="/practices/fonts/fonts.css">
+<script src="/practices/lib/mm-sync.js?v=3"></script>
+<style>
+:root{
+  --bg:#FFFFFF; --bg2:#F4F3EF; --card:#F4F3EF; --ink:#2F2F2F; --dim:#4D4D4D; --mute:#696969; --num:#E4E1DA;
+  --line:rgba(47,47,47,.12); --line2:rgba(47,47,47,.24);
+  --acc:#9A6A2E; --acc-fill:#D4B48A; --on-fill:#141414; --mark:#F6EC6E; --hot:#B23A2E;
+  --glow:rgba(212,180,138,.22);
+  --band1:#2A2420; --band2:#0C0C0E; --band-ink:#F0ECE4; --band-hot:#F49385; --yel:#2F2F2F; --yel-bg:#F6EC6E;
+  --c-grn:#23744A;
+  --serif:'Cormorant Garamond',Georgia,'Times New Roman',serif;
+  --sans:'Manrope',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --ease:cubic-bezier(.2,.8,.2,1);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --yel:#F3E37C; --yel-bg:transparent;
+    --bg:#0C0C0E; --bg2:#0F0F11; --card:#18181A; --ink:#F0ECE4; --dim:#B9B2A8; --mute:#9C958C; --num:#232326;
+    --line:rgba(240,236,228,.08); --line2:rgba(240,236,228,.16);
+    --acc:#D4B48A; --acc-fill:#D4B48A; --on-fill:#0C0C0E; --mark:rgba(212,180,138,.26); --hot:#EF7A6B;
+    --glow:rgba(212,180,138,.12); --c-grn:#5CC587;
+  }
+}
+:root[data-theme="dark"]{
+  --yel:#F3E37C; --yel-bg:transparent;
+  --bg:#0C0C0E; --bg2:#0F0F11; --card:#18181A; --ink:#F0ECE4; --dim:#B9B2A8; --mute:#9C958C; --num:#232326;
+  --line:rgba(240,236,228,.08); --line2:rgba(240,236,228,.16);
+  --acc:#D4B48A; --acc-fill:#D4B48A; --on-fill:#0C0C0E; --mark:rgba(212,180,138,.26); --hot:#EF7A6B;
+  --glow:rgba(212,180,138,.12); --c-grn:#5CC587;
+}
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px);scroll-behavior:smooth}
+html,body{overflow-x:clip}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.7;-webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:var(--serif);font-weight:500;margin:0;line-height:1.08;text-wrap:balance}
+p{margin:0}
+button,input,textarea{font:inherit;color:inherit;touch-action:manipulation}
+:focus-visible{outline:2px solid var(--acc);outline-offset:4px;border-radius:6px}
+[hidden]{display:none!important}
+.wrap{max-width:1200px;margin:0 auto;padding:0 clamp(20px,4vw,48px)}
+.center{text-align:center}
+.col{max-width:780px;margin-left:auto;margin-right:auto}
+.sec{--gap:clamp(64px,10vh,120px);padding:var(--gap) 0}
+.sec.orn-top{padding-top:0}
+.sec.orn-top > .wrap > .rule-orn{margin:0 auto var(--gap)}
+.label{display:block;font-size:13px;font-weight:600;letter-spacing:.28em;text-transform:uppercase;color:var(--acc);margin-bottom:22px}
+h2{font-size:clamp(36px,5vw,64px);font-weight:400;max-width:20ch;margin:0 auto}
+h2 em,h1 em{font-style:italic;color:var(--acc)}
+.lede{font-size:clamp(18px,1.4vw,20px);color:var(--dim);max-width:58ch;margin:24px auto 0}
+.rule-orn{display:flex;align-items:center;justify-content:center;gap:14px;margin:0 auto 26px;color:var(--acc)}
+.rule-orn::before,.rule-orn::after{content:"";width:56px;height:1px;background:linear-gradient(90deg,transparent,var(--acc))}
+.rule-orn::after{transform:scaleX(-1)}
+.rule-orn i{width:6px;height:6px;background:var(--acc);transform:rotate(45deg)}
+.hero{min-height:auto;padding-block:clamp(70px,14vh,140px);display:grid;place-items:center;text-align:center;position:relative;overflow:hidden}
+.hero::before{content:"";position:absolute;left:50%;top:40%;width:min(110vw,980px);aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(circle,var(--glow),transparent 64%);pointer-events:none}
+.hero > div{position:relative;width:100%;min-width:0}
+.badge{width:clamp(112px,13vw,144px);aspect-ratio:1;border-radius:50%;margin:0 auto;display:grid;place-items:center;background:#F7F4EE;box-shadow:0 0 0 1px var(--line2),0 24px 60px -24px rgba(0,0,0,.45);animation:rise 1s var(--ease) both}
+.badge img{width:52%;height:auto;display:block}
+.badge .star{font-size:46px;color:#9A6A2E;font-family:var(--serif)}
+.hero .label{margin:30px 0 0;animation:rise 1s .1s var(--ease) both}
+.hero h1{font-size:clamp(40px,10vw,120px);font-weight:400;line-height:.95;margin-top:18px;animation:rise 1s .18s var(--ease) both;overflow-wrap:anywhere}
+.hero .sub{font-family:var(--serif);font-size:clamp(22px,2.3vw,31px);line-height:1.38;color:var(--dim);margin:30px auto 0;max-width:34ch;animation:rise 1s .26s var(--ease) both}
+.hero .sub b{font-style:italic;font-weight:600;color:var(--ink)}
+.hero .go{display:inline-flex;flex-direction:column;align-items:center;gap:10px;margin-top:44px;color:var(--mute);font-size:13px;letter-spacing:.2em;text-transform:uppercase;text-decoration:none;animation:rise 1s .34s var(--ease) both}
+.hero .go i{width:1px;height:40px;background:linear-gradient(var(--acc),transparent)}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.big{font-family:var(--serif);font-size:clamp(26px,2.8vw,38px);line-height:1.28;max-width:30ch;margin:34px auto 0}
+.cards{display:grid;gap:4px;margin-top:clamp(40px,6vh,64px);align-items:stretch}
+.cards.c3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.cards.c4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.card{position:relative;background:var(--card);padding:clamp(30px,4vw,48px) clamp(20px,2.6vw,34px);text-align:center}
+.card::before{content:"";position:absolute;left:0;right:0;top:0;height:2px;background:linear-gradient(90deg,var(--acc),transparent)}
+.card .label{margin-bottom:14px}
+.card h3{font-size:clamp(26px,2.4vw,34px);font-weight:500}
+.card p{color:var(--dim);margin-top:12px}
+.callout{margin-top:4px;background:var(--card);border-left:2px solid var(--acc);padding:clamp(22px,3vw,34px) clamp(22px,4vw,52px);color:var(--dim);font-size:clamp(17px,1.3vw,19px);text-align:left}
+.callout b{color:var(--acc);font-weight:600}
+.yel{color:var(--yel);background:linear-gradient(transparent 58%,var(--yel-bg) 58%);-webkit-box-decoration-break:clone;box-decoration-break:clone}
+.band{position:relative;overflow:hidden;padding:clamp(100px,18vh,200px) 0;text-align:center;color:var(--band-ink);background:radial-gradient(ellipse 70% 90% at 72% 60%,var(--band1),var(--band2) 70%)}
+.band::before{content:"";position:absolute;inset:-20%;background:radial-gradient(circle at 30% 40%,rgba(212,180,138,.14),transparent 40%),radial-gradient(circle at 75% 65%,rgba(239,122,107,.12),transparent 38%);animation:drift 18s ease-in-out infinite alternate}
+.band .fade-top,.band .fade-bot{position:absolute;left:0;right:0;height:30%;pointer-events:none;z-index:1}
+.band .fade-top{top:0;background:linear-gradient(var(--bg),transparent)}
+.band .fade-bot{bottom:0;background:linear-gradient(transparent,var(--bg))}
+.band .in{position:relative;z-index:2}
+.band p{font-family:var(--serif);font-style:italic;font-size:clamp(26px,3.2vw,46px);line-height:1.5;opacity:0;transform:translateY(12px);transition:opacity 1.2s var(--ease),transform 1.2s var(--ease)}
+.band.seen p{opacity:.92;transform:none}
+.band.seen p:nth-child(2){transition-delay:.5s}
+.band.seen p:nth-child(3){transition-delay:1.2s}
+.band p.hot{color:var(--band-hot);font-size:clamp(44px,6.4vw,92px);line-height:1.2;margin-top:12px;opacity:0}
+.band.seen p.hot{opacity:1}
+@keyframes drift{from{transform:translate(-3%,-2%)}to{transform:translate(3%,2%)}}
+.sci{max-width:760px;margin:0 auto;padding:18px 22px;border-left:2px solid var(--acc);background:var(--card);text-align:left;font-size:15px;color:var(--dim)}
+.sci .label{margin-bottom:6px}
+.sci b{color:var(--ink)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:54px;padding:0 28px;border-radius:999px;border:0;background:var(--acc-fill);color:var(--on-fill);font-weight:700;font-size:16px;cursor:pointer;text-decoration:none;transition:transform .2s var(--ease),filter .2s}
+.btn:hover{filter:brightness(1.06)}
+.btn:active{transform:scale(.97)}
+.btn[disabled]{opacity:.55;cursor:default}
+.ghost{display:inline-flex;align-items:center;justify-content:center;min-height:54px;padding:0 22px;border-radius:999px;border:1px solid var(--line2);background:none;cursor:pointer;font-size:15px;font-weight:600;color:var(--ink);text-decoration:none}
+.ghost:hover{border-color:var(--acc)}
+.btns{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
+.btns.center{justify-content:center;margin-top:30px}
+.note-s{font-size:14px;color:var(--mute);margin-top:10px;min-height:1.2em}
+footer{padding:64px 0 86px;border-top:1px solid var(--line);color:var(--mute);font-size:14px;text-align:center}
+footer .sign{font-family:var(--serif);font-style:italic;font-size:22px;color:var(--acc);margin-bottom:10px}
+footer p + p{margin-top:8px}
+footer a{color:var(--acc)}
+/* ── страница-инструкция ── */
+.tocab{position:fixed;top:calc(10px + env(safe-area-inset-top,0px));left:12px;z-index:20;padding:8px 14px;border-radius:999px;background:color-mix(in srgb,var(--bg) 82%,transparent);border:1px solid var(--line2);color:var(--dim);font-size:13px;font-weight:600;text-decoration:none;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.prog{display:flex;align-items:center;gap:14px;max-width:860px;margin:clamp(36px,5vh,52px) auto 0;position:sticky;top:calc(8px + env(safe-area-inset-top,0px));z-index:5;background:color-mix(in srgb,var(--bg) 88%,transparent);padding:10px 14px;border-radius:999px;border:1px solid var(--line);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.prog-bar{flex:1;height:6px;border-radius:9px;background:var(--line2);overflow:hidden}
+.prog-bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--acc-fill),var(--acc));transition:width .5s var(--ease)}
+.prog span{font-size:13px;font-weight:700;color:var(--acc);white-space:nowrap}
+.stps{list-style:none;padding:0;margin:14px auto 0;max-width:860px;display:grid;gap:4px}
+.stp{background:var(--card);position:relative;padding:clamp(20px,3vw,32px) clamp(18px,3vw,36px)}
+.stp::before{content:"";position:absolute;left:0;right:0;top:0;height:2px;background:linear-gradient(90deg,var(--acc),transparent)}
+.stp.ok::before{background:linear-gradient(90deg,var(--c-grn),transparent)}
+.stp-h{display:flex;align-items:center;gap:14px}
+.stp-n{font-family:var(--serif);font-weight:600;font-size:clamp(40px,5vw,54px);line-height:.9;color:var(--num);flex:none;min-width:1.4em}
+.stp.ok .stp-n{color:var(--c-grn)}
+.stp-h h3{flex:1;font-size:clamp(24px,2.4vw,32px);min-width:0}
+.stp-ok{flex:none;display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 14px;border-radius:999px;border:1px solid var(--line2);background:none;cursor:pointer;font-size:14px;font-weight:600;color:var(--dim)}
+.stp-ok i{width:18px;height:18px;border-radius:50%;border:2px solid var(--line2);display:grid;place-items:center;font-style:normal;font-size:11px}
+.stp-ok[aria-pressed="true"]{border-color:var(--c-grn);color:var(--c-grn)}
+.stp-ok[aria-pressed="true"] i{background:var(--c-grn);border-color:var(--c-grn)}
+.stp-ok[aria-pressed="true"] i::after{content:"✓";color:var(--bg);font-weight:800}
+.stp-b{margin-top:14px;color:var(--dim);font-size:16.5px;line-height:1.65}
+.stp-b > * + *{margin-top:12px}
+.stp-b b{color:var(--ink)}
+.stp-b a:not(.btn):not(.ghost){color:var(--acc);font-weight:600}
+.stp-b code{font-family:ui-monospace,Menlo,monospace;font-size:14px;background:var(--bg);padding:2px 8px;border-radius:8px}
+.stp.ok .stp-b{opacity:.75}
+.how{margin:0;padding-left:22px}
+.how li + li{margin-top:6px}
+.tip{font-size:15px;color:var(--mute);border-left:2px solid var(--line2);padding-left:12px}
+.tabs{display:inline-flex;gap:4px;padding:4px;border-radius:999px;background:var(--bg);border:1px solid var(--line)}
+.tab{min-height:40px;padding:0 18px;border-radius:999px;border:0;background:none;cursor:pointer;font-weight:700;font-size:14px;color:var(--mute)}
+.tab.on{background:var(--acc-fill);color:var(--on-fill)}
+.cbx{border:1px solid var(--line2);border-radius:16px;overflow:hidden;background:var(--bg)}
+.cbx-h{display:flex;align-items:center;gap:10px;padding:10px 10px 10px 16px;border-bottom:1px solid var(--line)}
+.cbx-h span{flex:1;font-size:13px;font-weight:700;letter-spacing:.06em;color:var(--acc)}
+.cbtn{min-height:40px;padding:0 16px;border-radius:999px;border:0;background:var(--acc-fill);color:var(--on-fill);font-weight:700;font-size:14px;cursor:pointer;white-space:nowrap}
+.cbtn.done{background:var(--c-grn);color:var(--bg)}
+.cbx pre{margin:0;padding:14px 16px;max-height:220px;overflow:auto;white-space:pre-wrap;word-break:break-word;font:400 14px/1.55 var(--sans);color:var(--ink)}
+.done-card{max-width:860px;margin:4px auto 0;background:color-mix(in srgb,var(--card) 84%,var(--c-grn));padding:clamp(24px,3vw,36px);text-align:center;border-top:2px solid var(--c-grn)}
+.done-card h3{font-size:clamp(26px,2.6vw,36px);margin-bottom:10px}
+.done-card p{color:var(--dim)}
+.faq{max-width:860px;margin:clamp(40px,6vh,60px) auto 0}
+.faq details{background:var(--card);margin-top:4px;padding:0 20px}
+.faq summary{cursor:pointer;padding:16px 0;font-weight:600;list-style:none;display:flex;gap:10px}
+.faq summary::before{content:"+";color:var(--acc);font-weight:700;width:14px}
+.faq details[open] summary::before{content:"−"}
+.faq details p{padding:0 0 18px 24px;color:var(--dim);font-size:16px}
+.rv{margin-top:30px;text-align:center}
+.rv-avg{font-size:15px;color:var(--mute);min-height:1.4em}
+.rv-avg b{color:var(--acc);font-size:18px}
+.stars{display:flex;justify-content:center;gap:6px;margin:12px 0 18px}
+.stars button{width:52px;height:52px;border:0;background:none;cursor:pointer;font-size:40px;line-height:1;color:var(--line2);transition:transform .15s var(--ease),color .15s}
+.stars button.on{color:var(--acc-fill)}
+.stars button:active{transform:scale(.88)}
+.rv textarea{width:100%;background:var(--card);border:1px solid var(--line2);border-radius:16px;padding:14px 16px;font-size:16px;line-height:1.5;resize:vertical;color:var(--ink)}
+.rv textarea:focus{outline:none;border-color:var(--acc)}
+.rv-row{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:12px;flex-wrap:wrap}
+.rv-row label{font-size:14px;color:var(--mute);display:flex;gap:8px;align-items:center;cursor:pointer}
+.rv-msg{font-size:15px;margin-top:10px;min-height:1.3em;color:var(--c-grn)}
+.rv-msg.err{color:var(--hot)}
+.rv-list{margin-top:26px;display:grid;gap:4px;text-align:left}
+.rv-it{background:var(--card);padding:16px 18px}
+.rv-it .h{font-size:14px;font-weight:700;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.rv-it .h .s{color:var(--acc-fill);letter-spacing:1px}
+.rv-it .h .d{color:var(--mute);font-weight:500;margin-left:auto}
+.rv-it p{margin-top:6px;color:var(--dim);font-size:15.5px;white-space:pre-wrap}
+@media (max-width:980px){.cards.c4{grid-template-columns:repeat(2,minmax(0,1fr))}.cards.c3{grid-template-columns:1fr}}
+@media (max-width:640px){
+  .cards.c4{grid-template-columns:1fr}
+  .stp-h{flex-wrap:wrap}
+  .stp-h h3{flex-basis:calc(100% - 80px)}
+  .stp-ok{margin-left:auto}
+  .btns .btn,.btns .ghost{flex:1 1 100%}
+  .stars button{width:48px;font-size:36px}
+}
+@media (prefers-reduced-motion: reduce){
+  *{animation:none!important;transition:none!important}
+  html{scroll-behavior:auto}
+  .band p{opacity:.92!important;transform:none!important}
+}
+
+</style>
+</head>
+<body data-slug="money-archetype-ai" data-kit="money-archetype-ai.zip" data-total="9" data-name="MONEY-ARCHETYPE.AI">
+<a class="tocab" href="/" id="tocab" hidden>‹ В кабинет</a>
+
+<header class="hero"><div class="wrap">
+  <div class="badge"><img src="/practices/img/emblem.png" alt="MaxMagia"></div>
+  <span class="label">Клуб #MaxMagia · Мои AI-решения</span>
+  <h1>MONEY<em>-ARCHETYPE.AI</em></h1>
+  <p class="sub">Деньги утекают сквозь пальцы — или не приходят вовсе?<br>Дело не в тебе, а в сценарии,<br><b>который в тебя записали задолго до первой зарплаты.</b></p>
+  <a class="go" href="#about">Ниже подробнее<i></i></a>
+</div></header>
+
+<section class="sec" id="about"><div class="wrap center">
+  <span class="label">Что это</span>
+  <h2>Найди, <em>кто</em> управляет твоими деньгами</h2>
+  <p class="lede">Мы думаем, что тратим, копим и зарабатываем «по ситуации». А на самом деле за рулём сидит денежный сценарий — фразы родителей, страхи бабушек, «деньги портят людей» и «не высовывайся». Этот бот помогает его увидеть. А увиденное уже можно менять.</p>
+  <p class="big">36 утверждений, 10 минут честности — и ты узнаешь <span class="yel">свой денежный архетип.</span></p>
+  <div class="cards c4">
+    <div class="card"><span class="label">01 · Тест</span><h3>Money Scripts</h3><p>Бот задаёт утверждения по шесть, ты оцениваешь цифрами от 1 до 6. Считает сам.</p></div>
+    <div class="card"><span class="label">02 · Расшифровка</span><h3>12 контекстов</h3><p>Сила и тень архетипа, заработок, траты, долги, отношения, карьера, самооценка, корни.</p></div>
+    <div class="card"><span class="label">03 · Практика</span><h3>Упражнения</h3><p>Мои любимые упражнения из коучинга, чтобы ослабить хватку старого сценария.</p></div>
+    <div class="card"><span class="label">04 · Глубина</span><h3>Медитация</h3><p>Персональная медитация в духе Эриксона под твой архетип — запиши своим голосом.</p></div>
+  </div>
+  <div class="callout"><b>Секретная функция — синтез.</b> Напиши боту «/сим-сим откройся» и загрузи свой Word-файл из ARCHETYPE.AI (или результаты других тестов: эннеаграммы, гороскопа, психораспаковки). Бот сведёт всё в одну картину — сам посмотришь, что получится 🪄</div>
+</div></section>
+
+<section class="band" aria-label="Цитата"><div class="fade-top"></div><div class="in wrap"><p>Ты не «не умеешь обращаться с деньгами».</p><p>Ты просто играешь чужую роль.</p><p class="hot">Пора выйти из неё.</p></div><div class="fade-bot"></div></section>
+
+<section class="sec"><div class="wrap"><div class="sci"><span class="label">Что говорит наука</span>
+<p>Понятие «денежных сценариев» (money scripts) ввели финансовые психологи <b>Брэд и Тед Клонц</b>: это неосознанные убеждения о деньгах, которые обычно складываются в детстве в семье. В исследованиях (Klontz и соавторы, 2011, Journal of Financial Therapy) четыре таких сценария — избегание денег, поклонение деньгам, статус и бдительность — оказались связаны с реальным финансовым поведением: долгами, импульсивными тратами, накоплениями. Тест в боте — инструмент самопознания, а не диагноз: смотри на результат как на зеркало, а не как на приговор.</p></div></div></section>
+
+<section class="sec orn-top" id="steps"><div class="wrap">
+  <div class="rule-orn"><i></i></div>
+  <div class="center"><span class="label">Пошагово · как для первоклашки</span>
+  <h2>Собираем бота <em>за 10 минут</em></h2>
+  <p class="lede">Тест ты пройдёшь прямо внутри бота — ничего заранее готовить не нужно. Иди по шагам и нажимай «Готово».</p></div>
+  <div class="prog" aria-live="polite"><div class="prog-bar"><i id="pbar"></i></div><span id="ptxt">0 из 9</span></div>
+  <ol class="stps"><li class="stp" data-n="1"><div class="stp-h"><span class="stp-n">01</span><h3>Скачай набор</h3><button type="button" class="stp-ok" data-ok="1" aria-pressed="false"><i></i><span>Готово</span></button></div><div class="stp-b"><p>В архиве — инструкция и база знаний бота: 9 файлов.</p><div class="btns"><a class="btn" id="kitdl" href="money-archetype-ai.zip" download>⬇️ Скачать набор</a>
+<button type="button" class="ghost" id="kittg">📩 Прислать мне в Telegram</button></div>
+<p class="note-s" id="kitmsg"></p></div></li><li class="stp" data-n="2"><div class="stp-h"><span class="stp-n">02</span><h3>Распакуй архив</h3><button type="button" class="stp-ok" data-ok="2" aria-pressed="false"><i></i><span>Готово</span></button></div><div class="stp-b"><p>Архив — это «посылка», её нужно открыть:</p><ul class="how">
+<li><b>iPhone:</b> приложение «Файлы» → «Загрузки» → нажми на архив один раз — рядом появится папка.</li>
+<li><b>Android:</b> «Файлы» (или «Загрузки») → нажми на архив → «Извлечь» / «Распаковать».</li>
+<li><b>Компьютер:</b> двойной клик по архиву — откроется папка.</li>
+</ul><p>Внутри — папка <b>«База_знаний»</b>.</p></div></li><li class="stp" data-n="3"><div class="stp-h"><span class="stp-n">03</span><h3>Создай проект</h3><button type="button" class="stp-ok" data-ok="3" aria-pressed="false"><i></i><span>Готово</span></button></div><div class="stp-b"><div class="tabs" role="tablist"><button type="button" class="tab on" data-tab="gpt">ChatGPT</button><button type="button" class="tab" data-tab="cl">Claude</button></div>
+<div class="tabp" data-tabp="gpt"><ol class="how">
+<li>Открой <b>chatgpt.com</b> или приложение ChatGPT и войди в свой аккаунт.</li>
+<li>В меню слева (на телефоне — значок ☰) нажми <b>«Проекты»</b> → <b>«Новый проект»</b>.</li>
+<li>Напиши название <b>MONEY-ARCHETYPE.AI</b> и нажми <b>«Создать проект»</b>.</li></ol></div>
+<div class="tabp" data-tabp="cl" hidden><ol class="how">
+<li>Открой <b>claude.ai</b> или приложение Claude и войди.</li>
+<li>В меню слева нажми <b>«Проекты»</b> → <b>«Новый проект»</b> (или «Создать проект»).</li>
+<li>Название — <b>MONEY-ARCHETYPE.AI</b> → <b>«Создать проект»</b>.</li></ol></div>
+<p class="tip">Нет кнопки «Проекты»? Ничего страшного: открой обычный новый чат, в первое сообщение вставь инструкцию из следующего шага и прикрепи к нему все файлы из папки «База_знаний». Работать будет так же.</p>
+<p class="tip">Сайт ИИ не открывается? В кабинете клуба: 🔔 → «Ключ для серфинга в сети».</p></div></li><li class="stp" data-n="4"><div class="stp-h"><span class="stp-n">04</span><h3>Вставь инструкцию</h3><button type="button" class="stp-ok" data-ok="4" aria-pressed="false"><i></i><span>Готово</span></button></div><div class="stp-b"><p>Нажми <b>«Скопировать»</b> и вставь текст в поле <b>«Инструкции»</b> проекта:</p>
+<ul class="how"><li><b>ChatGPT:</b> в проекте нажми <b>«Инструкции»</b> (или ⋯ → «Инструкции») → вставь → «Сохранить».</li>
+<li><b>Claude:</b> справа блок <b>«Инструкции проекта»</b> → карандаш ✏️ → вставь → «Сохранить».</li></ul>
+<div class="cbx"><div class="cbx-h"><span>Инструкция для проекта</span><button type="button" class="cbtn" data-copy="cb-instr">Скопировать</button></div><pre id="cb-instr">Ты — MONEY-ARCHETYPE.AI — терапевтический проводник, созданный психологом Максимом Гущиным (#MaxMagia). Ты проводишь тест Money Scripts, определяешь денежный архетип, распаковываешь его по 12 блокам, даёшь упражнения и персональную медитацию в духе Эриксона, а по команде «/сим-сим откройся» синтезируешь результаты с другими тестами.
+
+Твои полные правила работы лежат в файлах этого проекта, в файле «MONEY-ARCHETYPE_ИНСТРУКЦИЯ.md». Перед первым ответом прочитай его целиком и дальше строго следуй ему. Остальные файлы проекта — твоя база знаний: опирайся на них и не выдумывай того, чего в них нет.
+
+Человек может начать с одной из фраз — это выбор сценария из инструкции:
+• ℹ️ Познакомься с архетипами
+• 📖 Пройти тест «Money Scripts»
+• 💌 Благодарность за бота
+
+Если человек просто поздоровался или написал что-то другое — тепло представься в одном-двух предложениях и предложи эти три варианта.
+Общайся на русском, обращайся к человеку по имени и в его роде.</pre></div><p class="tip">Этот же текст лежит в архиве — файл «01_Вставить_в_инструкции_проекта».</p></div></li><li class="stp" data-n="5"><div class="stp-h"><span class="stp-n">05</span><h3>Загрузи базу знаний</h3><button type="button" class="stp-ok" data-ok="5" aria-pressed="false"><i></i><span>Готово</span></button></div><div class="stp-b"><p>Теперь дай боту его «мозги» — базу знаний.</p>
+<ul class="how"><li><b>ChatGPT:</b> в проекте нажми <b>«Добавить файлы»</b>.</li>
+<li><b>Claude:</b> в блоке <b>«Знания проекта»</b> нажми <b>«+»</b> → «Загрузить с устройства».</li></ul>
+<p>Открой папку <b>«База_знаний»</b> и выбери <b>все 9 файлов</b> сразу (на компьютере — Ctrl+A или Cmd+A). Подожди, пока каждый загрузится до конца.</p></div></li><li class="stp" data-n="6"><div class="stp-h"><span class="stp-n">06</span><h3>Пройди тест</h3><button type="button" class="stp-ok" data-ok="6" aria-pressed="false"><i></i><span>Готово</span></button></div><div class="stp-b"><p>Открой <b>новый чат внутри проекта</b> и отправь:</p><div class="cbx"><div class="cbx-h"><span>Первое сообщение</span><button type="button" class="cbtn" data-copy="cb-first">Скопировать</button></div><pre id="cb-first">📖 Пройти тест «Money Scripts»</pre></div><p>Назови имя. Фишка: расскажи о себе чуть больше — возраст, профессия, что сейчас с деньгами, чего хочешь. Чем больше бот знает, тем точнее будет «про тебя» 🥰</p>
+<p>Бот пришлёт утверждения по шесть штук и шкалу. ❗ Оценки пиши <b>в одну строчку через пробел</b>, например: <code>4 2 6 1 3 5</code>.</p></div></li><li class="stp" data-n="7"><div class="stp-h"><span class="stp-n">07</span><h3>Изучи свой архетип</h3><button type="button" class="stp-ok" data-ok="7" aria-pressed="false"><i></i><span>Готово</span></button></div><div class="stp-b"><p>Бот назовёт твой ведущий денежный архетип и предложит распаковать его по 12 контекстам — соглашайся. Хочется глубже — «расскажи подробнее про этот блок».</p>
+<p>Всё самое ценное копируй в свой Word-файл о себе.</p></div></li><li class="stp" data-n="8"><div class="stp-h"><span class="stp-n">08</span><h3>Упражнения и медитация</h3><button type="button" class="stp-ok" data-ok="8" aria-pressed="false"><i></i><span>Готово</span></button></div><div class="stp-b"><p>💡 После расшифровки бот предложит упражнения — делай хотя бы одно, в этом вся магия. Вернуться к ним можно всегда: напиши слово <b>«Упражнение»</b>.</p>
+<p>🧘 Затем бот выдаст медитацию в духе Эриксона под твой архетип. Запиши её своим голосом на диктофон и слушай перед сном — или поэкспериментируй с музыкой в нейросети SUNO.</p></div></li><li class="stp" data-n="9"><div class="stp-h"><span class="stp-n">09</span><h3>Волшебство: синтез</h3><button type="button" class="stp-ok" data-ok="9" aria-pressed="false"><i></i><span>Готово</span></button></div><div class="stp-b"><p>Отправь боту:</p><div class="cbx"><div class="cbx-h"><span>Команда синтеза</span><button type="button" class="cbtn" data-copy="cb-sim">Скопировать</button></div><pre id="cb-sim">/сим-сим откройся</pre></div><p>и загрузи свой Word-файл из ARCHETYPE.AI. Бот соединит денежный сценарий с твоими архетипами — и ты увидишь, как одно растёт из другого.</p>
+<p>В конце отправь проверку — бывают глюки и тупняки даже у роботов 😂</p><div class="cbx"><div class="cbx-h"><span>Проверка: всё ли бот выдал</span><button type="button" class="cbtn" data-copy="cb-check">Скопировать</button></div><pre id="cb-check">По результатам моего теста на денежные архетипы для доминирующего и сильно выраженного архетипа ты должен был выдать мне всю картину целиком, а именно:
+
+1. Что такое мой архетип и почему он важен: суть, подсознательный сценарий, возможность роста, типичные проявления.
+2. Сила, которую даёт архетип: позитивные качества, проявления в жизни, применение для целей, идеи монетизации, моя уникальность.
+3. Уязвимости, ограничения и внутренние конфликты: поведенческие паттерны, эмоциональные триггеры, ограничивающие убеждения, страхи, теневая сторона, внутренние конфликты.
+4. Влияние на финансовое поведение: заработок, траты, сбережения, долги, инвестиции.
+5. Влияние на отношения: семья, партнёр, друзья, коллеги, начальство, как меня видят другие.
+6. Влияние на карьеру: выбор профессии, переговоры о деньгах, амбиции, мотивация, баланс работы и жизни.
+7. Влияние на самооценку и ценности: самовосприятие, восприятие возможностей, конфликт ценностей.
+8. Подсознательные установки и их корни: убеждения архетипа, как они влияют, культурные и семейные корни.
+9. Потенциал для роста: как направить сильные стороны, шаги против уязвимостей, что изменится, выгоды через 5–10 лет.
+10. Долгосрочное влияние и наследие: финансовое наследие, удовлетворение жизнью, проявления на разных этапах жизни.
+11. Практические шаги: действия для осознанности, вопросы для рефлексии, вопросы для психолога, ресурсы для роста.
+12. Заключение: итоги влияния архетипа на мою жизнь.
+
+Перепроверь, пожалуйста, всё ли ты мне выдал в полном объёме?</pre></div></div></li></ol>
+  <div class="done-card" id="donecard" hidden><span class="label">Готово</span><h3>Твой денежный сценарий больше не прячется 🤍</h3><p>Увидеть — уже половина пути. Возвращайся к упражнениям и медитации, когда деньги снова начнут «утекать». И поставь, пожалуйста, звёзды ниже.</p></div>
+  <div class="faq">
+    <span class="label">Если что-то пошло не так</span>
+    <details><summary>Бот принял не все оценки</summary><p>Пиши ровно шесть цифр от 1 до 6 через пробел — по одной на каждое утверждение блока, без лишних слов.</p></details><details><summary>Бот ответил коротко или оборвался на полуслове</summary><p>Напиши ему «Продолжай» — он допишет. Хочется глубже — «Расскажи подробнее про этот блок, с примерами из моей жизни».</p></details>
+<details><summary>Бот отвечает «не по инструкции»</summary><p>Проверь, что инструкция сохранилась в проекте, а файлы загружены все. Потом открой <b>новый чат внутри проекта</b> — старый чат помнит старые настройки.</p></details>
+<details><summary>Хочу пройти всё заново</summary><p>Просто открой новый чат в этом же проекте. Бот останется с тобой навсегда — возвращайся к нему когда угодно.</p></details>
+  </div>
+</div></section>
+
+<section class="sec orn-top" id="rate"><div class="wrap col center">
+  <div class="rule-orn"><i></i></div>
+  <span class="label">Твой отзыв</span>
+  <h2>Как тебе <em>MONEY-ARCHETYPE.AI?</em></h2>
+  <p class="lede">Поставь звёзды и, если хочется, напиши пару слов: что открылось про деньги, какое упражнение зашло. Отзыв увидят участники клуба.</p>
+  <div class="rv">
+    <div class="rv-avg" id="rvavg"></div>
+    <div class="stars" id="stars" role="radiogroup" aria-label="Оценка"><button type="button" data-s="1" aria-label="1 из 5">★</button><button type="button" data-s="2" aria-label="2 из 5">★</button><button type="button" data-s="3" aria-label="3 из 5">★</button><button type="button" data-s="4" aria-label="4 из 5">★</button><button type="button" data-s="5" aria-label="5 из 5">★</button></div>
+    <textarea id="rvtext" maxlength="2000" rows="4" placeholder="Например: «Узнала в себе Избегание денег — и сразу стало понятно, почему я стесняюсь называть цену»"></textarea>
+    <div class="rv-row"><label><input type="checkbox" id="rvanon"> без имени</label>
+      <button type="button" class="btn" id="rvsend">Отправить</button></div>
+    <div class="rv-msg" id="rvmsg"></div>
+    <div class="rv-list" id="rvlist"></div>
+  </div>
+</div></section>
+
+<section class="sec orn-top"><div class="wrap col center"><div class="rule-orn"><i></i></div>
+<span class="label">Ещё не {был|была|был(а)} в ARCHETYPE.AI?</span><h2>Сначала — <em>кто ты</em></h2>
+<p class="lede">Синтез работает сильнее всего вместе с расшифровкой твоих архетипов. Если её ещё нет — начни с ARCHETYPE.AI.</p>
+<div class="btns center"><a class="btn" href="../archetype-ai/">🤖 Открыть ARCHETYPE.AI</a></div></div></section>
+
+<footer><div class="wrap">
+  <p class="sign">Клуб #MaxMagia</p>
+  <p>Клуб — не терапия и не медицинская помощь. Если тебе плохо прямо сейчас — звони 112 или напиши мне: <a href="https://t.me/MaxGuschin">t.me/MaxGuschin</a>.</p>
+  <p>Отметки шагов хранятся в этом браузере и в твоём кабинете клуба.</p>
+</div></footer>
+<script>
+(function(){
+  var B=document.body, SLUG=B.dataset.slug, TOTAL=+B.dataset.total, KEY='maxmagia-'+SLUG+'-v1';
+  var SYNC=/(^|\.)maxmagia\.ru$/.test(location.hostname)&&!/^app\./.test(location.hostname)?'/art-sync':'/api/psync';
+  function blank(){return {v:1,done:[],tab:'gpt'};}
+  var S=blank();
+  try{S=Object.assign(blank(),JSON.parse(localStorage.getItem(KEY)||'{}'));}catch(e){}
+  function save(){try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}}
+  function $(s,r){return (r||document).querySelector(s);}
+  function $$(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s));}
+  function api(path,opt){opt=opt||{};opt.credentials='same-origin';opt.headers=Object.assign({'X-MM':'1'},opt.headers||{});
+    return fetch(SYNC+path+(path.indexOf('?')<0?'?':'&')+'slug='+encodeURIComponent(SLUG),opt);}
+  // кнопка «В кабинет» — только когда открыто из кабинета
+  try{if(location.hostname.indexOf('app.')===0)$('#tocab').hidden=false;}catch(e){}
+  // шаги
+  function paint(){
+    var n=0;
+    $$('.stp').forEach(function(li){var k=+li.dataset.n,on=S.done.indexOf(k)>=0;if(on)n++;
+      li.classList.toggle('ok',on);var b=$('.stp-ok',li);b.setAttribute('aria-pressed',on?'true':'false');$('span',b).textContent=on?'Сделано':'Готово';});
+    $('#pbar').style.width=(TOTAL?n/TOTAL*100:0)+'%';$('#ptxt').textContent=n+' из '+TOTAL;
+    $('#donecard').hidden=n<TOTAL;
+  }
+  $$('.stp-ok').forEach(function(b){b.addEventListener('click',function(){
+    var k=+b.dataset.ok,i=S.done.indexOf(k);if(i>=0)S.done.splice(i,1);else{S.done.push(k);
+      var nx=$('.stp[data-n="'+(k+1)+'"]');if(nx&&S.done.indexOf(k+1)<0)setTimeout(function(){nx.scrollIntoView({behavior:'smooth',block:'start'});},250);}
+    save();paint();if(S.done.length===TOTAL)setTimeout(function(){$('#donecard').scrollIntoView({behavior:'smooth',block:'center'});},300);});});
+  // вкладки ChatGPT / Claude
+  function tabs(){$$('.tab').forEach(function(t){t.classList.toggle('on',t.dataset.tab===S.tab);});
+    $$('.tabp').forEach(function(p){p.hidden=p.dataset.tabp!==S.tab;});}
+  $$('.tab').forEach(function(t){t.addEventListener('click',function(){S.tab=t.dataset.tab;save();tabs();});});
+  // копирование
+  function copy(t,done){
+    var fb=function(){try{var ta=document.createElement('textarea');ta.value=t;ta.setAttribute('readonly','');ta.style.cssText='position:fixed;top:0;left:0;opacity:0';
+      document.body.appendChild(ta);ta.select();ta.setSelectionRange(0,t.length);var ok=document.execCommand('copy');ta.remove();done(ok);}catch(e){done(false);}};
+    try{if(navigator.clipboard&&window.isSecureContext){navigator.clipboard.writeText(t).then(function(){done(true);},fb);return;}}catch(e){}
+    fb();
+  }
+  $$('.cbtn').forEach(function(b){b.addEventListener('click',function(){
+    copy($('#'+b.dataset.copy).textContent,function(ok){var o=b.textContent;b.textContent=ok?'✓ Скопировано':'Выдели и скопируй';if(ok)b.classList.add('done');
+      setTimeout(function(){b.textContent=o;b.classList.remove('done');},2200);});});});
+  // набор — прислать в Telegram (бот клуба)
+  var tg=$('#kittg');
+  if(tg)tg.addEventListener('click',async function(){
+    var m=$('#kitmsg');tg.disabled=true;m.textContent='Отправляю…';
+    try{var z=await fetch(B.dataset.kit,{credentials:'same-origin'});if(!z.ok)throw 0;var blob=await z.blob();
+      var r=await api('/send?name='+encodeURIComponent(B.dataset.kit)+'&title='+encodeURIComponent(B.dataset.name),{method:'POST',body:blob,headers:{'Content-Type':'application/zip'}});
+      if(r.ok){m.textContent='✓ Готово — архив в личке с ботом клуба';}
+      else if(r.status===502){m.textContent='Бот не смог написать тебе в Telegram. Открой бота клуба, нажми «Старт» — и попробуй ещё раз. Или просто «Скачать набор».';}
+      else if(r.status===429){m.textContent='Слишком часто — попробуй через пару минут.';}
+      else{m.textContent='Не получилось — нажми «Скачать набор».';}
+    }catch(e){m.textContent='Не получилось — нажми «Скачать набор».';}
+    tg.disabled=false;});
+  // полоса-цитата
+  try{var bd=$('.band');if('IntersectionObserver' in window){var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){bd.classList.add('seen');io.disconnect();}});},{threshold:.35});io.observe(bd);}else bd.classList.add('seen');}catch(e){}
+  // род: {мужской|женский|не знаю}
+  function gender(g){var i=g==='m'?0:g==='f'?1:2;
+    var w=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT,null);var nodes=[];while(w.nextNode())nodes.push(w.currentNode);
+    nodes.forEach(function(n){if(n.parentNode&&/^(SCRIPT|STYLE|PRE|TEXTAREA)$/.test(n.parentNode.nodeName))return;
+      if(n.nodeValue.indexOf('{')<0)return;n.nodeValue=n.nodeValue.replace(/\{([^{}|]*)\|([^{}|]*)\|([^{}|]*)\}/g,function(_,a,b,c){return [a,b,c][i];});});}
+  // звёзды и отзывы
+  var stars=0,MON=['января','февраля','марта','апреля','мая','июня','июля','августа','сентября','октября','ноября','декабря'];
+  function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+  function paintStars(){$$('#stars button').forEach(function(b){b.classList.toggle('on',+b.dataset.s<=stars);});}
+  function plural(n){var a=n%100,d=n%10;if(a>10&&a<20)return 'оценок';if(d===1)return 'оценка';if(d>1&&d<5)return 'оценки';return 'оценок';}
+  function render(d){
+    $('#rvavg').innerHTML=d.count?'<b>★ '+String(d.avg).replace('.',',')+'</b> · '+d.count+' '+plural(d.count):'Пока без оценок — твоя может быть первой ✨';
+    var me=d.mine;if(me){stars=me.stars||0;if(!$('#rvtext').value)$('#rvtext').value=me.text||'';$('#rvanon').checked=!!me.anon;$('#rvsend').textContent='Обновить';paintStars();}
+    $('#rvlist').innerHTML=(d.reviews||[]).map(function(r){var m=/^(\d{4})-(\d{2})-(\d{2})/.exec(r.date||'');
+      return '<div class="rv-it"><div class="h">'+esc(r.name)+(r.mine?' <span style="color:var(--mute);font-weight:500">(ты)</span>':'')+(r.stars?'<span class="s">'+'★'.repeat(r.stars)+'</span>':'')+
+        (m?'<span class="d">'+(+m[3])+' '+MON[+m[2]-1]+'</span>':'')+'</div><p>'+esc(r.text)+'</p></div>';}).join('');
+  }
+  $$('#stars button').forEach(function(b){b.addEventListener('click',function(){var n=+b.dataset.s;stars=stars===n?0:n;paintStars();});});
+  $('#rvsend').addEventListener('click',async function(){
+    var t=$('#rvtext').value.trim(),m=$('#rvmsg');m.className='rv-msg';
+    if(!stars&&!t){m.className='rv-msg err';m.textContent='Поставь звёзды или напиши пару слов 🙂';return;}
+    var b=this;b.disabled=true;
+    try{var r=await api('/rate',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({stars:stars,text:t,anon:$('#rvanon').checked})});
+      if(!r.ok)throw r.status;render(await r.json());m.textContent='💛 Спасибо! Твой отзыв сохранён.';}
+    catch(e){m.className='rv-msg err';m.textContent=e===401||e===403?'Отзыв можно оставить, когда страница открыта из кабинета клуба.':'Не получилось отправить — попробуй ещё раз.';}
+    b.disabled=false;});
+  (async function(){
+    try{var r=await api('/rate');if(r.ok)render(await r.json());else $('#rvavg').textContent='';}catch(e){}
+    try{var g=await api('/me');if(g.ok){var d=await g.json();gender(d.g);}else gender('');}catch(e){gender('');}
+  })();
+  tabs();paint();
+})();
+
+</script>
+</body>
+</html>
