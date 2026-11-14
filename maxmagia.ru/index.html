@@ -1020,5 +1020,32 @@ window.addEventListener('scroll',()=>{document.getElementById('nav').classList.t
 document.querySelectorAll('.faq-item').forEach(item=>{item.querySelector('.faq-q').addEventListener('click',()=>{const open=item.classList.contains('open');document.querySelectorAll('.faq-item').forEach(i=>i.classList.remove('open'));if(!open)item.classList.add('open')})});
 const obs=new IntersectionObserver((entries)=>{entries.forEach((e,i)=>{if(e.isIntersecting){setTimeout(()=>e.target.classList.add('visible'),i*80);obs.unobserve(e.target)}})},{threshold:.07,rootMargin:'0px 0px -30px 0px'});document.querySelectorAll('.reveal').forEach(r=>obs.observe(r));
 </script>
+<!-- REFLAND v1: пришёл по ссылке рекомендателя — кнопки бота тоже несут его код -->
+<script>
+(function(){
+  var KEY='mm_ref',DAYS=30,BOT='clubeshnik911_bot';
+  try{
+    var q=new URLSearchParams(location.search),r=(q.get('r')||'').toLowerCase();
+    if(/^[a-z0-9]{4,20}$/.test(r)){
+      var old=null;try{old=JSON.parse(localStorage.getItem(KEY)||'null');}catch(e){}
+      if(!old||Date.now()-old.t>DAYS*864e5)localStorage.setItem(KEY,JSON.stringify({c:r,t:Date.now()}));   // первый, кто привёл
+      q.delete('r');history.replaceState(null,'',location.pathname+(q.toString()?'?'+q:'')+location.hash);
+    }
+  }catch(e){}
+  function code(){try{var s=JSON.parse(localStorage.getItem(KEY)||'null');return s&&Date.now()-s.t<=DAYS*864e5?s.c:'';}catch(e){return '';}}
+  function fix(a){
+    var c=code();if(!c||!a||!a.href||a.href.indexOf('t.me/'+BOT)<0)return;
+    try{var u=new URL(a.href);var st=u.searchParams.get('start')||'';
+      if(!st||st==='join'){u.searchParams.set('start','ref_'+c);a.href=u.toString();}}catch(e){}
+  }
+  function all(){document.querySelectorAll('a[href*="t.me/'+BOT+'"]').forEach(fix);}
+  document.addEventListener('click',function(e){var a=e.target&&e.target.closest&&e.target.closest('a');if(a)fix(a);},true);
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',all);else all();
+  var _open=window.open;window.open=function(u){try{if(code()&&String(u).indexOf('t.me/'+BOT)>=0){var x=new URL(u);var st=x.searchParams.get('start')||'';
+    if(!st||st==='join'){x.searchParams.set('start','ref_'+code());arguments[0]=x.toString();}}}catch(e){}return _open.apply(window,arguments);};
+})();
+</script>
+<!-- /REFLAND v1 -->
+
 </body>
 </html>
