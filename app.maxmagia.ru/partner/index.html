@@ -1,5 +1,5 @@
 <!doctype html><html lang="ru"><head><meta charset="utf-8">
-<!-- PARTNER v3 -->
+<!-- PARTNER v4 -->
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#08080a"><meta name="robots" content="noindex, nofollow">
 <title>Максонская ложа · Клуб #MaxMagia</title>
@@ -138,6 +138,23 @@ td.r{text-align:right;color:var(--gold);white-space:nowrap}
 .foot{text-align:center;font-size:12.5px;color:var(--dim);line-height:1.7;margin-top:18px}
 .foot a{color:var(--mut)}
 .fade{animation:fade .8s ease both}
+.adm{margin-top:18px}
+.adm-grid{display:grid;gap:12px}
+.ac{border:1px solid rgba(212,180,138,.28);border-radius:18px;padding:14px;background:linear-gradient(160deg,rgba(212,180,138,.08),rgba(18,18,20,.7))}
+.ac .hd{display:flex;justify-content:space-between;gap:10px;align-items:baseline;margin-bottom:6px}
+.ac .hd b{font-size:15.5px}
+.ac .hd span{font-size:12px;color:var(--dim)}
+.ac .ln{font-size:13px;color:var(--mut);line-height:1.6;word-break:break-word}
+.ac .money{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:10px 0}
+.ac .money div{text-align:center;border-radius:12px;background:rgba(0,0,0,.25);padding:8px 4px}
+.ac .money b{display:block;color:var(--gold-hi);font-size:16px}
+.ac .money span{font-size:11.5px;color:var(--dim)}
+.ac .pay{display:flex;gap:8px}
+.ac .pay input{flex:1;min-width:0;min-height:44px;border-radius:12px;border:1px solid rgba(240,236,228,.16);background:#0d0d0f;color:var(--txt);font:600 15px 'Manrope',sans-serif;padding:0 12px;text-align:center}
+.ac .pay button{flex:1.3;min-height:44px;border-radius:12px;border:none;cursor:pointer;font:700 13.5px 'Manrope',sans-serif;background:linear-gradient(135deg,#ecd29b,#c8a96e 45%,#9e7540);color:#0e0b07}
+.tag{display:inline-block;font-size:11px;padding:2px 8px;border-radius:999px;border:1px solid rgba(79,163,165,.5);color:#c4ecec;margin-left:6px}
+.tag.w{border-color:rgba(230,190,90,.5);color:#f0d58a}
+@media (min-width:900px){.adm-grid{grid-template-columns:repeat(2,1fr)}}
 @keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
 @media (min-width:900px){
   .wel{grid-template-columns:.9fr 1.1fr}
@@ -256,20 +273,20 @@ td.r{text-align:right;color:var(--gold);white-space:nowrap}
 
 <script>
 (function(){
-  var app=document.getElementById('app'),D=null,EMAIL='',LEGAL='',DEMO=new URLSearchParams(location.search).get('demo');
+  var QS=new URLSearchParams(location.search),app=document.getElementById('app'),D=null,EMAIL='',LEGAL='',DEMO=QS.get('demo'),ME=QS.get('me')==='1'?'?me=1':'';
   function E(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
   function $(id){return document.getElementById(id);}
   function err(t,id){var e=$(id||'err');if(e){e.className='err';e.textContent=t||'';}}
   function tpl(id){return $(id).innerHTML;}
   function api(p,b){
     if(DEMO)return demo(p,b);
-    return fetch('/api/ref/'+p,{method:b?'POST':'GET',headers:b?{'Content-Type':'application/json'}:{},body:b?JSON.stringify(b):undefined,credentials:'same-origin',cache:'no-store'})
+    return fetch('/api/ref/'+p+(b?'':ME),{method:b?'POST':'GET',headers:b?{'Content-Type':'application/json'}:{},body:b?JSON.stringify(b):undefined,credentials:'same-origin',cache:'no-store'})
       .then(function(r){return r.json().then(function(j){j._s=r.status;return j;}).catch(function(){return {ok:false,_s:r.status};});}).catch(function(){return {ok:false,error:'net'};});}
   var DM={step:0};
   function demo(p,b){return new Promise(function(res){setTimeout(function(){
     if(p==='p/me'){if(!DM.step)return res({ok:false,_s:401});
       return res({ok:true,kind:DEMO==='member'?'member':'external',name:'Анна Продюсер',terms:DM.step>1,code:'qagbtg',links:{site:'https://app.maxmagia.ru/api/ref/go/qagbtg',bot:'https://t.me/clubeshnik911_bot?start=ref_qagbtg'},
-        payout:DEMO==='member'?'days':'money',money:'3 750 ₽',earned:'6 250 ₽',paid:'2 500 ₽',days:20,earned_days:28,brought:3,linked:5,legal:'',inn:'',pay_info:'',full_name:'',rates:{first:50,renewal:50},
+        payout:DEMO==='member'?'days':'money',admin:DEMO==='admin',money:'3 750 ₽',earned:'6 250 ₽',paid:'2 500 ₽',days:20,earned_days:28,brought:3,linked:5,legal:'',inn:'',pay_info:'',full_name:'',rates:{first:50,renewal:50},
         people:[{name:'Ольга С.',at:'2026-11-02',status:'в клубе · оплат: 2',paid:true,rub:'2 500 ₽',days:20},{name:'Ирина К.',at:'2026-11-08',status:'в клубе · оплат: 1',paid:true,rub:'1 250 ₽',days:12},{name:'Марина',at:'2026-11-12',status:'начал(а) вступление, ещё не оплатил(а)',paid:false}],
         statement:{clicks:41,months:[{month:'2026-11',n:3,rub:'3 750 ₽',days:28},{month:'2026-10',n:2,rub:'2 500 ₽',days:0}],payouts:[{rub:'2 500 ₽',note:'октябрь',at:'2026-11-10'}]}});}
     if(p==='p/code')return res({ok:true});
@@ -388,13 +405,38 @@ td.r{text-align:right;color:var(--gold);white-space:nowrap}
     var rules='<details class="box"><summary>📜 Правила ложи и маркировка</summary>'+howSteps()+adsInfo()+'</details>';
     app.innerHTML='<button class="out" id="lo">Выйти из ложи</button><div class="fade"><h1>'+first+', <em>приветствую вас!</em></h1><p class="lead">Ниже вы можете оценить силу своего влияния на мир близких вам людей.</p>'+
       '<div class="dash"><div><div class="kpi">'+kpi1+'</div><div class="kpi" style="margin:8px 0 14px">'+kpi2+'</div>'+people+stmt+'</div>'+
-      '<div>'+links+req+rules+'</div></div></div>';
+      '<div>'+links+req+rules+'</div></div>'+(D.admin?'<div class="adm" id="adm"><div class="sec-t">👑 Максоны — партнёры на выплатах</div><p class="p">Загружаю…</p></div>':'')+'</div>';
+    if(D.admin)loadAdmin();
     app.querySelectorAll('.seg button').forEach(function(b){b.onclick=function(){LEGAL=b.dataset.l;app.querySelectorAll('.seg button').forEach(function(x){x.classList.toggle('on',x===b);});};});
     $('rb').onclick=async function(){var r=await api('p/req',{legal:LEGAL,full_name:$('fn').value,inn:$('inn').value,pay_info:$('pi').value});
       if(r.ok){D=r;D.member=D.kind==='member';draw();var e=$('err');if(e){e.className='err ok';e.textContent='✓ Сохранено';}return;}
       err(r.error==='legal'?'Выберите статус.':r.error==='inn'?'ИНН — 12 цифр.':'Заполните ФИО и куда переводить.');};
     $('lo').onclick=async function(){await api('p/logout',{});DM.step=0;login();};
   }
+  async function loadAdmin(){
+    var r=DEMO?{ok:true,partners:[{id:2,name:'Анна Продюсер',full_name:'Иванова Анна Сергеевна',email:'anna@mail.ru',kind:'external',code:'qagbtg',link:'https://app.maxmagia.ru/api/ref/go/qagbtg',clicks:41,linked:5,paid_people:3,legal:'самозанятый',inn:'770000000000',pay_info:'СБП +7 900 000-00-00, Т-Банк',terms:true,earned:'6 250 ₽',paid:'2 500 ₽',due:'3 750 ₽',due_kop:375000,last_pay:'2026-11-10 · 2 500 ₽'}]}:await api('p/admin');
+    var box=$('adm');if(!box)return;
+    if(!r.ok){box.innerHTML='<p class="p">Не получилось загрузить список партнёров.</p>';return;}
+    var a=r.partners||[];
+    var h='<div class="sec-t">👑 Максоны — партнёры на выплатах</div><p class="p">Внешние партнёры и участники, перешедшие на выплаты деньгами. Участники с днями сюда не попадают — они распоряжаются днями сами.</p>';
+    if(!a.length)h+='<p class="p">Пока никого. Партнёра заводит команда /refnew в боте.</p>';
+    h+='<div class="adm-grid">'+a.map(function(p){
+      return '<div class="ac"><div class="hd"><b>'+E(p.full_name||p.name||'—')+(p.kind==='member'?'<span class="tag">участник</span>':'')+(p.money_req==='pending'?'<span class="tag w">ждёт /refok '+p.id+'</span>':'')+'</b><span>№ '+p.id+'</span></div>'+
+        '<div class="ln">✉️ '+E(p.email||'—')+'<br>🔗 '+E(p.link)+'<br>'+(p.legal?'💼 '+E(p.legal)+' · ИНН '+E(p.inn):'💼 реквизиты не заполнены')+(p.pay_info?'<br>💳 '+E(p.pay_info):'')+
+        '<br>👣 переходов '+p.clicks+' · закреплено '+p.linked+' · оплатили '+p.paid_people+(p.terms?'':' · ⚠️ условия не приняты')+'</div>'+
+        '<div class="money"><div><b>'+E(p.earned)+'</b><span>начислено</span></div><div><b>'+E(p.paid)+'</b><span>выплачено</span></div><div><b>'+E(p.due)+'</b><span>к выплате</span></div></div>'+
+        (p.last_pay?'<div class="ln" style="margin-bottom:8px">Последняя выплата: '+E(p.last_pay)+'</div>':'')+
+        '<div class="pay"><input id="ps'+p.id+'" inputmode="decimal" value="'+(p.due_kop>0?Math.round(p.due_kop/100):'')+'" placeholder="сумма, ₽"><button onclick="pPay('+p.id+')">✓ Выплачено</button></div>'+
+        '<div class="err" id="pe'+p.id+'"></div></div>';}).join('')+'</div>';
+    box.innerHTML=h;
+  }
+  window.pPay=async function(id){
+    var v=($('ps'+id).value||'').trim();if(!(parseFloat(v.replace(',','.'))>0)){var e=$('pe'+id);e.className='err';e.textContent='Впишите сумму выплаты.';return;}
+    if(!confirm('Отметить выплату '+v+' ₽ партнёру № '+id+'?'))return;
+    if(DEMO){var e2=$('pe'+id);e2.className='err ok';e2.textContent='✓ (демо) отмечено';return;}
+    var r=await api('p/pay',{pid:id,sum:v});
+    if(r.ok){loadAdmin();}else{var e3=$('pe'+id);e3.className='err';e3.textContent='Не получилось — проверьте сумму.';}
+  };
   window.pCopy=function(k,b){var t=k==='bot'?D.links.bot:D.links.site;
     try{navigator.clipboard.writeText(t);}catch(e){var ta=document.createElement('textarea');ta.value=t;document.body.appendChild(ta);ta.select();try{document.execCommand('copy');}catch(x){}ta.remove();}
     if(b){var o=b.textContent;b.textContent='✓ Скопировано';setTimeout(function(){b.textContent=o;},2000);}};

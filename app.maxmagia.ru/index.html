@@ -6660,7 +6660,7 @@ html[data-theme="light"] .hbs-in,html[data-theme="light"] .hbs-ok{border-color:#
 })();
 </script>
 <!-- /GIFTWEB v2 -->
-<!-- ═════ REFPROG v2 (15.11): реферальная программа + новый порядок «Моего участия» ═════ -->
+<!-- ═════ REFPROG v3 (15.11): реферальная программа + новый порядок «Моего участия» ═════ -->
 <style>
 /* «Моё участие»: две золотые в ряд */
 .mu-top{display:flex;gap:10px;margin:12px 0 4px}
@@ -6689,7 +6689,10 @@ html[data-theme="light"] .hbs-in,html[data-theme="light"] .hbs-ok{border-color:#
 .rf-lk .u{font-family:ui-monospace,Menlo,monospace;font-size:13px;word-break:break-all;color:var(--white);user-select:all;-webkit-user-select:all;margin-bottom:10px}
 .rf-row{display:flex;gap:8px}
 .rf-row button{flex:1;min-height:42px;border-radius:11px;border:1px solid rgba(var(--fg),.16);background:rgba(0,0,0,.18);color:var(--white);font:600 13px var(--font-sans,inherit);cursor:pointer}
-.rf-msg{font-size:13px;line-height:1.55;color:var(--muted);padding:12px 14px;border-radius:14px;border:1px dashed rgba(var(--gold-rgb),.4);margin-bottom:8px;white-space:pre-wrap}
+.rf-msg{width:100%;min-height:150px;font:400 14px/1.55 var(--font-sans,inherit);color:var(--white);padding:12px 14px;border-radius:14px;border:1px dashed rgba(var(--gold-rgb),.45);background:var(--surface);margin-bottom:8px;resize:vertical;box-sizing:border-box}
+.rf-tpls{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;margin-bottom:10px}
+.rf-tpls button{min-height:36px;padding:0 12px;border-radius:999px;border:1px solid rgba(var(--fg),.16);background:none;color:var(--muted);font:600 12.5px var(--font-sans,inherit);cursor:pointer}
+.rf-tpls button.on{border-color:var(--gold);color:var(--white);background:rgba(var(--gold-rgb),.12)}
 .rf-f{margin-bottom:10px}
 .rf-f label{display:block;font-size:12px;color:var(--muted);margin:0 0 6px 2px}
 .rf-f input,.rf-f textarea{width:100%;min-height:46px;border-radius:13px;border:1px solid rgba(var(--fg),.14);background:var(--surface);color:var(--white);font:inherit;font-size:16px;padding:11px 13px;outline:none;box-sizing:border-box}
@@ -6713,7 +6716,7 @@ html[data-theme="light"] .hbs-in,html[data-theme="light"] .hbs-ok{border-color:#
 <script>
 (function(){
   var D=null,ST={legal:''};
-  var CAB='https://app.maxmagia.ru/partner/';
+  var CAB='https://app.maxmagia.ru/partner/?me=1';
   function E(s){try{return escHtml(s==null?'':String(s));}catch(e){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return '&#'+c.charCodeAt(0)+';';});}}
   function toast(t){try{showToast(t);}catch(e){}}
   function el(){return document.getElementById('rf-modal');}
@@ -6731,13 +6734,20 @@ html[data-theme="light"] .hbs-in,html[data-theme="light"] .hbs-ok{border-color:#
     '<li>Даришь месяц в клубе близкому, который раньше не был в клубе, — он тоже закрепляется за тобой: его будущие оплаты принесут тебе дни.</li>'+
     '<li>Дни можно <b>зачислить себе</b> или <b>подарить</b> тому, кто уже есть в клубе. Самозанятым и ИП — по заявке деньгами раз в месяц.</li>'+
     '<li>Считаются только новые люди и их собственные оплаты. При возврате оплаты бонус отменяется.</li></ul>';
+  function g3(m,f,x){try{return wjG('{'+m+'|'+f+'|'+x+'}');}catch(e){return x;}}
+  var TPL=0;
+  var TPLS=[
+    {n:'🤍 Душевно',t:function(){return 'Привет 🤍\nДавно хочу тебе рассказать. Я уже какое-то время в клубе психолога Максима Гущина — и, кажется, это одно из лучших моих решений за последнее время.\n\nТам можно просто выдохнуть. Живые встречи, где можно задать свой вопрос, гипно-медитации перед сном, практики, после которых в голове становится тише. А главное — люди: тёплые, настоящие, без масок и оценок.\n\nНе знаю почему, но '+g3('подумал','подумала','подумал(а)')+' именно о тебе. Загляни — вдруг откликнется:';}},
+    {n:'☕ Коротко',t:function(){return 'Слушай, '+g3('нашёл','нашла','нашёл(ла)')+' место, где мне по-настоящему хорошо, — клуб психолога Максима Гущина. Эфиры, медитации, поддержка и очень живые люди. Мне кажется, тебе тоже зайдёт 🙂';}},
+    {n:'🫂 Если непросто',t:function(){return 'Я вижу, что тебе сейчас непросто. Мне в похожие времена очень помог клуб психолога Максима Гущина — там бережно, без оценок, и всегда есть с кем поговорить.\n\nЕсли захочешь — загляни. И помни: я рядом 🤍';}}
+  ];
   function tpl(k){
-    var u=k==='bot'?D.links.bot:D.links.site;
-    return k==='bot'
-      ?'Привет! Я в клубе #MaxMagia у психолога Максима Гущина — живые эфиры, гипно-медитации, практики и очень тёплые люди. Мне там правда хорошо 🤍\nЕсли тебе удобнее в Telegram — вот бот клуба, там всё рассказано:\n'+u
-      :'Привет! Я в клубе #MaxMagia у психолога Максима Гущина — живые эфиры, гипно-медитации, практики и очень тёплые люди. Мне там правда хорошо 🤍\nПосмотри, вдруг и тебе откликнется:\n'+u;
+    var u=k==='bot'?D.links.bot:D.links.site,ta=document.getElementById('rf-msg');
+    var t=ta&&ta.value.trim()?ta.value.trim():TPLS[TPL].t();
+    return t+(k==='bot'?'\n\nЕсли удобнее в Telegram — вот бот клуба:\n':'\n\n')+u;
   }
-
+  window.rfTpl=function(i){TPL=i;var ta=document.getElementById('rf-msg');if(ta)ta.value=TPLS[i].t();
+    document.querySelectorAll('.rf-tpls button').forEach(function(b,j){b.classList.toggle('on',j===i);});};
   window.openRef=async function(){
     try{haptic('light');}catch(e){}try{ntfAway();}catch(e){}
     var m=el();
@@ -6775,8 +6785,9 @@ html[data-theme="light"] .hbs-in,html[data-theme="light"] .hbs-ok{border-color:#
       '<div class="rf-row"><button onclick="rfCopy(\'site\',0)">📋 Ссылка</button><button onclick="rfCopy(\'site\',1)">💬 С сообщением</button><button onclick="rfShare(\'site\')">📤 Отправить</button></div></div>'+
       '<div class="rf-lk"><div class="t">✈️ Бот клуба в Telegram</div><div class="u">'+E(D.links.bot)+'</div>'+
       '<div class="rf-row"><button onclick="rfCopy(\'bot\',0)">📋 Ссылка</button><button onclick="rfCopy(\'bot\',1)">💬 С сообщением</button><button onclick="rfShare(\'bot\')">📤 Отправить</button></div></div>'+
-      '<details class="rf-det"><summary>💬 Готовое сообщение для друга ›</summary><div class="rf-msg">'+E(tpl('site'))+'</div>'+
-      '<p class="rf-terms" style="font-size:12.5px">Кнопка «С сообщением» копирует этот текст вместе со ссылкой — останется вставить в личные сообщения. Лучше всего работает, если добавишь пару слов от себя: что клуб дал именно тебе.</p></details>'+
+      '<details class="rf-det"><summary>💬 Сообщение для друга ›</summary><div class="rf-tpls">'+TPLS.map(function(x,i){return '<button type="button" class="'+(i===TPL?'on':'')+'" onclick="rfTpl('+i+')">'+x.n+'</button>';}).join('')+'</div>'+
+      '<textarea class="rf-msg" id="rf-msg">'+E(TPLS[TPL].t())+'</textarea>'+
+      '<p class="rf-terms" style="font-size:12.5px;text-align:center">Поправь текст под себя — свои слова всегда работают лучше. Ссылка добавится сама, когда нажмёшь «💬 С сообщением».</p></details>'+
       '<button class="rf-cab" onclick="rfCabinet()">🗝 Реферальный кабинет — кого я привёл(а)</button>'+
       '<details class="rf-det"><summary>📜 Условия ›</summary>'+RULES+'<p class="rf-terms">Полностью — <a href="'+E(D.terms_url)+'" target="_blank" rel="noopener">условия реферальной программы</a>.</p></details>';
     if(D.payout!=='money'){
@@ -6875,7 +6886,7 @@ html[data-theme="light"] .hbs-in,html[data-theme="light"] .hbs-ok{border-color:#
     if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',go);else go();}}catch(e){}
 })();
 </script>
-<!-- /REFPROG v2 -->
+<!-- /REFPROG v3 -->
 
 </body>
 </html>
