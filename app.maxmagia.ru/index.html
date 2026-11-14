@@ -6660,5 +6660,179 @@ html[data-theme="light"] .hbs-in,html[data-theme="light"] .hbs-ok{border-color:#
 })();
 </script>
 <!-- /GIFTWEB v2 -->
+<!-- ═════ REFPROG v1 (15.11): реферальная программа — 🔔 «Моё участие» → «🤝 Реферальная программа» ═════ -->
+<style>
+.about-btn.about-ref{background:linear-gradient(135deg,rgba(79,163,165,.24),rgba(79,163,165,.06));border-color:rgba(79,163,165,.6)}
+.about-btn.about-ref .about-title{color:#bfe6e6}
+.rf-hero{padding:16px;border-radius:18px;margin-bottom:14px;background:linear-gradient(135deg,rgba(79,163,165,.2),rgba(var(--gold-rgb),.06));border:1px solid rgba(79,163,165,.45)}
+.rf-hero b{display:block;font-size:16px;color:var(--white);margin-bottom:4px}
+.rf-hero p{font-size:13.5px;line-height:1.55;color:var(--muted);margin:0}
+.rf-link{font-family:ui-monospace,Menlo,monospace;font-size:12.5px;word-break:break-all;padding:11px 12px;border-radius:12px;background:var(--surface);border:1px solid var(--gold-border);color:var(--white);user-select:all;-webkit-user-select:all;margin-bottom:8px}
+.rf-row{display:flex;gap:8px;margin-bottom:6px}
+.rf-row button,.rf-btn2{flex:1;min-height:44px;border-radius:12px;border:1px solid rgba(var(--fg),.14);background:none;color:var(--white);font:600 13.5px var(--font-sans,inherit);cursor:pointer}
+.rf-bal{display:flex;align-items:baseline;gap:10px;margin:2px 0 10px}
+.rf-bal b{font-size:40px;line-height:1;color:var(--gold-hi,var(--gold));font-weight:800}
+.rf-bal span{font-size:14px;color:var(--muted)}
+.rf-f{margin-bottom:10px}
+.rf-f label{display:block;font-size:12px;color:var(--muted);margin:0 0 6px 2px}
+.rf-f input,.rf-f textarea{width:100%;min-height:46px;border-radius:13px;border:1px solid rgba(var(--fg),.14);background:var(--surface);color:var(--white);font:inherit;font-size:16px;padding:11px 13px;outline:none;box-sizing:border-box}
+.rf-f textarea{min-height:70px;resize:vertical}
+.rf-f input:focus,.rf-f textarea:focus{border-color:var(--gold)}
+.rf-seg{display:flex;gap:8px}
+.rf-seg button{flex:1;min-height:44px;border-radius:12px;border:1px solid rgba(var(--fg),.14);background:none;color:var(--muted);font:600 14px var(--font-sans,inherit);cursor:pointer}
+.rf-seg button.on{border-color:var(--gold);color:var(--white);background:rgba(var(--gold-rgb),.12)}
+.rf-p{display:flex;justify-content:space-between;gap:10px;padding:11px 0;border-bottom:1px solid rgba(var(--fg),.07);font-size:13.5px}
+.rf-p .n{color:var(--white);font-weight:600}
+.rf-p .s{color:var(--muted);font-size:12.5px;margin-top:2px}
+.rf-p .r{color:var(--gold);font-weight:700;white-space:nowrap;font-size:13px}
+.rf-terms{font-size:13.5px;line-height:1.6;color:var(--muted)}
+.rf-terms li{margin:0 0 6px 18px}
+.rf-ck{display:flex;gap:10px;align-items:flex-start;font-size:13.5px;line-height:1.5;color:var(--muted);margin:12px 2px;cursor:pointer}
+.rf-ck input{flex:none;width:20px;height:20px;margin-top:1px;accent-color:#c8a96e}
+.rf-ck a,.rf-terms a{color:var(--gold)}
+.rf-err{color:#e8806f;font-size:13px;margin:6px 2px;min-height:1px}
+.rf-note{font-size:12.5px;line-height:1.55;color:var(--muted);padding:12px 14px;border-radius:14px;background:rgba(var(--fg),.04);margin-top:10px}
+.rf-det summary{cursor:pointer;color:var(--gold);font-weight:600;font-size:14px;padding:10px 0;list-style:none}
+.rf-det summary::-webkit-details-marker{display:none}
+</style>
+<script>
+(function(){
+  var D=null,ST={legal:''};
+  function E(s){try{return escHtml(s==null?'':String(s));}catch(e){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return '&#'+c.charCodeAt(0)+';';});}}
+  function toast(t){try{showToast(t);}catch(e){}}
+  function el(){return document.getElementById('rf-modal');}
+  function dw(n){n=Math.abs(n);if(n%10===1&&n%100!==11)return 'день';if([2,3,4].indexOf(n%10)>=0&&[12,13,14].indexOf(n%100)<0)return 'дня';return 'дней';}
+  function shell(body){
+    return '<div class="modal-sheet full"><div class="modal-drag"></div><div class="modal-head"><div class="modal-title-wrap"><span class="modal-notebook-icon">🤝</span><div>'+
+      '<div class="modal-title">Реферальная программа</div><div class="modal-subtitle">Делись клубом — получай дни</div></div></div>'+
+      '<button class="modal-close" aria-label="Закрыть" onclick="rfClose()">✕</button></div><div class="notify-body" id="rf-body">'+body+'</div></div>';
+  }
+  function put(body){var m=el();if(m)m.innerHTML=shell(body);}
+  var RULES='<ul class="rf-terms">'+
+    '<li>Человек переходит по твоей ссылке и вступает в клуб — тебе <b>40 % с его первой оплаты</b> (≈ <b>+12 дней</b> клуба), а потом <b>25 % с каждого продления</b> (≈ <b>+8 дней</b>), пока он в клубе.</li>'+
+    '<li>Дни можно <b>забрать себе</b> или <b>подарить</b> тому, кто уже есть в клубе.</li>'+
+    '<li>Самозанятым и ИП можно получать <b>деньгами</b> раз в месяц — под чек.</li>'+
+    '<li>Считается тот, кто пришёл первым по чьей-то ссылке; ссылка помнит человека 30 дней.</li>'+
+    '<li>Считаются только новые люди и их собственные оплаты. Подарки не считаются; при возврате оплаты бонус отменяется.</li></ul>';
+
+  window.openRef=async function(){
+    try{haptic('light');}catch(e){}try{ntfAway();}catch(e){}
+    var m=el();
+    if(!m){m=document.createElement('div');m.id='rf-modal';m.className='modal-overlay';m.onclick=function(e){if(e.target===m)rfClose();};document.body.appendChild(m);}
+    put('<div class="hb-empty">Загружаю…</div>');requestAnimationFrame(function(){m.classList.add('open');});
+    var r=await API.request('/ref/me');
+    if(r.status===401){put('<div class="hb-empty">🔐 Войди в кабинет, чтобы открыть реферальную программу.</div>');return;}
+    if(r.status===403){put('<div class="hb-empty">🌱 Реферальная программа скоро откроется.</div>');return;}
+    if(!API.ok(r)){put('<div class="hb-empty">📡 Не получилось загрузить — проверь интернет и открой ещё раз.</div>');return;}
+    D=r.body;draw();
+  };
+  window.rfClose=function(){var m=el();if(m)m.classList.remove('open');try{ntfBack();}catch(e){}};
+
+  function draw(){
+    if(!D.terms){
+      put('<div class="rf-hero"><b>Приглашай близких в клуб 🤍</b><p>Если клуб помогает тебе — поделись им. Каждый, кто придёт по твоей ссылке, приносит тебе дни в клубе.</p></div>'+
+        '<div class="ntf-group">Как это работает</div>'+RULES+
+        '<label class="rf-ck"><input type="checkbox" id="rf-ok"><span>Принимаю <a href="'+E(D.terms_url)+'" target="_blank" rel="noopener">условия реферальной программы</a></span></label>'+
+        '<div class="rf-err" id="rf-err"></div><button class="notify-save-btn" onclick="rfTerms()">🤝 Участвую</button>');
+      return;
+    }
+    var h='<div class="rf-hero"><b>Твоя ссылка</b><p>Отправь её тем, кому клуб может помочь. Человек увидит страницу клуба, а мы запомним, что он от тебя.</p></div>'+
+      '<div class="rf-link" id="rf-site">'+E(D.links.site)+'</div>'+
+      '<div class="rf-row"><button onclick="rfShare(\'site\')">📤 Поделиться</button><button onclick="rfCopy(\'site\')">📋 Скопировать</button></div>'+
+      '<details class="rf-det"><summary>✈️ Ссылка для тех, кто в Telegram ›</summary><div class="rf-link">'+E(D.links.bot)+'</div>'+
+      '<div class="rf-row"><button onclick="rfCopy(\'bot\')">📋 Скопировать ссылку на бота</button></div></details>';
+    h+='<div class="ntf-group">Мой бонусный счёт</div><div class="rf-bal"><b>'+D.days+'</b><span>'+dw(D.days)+' клуба</span></div>';
+    if(D.days>0){
+      h+='<div class="rf-f"><label>Сколько дней</label><input id="rf-days" type="number" inputmode="numeric" min="1" max="'+D.days+'" value="'+D.days+'"></div>'+
+        '<div class="rf-row"><button onclick="rfUse(\'me\')">➕ Забрать себе</button><button onclick="rfGiftForm()">🎁 Подарить участнику</button></div>'+
+        '<div id="rf-gift" style="display:none"><div class="rf-f"><label>Почта участника клуба, которому даришь дни</label><input id="rf-to" type="email" inputmode="email" placeholder="podruga@mail.ru"></div>'+
+        '<button class="notify-save-btn" onclick="rfUse(\'other\')">🎁 Подарить дни</button></div><div class="rf-err" id="rf-err"></div>';
+    } else {
+      h+='<div class="notify-sub" style="margin-bottom:6px">Пока пусто — дни появятся, когда кто-то вступит по твоей ссылке.</div>';
+    }
+    if(D.payout==='money'||D.money_kop>0)h+='<div class="rf-note">💼 К выплате деньгами: <b>'+E(D.money)+'</b> · уже выплачено: '+E(D.paid)+'. Выплата раз в месяц после твоего чека.</div>';
+    var ppl=D.people||[];
+    h+='<div class="ntf-group" style="margin-top:16px">Кого ты привёл(а)'+(D.statement&&D.statement.clicks?' · переходов: '+D.statement.clicks:'')+'</div>';
+    if(!ppl.length)h+='<div class="notify-sub">Пока никого. Первый человек — самый ценный 🙂</div>';
+    ppl.forEach(function(p){h+='<div class="rf-p"><div><div class="n">'+E(p.name)+'</div><div class="s">'+E(p.at)+' · '+E(p.status)+'</div></div>'+
+      (p.paid?'<div class="r">'+(p.days?'+'+p.days+' '+dw(p.days):E(p.rub))+'</div>':'')+'</div>';});
+    h+='<details class="rf-det" style="margin-top:12px"><summary>📜 Условия ›</summary>'+RULES+'<p class="rf-terms">Полностью — <a href="'+E(D.terms_url)+'" target="_blank" rel="noopener">условия реферальной программы</a>.</p></details>';
+    if(D.payout!=='money'){
+      if(D.money_req==='pending')h+='<div class="rf-note">💼 Заявка на выплаты деньгами у Максима. Как только он подтвердит статус — новые бонусы будут начисляться деньгами.</div>';
+      else h+='<details class="rf-det"><summary>💼 Я самозанятый(ая) или ИП — хочу деньгами ›</summary>'+moneyForm()+'</details>';
+    }
+    h+='<div class="rf-note">📣 <b>Важно про рекламу.</b> Личные сообщения друзьям и близким — просто рекомендация. А пост со ссылкой в открытом канале, группе или блоге — это реклама: её нужно маркировать (erid). Подробно — в условиях, раздел о маркировке.</div>';
+    put(h);
+  }
+  function moneyForm(){
+    ST.legal=D.legal||'';
+    return '<p class="rf-terms" style="margin:0 0 10px">Максим проверит твой статус и переведёт новые начисления в деньги (40 % / 25 %). Выплата раз в месяц, после твоего чека «Мой налог» или документов ИП. Дни, которые уже на счёте, остаются твоими.</p>'+
+      '<div class="rf-f"><label>Статус</label><div class="rf-seg"><button type="button" data-l="самозанятый" class="'+(ST.legal==='самозанятый'?'on':'')+'" onclick="rfLegal(this)">Самозанятый</button><button type="button" data-l="ИП" class="'+(ST.legal==='ИП'?'on':'')+'" onclick="rfLegal(this)">ИП</button></div></div>'+
+      '<div class="rf-f"><label>ФИО полностью</label><input id="rf-fn" value="'+E(D.full_name||'')+'" autocomplete="name"></div>'+
+      '<div class="rf-f"><label>ИНН (12 цифр)</label><input id="rf-inn" inputmode="numeric" value="'+E(D.inn||'')+'"></div>'+
+      '<div class="rf-f"><label>Куда переводить</label><textarea id="rf-pi" placeholder="Например: СБП, +7 900 000-00-00, Т-Банк">'+E(D.pay_info||'')+'</textarea></div>'+
+      '<div class="rf-err" id="rf-err2"></div><button class="notify-save-btn" onclick="rfMoney()">Отправить заявку</button>';
+  }
+  window.rfLegal=function(b){ST.legal=b.dataset.l;b.parentNode.querySelectorAll('button').forEach(function(x){x.classList.toggle('on',x===b);});};
+  window.rfGiftForm=function(){var g=document.getElementById('rf-gift');if(g)g.style.display=g.style.display==='none'?'block':'none';};
+  function err(t,id){var e=document.getElementById(id||'rf-err');if(e)e.textContent=t||'';}
+  window.rfTerms=async function(){
+    if(!document.getElementById('rf-ok').checked)return err('Отметь, что принимаешь условия 🙂');
+    var r=await API.post('/ref/terms',{ok:true});
+    if(API.ok(r)){D=r.body;draw();try{haptic('success');}catch(e){}}else err('Не получилось — попробуй ещё раз.');
+  };
+  window.rfUse=async function(to){
+    var n=parseInt((document.getElementById('rf-days')||{}).value||'0',10);
+    if(!(n>0&&n<=D.days))return err('Укажи число дней от 1 до '+D.days+'.');
+    var body={days:n,to:'me'};
+    if(to==='other'){var t=(document.getElementById('rf-to').value||'').trim();if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(t))return err('Впиши почту участника клуба.');body.to=t;}
+    var r=await API.post('/ref/use',body);
+    if(API.ok(r)){D=r.body;draw();toast(to==='me'?'✅ +'+n+' '+dw(n)+' — ты в клубе до '+r.body.until:'🎁 Подарено: +'+n+' '+dw(n));try{haptic('success');}catch(e){}return;}
+    var e=r.body&&r.body.error;
+    err(e==='no_member'?'Не нашёл участника клуба с такой почтой. Дарить дни можно только тем, кто уже в клубе.':e==='balance'?'На счёте меньше дней.':'Не получилось — попробуй ещё раз.');
+  };
+  window.rfMoney=async function(){
+    var b={legal:ST.legal,full_name:document.getElementById('rf-fn').value,inn:document.getElementById('rf-inn').value,pay_info:document.getElementById('rf-pi').value};
+    var r=await API.post('/ref/money',b);
+    if(API.ok(r)){D=r.body;draw();toast('💼 Заявка отправлена Максиму');return;}
+    var e=r.body&&r.body.error;
+    err(e==='legal'?'Выбери статус: самозанятый или ИП.':e==='inn'?'ИНН — 12 цифр.':e==='fields'?'Заполни ФИО и куда переводить.':'Не получилось — попробуй ещё раз.','rf-err2');
+  };
+  function link(k){return k==='bot'?D.links.bot:D.links.site;}
+  window.rfCopy=function(k){
+    var t=link(k);
+    function ok(){toast('📋 Ссылка скопирована');}
+    try{if(navigator.clipboard&&window.isSecureContext){navigator.clipboard.writeText(t).then(ok,function(){fb(t);ok();});return;}}catch(e){}
+    fb(t);ok();
+  };
+  function fb(t){var ta=document.createElement('textarea');ta.value=t;ta.style.cssText='position:fixed;top:0;opacity:0';document.body.appendChild(ta);ta.select();try{document.execCommand('copy');}catch(e){}ta.remove();}
+  window.rfShare=function(k){
+    var u=link(k),txt='Клуб #MaxMagia — место, где хорошо быть. Загляни 🤍';
+    try{if(IN_TG&&Telegram.WebApp.openTelegramLink){Telegram.WebApp.openTelegramLink('https://t.me/share/url?url='+encodeURIComponent(u)+'&text='+encodeURIComponent(txt));return;}}catch(e){}
+    if(navigator.share){navigator.share({title:'Клуб #MaxMagia',text:txt,url:u}).catch(function(){});}else rfCopy(k);
+  };
+
+  // кнопка в 🔔 «Моё участие» — после «Подарить участие близкому»; видна, если программа открыта
+  async function addBtn(){
+    if(document.getElementById('ref-btn'))return;
+    var r=await API.request('/ref/can');
+    if(!(API.ok(r)&&r.body.can))return;
+    var row=document.querySelector('#notify-modal .about-row');if(!row)return;
+    var d=document.createElement('div');d.className='about-btn about-ref';d.id='ref-btn';
+    d.setAttribute('onclick','openRef()');
+    d.innerHTML='<span class="about-icon">🤝</span><div class="about-title">Реферальная программа</div>';
+    var g=row.querySelector('[onclick*="openGift"]');
+    if(g&&g.nextSibling)row.insertBefore(d,g.nextSibling);else row.insertBefore(d,row.firstChild);
+  }
+  function boot(){setTimeout(addBtn,1500);}
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot);else boot();
+  // ?open=ref — из оповещений
+  try{if(new URLSearchParams(location.search).get('open')==='ref'){history.replaceState(null,'',location.pathname);
+    var go=function(){setTimeout(function(){openRef();},1400);};
+    if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',go);else go();}}catch(e){}
+})();
+</script>
+<!-- /REFPROG v1 -->
+
 </body>
 </html>

@@ -1,0 +1,142 @@
+<!doctype html><html lang="ru"><head><meta charset="utf-8">
+<!-- PARTNER v1 -->
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0c0c0e"><meta name="robots" content="noindex, nofollow">
+<title>Кабинет партнёра · Клуб #MaxMagia</title>
+<link rel="icon" href="/favicon.ico">
+<style>
+@font-face{font-family:'Cormorant Garamond';font-style:normal;font-weight:600;font-display:swap;src:url(/fonts/cormorant-garamond-cyrillic-600-normal.woff2) format('woff2');unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:'Cormorant Garamond';font-style:italic;font-weight:600;font-display:swap;src:url(/fonts/cormorant-garamond-cyrillic-600-italic.woff2) format('woff2');unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:'Manrope';font-style:normal;font-weight:200 800;font-display:swap;src:url(/fonts/manrope-cyrillic-wght-normal.woff2) format('woff2');unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:'Manrope';font-style:normal;font-weight:200 800;font-display:swap;src:url(/fonts/manrope-latin-wght-normal.woff2) format('woff2');unicode-range:U+0000-00FF,U+2000-206F}
+:root{--bg:#0c0c0e;--card:#151517;--gold:#d4b48a;--gold-hi:#f3dcae;--teal:#4fa3a5;--txt:#f0ece4;--mut:rgba(240,236,228,.66);--dim:rgba(240,236,228,.44);--line:rgba(212,180,138,.22);--err:#e8806f}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--bg);color:var(--txt)}
+body{font-family:'Manrope',system-ui,-apple-system,sans-serif;min-height:100vh;-webkit-font-smoothing:antialiased;background-image:radial-gradient(ellipse 760px 460px at 50% -140px,rgba(79,163,165,.16),transparent 70%)}
+.w{max-width:760px;margin:0 auto;padding:22px 18px calc(40px + env(safe-area-inset-bottom))}
+.eye{text-align:center;font-size:11px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin:8px 0 14px}
+h1{font-family:'Cormorant Garamond',Georgia,serif;font-weight:600;font-size:clamp(32px,7vw,44px);line-height:1.05;text-align:center}
+h1 em{font-style:italic;color:var(--gold)}
+.lead{text-align:center;color:var(--mut);font-size:15px;line-height:1.6;margin:10px auto 22px;max-width:520px}
+.box{border:1px solid var(--line);background:rgba(21,21,23,.85);border-radius:18px;padding:18px 16px;margin-bottom:14px}
+.box h2{font-size:15.5px;font-weight:700;margin-bottom:10px}
+.box p,.box li{font-size:14px;line-height:1.6;color:var(--mut)}
+.box ul{margin:6px 0 0 18px}
+.f{margin-bottom:12px}
+.f label{display:block;font-size:12px;color:var(--dim);margin:0 0 6px 2px}
+.f input,.f textarea{width:100%;min-height:48px;border-radius:13px;border:1px solid rgba(240,236,228,.15);background:#0f0f11;color:var(--txt);font:inherit;font-size:16px;padding:11px 13px;outline:none}
+.f textarea{min-height:70px}
+.f input:focus,.f textarea:focus{border-color:var(--gold)}
+.btn{display:flex;align-items:center;justify-content:center;width:100%;min-height:50px;border-radius:14px;border:none;cursor:pointer;margin-top:8px;font:700 15px 'Manrope',sans-serif;background:linear-gradient(135deg,#ecd29b,#c8a96e 45%,#9e7540);color:#0e0b07}
+.btn.line{background:none;border:1px solid rgba(212,180,138,.4);color:var(--gold)}
+.row{display:flex;gap:8px}.row .btn{flex:1}
+.link{font-family:ui-monospace,Menlo,monospace;font-size:13px;word-break:break-all;padding:12px;border-radius:12px;background:#0f0f11;border:1px solid var(--line);user-select:all}
+.kpi{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px}
+.kpi div{border:1px solid rgba(240,236,228,.08);background:var(--card);border-radius:14px;padding:14px 10px;text-align:center}
+.kpi b{display:block;font-size:22px;color:var(--gold-hi)}
+.kpi span{font-size:12px;color:var(--dim)}
+table{width:100%;border-collapse:collapse;font-size:13.5px}
+td,th{padding:9px 6px;border-bottom:1px solid rgba(240,236,228,.07);text-align:left;color:var(--mut);vertical-align:top}
+th{color:var(--txt);font-weight:600;font-size:12.5px}
+td.r{text-align:right;color:var(--gold);white-space:nowrap}
+.seg{display:flex;gap:8px}
+.seg button{flex:1;min-height:44px;border-radius:12px;border:1px solid rgba(240,236,228,.15);background:none;color:var(--mut);font:600 14px 'Manrope',sans-serif;cursor:pointer}
+.seg button.on{border-color:var(--gold);color:var(--txt);background:rgba(212,180,138,.12)}
+.ck{display:flex;gap:10px;align-items:flex-start;font-size:14px;line-height:1.5;color:var(--mut);margin:12px 0;cursor:pointer}
+.ck input{flex:none;width:20px;height:20px;margin-top:2px;accent-color:#c8a96e}
+a{color:var(--gold)}
+.err{color:var(--err);font-size:13.5px;margin-top:8px;min-height:1px}
+.ok{color:#9fd8c1;font-size:13.5px;margin-top:8px}
+.foot{text-align:center;font-size:12.5px;color:var(--dim);line-height:1.7;margin-top:24px}
+.foot a{color:var(--mut)}
+.out{background:none;border:none;color:var(--dim);font:500 13px 'Manrope',sans-serif;cursor:pointer;text-decoration:underline;display:block;margin:6px auto 0}
+.mark{border-left:2px solid var(--teal);background:rgba(79,163,165,.07)}
+</style></head><body>
+<main class="w">
+ <div class="eye">Клуб #MaxMagia · партнёрам</div>
+ <div id="app"><p class="lead">Загружаю…</p></div>
+ <div class="foot">Клуб психологической поддержки и саморазвития психолога Максима Гущина<br>
+  <a href="https://maxmagia.ru/partner.html">Условия партнёрской программы</a> · <a href="https://maxmagia.ru/privacy.html">Политика</a> · <a href="mailto:club@maxmagia.ru">club@maxmagia.ru</a></div>
+</main>
+<script>
+(function(){
+  var app=document.getElementById('app'),D=null,EMAIL='',LEGAL='';
+  function E(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+  function api(p,b){return fetch('/api/ref/'+p,{method:b?'POST':'GET',headers:b?{'Content-Type':'application/json'}:{},body:b?JSON.stringify(b):undefined,credentials:'same-origin',cache:'no-store'})
+    .then(function(r){return r.json().then(function(j){j._s=r.status;return j;}).catch(function(){return {ok:false,_s:r.status};});}).catch(function(){return {ok:false,error:'net'};});}
+  function $(id){return document.getElementById(id);}
+  function err(t,id){var e=$(id||'err');if(e)e.textContent=t||'';}
+  var MARK='<div class="box mark"><h2>📣 Маркировка рекламы — обязательно</h2><ul>'+
+    '<li>Пост с этой ссылкой в открытом канале, группе, блоге, сторис, видео — это <b>реклама</b>. До публикации получите токен <b>erid</b> у любого оператора рекламных данных (ОРД) и поставьте пометку: «Реклама. Гущин Максим Сергеевич, ИНН 616616544435. erid: …». Ссылку с erid — параметром в конце: <span style="font-family:monospace">…/go/КОД?erid=…</span></li>'+
+    '<li>Рассылка по своей базе (письма, push) — нужно согласие получателей на рекламные рассылки.</li>'+
+    '<li>Личная рекомендация знакомому в переписке — не реклама.</li>'+
+    '<li>Нельзя обещать результат, «вылечить», называть клуб обучением или курсом; цена — «2 500 ₽ за 31 день».</li></ul>'+
+    '<p style="margin-top:8px">Регистрировать рекламу и отчитываться в ЕРИР — обязанность партнёра (раздел 5 условий).</p></div>';
+
+  function login(){
+    app.innerHTML='<h1>Кабинет <em>партнёра</em></h1><p class="lead">Ваша ссылка, кто пришёл по ней, начисления и выплаты.</p>'+
+      '<div class="box"><div id="st1"><div class="f"><label>Почта, которую вы сообщили Максиму</label><input id="em" type="email" inputmode="email" autocomplete="email" placeholder="you@mail.ru"></div>'+
+      '<button class="btn" id="b1">Прислать код</button></div>'+
+      '<div id="st2" style="display:none"><p id="hint" style="margin-bottom:10px"></p><div class="f"><label>Код из письма</label><input id="cd" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="000000"></div>'+
+      '<button class="btn" id="b2">Войти</button><button class="out" id="back">Другая почта</button></div><div class="err" id="err"></div></div>';
+    $('b1').onclick=async function(){EMAIL=($('em').value||'').trim().toLowerCase();if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(EMAIL))return err('Проверьте почту.');
+      var r=await api('p/code',{email:EMAIL});if(r.error==='rate')return err('Слишком много попыток — подождите несколько минут.');
+      $('st1').style.display='none';$('st2').style.display='block';$('hint').textContent='Если это почта партнёра клуба, на неё ушёл код. Загляните и в «Спам».';err('');};
+    $('back').onclick=function(){$('st2').style.display='none';$('st1').style.display='block';};
+    $('b2').onclick=async function(){var r=await api('p/verify',{email:EMAIL,code:$('cd').value});
+      if(r.ok)return load();err(r.error==='wrong'?'Код не подошёл.':r.error==='tries'?'Слишком много попыток — запросите новый код.':'Код устарел — запросите новый.');};
+  }
+  async function load(){
+    var r=await api('p/me');
+    if(r._s===401)return login();
+    if(!r.ok){app.innerHTML='<p class="lead">📡 Не получилось загрузить — обновите страницу.</p>';return;}
+    D=r;draw();
+  }
+  function terms(){
+    app.innerHTML='<h1>Добро <em>пожаловать</em></h1><p class="lead">'+E(D.name)+', перед стартом — коротко об условиях.</p>'+
+      '<div class="box"><h2>Как это работает</h2><ul><li><b>50 %</b> с каждой оплаты человека, который пришёл по вашей ссылке, — с первой и со всех продлений, пока он в клубе.</li>'+
+      '<li>Чей человек: кто привёл первым; ссылка помнит человека 30 дней.</li><li>Выплата — раз в месяц, после вашего чека (самозанятый) или документов (ИП).</li>'+
+      '<li>При возврате оплаты начисление отменяется.</li></ul></div>'+MARK+
+      '<div class="box"><label class="ck"><input type="checkbox" id="tk"><span>Я прочитал(а) и принимаю <a href="https://maxmagia.ru/partner.html" target="_blank" rel="noopener">условия партнёрской программы</a>, включая обязанность маркировать рекламу</span></label>'+
+      '<button class="btn" id="tb">Принимаю</button><div class="err" id="err"></div></div>';
+    $('tb').onclick=async function(){if(!$('tk').checked)return err('Отметьте согласие с условиями.');var r=await api('p/terms',{ok:true});if(r.ok){D=r;draw();}else err('Не получилось — попробуйте ещё раз.');};
+  }
+  function draw(){
+    if(!D.terms)return terms();
+    var st=D.statement||{},ppl=D.people||[],paid=ppl.filter(function(p){return p.paid;}).length;
+    var h='<h1>'+E((D.name||'').split(' ')[0]||'Партнёр')+', <em>привет</em></h1><p class="lead">Ваша ссылка на клуб #MaxMagia и всё, что по ней произошло.</p>'+
+      '<div class="box"><h2>🔗 Ваша ссылка</h2><div class="link" id="lk">'+E(D.links.site)+'</div><div class="row"><button class="btn" onclick="pCopy(\'site\')">📋 Скопировать</button></div>'+
+      '<p style="margin-top:10px">Для Telegram-аудитории — ссылка на бота клуба:</p><div class="link" style="margin-top:6px">'+E(D.links.bot)+'</div><div class="row"><button class="btn line" onclick="pCopy(\'bot\')">📋 Скопировать ссылку на бота</button></div></div>'+
+      '<div class="kpi"><div><b>'+(st.clicks||0)+'</b><span>переходов</span></div><div><b>'+ppl.length+'</b><span>пришли</span></div><div><b>'+paid+'</b><span>оплатили</span></div></div>'+
+      '<div class="kpi"><div><b>'+E(D.earned)+'</b><span>начислено всего</span></div><div><b>'+E(D.paid)+'</b><span>выплачено</span></div><div><b>'+E(D.money)+'</b><span>к выплате</span></div></div>';
+    h+='<div class="box"><h2>👥 Кто пришёл по ссылке</h2>';
+    if(!ppl.length)h+='<p>Пока никого — всё впереди 🙂</p>';
+    else{h+='<table><tr><th>Кто</th><th>Когда</th><th>Статус</th><th style="text-align:right">Вам</th></tr>';
+      ppl.forEach(function(p){h+='<tr><td>'+E(p.name)+'</td><td>'+E(p.at)+'</td><td>'+E(p.status)+'</td><td class="r">'+(p.paid?E(p.rub):'—')+'</td></tr>';});h+='</table>';}
+    h+='</div><div class="box"><h2>🧾 Выписка по месяцам</h2>';
+    var ms=st.months||[];
+    if(!ms.length)h+='<p>Начислений пока нет.</p>';
+    else{h+='<table><tr><th>Месяц</th><th>Оплат</th><th style="text-align:right">Начислено</th></tr>';ms.forEach(function(m){h+='<tr><td>'+E(m.month)+'</td><td>'+m.n+'</td><td class="r">'+E(m.rub)+'</td></tr>';});h+='</table>';}
+    var ps=st.payouts||[];
+    if(ps.length){h+='<h2 style="margin-top:14px">Выплаты</h2><table>';ps.forEach(function(p){h+='<tr><td>'+E(p.at)+'</td><td>'+E(p.note||'')+'</td><td class="r">'+E(p.rub)+'</td></tr>';});h+='</table>';}
+    h+='</div>';
+    LEGAL=D.legal||'';
+    h+='<div class="box"><h2>💼 Реквизиты для выплат</h2><p style="margin-bottom:10px">Выплаты — раз в месяц. После перевода пришлите чек «Мой налог» (самозанятый) или закрывающие документы (ИП) на club@maxmagia.ru.</p>'+
+      '<div class="f"><label>Статус</label><div class="seg"><button type="button" data-l="самозанятый" class="'+(LEGAL==='самозанятый'?'on':'')+'">Самозанятый</button><button type="button" data-l="ИП" class="'+(LEGAL==='ИП'?'on':'')+'">ИП</button></div></div>'+
+      '<div class="f"><label>ФИО полностью</label><input id="fn" value="'+E(D.full_name||'')+'"></div><div class="f"><label>ИНН (12 цифр)</label><input id="inn" inputmode="numeric" value="'+E(D.inn||'')+'"></div>'+
+      '<div class="f"><label>Куда переводить</label><textarea id="pi" placeholder="СБП: телефон и банк, или реквизиты счёта ИП">'+E(D.pay_info||'')+'</textarea></div>'+
+      '<button class="btn" id="rb">Сохранить</button><div class="err" id="err"></div></div>'+MARK+'<button class="out" id="lo">Выйти</button>';
+    app.innerHTML=h;
+    app.querySelectorAll('.seg button').forEach(function(b){b.onclick=function(){LEGAL=b.dataset.l;app.querySelectorAll('.seg button').forEach(function(x){x.classList.toggle('on',x===b);});};});
+    $('rb').onclick=async function(){var r=await api('p/req',{legal:LEGAL,full_name:$('fn').value,inn:$('inn').value,pay_info:$('pi').value});
+      if(r.ok){D=r;draw();var e=$('err');if(e){e.className='ok';e.textContent='✓ Сохранено';}return;}
+      err(r.error==='legal'?'Выберите статус.':r.error==='inn'?'ИНН — 12 цифр.':'Заполните ФИО и куда переводить.');};
+    $('lo').onclick=async function(){await api('p/logout',{});login();};
+  }
+  window.pCopy=function(k){var t=k==='bot'?D.links.bot:D.links.site;
+    try{navigator.clipboard.writeText(t);}catch(e){var ta=document.createElement('textarea');ta.value=t;document.body.appendChild(ta);ta.select();try{document.execCommand('copy');}catch(x){}ta.remove();}
+    var b=event&&event.target;if(b){var o=b.textContent;b.textContent='✓ Скопировано';setTimeout(function(){b.textContent=o;},2000);}};
+  load();
+})();
+</script>
+</body></html>
