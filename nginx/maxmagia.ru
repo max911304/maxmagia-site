@@ -1,6 +1,10 @@
 # Сайт maxmagia.ru (лендинг психолога на /psy/)
 server {
     server_name maxmagia.ru www.maxmagia.ru;
+    # REFSHORT v1: короткая реферальная ссылка maxmagia.ru/r/КОД (15.11)
+    location ~ "^/r/([a-z0-9]{4,20})/?$" {
+        return 302 https://app.maxmagia.ru/api/ref/go/$1;
+    }
 
     root /var/www/maxmagia.ru;
     index index.html;
