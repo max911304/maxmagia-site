@@ -1,40 +1,125 @@
 <!doctype html><html lang="ru"><head><meta charset="utf-8">
-<!-- PARTNER v1 -->
+<!-- PARTNER v2 -->
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#0c0c0e"><meta name="robots" content="noindex, nofollow">
-<title>Кабинет партнёра · Клуб #MaxMagia</title>
+<meta name="theme-color" content="#08080a"><meta name="robots" content="noindex, nofollow">
+<title>Ложа партнёров · Клуб #MaxMagia</title>
 <link rel="icon" href="/favicon.ico">
 <style>
 @font-face{font-family:'Cormorant Garamond';font-style:normal;font-weight:600;font-display:swap;src:url(/fonts/cormorant-garamond-cyrillic-600-normal.woff2) format('woff2');unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:'Cormorant Garamond';font-style:normal;font-weight:600;font-display:swap;src:url(/fonts/cormorant-garamond-latin-600-normal.woff2) format('woff2');unicode-range:U+0000-00FF,U+2000-206F}
 @font-face{font-family:'Cormorant Garamond';font-style:italic;font-weight:600;font-display:swap;src:url(/fonts/cormorant-garamond-cyrillic-600-italic.woff2) format('woff2');unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
 @font-face{font-family:'Manrope';font-style:normal;font-weight:200 800;font-display:swap;src:url(/fonts/manrope-cyrillic-wght-normal.woff2) format('woff2');unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
 @font-face{font-family:'Manrope';font-style:normal;font-weight:200 800;font-display:swap;src:url(/fonts/manrope-latin-wght-normal.woff2) format('woff2');unicode-range:U+0000-00FF,U+2000-206F}
-:root{--bg:#0c0c0e;--card:#151517;--gold:#d4b48a;--gold-hi:#f3dcae;--teal:#4fa3a5;--txt:#f0ece4;--mut:rgba(240,236,228,.66);--dim:rgba(240,236,228,.44);--line:rgba(212,180,138,.22);--err:#e8806f}
-*{box-sizing:border-box;margin:0;padding:0}
-html,body{background:var(--bg);color:var(--txt)}
-body{font-family:'Manrope',system-ui,-apple-system,sans-serif;min-height:100vh;-webkit-font-smoothing:antialiased;background-image:radial-gradient(ellipse 760px 460px at 50% -140px,rgba(79,163,165,.16),transparent 70%)}
-.w{max-width:760px;margin:0 auto;padding:22px 18px calc(40px + env(safe-area-inset-bottom))}
-.eye{text-align:center;font-size:11px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin:8px 0 14px}
-h1{font-family:'Cormorant Garamond',Georgia,serif;font-weight:600;font-size:clamp(32px,7vw,44px);line-height:1.05;text-align:center}
+:root{--bg:#08080a;--card:#121214;--gold:#d4b48a;--gold-hi:#f3dcae;--teal:#4fa3a5;--txt:#f0ece4;--mut:rgba(240,236,228,.68);--dim:rgba(240,236,228,.44);--line:rgba(212,180,138,.22);--err:#e8806f}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{background:var(--bg);color:var(--txt);overflow-x:clip}
+body{font-family:'Manrope',system-ui,-apple-system,sans-serif;min-height:100vh;min-height:100dvh;-webkit-font-smoothing:antialiased;
+  background-image:radial-gradient(ellipse 900px 520px at 50% -160px,rgba(212,180,138,.14),transparent 70%)}
+.w{max-width:1180px;margin:0 auto;padding:16px 18px calc(36px + env(safe-area-inset-bottom))}
+.top{display:flex;flex-direction:column;align-items:center;gap:6px;margin:6px 0 4px}
+.top svg{width:44px;height:44px}
+.eye{text-align:center;font-size:11px;letter-spacing:4px;text-transform:uppercase;color:var(--gold)}
+h1{font-family:'Cormorant Garamond',Georgia,serif;font-weight:600;font-size:clamp(32px,7.4vw,48px);line-height:1.05;text-align:center}
 h1 em{font-style:italic;color:var(--gold)}
-.lead{text-align:center;color:var(--mut);font-size:15px;line-height:1.6;margin:10px auto 22px;max-width:520px}
-.box{border:1px solid var(--line);background:rgba(21,21,23,.85);border-radius:18px;padding:18px 16px;margin-bottom:14px}
-.box h2{font-size:15.5px;font-weight:700;margin-bottom:10px}
-.box p,.box li{font-size:14px;line-height:1.6;color:var(--mut)}
-.box ul{margin:6px 0 0 18px}
+.lead{text-align:center;color:var(--mut);font-size:15px;line-height:1.6;margin:10px auto 18px;max-width:520px}
+.narrow{max-width:420px;margin:0 auto}
+.scene{max-width:760px;margin:0 auto}
+.scene svg{display:block;width:100%;height:auto}
+.box{border:1px solid var(--line);background:rgba(18,18,20,.88);border-radius:20px;padding:18px 16px;margin-bottom:14px}
 .f{margin-bottom:12px}
-.f label{display:block;font-size:12px;color:var(--dim);margin:0 0 6px 2px}
-.f input,.f textarea{width:100%;min-height:48px;border-radius:13px;border:1px solid rgba(240,236,228,.15);background:#0f0f11;color:var(--txt);font:inherit;font-size:16px;padding:11px 13px;outline:none}
-.f textarea{min-height:70px}
+.f label{display:block;font-size:12px;color:var(--dim);margin:0 0 6px 2px;text-align:center}
+.f input,.f textarea{width:100%;min-height:50px;border-radius:14px;border:1px solid rgba(240,236,228,.16);background:#0d0d0f;color:var(--txt);font:inherit;font-size:16px;padding:11px 14px;outline:none;text-align:center}
+.f textarea{min-height:72px;text-align:left}
 .f input:focus,.f textarea:focus{border-color:var(--gold)}
-.btn{display:flex;align-items:center;justify-content:center;width:100%;min-height:50px;border-radius:14px;border:none;cursor:pointer;margin-top:8px;font:700 15px 'Manrope',sans-serif;background:linear-gradient(135deg,#ecd29b,#c8a96e 45%,#9e7540);color:#0e0b07}
-.btn.line{background:none;border:1px solid rgba(212,180,138,.4);color:var(--gold)}
-.row{display:flex;gap:8px}.row .btn{flex:1}
-.link{font-family:ui-monospace,Menlo,monospace;font-size:13px;word-break:break-all;padding:12px;border-radius:12px;background:#0f0f11;border:1px solid var(--line);user-select:all}
-.kpi{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px}
-.kpi div{border:1px solid rgba(240,236,228,.08);background:var(--card);border-radius:14px;padding:14px 10px;text-align:center}
-.kpi b{display:block;font-size:22px;color:var(--gold-hi)}
+.btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;min-height:50px;border-radius:14px;border:none;cursor:pointer;margin-top:8px;font:700 15px 'Manrope',sans-serif;
+  background:linear-gradient(135deg,#ecd29b,#c8a96e 45%,#9e7540);color:#0e0b07;box-shadow:0 10px 28px rgba(200,169,110,.22)}
+.btn.line{background:none;border:1px solid rgba(212,180,138,.4);color:var(--gold);box-shadow:none}
+.btn[disabled]{opacity:.6}
+.link-btn{background:none;border:none;color:var(--dim);font:500 13px 'Manrope',sans-serif;cursor:pointer;text-decoration:underline;display:block;margin:10px auto 0}
+.err{color:var(--err);font-size:13.5px;margin-top:8px;min-height:1px;text-align:center}
+.ok{color:#9fd8c1}
+/* код: 6 клеток */
+.code{display:flex;justify-content:center;gap:8px;margin:6px 0 4px}
+.code input{width:46px;height:56px;border-radius:12px;border:1px solid rgba(212,180,138,.35);background:#0d0d0f;color:var(--gold-hi);font:700 24px 'Manrope',sans-serif;text-align:center;outline:none;caret-color:var(--gold)}
+.code input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(212,180,138,.15)}
+.hint{text-align:center;color:var(--mut);font-size:13.5px;line-height:1.55;margin-bottom:10px}
+/* сцены */
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes leg{0%,100%{transform:rotate(-12deg)}50%{transform:rotate(12deg)}}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-1.6px)}}
+@keyframes twinkle{0%,100%{opacity:.25}50%{opacity:1}}
+@keyframes arrive{from{transform:translateX(-470px)}to{transform:none}}
+@keyframes glow{0%,100%{opacity:.45}50%{opacity:.95}}
+.st{animation:twinkle 3.6s ease-in-out infinite}.st.b{animation-delay:1.2s}.st.c{animation-delay:2.3s}
+.rig{animation:arrive 4.4s cubic-bezier(.2,.75,.3,1) both}
+.wheel{transform-box:fill-box;transform-origin:center;animation:spin 1.5s linear infinite}
+.leg{transform-box:fill-box;transform-origin:50% 0;animation:leg .7s ease-in-out infinite}.leg.b{animation-delay:-.35s}
+.bob{animation:bob .35s ease-in-out infinite}
+.stopped .wheel,.stopped .leg,.stopped .bob{animation-play-state:paused}
+.lamp{animation:glow 2.6s ease-in-out infinite}
+.coach{transform-box:view-box}
+.open .coach{animation:descend 1.5s cubic-bezier(.4,0,.3,1) forwards}
+@keyframes descend{0%{transform:none}25%{transform:translate(4px,-10px)}60%{transform:translate(-30px,40px)}100%{transform:translate(-52px,64px)}}
+.door{transform-box:fill-box;transform-origin:0 50%}
+.open .door{animation:door 1.1s 1.4s cubic-bezier(.3,.7,.3,1) forwards}
+@keyframes door{to{transform:scaleX(-.55) skewY(-6deg)}}
+.dl,.rays,.burst{opacity:0}
+.open .dl{animation:dl .9s 1.6s ease-out forwards}
+@keyframes dl{to{opacity:1}}
+.rays{transform-box:fill-box;transform-origin:center}
+.open .rays{animation:rays 2.4s 1.9s ease-out forwards,rot 30s 1.9s linear infinite}
+@keyframes rays{0%{opacity:0}100%{opacity:.85}}
+@keyframes rot{to{transform:rotate(360deg)}}
+.burst{transform-box:fill-box;transform-origin:center}
+.open .burst{animation:burst 2.6s 1.8s ease-out forwards}
+@keyframes burst{0%{opacity:0;transform:scale(.3)}60%{opacity:.95}100%{opacity:.8;transform:scale(1)}}
+#flash{position:fixed;inset:0;background:radial-gradient(circle at 50% 45%,#fffdf2,#f3dcae 40%,rgba(243,220,174,0) 75%);opacity:0;pointer-events:none;z-index:20;transition:opacity .9s ease}
+#flash.on{opacity:1}
+.flame{transform-box:fill-box;transform-origin:50% 100%;animation:flick 1.1s ease-in-out infinite}
+@keyframes flick{0%,100%{transform:scale(1,1) rotate(-2deg)}30%{transform:scale(.92,1.08) rotate(2deg)}60%{transform:scale(1.06,.94) rotate(-1deg)}}
+.halo{animation:glow 2.2s ease-in-out infinite}
+/* приветствие */
+.wel{display:grid;gap:22px;align-items:center;margin-top:6px}
+.wel .pic{max-width:380px;margin:0 auto;width:100%}
+.steps{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:8px 0 6px}
+.step{position:relative;border:1px solid var(--line);border-radius:16px;padding:14px 12px 12px;background:linear-gradient(160deg,rgba(212,180,138,.09),rgba(18,18,20,.6));text-align:center}
+.step .n{position:absolute;top:8px;left:10px;font:600 13px 'Cormorant Garamond',serif;color:var(--gold);opacity:.8}
+.step .i{font-size:26px;line-height:1;margin-bottom:6px}
+.step b{display:block;font-size:14px;margin-bottom:3px}
+.step span{font-size:12.5px;color:var(--mut);line-height:1.45}
+.big{font:700 22px 'Manrope',sans-serif;color:var(--gold-hi)}
+.ads{display:grid;gap:10px;margin:8px 0}
+.ad{display:flex;gap:12px;align-items:flex-start;border-radius:16px;padding:13px 14px;border:1px solid}
+.ad .i{font-size:22px;line-height:1.1}
+.ad b{display:block;font-size:14px;margin-bottom:2px}
+.ad span{font-size:12.8px;color:var(--mut);line-height:1.5}
+.ad.g{border-color:rgba(120,200,160,.35);background:rgba(120,200,160,.06)}
+.ad.y{border-color:rgba(230,190,90,.35);background:rgba(230,190,90,.06)}
+.ad.r{border-color:rgba(232,128,111,.4);background:rgba(232,128,111,.06)}
+.ad code{font-size:11.5px;color:var(--gold-hi);word-break:break-word}
+.nope{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin:10px 0 2px}
+.nope span{font-size:12px;padding:6px 10px;border-radius:999px;border:1px solid rgba(232,128,111,.4);color:#f0b3a8}
+.sec-t{text-align:center;font:600 22px 'Cormorant Garamond',serif;color:var(--gold-hi);margin:18px 0 8px}
+.ck{display:flex;gap:10px;align-items:flex-start;font-size:14px;line-height:1.5;color:var(--mut);margin:10px 0;cursor:pointer}
+.ck input{flex:none;width:20px;height:20px;margin-top:2px;accent-color:#c8a96e}
+a{color:var(--gold)}
+/* кабинет */
+.dash{display:grid;gap:14px;margin-top:10px}
+.kpi{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.kpi div{border:1px solid rgba(240,236,228,.08);background:var(--card);border-radius:16px;padding:14px 8px;text-align:center}
+.kpi b{display:block;font-size:24px;color:var(--gold-hi);line-height:1.15}
 .kpi span{font-size:12px;color:var(--dim)}
+details.box{padding:0 16px}
+details.box summary{list-style:none;cursor:pointer;text-align:center;font-weight:700;font-size:15.5px;padding:16px 0;position:relative}
+details.box summary::-webkit-details-marker{display:none}
+details.box summary::after{content:'›';position:absolute;right:2px;top:50%;transform:translateY(-50%) rotate(90deg);color:var(--gold);font-size:20px;transition:transform .2s}
+details.box[open] summary::after{transform:translateY(-50%) rotate(-90deg)}
+details.box[open]{padding-bottom:16px}
+.box h2{text-align:center;font-size:15.5px;font-weight:700;margin-bottom:12px}
+.lk{border-radius:14px;padding:12px;margin-bottom:10px;background:linear-gradient(135deg,rgba(79,163,165,.22),rgba(79,163,165,.06));border:1px solid rgba(79,163,165,.55)}
+.lk .t{font-size:12px;color:#c4ecec;margin-bottom:6px;font-weight:600}
+.lk .u{font-family:ui-monospace,Menlo,monospace;font-size:13px;word-break:break-all;user-select:all;margin-bottom:8px}
+.lk button{width:100%;min-height:42px;border-radius:11px;border:1px solid rgba(240,236,228,.16);background:rgba(0,0,0,.2);color:var(--txt);font:600 13.5px 'Manrope',sans-serif;cursor:pointer}
 table{width:100%;border-collapse:collapse;font-size:13.5px}
 td,th{padding:9px 6px;border-bottom:1px solid rgba(240,236,228,.07);text-align:left;color:var(--mut);vertical-align:top}
 th{color:var(--txt);font-weight:600;font-size:12.5px}
@@ -42,101 +127,266 @@ td.r{text-align:right;color:var(--gold);white-space:nowrap}
 .seg{display:flex;gap:8px}
 .seg button{flex:1;min-height:44px;border-radius:12px;border:1px solid rgba(240,236,228,.15);background:none;color:var(--mut);font:600 14px 'Manrope',sans-serif;cursor:pointer}
 .seg button.on{border-color:var(--gold);color:var(--txt);background:rgba(212,180,138,.12)}
-.ck{display:flex;gap:10px;align-items:flex-start;font-size:14px;line-height:1.5;color:var(--mut);margin:12px 0;cursor:pointer}
-.ck input{flex:none;width:20px;height:20px;margin-top:2px;accent-color:#c8a96e}
-a{color:var(--gold)}
-.err{color:var(--err);font-size:13.5px;margin-top:8px;min-height:1px}
-.ok{color:#9fd8c1;font-size:13.5px;margin-top:8px}
-.foot{text-align:center;font-size:12.5px;color:var(--dim);line-height:1.7;margin-top:24px}
+.p{font-size:13.5px;line-height:1.6;color:var(--mut);text-align:center;margin-bottom:10px}
+.foot{text-align:center;font-size:12.5px;color:var(--dim);line-height:1.7;margin-top:26px}
 .foot a{color:var(--mut)}
-.out{background:none;border:none;color:var(--dim);font:500 13px 'Manrope',sans-serif;cursor:pointer;text-decoration:underline;display:block;margin:6px auto 0}
-.mark{border-left:2px solid var(--teal);background:rgba(79,163,165,.07)}
+.fade{animation:fade .8s ease both}
+@keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@media (min-width:900px){
+  .wel{grid-template-columns:.9fr 1.1fr}
+  .wel .txt h1,.wel .txt .lead{text-align:left}
+  .wel .txt .lead{margin-left:0}
+  .steps{grid-template-columns:repeat(4,1fr)}
+  .dash{grid-template-columns:1.35fr 1fr;align-items:start}
+  .kpi b{font-size:28px}
+}
+@media (max-width:380px){.code input{width:40px;height:52px;font-size:21px}.code{gap:6px}}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition:none!important}}
 </style></head><body>
+<div id="flash"></div>
 <main class="w">
- <div class="eye">Клуб #MaxMagia · партнёрам</div>
- <div id="app"><p class="lead">Загружаю…</p></div>
+ <div class="top"><svg viewBox="0 0 100 100" fill="none" stroke="#d4b48a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+   <circle cx="50" cy="12" r="4"/><path d="M48 15 L24 74 M52 15 L76 74"/><path d="M14 54 L50 88 L86 54"/><path d="M38 60 L38 46 L50 56 L62 46 L62 60" stroke-width="2.6"/></svg>
+  <div class="eye">Клуб #MaxMagia · ложа партнёров</div></div>
+ <div id="app"><p class="lead">Открываю двери ложи…</p></div>
  <div class="foot">Клуб психологической поддержки и саморазвития психолога Максима Гущина<br>
-  <a href="https://maxmagia.ru/partner.html">Условия партнёрской программы</a> · <a href="https://maxmagia.ru/privacy.html">Политика</a> · <a href="mailto:club@maxmagia.ru">club@maxmagia.ru</a></div>
+  <a href="https://maxmagia.ru/partner.html">Условия программы</a> · <a href="https://maxmagia.ru/privacy.html">Политика</a> · <a href="mailto:club@maxmagia.ru">club@maxmagia.ru</a></div>
 </main>
+
+<template id="tpl-road">
+<svg viewBox="0 0 600 300" aria-hidden="true">
+ <defs>
+  <radialGradient id="gl"><stop offset="0" stop-color="#fffdf0"/><stop offset=".35" stop-color="#fff4cf" stop-opacity=".95"/><stop offset="1" stop-color="#f3dcae" stop-opacity="0"/></radialGradient>
+  <linearGradient id="ray" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#fff6d8" stop-opacity=".95"/><stop offset="1" stop-color="#fff6d8" stop-opacity="0"/></linearGradient>
+  <mask id="mm"><rect width="600" height="300" fill="#fff"/><circle cx="512" cy="44" r="17" fill="#000"/></mask>
+ </defs>
+ <g fill="#d4b48a"><circle class="st" cx="60" cy="30" r="1.4"/><circle class="st b" cx="140" cy="62" r="1"/><circle class="st c" cx="230" cy="24" r="1.3"/><circle class="st" cx="300" cy="70" r="1"/><circle class="st b" cx="380" cy="34" r="1.5"/><circle class="st c" cx="440" cy="90" r="1"/><circle class="st" cx="560" cy="110" r="1.2"/><circle class="st b" cx="260" cy="110" r="1"/></g>
+ <circle cx="504" cy="50" r="19" fill="#d4b48a" opacity=".9" mask="url(#mm)"/>
+ <path d="M150 250 Q260 214 360 236 Q450 218 600 236 L600 250 Z" fill="#0d0f0d"/>
+ <g stroke="#b8956a" stroke-width="1.4"><path d="M0 250 L600 250"/></g>
+ <g stroke="#b8956a" stroke-width="1" opacity=".45" stroke-linecap="round"><path d="M200 262 l4 -6 M260 270 l3 -7 M330 264 l4 -6 M400 272 l3 -7 M470 262 l4 -6 M540 270 l3 -7 M230 284 l4 -6 M370 288 l4 -6 M500 286 l3 -7"/></g>
+
+ <!-- свет из кареты -->
+ <g class="rays" fill="url(#ray)"><g transform="translate(287 191)">
+  <path d="M-6 0 L0 -150 L6 0Z"/><path d="M-6 0 L0 -150 L6 0Z" transform="rotate(35)"/><path d="M-6 0 L0 -150 L6 0Z" transform="rotate(-35)"/><path d="M-5 0 L0 -120 L5 0Z" transform="rotate(70)"/><path d="M-5 0 L0 -120 L5 0Z" transform="rotate(-70)"/><path d="M-4 0 L0 -100 L4 0Z" transform="rotate(105)"/><path d="M-4 0 L0 -100 L4 0Z" transform="rotate(-105)"/><path d="M-4 0 L0 -90 L4 0Z" transform="rotate(150)"/><path d="M-4 0 L0 -90 L4 0Z" transform="rotate(-150)"/><path d="M-3 0 L0 -110 L3 0Z" transform="rotate(18)"/><path d="M-3 0 L0 -110 L3 0Z" transform="rotate(-18)"/>
+ </g></g>
+ <circle class="burst" cx="287" cy="191" r="70" fill="url(#gl)"/>
+ <g class="rig"><g class="bob">
+  <!-- карета -->
+  <g stroke="#d4b48a" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round">
+   <path d="M222 226 L226 170 Q230 150 256 148 L318 148 Q344 150 348 170 L352 226 Z" fill="#141210"/>
+   <path d="M244 148 Q287 124 330 148"/><path d="M287 126 L287 116"/><circle cx="287" cy="113" r="3"/>
+   <path d="M222 226 Q287 236 352 226"/><path d="M234 160 L234 218 M340 160 L340 218" opacity=".7"/>
+  </g>
+  <rect class="dl" x="268" y="160" width="38" height="62" rx="4" fill="#fff8de"/>
+  <g class="door" stroke="#d4b48a" stroke-width="1.6"><rect x="268" y="160" width="38" height="62" rx="4" fill="#141210"/><rect x="274" y="166" width="26" height="20" rx="3" fill="#0b0b0c"/><circle cx="301" cy="198" r="1.8" fill="#d4b48a"/>
+   <path d="M280 204 L287 194 L294 204 M280 196 L287 206 L294 196" stroke-width="1.1" opacity=".8"/></g>
+  <circle class="dl" cx="287" cy="190" r="40" fill="url(#gl)"/>
+  <g stroke="#d4b48a" stroke-width="1.6" stroke-linecap="round" fill="none"><path d="M348 186 L386 186 L388 174"/><path d="M378 186 L394 200"/><path d="M352 168 L362 168 L362 160"/><path d="M384 198 L432 204"/></g>
+  <rect x="356" y="152" width="10" height="13" rx="2" fill="#141210" stroke="#d4b48a" stroke-width="1.4"/>
+  <circle class="lamp" cx="361" cy="158" r="12" fill="#d4b48a" opacity=".25"/>
+  <!-- кучер в мантии -->
+  <g class="coach">
+   <path d="M358 186 Q355 152 373 142 Q391 152 388 186 Z" fill="#0a0a0b" stroke="#d4b48a" stroke-width="1.5"/>
+   <path d="M360 152 Q363 127 373 117 Q383 127 386 152 Q373 144 360 152 Z" fill="#0a0a0b" stroke="#d4b48a" stroke-width="1.5"/>
+   <ellipse cx="373" cy="140" rx="5.5" ry="6.5" fill="#000"/><circle cx="371" cy="139" r=".9" fill="#f3dcae"/><circle cx="375.5" cy="139" r=".9" fill="#f3dcae"/>
+   <path d="M367 172 L373 163 L379 172 M367 166 L373 175 L379 166" stroke="#d4b48a" stroke-width="1" fill="none"/>
+   <path d="M382 162 Q430 150 528 152" stroke="#d4b48a" stroke-width=".9" fill="none" opacity=".8"/>
+  </g>
+  <!-- конь в попоне -->
+  <g stroke="#d4b48a" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round">
+   <path class="leg b" d="M446 210 L442 250"/><path class="leg" d="M500 208 L508 250"/>
+   <path d="M430 200 Q432 182 452 182 L492 182 Q504 182 508 172 L518 146 Q522 136 532 140 L542 150 Q545 157 537 159 L526 157 L516 182 Q514 202 502 212 L440 212 Q428 210 430 200 Z" fill="#141210"/>
+   <path d="M430 198 Q414 206 418 228" fill="none"/><path d="M526 142 L530 132 L534 142"/>
+   <path d="M436 186 Q470 176 508 184 L510 214 Q472 222 434 214 Z" fill="#0a0a0b"/>
+   <path d="M438 208 Q472 214 508 208" stroke-width="1" opacity=".8"/>
+   <path d="M466 204 L472 194 L478 204 M466 198 L472 208 L478 198" stroke-width="1"/>
+   <path d="M512 152 Q518 130 534 136 L541 150 Q528 145 521 162 Z" fill="#0a0a0b"/>
+   <circle cx="534" cy="149" r="1.3" fill="#f3dcae" stroke="none"/>
+   <path class="leg" d="M452 212 L456 250"/><path class="leg b" d="M492 210 L488 250"/>
+  </g>
+  <g class="wheel"><circle cx="250" cy="236" r="21" stroke="#d4b48a" stroke-width="1.6" fill="#08080a"/><path d="M250 215 L250 257 M229 236 L271 236 M235 221 L265 251 M265 221 L235 251" stroke="#d4b48a"/><circle cx="250" cy="236" r="3.5" fill="#d4b48a"/></g>
+  <g class="wheel"><circle cx="326" cy="236" r="21" stroke="#d4b48a" stroke-width="1.6" fill="#08080a"/><path d="M326 215 L326 257 M305 236 L347 236 M311 221 L341 251 M341 221 L311 251" stroke="#d4b48a"/><circle cx="326" cy="236" r="3.5" fill="#d4b48a"/></g>
+ </g></g>
+ <!-- лес (поверх кареты — она выезжает из-за деревьев) -->
+ <g fill="#060706" stroke="rgba(212,180,138,.32)" stroke-width="1">
+  <path d="M-10 250 L18 120 L46 250 Z"/><path d="M20 250 L56 96 L92 250 Z"/><path d="M64 250 L96 136 L128 250 Z"/><path d="M100 250 L134 108 L168 250 Z"/>
+  <path d="M138 250 L164 160 L190 250 Z"/><path d="M-20 250 L4 170 L30 250 Z"/><path d="M44 250 L70 176 L96 250 Z"/><path d="M118 250 L146 186 L174 250 Z"/>
+ </g>
+</svg>
+</template>
+
+<template id="tpl-candle">
+<svg viewBox="0 0 400 360" aria-hidden="true">
+ <defs><radialGradient id="cg"><stop offset="0" stop-color="#ffe9b0" stop-opacity=".75"/><stop offset="1" stop-color="#ffe9b0" stop-opacity="0"/></radialGradient></defs>
+ <g fill="#d4b48a"><circle class="st" cx="40" cy="40" r="1.3"/><circle class="st b" cx="360" cy="60" r="1.2"/><circle class="st c" cx="330" cy="20" r="1"/><circle class="st" cx="80" cy="90" r="1"/></g>
+ <path d="M50 352 L50 128 Q200 -6 350 128 L350 352" stroke="#d4b48a" stroke-width="1.5" fill="none" opacity=".75"/>
+ <path d="M64 352 L64 134 Q200 10 336 134 L336 352" stroke="#d4b48a" stroke-width=".8" fill="none" opacity=".4"/>
+ <g stroke="#b8956a" stroke-width=".8" opacity=".35"><path d="M50 330 L350 330 M50 352 L350 352 M90 330 L80 352 M130 330 L126 352 M170 330 L170 352 M210 330 L214 352 M250 330 L258 352 M290 330 L302 352 M330 330 L346 352"/></g>
+ <circle class="halo" cx="206" cy="214" r="78" fill="url(#cg)"/>
+ <!-- кучер-масон анфас со свечой -->
+ <path d="M112 334 Q108 222 166 176 Q224 222 220 334 Z" fill="#0a0a0b" stroke="#d4b48a" stroke-width="1.6"/>
+ <path d="M122 214 Q126 122 166 96 Q206 122 210 214 Q188 188 166 188 Q144 188 122 214 Z" fill="#0a0a0b" stroke="#d4b48a" stroke-width="1.6"/>
+ <ellipse cx="166" cy="164" rx="23" ry="29" fill="#000"/>
+ <circle cx="157" cy="160" r="2.2" fill="#f3dcae"/><circle cx="175" cy="160" r="2.2" fill="#f3dcae"/>
+ <path d="M152 286 L166 266 L180 286 M152 274 L166 294 L180 274" stroke="#d4b48a" stroke-width="1.4" fill="none"/>
+ <path d="M190 250 Q200 236 212 244" stroke="#d4b48a" stroke-width="1.4" fill="#0a0a0b"/>
+ <rect x="200" y="222" width="12" height="34" rx="2" fill="#efe3c8"/>
+ <path d="M206 222 L206 216" stroke="#3a2c1a" stroke-width="1.2"/>
+ <path class="flame" d="M206 216 Q197 204 206 186 Q215 204 206 216 Z" fill="#ffd56a"/>
+ <path class="flame" d="M206 214 Q202 206 206 196 Q210 206 206 214 Z" fill="#fff6d0"/>
+ <!-- конь-масон анфас -->
+ <path d="M258 352 Q264 300 278 296 L306 296 Q320 300 326 352 Z" fill="#0a0a0b" stroke="#d4b48a" stroke-width="1.4"/>
+ <path d="M292 152 Q268 158 266 206 Q264 256 278 296 Q292 318 306 296 Q320 256 318 206 Q316 158 292 152 Z" fill="#141210" stroke="#d4b48a" stroke-width="1.6"/>
+ <path d="M274 162 L266 136 L284 156 M310 162 L318 136 L300 156" stroke="#d4b48a" stroke-width="1.6" fill="#141210"/>
+ <path d="M264 204 Q266 148 292 136 Q318 148 320 204 Q306 180 292 178 Q278 180 264 204 Z" fill="#0a0a0b" stroke="#d4b48a" stroke-width="1.4"/>
+ <circle cx="279" cy="210" r="3" fill="#f3dcae"/><circle cx="305" cy="210" r="3" fill="#f3dcae"/>
+ <circle cx="286" cy="290" r="2" fill="#d4b48a"/><circle cx="298" cy="290" r="2" fill="#d4b48a"/>
+ <path d="M284 182 L292 170 L300 182 M284 176 L292 188 L300 176" stroke="#d4b48a" stroke-width="1" fill="none"/>
+</svg>
+</template>
+
 <script>
 (function(){
-  var app=document.getElementById('app'),D=null,EMAIL='',LEGAL='';
+  var app=document.getElementById('app'),D=null,EMAIL='',LEGAL='',DEMO=new URLSearchParams(location.search).get('demo');
   function E(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
-  function api(p,b){return fetch('/api/ref/'+p,{method:b?'POST':'GET',headers:b?{'Content-Type':'application/json'}:{},body:b?JSON.stringify(b):undefined,credentials:'same-origin',cache:'no-store'})
-    .then(function(r){return r.json().then(function(j){j._s=r.status;return j;}).catch(function(){return {ok:false,_s:r.status};});}).catch(function(){return {ok:false,error:'net'};});}
   function $(id){return document.getElementById(id);}
-  function err(t,id){var e=$(id||'err');if(e)e.textContent=t||'';}
-  var MARK='<div class="box mark"><h2>📣 Маркировка рекламы — обязательно</h2><ul>'+
-    '<li>Пост с этой ссылкой в открытом канале, группе, блоге, сторис, видео — это <b>реклама</b>. До публикации получите токен <b>erid</b> у любого оператора рекламных данных (ОРД) и поставьте пометку: «Реклама. Гущин Максим Сергеевич, ИНН 616616544435. erid: …». Ссылку с erid — параметром в конце: <span style="font-family:monospace">…/go/КОД?erid=…</span></li>'+
-    '<li>Рассылка по своей базе (письма, push) — нужно согласие получателей на рекламные рассылки.</li>'+
-    '<li>Личная рекомендация знакомому в переписке — не реклама.</li>'+
-    '<li>Нельзя обещать результат, «вылечить», называть клуб обучением или курсом; цена — «2 500 ₽ за 31 день».</li></ul>'+
-    '<p style="margin-top:8px">Регистрировать рекламу и отчитываться в ЕРИР — обязанность партнёра (раздел 5 условий).</p></div>';
+  function err(t,id){var e=$(id||'err');if(e){e.className='err';e.textContent=t||'';}}
+  function tpl(id){return $(id).innerHTML;}
+  function api(p,b){
+    if(DEMO)return demo(p,b);
+    return fetch('/api/ref/'+p,{method:b?'POST':'GET',headers:b?{'Content-Type':'application/json'}:{},body:b?JSON.stringify(b):undefined,credentials:'same-origin',cache:'no-store'})
+      .then(function(r){return r.json().then(function(j){j._s=r.status;return j;}).catch(function(){return {ok:false,_s:r.status};});}).catch(function(){return {ok:false,error:'net'};});}
+  var DM={step:0};
+  function demo(p,b){return new Promise(function(res){setTimeout(function(){
+    if(p==='p/me'){if(!DM.step)return res({ok:false,_s:401});
+      return res({ok:true,kind:DEMO==='member'?'member':'external',name:'Анна Продюсер',terms:DM.step>1,code:'qagbtg',links:{site:'https://app.maxmagia.ru/api/ref/go/qagbtg',bot:'https://t.me/clubeshnik911_bot?start=ref_qagbtg'},
+        payout:DEMO==='member'?'days':'money',money:'3 750 ₽',earned:'6 250 ₽',paid:'2 500 ₽',days:20,earned_days:28,brought:3,linked:5,legal:'',inn:'',pay_info:'',full_name:'',rates:{first:50,renewal:50},
+        people:[{name:'Ольга С.',at:'2026-11-02',status:'в клубе · оплат: 2',paid:true,rub:'2 500 ₽',days:20},{name:'Ирина К.',at:'2026-11-08',status:'в клубе · оплат: 1',paid:true,rub:'1 250 ₽',days:12},{name:'Марина',at:'2026-11-12',status:'начал(а) вступление, ещё не оплатил(а)',paid:false}],
+        statement:{clicks:41,months:[{month:'2026-11',n:3,rub:'3 750 ₽',days:28},{month:'2026-10',n:2,rub:'2 500 ₽',days:0}],payouts:[{rub:'2 500 ₽',note:'октябрь',at:'2026-11-10'}]}});}
+    if(p==='p/code')return res({ok:true});
+    if(p==='p/verify'){DM.step=1;return res({ok:true});}
+    if(p==='p/terms'){DM.step=2;return api('p/me').then(res);}
+    res({ok:true});},350);});}
 
+  /* ── 1. вход: карета выезжает из леса ── */
   function login(){
-    app.innerHTML='<h1>Кабинет <em>партнёра</em></h1><p class="lead">Ваша ссылка, кто пришёл по ней, начисления и выплаты.</p>'+
-      '<div class="box"><div id="st1"><div class="f"><label>Почта, которую вы сообщили Максиму</label><input id="em" type="email" inputmode="email" autocomplete="email" placeholder="you@mail.ru"></div>'+
-      '<button class="btn" id="b1">Прислать код</button></div>'+
-      '<div id="st2" style="display:none"><p id="hint" style="margin-bottom:10px"></p><div class="f"><label>Код из письма</label><input id="cd" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="000000"></div>'+
-      '<button class="btn" id="b2">Войти</button><button class="out" id="back">Другая почта</button></div><div class="err" id="err"></div></div>';
-    $('b1').onclick=async function(){EMAIL=($('em').value||'').trim().toLowerCase();if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(EMAIL))return err('Проверьте почту.');
-      var r=await api('p/code',{email:EMAIL});if(r.error==='rate')return err('Слишком много попыток — подождите несколько минут.');
-      $('st1').style.display='none';$('st2').style.display='block';$('hint').textContent='Если это почта партнёра клуба, на неё ушёл код. Загляните и в «Спам».';err('');};
+    app.innerHTML='<h1>Вход в <em>ложу</em></h1><p class="lead">Ложа партнёров клуба — ваша ссылка, кто пришёл по ней и что вам начислено.</p>'+
+      '<div class="scene" id="sc">'+tpl('tpl-road')+'</div>'+
+      '<div class="narrow fade" id="st1"><div class="box"><div class="f"><label>Почта, на которую придёт ключ</label><input id="em" type="email" inputmode="email" autocomplete="email" placeholder="you@mail.ru"></div>'+
+      '<button class="btn" id="b1">🗝 Прислать ключ</button><div class="err" id="err"></div></div></div>'+
+      '<div class="narrow" id="st2" style="display:none"><div class="box"><p class="hint" id="hint"></p><div class="code" id="code"></div>'+
+      '<div class="err" id="err2"></div><button class="link-btn" id="back">Другая почта</button></div></div>';
+    var sc=$('sc');setTimeout(function(){sc.classList.add('stopped');},4400);
+    $('b1').onclick=send;$('em').onkeydown=function(e){if(e.key==='Enter')send();};
     $('back').onclick=function(){$('st2').style.display='none';$('st1').style.display='block';};
-    $('b2').onclick=async function(){var r=await api('p/verify',{email:EMAIL,code:$('cd').value});
-      if(r.ok)return load();err(r.error==='wrong'?'Код не подошёл.':r.error==='tries'?'Слишком много попыток — запросите новый код.':'Код устарел — запросите новый.');};
+    var c=$('code');for(var i=0;i<6;i++){var inp=document.createElement('input');inp.inputMode='numeric';inp.maxLength=1;inp.autocomplete=i?'off':'one-time-code';inp.setAttribute('aria-label','Цифра '+(i+1));c.appendChild(inp);}
+    var ins=c.querySelectorAll('input');
+    ins.forEach(function(inp,i){
+      inp.oninput=function(){var v=inp.value.replace(/\D/g,'');
+        if(v.length>1){v.split('').slice(0,6-i).forEach(function(d,k){ins[i+k].value=d;});var last=Math.min(5,i+v.length-1);ins[last].focus();}
+        else{inp.value=v;if(v&&i<5)ins[i+1].focus();}
+        check();};
+      inp.onkeydown=function(e){if(e.key==='Backspace'&&!inp.value&&i>0){ins[i-1].focus();ins[i-1].value='';}};
+      inp.onpaste=function(e){var t=(e.clipboardData||window.clipboardData).getData('text').replace(/\D/g,'').slice(0,6);if(!t)return;e.preventDefault();t.split('').forEach(function(d,k){if(ins[k])ins[k].value=d;});ins[Math.min(5,t.length-1)].focus();check();};
+    });
+    function check(){var code=Array.prototype.map.call(ins,function(x){return x.value;}).join('');if(code.length===6)verify(code);}
   }
-  async function load(){
+  async function send(){
+    EMAIL=($('em').value||'').trim().toLowerCase();
+    if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(EMAIL))return err('Проверьте почту.');
+    $('b1').disabled=true;var r=await api('p/code',{email:EMAIL});$('b1').disabled=false;
+    if(r.error==='rate')return err('Слишком много попыток — подождите несколько минут.');
+    $('sc').classList.add('stopped','open');
+    $('st1').style.display='none';$('st2').style.display='block';$('st2').classList.add('fade');
+    $('hint').innerHTML='Кучер открыл дверь кареты 🕯<br>Если <b>'+E(EMAIL)+'</b> — почта партнёра или участника клуба, на неё ушёл ключ из 6 цифр. Загляните и в «Спам».';
+    setTimeout(function(){var f=$('code').querySelector('input');if(f)f.focus();},300);
+  }
+  var busy=false;
+  async function verify(code){
+    if(busy)return;busy=true;var r=await api('p/verify',{email:EMAIL,code:code});busy=false;
+    if(r.ok){$('flash').classList.add('on');setTimeout(function(){load(true);},900);return;}
+    $('code').querySelectorAll('input').forEach(function(x){x.value='';});$('code').querySelector('input').focus();
+    err(r.error==='wrong'?'Ключ не подошёл — проверьте цифры.':r.error==='tries'?'Слишком много попыток — запросите новый ключ.':'Ключ устарел — запросите новый.','err2');
+  }
+
+  async function load(fromFlash){
     var r=await api('p/me');
+    setTimeout(function(){$('flash').classList.remove('on');},fromFlash?250:0);
     if(r._s===401)return login();
     if(!r.ok){app.innerHTML='<p class="lead">📡 Не получилось загрузить — обновите страницу.</p>';return;}
-    D=r;draw();
+    D=r;D.member=D.kind==='member';draw();window.scrollTo(0,0);
+  }
+
+  /* ── 2. приветствие: кучер со свечой ── */
+  function howSteps(){
+    var m=D.member;
+    return '<div class="steps">'+
+      '<div class="step"><span class="n">I</span><div class="i">🔗</div><b>Делитесь ссылкой</b><span>на страницу клуба или на бота в Telegram</span></div>'+
+      '<div class="step"><span class="n">II</span><div class="i">🤝</div><b>Человек вступает</b><span>и закрепляется за вами <b>навсегда</b></span></div>'+
+      '<div class="step"><span class="n">III</span><div class="i">'+(m?'🌙':'💰')+'</div><b class="big">'+(m?'40 % → 25 %':'50 %')+'</b><span>'+(m?'с первой оплаты и с каждого продления — днями клуба':'с каждой его оплаты, пока он в клубе')+'</span></div>'+
+      '<div class="step"><span class="n">IV</span><div class="i">'+(m?'🎁':'🗓')+'</div><b>'+(m?'Дни — себе или в подарок':'Выплата раз в месяц')+'</b><span>'+(m?'самозанятым и ИП — по заявке деньгами':'после вашего чека «Мой налог» или документов ИП')+'</span></div></div>'+
+      '<p class="p" style="margin-top:6px">Получатель оплаченного вами подарка, который раньше не был в клубе, тоже закрепляется за вами. При возврате оплаты начисление отменяется.</p>';
+  }
+  function adsInfo(){
+    return '<div class="ads">'+
+      '<div class="ad g"><div class="i">✅</div><div><b>Личное сообщение другу</b><span>Рекомендация в переписке — не реклама. Делитесь свободно.</span></div></div>'+
+      '<div class="ad y"><div class="i">✉️</div><div><b>Рассылка по своей базе</b><span>Письма, push, сообщения — только тем, кто согласился получать от вас рекламу.</span></div></div>'+
+      '<div class="ad r"><div class="i">📣</div><div><b>Пост в открытом канале, блоге, видео</b><span>Это реклама. До публикации — токен erid у оператора рекламных данных (ОРД) и пометка:<br><code>Реклама. Гущин Максим Сергеевич, ИНН 616616544435. erid: …</code><br>Ссылка с erid: <code>…/go/КОД?erid=…</code>. Регистрирует и отчитывается — тот, кто публикует.</span></div></div></div>'+
+      '<div class="nope"><span>✕ обещать результат</span><span>✕ «лечение», «терапия»</span><span>✕ «курс», «обучение»</span><span>✕ другая цена — только «2 500 ₽ за 31 день»</span></div>';
   }
   function terms(){
-    app.innerHTML='<h1>Добро <em>пожаловать</em></h1><p class="lead">'+E(D.name)+', перед стартом — коротко об условиях.</p>'+
-      '<div class="box"><h2>Как это работает</h2><ul><li><b>50 %</b> с каждой оплаты человека, который пришёл по вашей ссылке, — с первой и со всех продлений, пока он в клубе.</li>'+
-      '<li>Чей человек: кто привёл первым; ссылка помнит человека 30 дней.</li><li>Выплата — раз в месяц, после вашего чека (самозанятый) или документов (ИП).</li>'+
-      '<li>При возврате оплаты начисление отменяется.</li></ul></div>'+MARK+
-      '<div class="box"><label class="ck"><input type="checkbox" id="tk"><span>Я прочитал(а) и принимаю <a href="https://maxmagia.ru/partner.html" target="_blank" rel="noopener">условия партнёрской программы</a>, включая обязанность маркировать рекламу</span></label>'+
-      '<button class="btn" id="tb">Принимаю</button><div class="err" id="err"></div></div>';
-    $('tb').onclick=async function(){if(!$('tk').checked)return err('Отметьте согласие с условиями.');var r=await api('p/terms',{ok:true});if(r.ok){D=r;draw();}else err('Не получилось — попробуйте ещё раз.');};
+    app.innerHTML='<div class="wel fade"><div class="pic">'+tpl('tpl-candle')+'</div><div class="txt">'+
+      '<h1>Добро пожаловать <em>в ложу</em></h1><p class="lead">'+E((D.name||'').split(' ')[0]||'Друг')+', кучер зажёг свечу. Прежде чем войти — коротко о правилах ложи.</p>'+
+      '<div class="sec-t">Как это работает</div>'+howSteps()+
+      '<div class="sec-t">Реклама и маркировка</div>'+adsInfo()+
+      '<div class="box" style="margin-top:14px"><label class="ck"><input type="checkbox" id="tk"><span>Я прочитал(а) и принимаю <a href="https://maxmagia.ru/partner.html" target="_blank" rel="noopener">условия программы</a>, включая обязанность маркировать рекламу</span></label>'+
+      '<button class="btn" id="tb">🕯 Войти в ложу</button><div class="err" id="err"></div></div></div></div>';
+    $('tb').onclick=async function(){if(!$('tk').checked)return err('Отметьте согласие с условиями.');var r=await api('p/terms',{ok:true});if(r.ok){D=r;D.member=D.kind==='member';draw();window.scrollTo(0,0);}else err('Не получилось — попробуйте ещё раз.');};
   }
+
+  /* ── 3. кабинет ── */
   function draw(){
     if(!D.terms)return terms();
-    var st=D.statement||{},ppl=D.people||[],paid=ppl.filter(function(p){return p.paid;}).length;
-    var h='<h1>'+E((D.name||'').split(' ')[0]||'Партнёр')+', <em>привет</em></h1><p class="lead">Ваша ссылка на клуб #MaxMagia и всё, что по ней произошло.</p>'+
-      '<div class="box"><h2>🔗 Ваша ссылка</h2><div class="link" id="lk">'+E(D.links.site)+'</div><div class="row"><button class="btn" onclick="pCopy(\'site\')">📋 Скопировать</button></div>'+
-      '<p style="margin-top:10px">Для Telegram-аудитории — ссылка на бота клуба:</p><div class="link" style="margin-top:6px">'+E(D.links.bot)+'</div><div class="row"><button class="btn line" onclick="pCopy(\'bot\')">📋 Скопировать ссылку на бота</button></div></div>'+
-      '<div class="kpi"><div><b>'+(st.clicks||0)+'</b><span>переходов</span></div><div><b>'+ppl.length+'</b><span>пришли</span></div><div><b>'+paid+'</b><span>оплатили</span></div></div>'+
-      '<div class="kpi"><div><b>'+E(D.earned)+'</b><span>начислено всего</span></div><div><b>'+E(D.paid)+'</b><span>выплачено</span></div><div><b>'+E(D.money)+'</b><span>к выплате</span></div></div>';
-    h+='<div class="box"><h2>👥 Кто пришёл по ссылке</h2>';
-    if(!ppl.length)h+='<p>Пока никого — всё впереди 🙂</p>';
-    else{h+='<table><tr><th>Кто</th><th>Когда</th><th>Статус</th><th style="text-align:right">Вам</th></tr>';
-      ppl.forEach(function(p){h+='<tr><td>'+E(p.name)+'</td><td>'+E(p.at)+'</td><td>'+E(p.status)+'</td><td class="r">'+(p.paid?E(p.rub):'—')+'</td></tr>';});h+='</table>';}
-    h+='</div><div class="box"><h2>🧾 Выписка по месяцам</h2>';
-    var ms=st.months||[];
-    if(!ms.length)h+='<p>Начислений пока нет.</p>';
-    else{h+='<table><tr><th>Месяц</th><th>Оплат</th><th style="text-align:right">Начислено</th></tr>';ms.forEach(function(m){h+='<tr><td>'+E(m.month)+'</td><td>'+m.n+'</td><td class="r">'+E(m.rub)+'</td></tr>';});h+='</table>';}
-    var ps=st.payouts||[];
-    if(ps.length){h+='<h2 style="margin-top:14px">Выплаты</h2><table>';ps.forEach(function(p){h+='<tr><td>'+E(p.at)+'</td><td>'+E(p.note||'')+'</td><td class="r">'+E(p.rub)+'</td></tr>';});h+='</table>';}
-    h+='</div>';
+    var st=D.statement||{},ppl=D.people||[],m=D.member;
+    var first=E((D.name||'').split(' ')[0]||(m?'Друг':'Партнёр'));
+    var kpi1='<div><b>'+(st.clicks||0)+'</b><span>переходов</span></div><div><b>'+(D.linked||ppl.length)+'</b><span>закреплено</span></div><div><b>'+(D.brought||0)+'</b><span>в клубе</span></div>';
+    var kpi2=m&&D.payout!=='money'
+      ?'<div><b>'+(D.earned_days||0)+'</b><span>дней заработано</span></div><div><b>'+D.days+'</b><span>дней на счёте</span></div><div><b>'+E(D.money)+'</b><span>к выплате</span></div>'
+      :'<div><b>'+E(D.earned)+'</b><span>начислено</span></div><div><b>'+E(D.paid)+'</b><span>выплачено</span></div><div><b>'+E(D.money)+'</b><span>к выплате</span></div>';
+    var people='<details class="box" open><summary>👥 Кто пришёл по ссылке</summary>'+(ppl.length?'<table><tr><th>Кто</th><th>Когда</th><th>Статус</th><th style="text-align:right">Вам</th></tr>'+
+      ppl.map(function(p){return '<tr><td>'+E(p.name)+'</td><td>'+E(p.at)+'</td><td>'+E(p.status)+'</td><td class="r">'+(p.paid?(p.days?'+'+p.days+' дн.':E(p.rub)):'—')+'</td></tr>';}).join('')+'</table>':'<p class="p">Пока никого — всё впереди 🕯</p>')+'</details>';
+    var ms=st.months||[],ps=st.payouts||[];
+    var stmt='<details class="box"><summary>🧾 Выписка по месяцам</summary>'+(ms.length?'<table><tr><th>Месяц</th><th>Оплат</th><th style="text-align:right">Начислено</th></tr>'+
+      ms.map(function(x){return '<tr><td>'+E(x.month)+'</td><td>'+x.n+'</td><td class="r">'+(x.payout==='days'?x.days+' дн.':E(x.rub))+'</td></tr>';}).join('')+'</table>':'<p class="p">Начислений пока нет.</p>')+
+      (ps.length?'<h2 style="margin-top:14px">Выплаты</h2><table>'+ps.map(function(p){return '<tr><td>'+E(p.at)+'</td><td>'+E(p.note||'')+'</td><td class="r">'+E(p.rub)+'</td></tr>';}).join('')+'</table>':'')+'</details>';
+    var links='<div class="box"><h2>🔗 Ваши ссылки</h2>'+
+      '<div class="lk"><div class="t">🌐 Страница клуба</div><div class="u">'+E(D.links.site)+'</div><button onclick="pCopy(\'site\',this)">📋 Скопировать</button></div>'+
+      '<div class="lk"><div class="t">✈️ Бот клуба в Telegram</div><div class="u">'+E(D.links.bot)+'</div><button onclick="pCopy(\'bot\',this)">📋 Скопировать</button></div>'+
+      (m?'<p class="p" style="margin:6px 0 0">Распорядиться днями — в личном кабинете: 🔔 → «Реферальная программа».</p>':'')+'</div>';
     LEGAL=D.legal||'';
-    h+='<div class="box"><h2>💼 Реквизиты для выплат</h2><p style="margin-bottom:10px">Выплаты — раз в месяц. После перевода пришлите чек «Мой налог» (самозанятый) или закрывающие документы (ИП) на club@maxmagia.ru.</p>'+
+    var reqTitle=m?'💼 Выплаты деньгами (самозанятым и ИП)':'💼 Реквизиты для выплат';
+    var reqNote=m?(D.payout==='money'?'Выплаты деньгами подключены. Раз в месяц, после вашего чека.':D.money_req==='pending'?'Заявка у Максима — он проверит статус и подключит выплаты деньгами.':'Заполните — Максим проверит статус и переведёт новые начисления в деньги (40 % / 25 %). Дни на счёте останутся вашими.')
+      :'Раз в месяц. После перевода пришлите чек «Мой налог» (самозанятый) или закрывающие документы (ИП) на club@maxmagia.ru.';
+    var req='<details class="box"'+(!m&&!D.legal?' open':'')+'><summary>'+reqTitle+'</summary><p class="p">'+reqNote+'</p>'+
       '<div class="f"><label>Статус</label><div class="seg"><button type="button" data-l="самозанятый" class="'+(LEGAL==='самозанятый'?'on':'')+'">Самозанятый</button><button type="button" data-l="ИП" class="'+(LEGAL==='ИП'?'on':'')+'">ИП</button></div></div>'+
       '<div class="f"><label>ФИО полностью</label><input id="fn" value="'+E(D.full_name||'')+'"></div><div class="f"><label>ИНН (12 цифр)</label><input id="inn" inputmode="numeric" value="'+E(D.inn||'')+'"></div>'+
       '<div class="f"><label>Куда переводить</label><textarea id="pi" placeholder="СБП: телефон и банк, или реквизиты счёта ИП">'+E(D.pay_info||'')+'</textarea></div>'+
-      '<button class="btn" id="rb">Сохранить</button><div class="err" id="err"></div></div>'+MARK+'<button class="out" id="lo">Выйти</button>';
-    app.innerHTML=h;
+      '<button class="btn" id="rb">Сохранить</button><div class="err" id="err"></div></details>';
+    var rules='<details class="box"><summary>📜 Правила ложи и маркировка</summary>'+howSteps()+adsInfo()+'</details>';
+    app.innerHTML='<div class="fade"><h1>'+first+', <em>свет вам</em></h1><p class="lead">'+(m?'Реферальный кабинет — кого вы привели в клуб и что заработали.':'Ваша ссылка на клуб #MaxMagia и всё, что по ней произошло.')+'</p>'+
+      '<div class="dash"><div><div class="kpi">'+kpi1+'</div><div class="kpi" style="margin:8px 0 14px">'+kpi2+'</div>'+people+stmt+'</div>'+
+      '<div>'+links+req+rules+'<button class="link-btn" id="lo">Выйти из ложи</button></div></div></div>';
     app.querySelectorAll('.seg button').forEach(function(b){b.onclick=function(){LEGAL=b.dataset.l;app.querySelectorAll('.seg button').forEach(function(x){x.classList.toggle('on',x===b);});};});
     $('rb').onclick=async function(){var r=await api('p/req',{legal:LEGAL,full_name:$('fn').value,inn:$('inn').value,pay_info:$('pi').value});
-      if(r.ok){D=r;draw();var e=$('err');if(e){e.className='ok';e.textContent='✓ Сохранено';}return;}
+      if(r.ok){D=r;D.member=D.kind==='member';draw();var e=$('err');if(e){e.className='err ok';e.textContent='✓ Сохранено';}return;}
       err(r.error==='legal'?'Выберите статус.':r.error==='inn'?'ИНН — 12 цифр.':'Заполните ФИО и куда переводить.');};
-    $('lo').onclick=async function(){await api('p/logout',{});login();};
+    $('lo').onclick=async function(){await api('p/logout',{});DM.step=0;login();};
   }
-  window.pCopy=function(k){var t=k==='bot'?D.links.bot:D.links.site;
+  window.pCopy=function(k,b){var t=k==='bot'?D.links.bot:D.links.site;
     try{navigator.clipboard.writeText(t);}catch(e){var ta=document.createElement('textarea');ta.value=t;document.body.appendChild(ta);ta.select();try{document.execCommand('copy');}catch(x){}ta.remove();}
-    var b=event&&event.target;if(b){var o=b.textContent;b.textContent='✓ Скопировано';setTimeout(function(){b.textContent=o;},2000);}};
-  load();
+    if(b){var o=b.textContent;b.textContent='✓ Скопировано';setTimeout(function(){b.textContent=o;},2000);}};
+  load(false);
 })();
 </script>
 </body></html>
