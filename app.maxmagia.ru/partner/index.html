@@ -1,8 +1,8 @@
 <!doctype html><html lang="ru"><head><meta charset="utf-8">
-<!-- PARTNER v2 -->
+<!-- PARTNER v3 -->
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#08080a"><meta name="robots" content="noindex, nofollow">
-<title>Ложа партнёров · Клуб #MaxMagia</title>
+<title>Максонская ложа · Клуб #MaxMagia</title>
 <link rel="icon" href="/favicon.ico">
 <style>
 @font-face{font-family:'Cormorant Garamond';font-style:normal;font-weight:600;font-display:swap;src:url(/fonts/cormorant-garamond-cyrillic-600-normal.woff2) format('woff2');unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
@@ -15,15 +15,16 @@
 html,body{background:var(--bg);color:var(--txt);overflow-x:clip}
 body{font-family:'Manrope',system-ui,-apple-system,sans-serif;min-height:100vh;min-height:100dvh;-webkit-font-smoothing:antialiased;
   background-image:radial-gradient(ellipse 900px 520px at 50% -160px,rgba(212,180,138,.14),transparent 70%)}
-.w{max-width:1180px;margin:0 auto;padding:16px 18px calc(36px + env(safe-area-inset-bottom))}
+.w{position:relative;max-width:1180px;margin:0 auto;padding:16px 18px calc(30px + env(safe-area-inset-bottom))}
 .top{display:flex;flex-direction:column;align-items:center;gap:6px;margin:6px 0 4px}
 .top svg{width:44px;height:44px}
 .eye{text-align:center;font-size:11px;letter-spacing:4px;text-transform:uppercase;color:var(--gold)}
-h1{font-family:'Cormorant Garamond',Georgia,serif;font-weight:600;font-size:clamp(32px,7.4vw,48px);line-height:1.05;text-align:center}
+h1{font-family:'Cormorant Garamond',Georgia,serif;font-weight:600;font-size:clamp(32px,7.4vw,48px);line-height:1.05;text-align:center;margin-top:20px}
 h1 em{font-style:italic;color:var(--gold)}
-.lead{text-align:center;color:var(--mut);font-size:15px;line-height:1.6;margin:10px auto 18px;max-width:520px}
+.lead{text-align:center;color:var(--mut);font-size:15px;line-height:1.6;margin:10px auto 12px;max-width:540px}
 .narrow{max-width:420px;margin:0 auto}
-.scene{max-width:760px;margin:0 auto}
+.scene{max-width:700px;margin:0 auto}
+@media (min-height:700px) and (min-width:900px){.scene{max-width:min(700px,calc((100vh - 470px) * 2))}}
 .scene svg{display:block;width:100%;height:auto}
 .box{border:1px solid var(--line);background:rgba(18,18,20,.88);border-radius:20px;padding:18px 16px;margin-bottom:14px}
 .f{margin-bottom:12px}
@@ -36,6 +37,12 @@ h1 em{font-style:italic;color:var(--gold)}
 .btn.line{background:none;border:1px solid rgba(212,180,138,.4);color:var(--gold);box-shadow:none}
 .btn[disabled]{opacity:.6}
 .link-btn{background:none;border:none;color:var(--dim);font:500 13px 'Manrope',sans-serif;cursor:pointer;text-decoration:underline;display:block;margin:10px auto 0}
+.btn .ic{margin-right:6px}
+.links2{display:flex;justify-content:center;gap:22px;margin-top:10px}
+.links2 .link-btn{margin:0}
+.links2 .link-btn[disabled]{opacity:.5;cursor:default;text-decoration:none}
+.out{position:absolute;top:18px;right:18px;background:none;border:1px solid rgba(240,236,228,.14);border-radius:999px;color:var(--dim);font:500 12.5px 'Manrope',sans-serif;padding:7px 14px;cursor:pointer}
+.out:hover{color:var(--gold);border-color:rgba(212,180,138,.4)}
 .err{color:var(--err);font-size:13.5px;margin-top:8px;min-height:1px;text-align:center}
 .ok{color:#9fd8c1}
 /* код: 6 клеток */
@@ -128,7 +135,7 @@ td.r{text-align:right;color:var(--gold);white-space:nowrap}
 .seg button{flex:1;min-height:44px;border-radius:12px;border:1px solid rgba(240,236,228,.15);background:none;color:var(--mut);font:600 14px 'Manrope',sans-serif;cursor:pointer}
 .seg button.on{border-color:var(--gold);color:var(--txt);background:rgba(212,180,138,.12)}
 .p{font-size:13.5px;line-height:1.6;color:var(--mut);text-align:center;margin-bottom:10px}
-.foot{text-align:center;font-size:12.5px;color:var(--dim);line-height:1.7;margin-top:26px}
+.foot{text-align:center;font-size:12.5px;color:var(--dim);line-height:1.7;margin-top:18px}
 .foot a{color:var(--mut)}
 .fade{animation:fade .8s ease both}
 @keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
@@ -140,6 +147,7 @@ td.r{text-align:right;color:var(--gold);white-space:nowrap}
   .dash{grid-template-columns:1.35fr 1fr;align-items:start}
   .kpi b{font-size:28px}
 }
+@media (max-width:440px){.eye{letter-spacing:2.4px;font-size:10.5px}.out{top:10px;right:10px;padding:6px 11px;font-size:12px}}
 @media (max-width:380px){.code input{width:40px;height:52px;font-size:21px}.code{gap:6px}}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition:none!important}}
 </style></head><body>
@@ -147,7 +155,7 @@ td.r{text-align:right;color:var(--gold);white-space:nowrap}
 <main class="w">
  <div class="top"><svg viewBox="0 0 100 100" fill="none" stroke="#d4b48a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
    <circle cx="50" cy="12" r="4"/><path d="M48 15 L24 74 M52 15 L76 74"/><path d="M14 54 L50 88 L86 54"/><path d="M38 60 L38 46 L50 56 L62 46 L62 60" stroke-width="2.6"/></svg>
-  <div class="eye">Клуб #MaxMagia · ложа партнёров</div></div>
+  <div class="eye">Клуб #MaxMagia · Максонская ложа</div></div>
  <div id="app"><p class="lead">Открываю двери ложи…</p></div>
  <div class="foot">Клуб психологической поддержки и саморазвития психолога Максима Гущина<br>
   <a href="https://maxmagia.ru/partner.html">Условия программы</a> · <a href="https://maxmagia.ru/privacy.html">Политика</a> · <a href="mailto:club@maxmagia.ru">club@maxmagia.ru</a></div>
@@ -185,14 +193,6 @@ td.r{text-align:right;color:var(--gold);white-space:nowrap}
   <g stroke="#d4b48a" stroke-width="1.6" stroke-linecap="round" fill="none"><path d="M348 186 L386 186 L388 174"/><path d="M378 186 L394 200"/><path d="M352 168 L362 168 L362 160"/><path d="M384 198 L432 204"/></g>
   <rect x="356" y="152" width="10" height="13" rx="2" fill="#141210" stroke="#d4b48a" stroke-width="1.4"/>
   <circle class="lamp" cx="361" cy="158" r="12" fill="#d4b48a" opacity=".25"/>
-  <!-- кучер в мантии -->
-  <g class="coach">
-   <path d="M358 186 Q355 152 373 142 Q391 152 388 186 Z" fill="#0a0a0b" stroke="#d4b48a" stroke-width="1.5"/>
-   <path d="M360 152 Q363 127 373 117 Q383 127 386 152 Q373 144 360 152 Z" fill="#0a0a0b" stroke="#d4b48a" stroke-width="1.5"/>
-   <ellipse cx="373" cy="140" rx="5.5" ry="6.5" fill="#000"/><circle cx="371" cy="139" r=".9" fill="#f3dcae"/><circle cx="375.5" cy="139" r=".9" fill="#f3dcae"/>
-   <path d="M367 172 L373 163 L379 172 M367 166 L373 175 L379 166" stroke="#d4b48a" stroke-width="1" fill="none"/>
-   <path d="M382 162 Q430 150 528 152" stroke="#d4b48a" stroke-width=".9" fill="none" opacity=".8"/>
-  </g>
   <!-- конь в попоне -->
   <g stroke="#d4b48a" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round">
    <path class="leg b" d="M446 210 L442 250"/><path class="leg" d="M500 208 L508 250"/>
@@ -207,6 +207,14 @@ td.r{text-align:right;color:var(--gold);white-space:nowrap}
   </g>
   <g class="wheel"><circle cx="250" cy="236" r="21" stroke="#d4b48a" stroke-width="1.6" fill="#08080a"/><path d="M250 215 L250 257 M229 236 L271 236 M235 221 L265 251 M265 221 L235 251" stroke="#d4b48a"/><circle cx="250" cy="236" r="3.5" fill="#d4b48a"/></g>
   <g class="wheel"><circle cx="326" cy="236" r="21" stroke="#d4b48a" stroke-width="1.6" fill="#08080a"/><path d="M326 215 L326 257 M305 236 L347 236 M311 221 L341 251 M341 221 L311 251" stroke="#d4b48a"/><circle cx="326" cy="236" r="3.5" fill="#d4b48a"/></g>
+  <!-- кучер в мантии -->
+  <g class="coach">
+   <path d="M358 186 Q355 152 373 142 Q391 152 388 186 Z" fill="#0a0a0b" stroke="#d4b48a" stroke-width="1.5"/>
+   <path d="M360 152 Q363 127 373 117 Q383 127 386 152 Q373 144 360 152 Z" fill="#0a0a0b" stroke="#d4b48a" stroke-width="1.5"/>
+   <ellipse cx="373" cy="140" rx="5.5" ry="6.5" fill="#000"/><circle cx="371" cy="139" r=".9" fill="#f3dcae"/><circle cx="375.5" cy="139" r=".9" fill="#f3dcae"/>
+   <path d="M367 172 L373 163 L379 172 M367 166 L373 175 L379 166" stroke="#d4b48a" stroke-width="1" fill="none"/>
+   <path d="M382 162 Q430 150 528 152" stroke="#d4b48a" stroke-width=".9" fill="none" opacity=".8"/>
+  </g>
  </g></g>
  <!-- лес (поверх кареты — она выезжает из-за деревьев) -->
  <g fill="#060706" stroke="rgba(212,180,138,.32)" stroke-width="1">
@@ -271,15 +279,18 @@ td.r{text-align:right;color:var(--gold);white-space:nowrap}
 
   /* ── 1. вход: карета выезжает из леса ── */
   function login(){
-    app.innerHTML='<h1>Вход в <em>ложу</em></h1><p class="lead">Ложа партнёров клуба — ваша ссылка, кто пришёл по ней и что вам начислено.</p>'+
+    app.innerHTML='<h1 id="h1">Вступай в <em>братство</em></h1><p class="lead" id="lead">Войди в мир влияния и стань тем, кто несёт свет другим.</p>'+
       '<div class="scene" id="sc">'+tpl('tpl-road')+'</div>'+
-      '<div class="narrow fade" id="st1"><div class="box"><div class="f"><label>Почта, на которую придёт ключ</label><input id="em" type="email" inputmode="email" autocomplete="email" placeholder="you@mail.ru"></div>'+
-      '<button class="btn" id="b1">🗝 Прислать ключ</button><div class="err" id="err"></div></div></div>'+
+      '<div class="narrow fade" id="st1"><div class="box"><div class="f"><label>Введи почту, на которую придёт тайный код</label><input id="em" type="email" inputmode="email" autocomplete="email" placeholder="you@mail.ru"></div>'+
+      '<button class="btn" id="b1"><span class="ic">🗝</span>Получить тайный код</button><div class="err" id="err"></div></div></div>'+
       '<div class="narrow" id="st2" style="display:none"><div class="box"><p class="hint" id="hint"></p><div class="code" id="code"></div>'+
-      '<div class="err" id="err2"></div><button class="link-btn" id="back">Другая почта</button></div></div>';
+      '<div class="err" id="err2"></div><div class="links2"><button class="link-btn" id="again">Отправить код ещё раз</button><button class="link-btn" id="back">Другая почта</button></div></div></div>';
     var sc=$('sc');setTimeout(function(){sc.classList.add('stopped');},4400);
     $('b1').onclick=send;$('em').onkeydown=function(e){if(e.key==='Enter')send();};
     $('back').onclick=function(){$('st2').style.display='none';$('st1').style.display='block';};
+    $('again').onclick=async function(){var b=$('again');if(b.disabled)return;b.disabled=true;var r=await api('p/code',{email:EMAIL});
+      if(r.error==='rate'){err('Слишком много попыток — подождите несколько минут.','err2');}else{var e=$('err2');e.className='err ok';e.textContent='✓ Новый тайный код отправлен';}
+      var n=30;b.textContent='Ещё раз — через '+n+' с';var t=setInterval(function(){n--;if(n<=0){clearInterval(t);b.disabled=false;b.textContent='Отправить код ещё раз';}else b.textContent='Ещё раз — через '+n+' с';},1000);};
     var c=$('code');for(var i=0;i<6;i++){var inp=document.createElement('input');inp.inputMode='numeric';inp.maxLength=1;inp.autocomplete=i?'off':'one-time-code';inp.setAttribute('aria-label','Цифра '+(i+1));c.appendChild(inp);}
     var ins=c.querySelectorAll('input');
     ins.forEach(function(inp,i){
@@ -299,7 +310,8 @@ td.r{text-align:right;color:var(--gold);white-space:nowrap}
     if(r.error==='rate')return err('Слишком много попыток — подождите несколько минут.');
     $('sc').classList.add('stopped','open');
     $('st1').style.display='none';$('st2').style.display='block';$('st2').classList.add('fade');
-    $('hint').innerHTML='Кучер открыл дверь кареты 🕯<br>Если <b>'+E(EMAIL)+'</b> — почта партнёра или участника клуба, на неё ушёл ключ из 6 цифр. Загляните и в «Спам».';
+    $('h1').innerHTML='Пора открыться <em>таинству влияния!</em>';$('lead').style.display='none';
+    $('hint').innerHTML='<b>Назовите кучеру тайный код 🕯</b><br>На вашу почту пришёл тайный код из 6 цифр. Если не нашли его, загляните в «Спам».';
     setTimeout(function(){var f=$('code').querySelector('input');if(f)f.focus();},300);
   }
   var busy=false;
@@ -307,7 +319,7 @@ td.r{text-align:right;color:var(--gold);white-space:nowrap}
     if(busy)return;busy=true;var r=await api('p/verify',{email:EMAIL,code:code});busy=false;
     if(r.ok){$('flash').classList.add('on');setTimeout(function(){load(true);},900);return;}
     $('code').querySelectorAll('input').forEach(function(x){x.value='';});$('code').querySelector('input').focus();
-    err(r.error==='wrong'?'Ключ не подошёл — проверьте цифры.':r.error==='tries'?'Слишком много попыток — запросите новый ключ.':'Ключ устарел — запросите новый.','err2');
+    err(r.error==='wrong'?'Кучер не узнал код — проверьте цифры.':r.error==='tries'?'Слишком много попыток — запросите новый код.':'Код устарел — запросите новый.','err2');
   }
 
   async function load(fromFlash){
@@ -368,15 +380,15 @@ td.r{text-align:right;color:var(--gold);white-space:nowrap}
     var reqTitle=m?'💼 Выплаты деньгами (самозанятым и ИП)':'💼 Реквизиты для выплат';
     var reqNote=m?(D.payout==='money'?'Выплаты деньгами подключены. Раз в месяц, после вашего чека.':D.money_req==='pending'?'Заявка у Максима — он проверит статус и подключит выплаты деньгами.':'Заполните — Максим проверит статус и переведёт новые начисления в деньги (40 % / 25 %). Дни на счёте останутся вашими.')
       :'Раз в месяц. После перевода пришлите чек «Мой налог» (самозанятый) или закрывающие документы (ИП) на club@maxmagia.ru.';
-    var req='<details class="box"'+(!m&&!D.legal?' open':'')+'><summary>'+reqTitle+'</summary><p class="p">'+reqNote+'</p>'+
+    var req='<details class="box"><summary>'+reqTitle+'</summary><p class="p">'+reqNote+'</p>'+
       '<div class="f"><label>Статус</label><div class="seg"><button type="button" data-l="самозанятый" class="'+(LEGAL==='самозанятый'?'on':'')+'">Самозанятый</button><button type="button" data-l="ИП" class="'+(LEGAL==='ИП'?'on':'')+'">ИП</button></div></div>'+
       '<div class="f"><label>ФИО полностью</label><input id="fn" value="'+E(D.full_name||'')+'"></div><div class="f"><label>ИНН (12 цифр)</label><input id="inn" inputmode="numeric" value="'+E(D.inn||'')+'"></div>'+
       '<div class="f"><label>Куда переводить</label><textarea id="pi" placeholder="СБП: телефон и банк, или реквизиты счёта ИП">'+E(D.pay_info||'')+'</textarea></div>'+
       '<button class="btn" id="rb">Сохранить</button><div class="err" id="err"></div></details>';
     var rules='<details class="box"><summary>📜 Правила ложи и маркировка</summary>'+howSteps()+adsInfo()+'</details>';
-    app.innerHTML='<div class="fade"><h1>'+first+', <em>свет вам</em></h1><p class="lead">'+(m?'Реферальный кабинет — кого вы привели в клуб и что заработали.':'Ваша ссылка на клуб #MaxMagia и всё, что по ней произошло.')+'</p>'+
+    app.innerHTML='<button class="out" id="lo">Выйти из ложи</button><div class="fade"><h1>'+first+', <em>приветствую вас!</em></h1><p class="lead">Ниже вы можете оценить силу своего влияния на мир близких вам людей.</p>'+
       '<div class="dash"><div><div class="kpi">'+kpi1+'</div><div class="kpi" style="margin:8px 0 14px">'+kpi2+'</div>'+people+stmt+'</div>'+
-      '<div>'+links+req+rules+'<button class="link-btn" id="lo">Выйти из ложи</button></div></div></div>';
+      '<div>'+links+req+rules+'</div></div></div>';
     app.querySelectorAll('.seg button').forEach(function(b){b.onclick=function(){LEGAL=b.dataset.l;app.querySelectorAll('.seg button').forEach(function(x){x.classList.toggle('on',x===b);});};});
     $('rb').onclick=async function(){var r=await api('p/req',{legal:LEGAL,full_name:$('fn').value,inn:$('inn').value,pay_info:$('pi').value});
       if(r.ok){D=r;D.member=D.kind==='member';draw();var e=$('err');if(e){e.className='err ok';e.textContent='✓ Сохранено';}return;}
