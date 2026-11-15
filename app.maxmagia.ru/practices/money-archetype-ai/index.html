@@ -114,12 +114,11 @@ footer .sign{font-family:var(--serif);font-style:italic;font-size:22px;color:var
 footer p + p{margin-top:8px}
 footer a{color:var(--acc)}
 /* ── страница-инструкция ── */
-.tocab{position:fixed;top:calc(10px + env(safe-area-inset-top,0px));left:12px;z-index:20;padding:8px 14px;border-radius:999px;background:color-mix(in srgb,var(--bg) 82%,transparent);border:1px solid var(--line2);color:var(--dim);font-size:13px;font-weight:600;text-decoration:none;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
-.prog{display:flex;align-items:center;gap:14px;max-width:860px;margin:clamp(36px,5vh,52px) auto 0;position:sticky;top:calc(8px + env(safe-area-inset-top,0px));z-index:5;background:color-mix(in srgb,var(--bg) 88%,transparent);padding:10px 14px;border-radius:999px;border:1px solid var(--line);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.prog{display:flex;align-items:center;gap:14px;max-width:860px;margin:8px auto 0;position:sticky;bottom:calc(10px + env(safe-area-inset-bottom,0px));box-shadow:0 10px 30px -12px rgba(0,0,0,.35);z-index:5;background:color-mix(in srgb,var(--bg) 88%,transparent);padding:10px 14px;border-radius:999px;border:1px solid var(--line);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
 .prog-bar{flex:1;height:6px;border-radius:9px;background:var(--line2);overflow:hidden}
 .prog-bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--acc-fill),var(--acc));transition:width .5s var(--ease)}
 .prog span{font-size:13px;font-weight:700;color:var(--acc);white-space:nowrap}
-.stps{list-style:none;padding:0;margin:14px auto 0;max-width:860px;display:grid;gap:4px}
+.stps{list-style:none;padding:0;margin:clamp(36px,5vh,52px) auto 0;max-width:860px;display:grid;gap:4px}
 .stp{background:var(--card);position:relative;padding:clamp(20px,3vw,32px) clamp(18px,3vw,36px)}
 .stp::before{content:"";position:absolute;left:0;right:0;top:0;height:2px;background:linear-gradient(90deg,var(--acc),transparent)}
 .stp.ok::before{background:linear-gradient(90deg,var(--c-grn),transparent)}
@@ -193,11 +192,67 @@ footer a{color:var(--acc)}
   .band p{opacity:.92!important;transform:none!important}
 }
 
+/* видео от Максима (появляется, если в папке есть video.mp4) */
+.vframe{width:min(100%,340px);aspect-ratio:9/16;margin:0 auto;border-radius:22px;overflow:hidden;background:#000;box-shadow:0 0 0 1px var(--line2),0 30px 70px -30px rgba(0,0,0,.6)}
+.vframe video{width:100%;height:100%;object-fit:cover;display:block}
+/* сравнение */
+.vs{text-align:left}
+.vs .card{text-align:left}
+.vs .card.cr::before{background:linear-gradient(90deg,var(--hot),transparent)}
+.vs .card.cg::before{background:linear-gradient(90deg,var(--c-grn),transparent)}
+.vs .ex{font-family:var(--serif);font-style:italic;font-size:clamp(21px,2vw,25px);color:var(--ink);margin-top:14px;line-height:1.35}
+.cards.c2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.five{list-style:none;padding:0;margin:clamp(40px,6vh,60px) 0 0;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:4px;counter-reset:f;text-align:left}
+.five li{counter-increment:f;background:var(--card);padding:24px 18px;position:relative}
+.five li::before{content:counter(f,decimal-leading-zero);display:block;font-family:var(--serif);font-weight:600;font-size:46px;line-height:.9;color:var(--num);margin-bottom:10px}
+.five li::after{content:"";position:absolute;left:0;right:0;top:0;height:2px;background:linear-gradient(90deg,var(--acc),transparent)}
+.five b{display:block;font-family:var(--serif);font-weight:500;font-size:clamp(23px,2vw,27px);line-height:1.2;margin-bottom:8px}
+.five p{font-size:15px;color:var(--dim)}
+/* конструктор */
+.bld{max-width:860px;margin:clamp(36px,5vh,56px) auto 0;background:var(--card);padding:clamp(22px,4vw,40px);text-align:left;position:relative}
+.bld::before{content:"";position:absolute;left:0;right:0;top:0;height:2px;background:linear-gradient(90deg,var(--acc),transparent)}
+.bld h3{font-size:clamp(28px,2.8vw,36px);text-align:center}
+.bld .hint{text-align:center;color:var(--mute);font-size:15px;margin-top:8px}
+.bf{display:grid;gap:6px;margin-top:18px}
+.bf label{font-size:15px;font-weight:700}
+.bf label small{font-weight:500;color:var(--mute)}
+.bf input,.bf textarea{width:100%;background:var(--bg);border:1px solid var(--line2);border-radius:12px;padding:12px 14px;color:var(--ink);font:inherit;font-size:16px;line-height:1.5}
+.bf textarea{resize:vertical;min-height:96px}
+.bf input:focus,.bf textarea:focus{outline:none;border-color:var(--acc)}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chips button{border:1px dashed var(--line2);background:transparent;border-radius:999px;padding:5px 12px;min-height:34px;font-size:13.5px;color:var(--dim);cursor:pointer}
+.chips button:hover{border-color:var(--acc);color:var(--ink)}
+.chips button[aria-pressed="true"]{border-style:solid;border-color:var(--acc);background:var(--acc-fill);color:var(--on-fill);font-weight:700}
+.bld .cbx{margin-top:22px}
+.bld .empty-out{color:var(--mute);font-style:italic}
+.how-n{max-width:780px;margin:30px auto 0;text-align:left;color:var(--dim);font-size:17px}
+.how-n li{margin-top:8px}
+.how-n b{color:var(--ink)}
+/* навигация по разделу */
+.mapnav{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px;margin-top:clamp(40px,6vh,60px);text-align:left}
+.mapnav a,.mapnav div{display:block;background:var(--card);padding:clamp(24px,3vw,36px) clamp(20px,3vw,34px);text-decoration:none;color:var(--ink);position:relative;min-height:150px}
+.mapnav a::before{content:"";position:absolute;left:0;right:0;top:0;height:2px;background:linear-gradient(90deg,var(--acc),transparent)}
+.mapnav a:hover{background:color-mix(in srgb,var(--card) 90%,var(--acc))}
+.mapnav .label{margin-bottom:12px}
+.mapnav h3{font-size:clamp(23px,2.2vw,30px);line-height:1.15}
+.mapnav p{color:var(--dim);font-size:15px;margin-top:8px}
+.mapnav .soon{opacity:.55}
+.mapnav .soon .label{color:var(--mute)}
+.mapnav .back{text-align:center}
+.mapnav .back h3{color:var(--acc)}
+.mapnav .nx{text-align:right}
+.mapnav .nx::before{background:linear-gradient(270deg,var(--acc),transparent)}
+.mapnav .empty{background:none;min-height:0}
+@media (max-width:980px){.five{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:760px){.mapnav{grid-template-columns:1fr}.mapnav .empty{display:none}.mapnav a,.mapnav div{min-height:0}.mapnav .back{order:3}.mapnav .nx{text-align:left}}
+@media (max-width:640px){.cards.c2{grid-template-columns:1fr}.five{grid-template-columns:1fr}}
+.tlink{background:none;border:0;color:var(--mute);cursor:pointer;text-decoration:underline;text-underline-offset:3px;font-size:14px;padding:6px 4px;font-family:var(--sans)}
+.tlink:hover{color:var(--ink)}
+.cbtn[disabled]{opacity:.45;cursor:default}
+
 </style>
 </head>
 <body data-slug="money-archetype-ai" data-kit="money-archetype-ai.zip" data-total="9" data-name="MONEY-ARCHETYPE.AI">
-<a class="tocab" href="/" id="tocab" hidden>‹ В кабинет</a>
-
 <header class="hero"><div class="wrap">
   <div class="badge"><img src="/practices/img/emblem.png" alt="MaxMagia"></div>
   <span class="label">Клуб #MaxMagia · Мои AI-решения</span>
@@ -205,6 +260,11 @@ footer a{color:var(--acc)}
   <p class="sub">Деньги утекают сквозь пальцы — или не приходят вовсе?<br>Дело не в тебе, а в сценарии,<br><b>который в тебя записали задолго до первой зарплаты.</b></p>
   <a class="go" href="#about">Ниже подробнее<i></i></a>
 </div></header>
+
+<section class="sec" id="vid" hidden><div class="wrap center">
+  <span class="label">Пара слов от Максима</span>
+  <div class="vframe"><video controls playsinline preload="metadata" src="video.mp4"></video></div>
+</div></section>
 
 <section class="sec" id="about"><div class="wrap center">
   <span class="label">Что это</span>
@@ -225,12 +285,13 @@ footer a{color:var(--acc)}
 <section class="sec"><div class="wrap"><div class="sci"><span class="label">Что говорит наука</span>
 <p>Понятие «денежных сценариев» (money scripts) ввели финансовые психологи <b>Брэд и Тед Клонц</b>: это неосознанные убеждения о деньгах, которые обычно складываются в детстве в семье. В исследованиях (Klontz и соавторы, 2011, Journal of Financial Therapy) четыре таких сценария — избегание денег, поклонение деньгам, статус и бдительность — оказались связаны с реальным финансовым поведением: долгами, импульсивными тратами, накоплениями. Тест в боте — инструмент самопознания, а не диагноз: смотри на результат как на зеркало, а не как на приговор.</p></div></div></section>
 
+
+
 <section class="sec orn-top" id="steps"><div class="wrap">
   <div class="rule-orn"><i></i></div>
   <div class="center"><span class="label">Пошагово · как для первоклашки</span>
   <h2>Собираем бота <em>за 10 минут</em></h2>
   <p class="lede">Тест ты пройдёшь прямо внутри бота — ничего заранее готовить не нужно. Иди по шагам и нажимай «Готово».</p></div>
-  <div class="prog" aria-live="polite"><div class="prog-bar"><i id="pbar"></i></div><span id="ptxt">0 из 9</span></div>
   <ol class="stps"><li class="stp" data-n="1"><div class="stp-h"><span class="stp-n">01</span><h3>Скачай набор</h3><button type="button" class="stp-ok" data-ok="1" aria-pressed="false"><i></i><span>Готово</span></button></div><div class="stp-b"><p>В архиве — инструкция и база знаний бота: 9 файлов.</p><div class="btns"><a class="btn" id="kitdl" href="money-archetype-ai.zip" download>⬇️ Скачать набор</a>
 <button type="button" class="ghost" id="kittg">📩 Прислать мне в Telegram</button></div>
 <p class="note-s" id="kitmsg"></p></div></li><li class="stp" data-n="2"><div class="stp-h"><span class="stp-n">02</span><h3>Распакуй архив</h3><button type="button" class="stp-ok" data-ok="2" aria-pressed="false"><i></i><span>Готово</span></button></div><div class="stp-b"><p>Архив — это «посылка», её нужно открыть:</p><ul class="how">
@@ -283,6 +344,7 @@ footer a{color:var(--acc)}
 12. Заключение: итоги влияния архетипа на мою жизнь.
 
 Перепроверь, пожалуйста, всё ли ты мне выдал в полном объёме?</pre></div></div></li></ol>
+  <div class="prog" aria-live="polite"><div class="prog-bar"><i id="pbar"></i></div><span id="ptxt">0 из 9</span></div>
   <div class="done-card" id="donecard" hidden><span class="label">Готово</span><h3>Твой денежный сценарий больше не прячется 🤍</h3><p>Увидеть — уже половина пути. Возвращайся к упражнениям и медитации, когда деньги снова начнут «утекать». И поставь, пожалуйста, звёзды ниже.</p></div>
   <div class="faq">
     <span class="label">Если что-то пошло не так</span>
@@ -308,21 +370,23 @@ footer a{color:var(--acc)}
   </div>
 </div></section>
 
-<section class="sec orn-top"><div class="wrap col center"><div class="rule-orn"><i></i></div>
-<span class="label">Ещё не {был|была|был(а)} в ARCHETYPE.AI?</span><h2>Сначала — <em>кто ты</em></h2>
-<p class="lede">Синтез работает сильнее всего вместе с расшифровкой твоих архетипов. Если её ещё нет — начни с ARCHETYPE.AI.</p>
-<div class="btns center"><a class="btn" href="../archetype-ai/">🤖 Открыть ARCHETYPE.AI</a></div></div></section>
+<section class="sec orn-top" id="map"><div class="wrap center">
+  <div class="rule-orn"><i></i></div>
+  <span class="label">Что дальше</span>
+  <h2>Куда идти по карте</h2>
+  <div class="mapnav"><a class="pv" href="../archetype-ai/"><span class="label">‹ Предыдущая тема</span><h3>🤖 ARCHETYPE.AI</h3></a><a class="back" href="/" data-back="myai"><span class="label">Меню раздела</span><h3>Мои AI-решения</h3><p>Все материалы раздела</p></a><div class="empty"></div></div>
+</div></section>
 
 <footer><div class="wrap">
   <p class="sign">Клуб #MaxMagia</p>
   <p>Клуб — не терапия и не медицинская помощь. Если тебе плохо прямо сейчас — звони 112 или напиши мне: <a href="https://t.me/MaxGuschin">t.me/MaxGuschin</a>.</p>
-  <p>Отметки шагов хранятся в этом браузере и в твоём кабинете клуба.</p>
+  <p>Всё, что ты здесь отмечаешь и пишешь, хранится в этом браузере и в твоём кабинете клуба.</p>
 </div></footer>
 <script>
 (function(){
   var B=document.body, SLUG=B.dataset.slug, TOTAL=+B.dataset.total, KEY='maxmagia-'+SLUG+'-v1';
   var SYNC=/(^|\.)maxmagia\.ru$/.test(location.hostname)&&!/^app\./.test(location.hostname)?'/art-sync':'/api/psync';
-  function blank(){return {v:1,done:[],tab:'gpt'};}
+  function blank(){return {v:1,done:[],tab:'gpt',f:{}};}
   var S=blank();
   try{S=Object.assign(blank(),JSON.parse(localStorage.getItem(KEY)||'{}'));}catch(e){}
   function save(){try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}}
@@ -330,13 +394,12 @@ footer a{color:var(--acc)}
   function $$(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s));}
   function api(path,opt){opt=opt||{};opt.credentials='same-origin';opt.headers=Object.assign({'X-MM':'1'},opt.headers||{});
     return fetch(SYNC+path+(path.indexOf('?')<0?'?':'&')+'slug='+encodeURIComponent(SLUG),opt);}
-  // кнопка «В кабинет» — только когда открыто из кабинета
-  try{if(location.hostname.indexOf('app.')===0)$('#tocab').hidden=false;}catch(e){}
   // шаги
   function paint(){
     var n=0;
     $$('.stp').forEach(function(li){var k=+li.dataset.n,on=S.done.indexOf(k)>=0;if(on)n++;
       li.classList.toggle('ok',on);var b=$('.stp-ok',li);b.setAttribute('aria-pressed',on?'true':'false');$('span',b).textContent=on?'Сделано':'Готово';});
+    if(!$('#pbar'))return;
     $('#pbar').style.width=(TOTAL?n/TOTAL*100:0)+'%';$('#ptxt').textContent=n+' из '+TOTAL;
     $('#donecard').hidden=n<TOTAL;
   }
@@ -356,6 +419,7 @@ footer a{color:var(--acc)}
     fb();
   }
   $$('.cbtn').forEach(function(b){b.addEventListener('click',function(){
+    if($('#'+b.dataset.copy).classList.contains('empty-out'))return;
     copy($('#'+b.dataset.copy).textContent,function(ok){var o=b.textContent;b.textContent=ok?'✓ Скопировано':'Выдели и скопируй';if(ok)b.classList.add('done');
       setTimeout(function(){b.textContent=o;b.classList.remove('done');},2200);});});});
   // набор — прислать в Telegram (бот клуба)
@@ -402,6 +466,38 @@ footer a{color:var(--acc)}
     try{var r=await api('/rate');if(r.ok)render(await r.json());else $('#rvavg').textContent='';}catch(e){}
     try{var g=await api('/me');if(g.ok){var d=await g.json();gender(d.g);}else gender('');}catch(e){gender('');}
   })();
+  // видео от Максима: показываем, только если в папке лежит video.mp4
+  (function(){var v=$('#vid');if(!v)return;
+    fetch('video.mp4',{method:'HEAD',credentials:'same-origin'}).then(function(r){
+      var t=(r.headers.get('Content-Type')||'');if(r.ok&&t.indexOf('video')===0){v.hidden=false;}}).catch(function(){});})();
+  // меню раздела: на app.maxmagia.ru — кабинет откроется сразу на этом разделе
+  $$('[data-back]').forEach(function(a){
+    if(location.hostname.indexOf('app.')!==0){a.setAttribute('href','/art/');return;}
+    a.addEventListener('click',function(e){e.preventDefault();try{sessionStorage.setItem('mm_ret',a.dataset.back);}catch(x){}location.href='/';});});
+  // конструкторы: поля [data-f] → шаблон → готовый текст
+  $$('[data-bld]').forEach(function(box){
+    var id=box.dataset.bld,tpl=$('#tpl-'+id).textContent.replace(/^\n+|\n+$/g,''),out=$('#out-'+id),btn=$('[data-copy="out-'+id+'"]',box);
+    var fields=$$('[data-f]',box);
+    function val(k){var el=$('[data-f="'+k+'"]',box);return el?el.value.trim():'';}
+    function build(){
+      var lines=tpl.split('\n'),res=[],any=false;
+      lines.forEach(function(l){var m=l.match(/\{(\w+)\}/g);if(!m){res.push(l);return;}
+        var ok=true,t=l.replace(/\{(\w+)\}/g,function(_,k){var v=val(k);if(!v)ok=false;else any=true;return v;});if(ok)res.push(t);});
+      var txt=res.join('\n').replace(/\n{3,}/g,'\n\n').trim();
+      out.textContent=any?txt:'';out.classList.toggle('empty-out',!any);if(!any)out.textContent=out.dataset.empty||'Заполни хотя бы одно поле — и здесь появится готовый текст';
+      if(btn)btn.disabled=!any;
+      S.f[id]={};fields.forEach(function(f){S.f[id][f.dataset.f]=f.value;});save();
+      $$('.chips[data-for]',box).forEach(function(c){var v=val(c.dataset.for);$$('button',c).forEach(function(b){b.setAttribute('aria-pressed',b.textContent===v?'true':'false');});});
+    }
+    var saved=(S.f||{})[id]||{};fields.forEach(function(f){if(saved[f.dataset.f])f.value=saved[f.dataset.f];f.addEventListener('input',build);});
+    $$('.chips[data-for]',box).forEach(function(c){$$('button',c).forEach(function(b){b.addEventListener('click',function(){
+      var el=$('[data-f="'+c.dataset.for+'"]',box);el.value=(el.value.trim()===b.textContent)?'':b.textContent;build();
+      if(c.dataset.hintfor){var h=$('#'+c.dataset.hintfor);if(h)h.textContent='Можно оставить так или переписать под себя ✍️';}});});});
+    var clr=$('[data-clear]',box);if(clr)clr.addEventListener('click',function(){
+      if(clr.dataset.armed!=='1'){clr.dataset.armed='1';var o=clr.textContent;clr.textContent='Точно стереть? Нажми ещё раз';setTimeout(function(){clr.dataset.armed='';clr.textContent=o;},4000);return;}
+      fields.forEach(function(f){f.value='';});clr.dataset.armed='';clr.textContent='Стереть поля';build();});
+    build();
+  });
   tabs();paint();
 })();
 
