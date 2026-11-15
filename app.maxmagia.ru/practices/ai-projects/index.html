@@ -249,13 +249,34 @@ footer a{color:var(--acc)}
 .tlink{background:none;border:0;color:var(--mute);cursor:pointer;text-decoration:underline;text-underline-offset:3px;font-size:14px;padding:6px 4px;font-family:var(--sans)}
 .tlink:hover{color:var(--ink)}
 .cbtn[disabled]{opacity:.45;cursor:default}
-.shot{margin:4px 0 0;border:1px solid var(--line2);border-radius:14px;overflow:hidden;background:var(--bg);cursor:zoom-in}
+.shot{margin:4px auto 0;max-width:100%;border:1px solid var(--line2);border-radius:14px;overflow:hidden;background:var(--bg);cursor:zoom-in}
 .shot img{display:block;width:100%;height:auto}
 .shot.tall{max-width:300px}
+.stp-b .shot{margin-left:auto;margin-right:auto}
 .shot figcaption{font-size:13px;color:var(--mute);padding:8px 12px;border-top:1px solid var(--line)}
 .lbx{position:fixed;inset:0;z-index:50;background:rgba(0,0,0,.88);display:flex;align-items:center;justify-content:center;padding:16px;cursor:zoom-out}
 .lbx img{max-width:100%;max-height:100%;border-radius:10px}
 .faq details .cbx{margin:0 0 18px 24px}
+.hmeta{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin:30px auto 0;max-width:760px;animation:rise 1s .3s var(--ease) both}
+.hmeta span{border:1px solid var(--line2);border-radius:999px;padding:8px 16px;font-size:14px;letter-spacing:.04em;color:var(--dim)}
+.note-imp{max-width:860px;margin:28px auto 0;text-align:left;background:color-mix(in srgb,var(--card) 86%,#F2C94C);border-left:3px solid #F2C94C;padding:20px 24px;color:var(--dim);font-size:16.5px}
+.note-imp b{color:var(--ink)}
+.note-imp .label{color:var(--hot);margin-bottom:8px}
+.scen{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px;margin-top:clamp(36px,5vh,52px);text-align:left}
+.scen div{background:var(--card);padding:26px 22px;position:relative}
+.scen div::before{content:"";position:absolute;left:0;right:0;top:0;height:2px;background:linear-gradient(90deg,var(--acc),transparent)}
+.scen h3{font-size:clamp(24px,2.2vw,30px)}
+.scen p{margin-top:12px;font-family:ui-monospace,Menlo,monospace;font-size:14.5px;color:var(--acc);line-height:1.7}
+.menu{max-width:980px;margin:clamp(30px,4vh,44px) auto 0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px;text-align:left}
+.menu details{background:var(--card);padding:0 20px}
+.menu summary{cursor:pointer;padding:16px 0;font-weight:700;list-style:none;display:flex;gap:10px;align-items:center}
+.menu summary::before{content:"+";color:var(--acc);width:14px}
+.menu details[open] summary::before{content:"−"}
+.menu summary small{margin-left:auto;color:var(--mute);font-weight:500}
+.menu dl{margin:0 0 16px;display:grid;grid-template-columns:auto 1fr;gap:6px 14px;font-size:15px}
+.menu dt{font-family:ui-monospace,Menlo,monospace;color:var(--acc);white-space:nowrap}
+.menu dd{margin:0;color:var(--dim)}
+@media (max-width:760px){.scen,.menu{grid-template-columns:1fr}}
 
 </style>
 </head>
@@ -264,7 +285,8 @@ footer a{color:var(--acc)}
   <div class="badge"><img src="/practices/img/emblem.png" alt="MaxMagia"></div>
   <span class="label">Клуб #MaxMagia · Мои AI-решения</span>
   <h1>Projects — <em>свой</em> ИИ</h1>
-  <p class="sub">Один раз объясняешь ИИ, кто он и что знает, —<br>и дальше он помнит это в каждом чате.<br><b>Без повторов и без «напомни, о чём мы говорили».</b></p>
+  <p class="sub">Устал каждый раз заново объяснять ИИ, кто ты и чего хочешь?<br>Проект запоминает это один раз — и дальше просто работает.<br><b>Соберём вместе твоего первого помощника: NUTRI AI считает калории даже по фото тарелки.</b></p>
+  <div class="hmeta"><span>≈ 10 минут</span><span>две метафоры</span><span>9 шагов</span><span>NUTRI AI в подарок</span></div>
   <a class="go" href="#about">Ниже подробнее<i></i></a>
 </div></header>
 
@@ -274,25 +296,41 @@ footer a{color:var(--acc)}
 </div></section>
 
 <section class="sec" id="about"><div class="wrap center">
-  <span class="label">Что это</span>
-  <h2>Проект — это <em>рабочее место</em> для ИИ</h2>
-  <p class="lede">Мой Хороший, представь папку на столе. В ней лежит записка «кто ты и как работаешь», рядом — нужные книги и справочники, а внутри — все ваши разговоры на эту тему. Вот это и есть проект в ChatGPT или Claude.</p>
-  <div class="cards c3">
-    <div class="card"><span class="label">01 · Инструкция</span><h3>Кто ИИ и как он работает</h3><p>Роль, характер, правила, формат ответов. Пишешь один раз — ИИ следует ей в каждом новом чате проекта.</p></div>
-    <div class="card"><span class="label">02 · Источники</span><h3>Что ИИ знает</h3><p>Твои файлы: справочники, таблицы, конспекты. Это его база знаний — он опирается на неё, а не на «что-то из интернета».</p></div>
-    <div class="card"><span class="label">03 · Чаты и память</span><h3>Всё по теме — в одном месте</h3><p>Разговоры не теряются среди сотни других, а память проекта можно сделать отдельной от остальных чатов.</p></div>
+  <span class="label">Сначала — про обычный чат</span>
+  <h2>Обычный чат — это <em>каждый раз с нуля</em></h2>
+  <p class="lede">Ты открываешь новый чат с ИИ — и он ничего о тебе не знает. Вообще ничего. Поэтому каждый раз приходится начинать сначала:</p>
+  <div class="cards c4">
+    <div class="card"><span class="label">Заново</span><h3>Кто он</h3><p>«Ты — опытный редактор / психолог / маркетолог…» — роль нужно задавать в каждом новом чате.</p></div>
+    <div class="card"><span class="label">Заново</span><h3>Что нужно</h3><p>Какой формат, какой тон, чего не делать — объясняешь из раза в раз.</p></div>
+    <div class="card"><span class="label">Заново</span><h3>Материалы</h3><p>Примеры, файлы, заметки — снова прикрепляешь, чтобы он из них что-то взял.</p></div>
+    <div class="card"><span class="label">В итоге</span><h3>Время</h3><p>Минут десять уходит на подготовку. А ответы всё равно «скачут» от чата к чату.</p></div>
   </div>
 </div></section>
 <section class="sec orn-top"><div class="wrap center">
   <div class="rule-orn"><i></i></div>
-  <span class="label">Чем отличается</span>
-  <h2>Обычный чат и проект</h2>
-  <div class="cards c2 vs">
-    <div class="card cr"><span class="label">Обычный чат</span><h3>Случайный собеседник</h3>
-      <p>Каждый раз заново объясняешь, кто ты и чего хочешь. Файлы прикрепляешь снова. Ответы — «в общем», потому что ИИ про тебя ничего не помнит.</p></div>
-    <div class="card cg"><span class="label">Проект</span><h3>Свой специалист</h3>
-      <p>Роль и правила заданы один раз. Справочники всегда под рукой. Новый чат открываешь — а ИИ уже в теме и отвечает по твоим правилам.</p></div>
+  <span class="label">А теперь — проект</span>
+  <h2>Проект — место, где ИИ <em>уже всё знает</em></h2>
+  <p class="lede">В проекте ты <b>один раз</b> прописываешь, кто ИИ и как он работает, кладёшь нужные материалы и задаёшь свои команды. И в каждом новом чате внутри проекта ИИ уже в курсе — сразу к делу.</p>
+  <div class="cards c3">
+    <div class="card"><span class="label">01 · Инструкция</span><h3>Кто ИИ и как работает</h3><p>Роль, характер, правила, формат ответов. Пишешь один раз — работает в каждом чате проекта.</p></div>
+    <div class="card"><span class="label">02 · Источники</span><h3>Что ИИ знает</h3><p>Твои файлы: справочники, таблицы, конспекты. Это его база знаний — он опирается на неё, а не гадает.</p></div>
+    <div class="card"><span class="label">03 · Чаты</span><h3>Всё по теме — вместе</h3><p>Разговоры не теряются среди сотни других. А память проекта можно сделать отдельной от остальных чатов.</p></div>
   </div>
+</div></section>
+<section class="sec orn-top"><div class="wrap center">
+  <div class="rule-orn"><i></i></div>
+  <span class="label">Метафора №1</span>
+  <h2>Дежурный врач и <em>твой</em> врач</h2>
+  <p class="lede">Представь поликлинику. Ты пришёл с жалобой — тебя выслушали, назначили лечение. Через полгода приходишь снова, а там новый врач. И всё по кругу: что болит, какие анализы сдавал, что уже пробовал и что не помогло.</p>
+  <p class="lede">А теперь представь врача, который тебя помнит. Все жалобы, направления, результаты, лечение, которое он назначал. Тебе не нужно объяснять, зачем ты пришёл, — он понимает с полуслова. Согласись: так и приятнее, и дело движется быстрее 🙂</p>
+  <div class="cards c2 vs">
+    <div class="card cr"><span class="label">Обычный чат</span><h3>Каждый раз новый врач</h3><p>Видит тебя впервые. Всё рассказывай с самого начала.</p></div>
+    <div class="card cg"><span class="label">Проект</span><h3>Твой личный врач</h3><p>Помнит тебя, твою историю и знает, чего ты хочешь.</p></div>
+  </div>
+  <span class="label" style="margin-top:clamp(56px,8vh,90px)">Метафора №2</span>
+  <h2>«Как <em>обычно</em>?»</h2>
+  <p class="lede">В новой кофейне ты каждый раз диктуешь: «капучино, большой, на овсяном, без сахара». А в любимой бариста видит тебя в дверях и спрашивает: «Как обычно?» — и через минуту твой кофе готов.</p>
+  <p class="big">Проект — это ИИ, который знает <span class="yel">твоё «как обычно».</span></p>
   <ol class="five">
     <li><b>Не повторяешься</b><p>Инструкция работает в каждом чате проекта сама.</p></li>
     <li><b>Знания под рукой</b><p>Файлы загружаешь один раз — ИИ сверяется с ними.</p></li>
@@ -305,7 +343,7 @@ footer a{color:var(--acc)}
 <section class="band" aria-label="Цитата"><div class="fade-top"></div><div class="in wrap"><p>Обычный чат — случайный собеседник.</p><p>Проект — свой специалист,</p><p class="hot">который тебя знает.</p></div><div class="fade-bot"></div></section>
 
 <section class="sec"><div class="wrap"><div class="sci"><span class="label">Честно о главном</span>
-<p>Проект не делает ИИ всезнающим: он отвечает по твоей инструкции и файлам и всё равно может ошибаться — особенно в цифрах. Проверяй важное. Не загружай в проекты паспортные данные, пароли и номера карт. А NUTRI AI — не врач: при беременности, диабете, болезнях почек и печени или сложных отношениях с едой питание подбирают вместе со специалистом. И если подсчёт калорий начинает тревожить — сделай паузу: еда не должна становиться источником стресса.</p></div></div></section>
+<p>Проект не делает ИИ всезнающим: он отвечает по твоей инструкции и файлам и всё равно может ошибаться — особенно в цифрах. Проверяй важное. Не загружай в проекты паспортные данные, пароли и номера карт.</p></div></div></section>
 
 
 
@@ -314,6 +352,7 @@ footer a{color:var(--acc)}
   <div class="center"><span class="label">Пошагово · как для первоклашки</span>
   <h2>Собираем <em>NUTRI AI</em> — твоего ассистента по питанию</h2>
   <p class="lede">Покажу на ChatGPT — в Claude всё почти так же. NUTRI AI считает калории и БЖУ (даже по фото тарелки), ведёт дневник, подводит итоги дня и составляет меню — бережно, без жёстких диет и чувства вины.</p></div>
+  <div class="note-imp"><span class="label">❗ Важно</span>Помни, что NUTRI AI — это ИИ, работающий по той базе знаний и инструкции, которая в него заложена. <b>Он не врач!</b> При беременности, диабете, болезнях почек и печени или сложных отношениях с едой питание важно подбирать вместе с живым специалистом. Также, если подсчёт калорий начинает тревожить, — сделай паузу: еда не должна становиться источником стресса.</div>
   <ol class="stps"><li class="stp" data-n="1"><div class="stp-h"><span class="stp-n">01</span><h3>Скачай набор NUTRI AI</h3><button type="button" class="stp-ok" data-ok="1" aria-pressed="false"><i></i><span>Готово</span></button></div><div class="stp-b"><p>В архиве — инструкция проекта и база знаний: 5 файлов о здоровом питании, расчётах, калорийности продуктов, порциях и меню.</p><div class="btns"><a class="btn" id="kitdl" href="nutri-ai.zip" download>⬇️ Скачать набор</a>
 <button type="button" class="ghost" id="kittg">📩 Прислать мне в Telegram</button></div>
 <p class="note-s" id="kitmsg"></p></div></li><li class="stp" data-n="2"><div class="stp-h"><span class="stp-n">02</span><h3>Прочитай и подстрой под себя</h3><button type="button" class="stp-ok" data-ok="2" aria-pressed="false"><i></i><span>Готово</span></button></div><div class="stp-b"><p>Распакуй архив и <b>внимательно прочитай</b> инструкцию и все пять файлов. Это займёт минут 15, но так помощник станет по-настоящему твоим.</p>

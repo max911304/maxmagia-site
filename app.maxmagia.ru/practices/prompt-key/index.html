@@ -249,13 +249,34 @@ footer a{color:var(--acc)}
 .tlink{background:none;border:0;color:var(--mute);cursor:pointer;text-decoration:underline;text-underline-offset:3px;font-size:14px;padding:6px 4px;font-family:var(--sans)}
 .tlink:hover{color:var(--ink)}
 .cbtn[disabled]{opacity:.45;cursor:default}
-.shot{margin:4px 0 0;border:1px solid var(--line2);border-radius:14px;overflow:hidden;background:var(--bg);cursor:zoom-in}
+.shot{margin:4px auto 0;max-width:100%;border:1px solid var(--line2);border-radius:14px;overflow:hidden;background:var(--bg);cursor:zoom-in}
 .shot img{display:block;width:100%;height:auto}
 .shot.tall{max-width:300px}
+.stp-b .shot{margin-left:auto;margin-right:auto}
 .shot figcaption{font-size:13px;color:var(--mute);padding:8px 12px;border-top:1px solid var(--line)}
 .lbx{position:fixed;inset:0;z-index:50;background:rgba(0,0,0,.88);display:flex;align-items:center;justify-content:center;padding:16px;cursor:zoom-out}
 .lbx img{max-width:100%;max-height:100%;border-radius:10px}
 .faq details .cbx{margin:0 0 18px 24px}
+.hmeta{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin:30px auto 0;max-width:760px;animation:rise 1s .3s var(--ease) both}
+.hmeta span{border:1px solid var(--line2);border-radius:999px;padding:8px 16px;font-size:14px;letter-spacing:.04em;color:var(--dim)}
+.note-imp{max-width:860px;margin:28px auto 0;text-align:left;background:color-mix(in srgb,var(--card) 86%,#F2C94C);border-left:3px solid #F2C94C;padding:20px 24px;color:var(--dim);font-size:16.5px}
+.note-imp b{color:var(--ink)}
+.note-imp .label{color:var(--hot);margin-bottom:8px}
+.scen{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px;margin-top:clamp(36px,5vh,52px);text-align:left}
+.scen div{background:var(--card);padding:26px 22px;position:relative}
+.scen div::before{content:"";position:absolute;left:0;right:0;top:0;height:2px;background:linear-gradient(90deg,var(--acc),transparent)}
+.scen h3{font-size:clamp(24px,2.2vw,30px)}
+.scen p{margin-top:12px;font-family:ui-monospace,Menlo,monospace;font-size:14.5px;color:var(--acc);line-height:1.7}
+.menu{max-width:980px;margin:clamp(30px,4vh,44px) auto 0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px;text-align:left}
+.menu details{background:var(--card);padding:0 20px}
+.menu summary{cursor:pointer;padding:16px 0;font-weight:700;list-style:none;display:flex;gap:10px;align-items:center}
+.menu summary::before{content:"+";color:var(--acc);width:14px}
+.menu details[open] summary::before{content:"−"}
+.menu summary small{margin-left:auto;color:var(--mute);font-weight:500}
+.menu dl{margin:0 0 16px;display:grid;grid-template-columns:auto 1fr;gap:6px 14px;font-size:15px}
+.menu dt{font-family:ui-monospace,Menlo,monospace;color:var(--acc);white-space:nowrap}
+.menu dd{margin:0;color:var(--dim)}
+@media (max-width:760px){.scen,.menu{grid-template-columns:1fr}}
 
 </style>
 </head>
@@ -264,7 +285,8 @@ footer a{color:var(--acc)}
   <div class="badge"><img src="/practices/img/emblem.png" alt="MaxMagia"></div>
   <span class="label">Клуб #MaxMagia · Мои AI-решения</span>
   <h1>Промт — <em>ключ</em></h1>
-  <p class="sub">Почему одним ИИ пишет воду,<br>а другим — гениальные ответы?<br><b>Дело не в ИИ. Дело в том, как с ним говорить.</b></p>
+  <p class="sub">Один и тот же ИИ кому-то пишет воду,<br>а кому-то — ровно то, что нужно, с первого раза.<br><b>Забери ключ: 5 пунктов и конструктор, который соберёт промт за тебя.</b></p>
+  <div class="hmeta"><span>≈ 7 минут</span><span>5 пунктов</span><span>конструктор промта</span><span>промт для промтов</span></div>
   <a class="go" href="#about">Ниже подробнее<i></i></a>
 </div></header>
 
@@ -381,7 +403,7 @@ footer a{color:var(--acc)}
   <div class="rule-orn"><i></i></div>
   <span class="label">Что дальше</span>
   <h2>Куда идти по карте</h2>
-  <div class="mapnav"><div class="empty"></div><a class="back" href="/" data-back="myai"><span class="label">Меню раздела</span><h3>Мои AI-решения</h3><p>Все материалы раздела</p></a><a class="nx" href="../govori-s/"><span class="label">Следующая тема ›</span><h3>🎭 Мой любимый промт «Поговори с…»</h3></a></div>
+  <div class="mapnav"><div class="empty"></div><a class="back" href="/" data-back="myai"><span class="label">Меню раздела</span><h3>Мои AI-решения</h3><p>Все материалы раздела</p></a><a class="nx" href="../palitra/"><span class="label">Следующая тема ›</span><h3>🎨 Палитра команд: ИИ на твою учёбу</h3></a></div>
 </div></section>
 
 <footer><div class="wrap">

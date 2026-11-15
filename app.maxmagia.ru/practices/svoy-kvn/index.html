@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex, nofollow">
-<title>Свой КВН для Gemini Notebook за 239 ₽ в месяц | Клуб #MaxMagia</title>
+<title>Свой KVN для Gemini Notebook за 239 ₽ в месяц | Клуб #MaxMagia</title>
 <link rel="stylesheet" href="/practices/fonts/fonts.css">
 <script src="/practices/lib/mm-sync.js?v=3"></script>
 <style>
@@ -249,22 +249,44 @@ footer a{color:var(--acc)}
 .tlink{background:none;border:0;color:var(--mute);cursor:pointer;text-decoration:underline;text-underline-offset:3px;font-size:14px;padding:6px 4px;font-family:var(--sans)}
 .tlink:hover{color:var(--ink)}
 .cbtn[disabled]{opacity:.45;cursor:default}
-.shot{margin:4px 0 0;border:1px solid var(--line2);border-radius:14px;overflow:hidden;background:var(--bg);cursor:zoom-in}
+.shot{margin:4px auto 0;max-width:100%;border:1px solid var(--line2);border-radius:14px;overflow:hidden;background:var(--bg);cursor:zoom-in}
 .shot img{display:block;width:100%;height:auto}
 .shot.tall{max-width:300px}
+.stp-b .shot{margin-left:auto;margin-right:auto}
 .shot figcaption{font-size:13px;color:var(--mute);padding:8px 12px;border-top:1px solid var(--line)}
 .lbx{position:fixed;inset:0;z-index:50;background:rgba(0,0,0,.88);display:flex;align-items:center;justify-content:center;padding:16px;cursor:zoom-out}
 .lbx img{max-width:100%;max-height:100%;border-radius:10px}
 .faq details .cbx{margin:0 0 18px 24px}
+.hmeta{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin:30px auto 0;max-width:760px;animation:rise 1s .3s var(--ease) both}
+.hmeta span{border:1px solid var(--line2);border-radius:999px;padding:8px 16px;font-size:14px;letter-spacing:.04em;color:var(--dim)}
+.note-imp{max-width:860px;margin:28px auto 0;text-align:left;background:color-mix(in srgb,var(--card) 86%,#F2C94C);border-left:3px solid #F2C94C;padding:20px 24px;color:var(--dim);font-size:16.5px}
+.note-imp b{color:var(--ink)}
+.note-imp .label{color:var(--hot);margin-bottom:8px}
+.scen{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px;margin-top:clamp(36px,5vh,52px);text-align:left}
+.scen div{background:var(--card);padding:26px 22px;position:relative}
+.scen div::before{content:"";position:absolute;left:0;right:0;top:0;height:2px;background:linear-gradient(90deg,var(--acc),transparent)}
+.scen h3{font-size:clamp(24px,2.2vw,30px)}
+.scen p{margin-top:12px;font-family:ui-monospace,Menlo,monospace;font-size:14.5px;color:var(--acc);line-height:1.7}
+.menu{max-width:980px;margin:clamp(30px,4vh,44px) auto 0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px;text-align:left}
+.menu details{background:var(--card);padding:0 20px}
+.menu summary{cursor:pointer;padding:16px 0;font-weight:700;list-style:none;display:flex;gap:10px;align-items:center}
+.menu summary::before{content:"+";color:var(--acc);width:14px}
+.menu details[open] summary::before{content:"−"}
+.menu summary small{margin-left:auto;color:var(--mute);font-weight:500}
+.menu dl{margin:0 0 16px;display:grid;grid-template-columns:auto 1fr;gap:6px 14px;font-size:15px}
+.menu dt{font-family:ui-monospace,Menlo,monospace;color:var(--acc);white-space:nowrap}
+.menu dd{margin:0;color:var(--dim)}
+@media (max-width:760px){.scen,.menu{grid-template-columns:1fr}}
 
 </style>
 </head>
-<body data-slug="svoy-kvn" data-kit="" data-total="6" data-name="Свой КВН для Gemini Notebook за 239 ₽ в месяц">
+<body data-slug="svoy-kvn" data-kit="" data-total="6" data-name="Свой KVN для Gemini Notebook за 239 ₽ в месяц">
 <header class="hero"><div class="wrap">
   <div class="badge"><img src="/practices/img/emblem.png" alt="MaxMagia"></div>
   <span class="label">Клуб #MaxMagia · Мои AI-решения</span>
-  <h1>Свой <em>КВН</em></h1>
-  <p class="sub">Gemini Notebook капризный<br>и не пускает даже с массовыми сервисами.<br><b>Поэтому я сделал свой — на сервере в Европе, за 239 ₽ в месяц.</b></p>
+  <h1>Свой <em>KVN</em></h1>
+  <p class="sub">Gemini Notebook не пускает даже с массовыми сервисами?<br>Я тоже через это прошёл — и сделал свой KVN за 239 ₽ в месяц.<br><b>Повтори за мной по шагам: без программирования, за один вечер.</b></p>
+  <div class="hmeta"><span>≈ 30 минут</span><span>239 ₽ в месяц</span><span>6 шагов</span><span>без программирования</span></div>
   <a class="go" href="#about">Ниже подробнее<i></i></a>
 </div></header>
 
@@ -275,17 +297,18 @@ footer a{color:var(--acc)}
 
 <section class="sec" id="about"><div class="wrap center">
   <span class="label">Мой личный опыт</span>
-  <h2>Зачем мне понадобился <em>свой</em> КВН</h2>
-  <p class="lede">На вводном эфире про ИИ я рассказывал о Gemini Notebook и показывал, как он облегчает обучение. Но сервис очень капризный: проверяет, из какой страны ты заходишь, и часто не пускает даже с массовыми сервисами. Поэтому мне понадобился свой личный сервер в Европе. Вот как я это сделал — шаг за шагом.</p>
+  <h2>Зачем мне понадобился <em>свой</em> KVN</h2>
+  <p class="lede">Мой Хороший, на вводном эфире про ИИ я показывал Gemini Notebook — сервис, который здорово облегчает учёбу. Но он очень капризный: смотрит, из какой страны ты заходишь, и часто не пускает даже с массовыми сервисами.</p>
+  <p class="big">Поэтому я сделал <span class="yel">свой KVN на сервере в Европе.</span> Рассказываю, как именно — по шагам.</p>
   <div class="cards c3">
-    <div class="card"><span class="label">Что нужно</span><h3>Сервер</h3><p>Виртуальный сервер в Стокгольме у хостинга Aeza — от 239 ₽ в месяц (цены и промо-тарифы могут меняться).</p></div>
-    <div class="card"><span class="label">Чем ставим</span><h3>Amnezia</h3><p>Бесплатное приложение, которое само всё установит на сервер. Никаких команд и программирования.</p></div>
-    <div class="card"><span class="label">Сколько времени</span><h3>~30 минут</h3><p>Один раз настроил — и пользуешься сам и даёшь доступ тем, кому захочешь.</p></div>
+    <div class="card"><span class="label">Что нужно</span><h3>Сервер в Европе</h3><p>Я арендовал его в Стокгольме у Aeza — от 239 ₽ в месяц. Цены и акции могут меняться.</p></div>
+    <div class="card"><span class="label">Чем ставим</span><h3>Приложение Amnezia</h3><p>Бесплатное. Оно само всё установит на сервер — никаких команд и программирования.</p></div>
+    <div class="card"><span class="label">Сколько времени</span><h3>Один вечер</h3><p>Минут 30. Один раз настроил — и пользуешься сам и даёшь доступ близким.</p></div>
   </div>
-  <div class="callout"><b>Почему свой лучше массового.</b> Твой адрес не попадает в общие списки, как у массовых сервисов, поэтому работает стабильнее. Но гарантий в этой сфере никто не даёт — на этот случай в конце есть запасной вариант.</div>
+  <div class="callout"><b>Почему свой лучше массового.</b> Твой адрес знаешь только ты — он не попадает в общие списки, как у массовых сервисов. Поэтому работает стабильнее. Но гарантий тут не даст никто, так что в конце я покажу запасной вариант.</div>
 </div></section>
 
-<section class="band" aria-label="Цитата"><div class="fade-top"></div><div class="in wrap"><p>Массовые сервисы знают все.</p><p>И сервисы тоже знают их.</p><p class="hot">Свой — знаешь только ты.</p></div><div class="fade-bot"></div></section>
+<section class="band" aria-label="Цитата"><div class="fade-top"></div><div class="in wrap"><p>Массовые сервисы знают все.</p><p>И сайты тоже их знают.</p><p class="hot">Свой знаешь только ты.</p></div><div class="fade-bot"></div></section>
 
 
 
@@ -294,34 +317,37 @@ footer a{color:var(--acc)}
 <section class="sec orn-top" id="steps"><div class="wrap">
   <div class="rule-orn"><i></i></div>
   <div class="center"><span class="label">Пошагово · как для первоклашки</span>
-  <h2>Делаем <em>за 30 минут</em></h2>
-  <p class="lede">Иди по шагам и нажимай «Готово» — прогресс сохраняется. Нажми на любой скриншот, чтобы увеличить.</p></div>
-  <ol class="stps"><li class="stp" data-n="1"><div class="stp-h"><span class="stp-n">01</span><h3>Арендуй сервер</h3><button type="button" class="stp-ok" data-ok="1" aria-pressed="false"><i></i><span>Готово</span></button></div><div class="stp-b"><p>Зайди на <b>aeza.ru</b>, зарегистрируйся и войди. Нажми <b>«Добавить услугу»</b> → <b>«Виртуальный сервер»</b>.</p><figure class="shot "><img src="kvn-1.jpg" loading="lazy" alt="«Добавить услугу» → «Виртуальный сервер»"><figcaption>«Добавить услугу» → «Виртуальный сервер»</figcaption></figure><p><b>Шаг 1, локация:</b> Стокгольм — у меня он был от 239 ₽ в месяц.</p><figure class="shot "><img src="kvn-2.jpg" loading="lazy" alt="Локация — Стокгольм"><figcaption>Локация — Стокгольм</figcaption></figure><p><b>Шаг 2, тариф:</b> минимальный (Promo). <b>Шаг 3, система:</b> Ubuntu 24.04. Оплати месяц.</p><figure class="shot "><img src="kvn-3.jpg" loading="lazy" alt="Тариф — минимальный"><figcaption>Тариф — минимальный</figcaption></figure><p>На главном экране появится твой сервер. Нажми на него — увидишь <b>IP-адрес, логин (root) и пароль</b>. Они понадобятся дальше.</p><figure class="shot "><img src="kvn-4.jpg" loading="lazy" alt="IP, логин root и пароль сервера"><figcaption>IP, логин root и пароль сервера</figcaption></figure><p class="tip">🔒 Пароль от сервера никому не передавай. Для других людей и устройств есть отдельные ключи — о них в шаге 5.</p></div></li><li class="stp" data-n="2"><div class="stp-h"><span class="stp-n">02</span><h3>Установи Amnezia на свой сервер</h3><button type="button" class="stp-ok" data-ok="2" aria-pressed="false"><i></i><span>Готово</span></button></div><div class="stp-b"><ol class="how">
-<li>Зайди на <b>amnezia.org</b> и скачай приложение на компьютер. Не открывается — есть зеркало на GitHub: <b>amnezia-vpn/amnezia-client</b>, раздел Releases.</li>
-<li>На Mac сразу перенеси приложение в папку «Программы», не запускай его из «Загрузок».</li>
-<li>Открой приложение и выбери <b>«Настроить свой сервер»</b>.</li>
-<li>Введи IP сервера, логин <b>root</b> и пароль из панели Aeza.</li>
-<li>На шаге «Выберите тип установки» выбери <b>«Автоматическая»</b> — она поставит протокол AmneziaWG: быстрый и стабильный, у меня работает отлично.</li>
+  <h2>Делаем <em>за один вечер</em></h2>
+  <p class="lede">Иди по шагам и нажимай «Готово» — прогресс сохранится. На любой скриншот можно нажать, чтобы увеличить.</p></div>
+  
+  <ol class="stps"><li class="stp" data-n="1"><div class="stp-h"><span class="stp-n">01</span><h3>Арендуй сервер</h3><button type="button" class="stp-ok" data-ok="1" aria-pressed="false"><i></i><span>Готово</span></button></div><div class="stp-b"><p>Сервер — это компьютер в Европе, который будет работать на тебя. Арендуем его на месяц.</p>
+<ol class="how"><li>Зайди на <b>aeza.ru</b>, зарегистрируйся и войди.</li>
+<li>Нажми <b>«Добавить услугу»</b> → <b>«Виртуальный сервер»</b>.</li></ol><figure class="shot "><img src="kvn-1.jpg" loading="lazy" alt="«Добавить услугу» → «Виртуальный сервер»"><figcaption>«Добавить услугу» → «Виртуальный сервер»</figcaption></figure><p>Выбери город <b>Стокгольм</b> — у меня он стоил 239 ₽ в месяц.</p><figure class="shot "><img src="kvn-2.jpg" loading="lazy" alt="Город — Стокгольм"><figcaption>Город — Стокгольм</figcaption></figure><p>Тариф — самый простой, <b>Promo</b>. Система — <b>Ubuntu 24.04</b>. Оплати месяц.</p><figure class="shot "><img src="kvn-3.jpg" loading="lazy" alt="Тариф — самый простой"><figcaption>Тариф — самый простой</figcaption></figure><p>Сервер появится на главной. Нажми на него — там будут <b>IP-адрес, логин (root) и пароль</b>. Они пригодятся в следующем шаге.</p><figure class="shot "><img src="kvn-4.jpg" loading="lazy" alt="Здесь IP, логин root и пароль"><figcaption>Здесь IP, логин root и пароль</figcaption></figure><p class="tip">🔒 Пароль от сервера никому не давай. Для близких и других устройств есть отдельные ключи — покажу в шаге 5.</p></div></li><li class="stp" data-n="2"><div class="stp-h"><span class="stp-n">02</span><h3>Поставь Amnezia на сервер</h3><button type="button" class="stp-ok" data-ok="2" aria-pressed="false"><i></i><span>Готово</span></button></div><div class="stp-b"><ol class="how">
+<li>Скачай приложение <b>Amnezia</b> на компьютер с сайта <b>amnezia.org</b>. Сайт не открывается — то же самое есть на GitHub: <b>amnezia-vpn/amnezia-client</b>, раздел Releases.</li>
+<li>На Mac сначала перетащи приложение в папку «Программы» — из «Загрузок» не запускай.</li>
+<li>Открой его и выбери <b>«Настроить свой сервер»</b>.</li>
+<li>Впиши IP сервера, логин <b>root</b> и пароль из Aeza.</li>
+<li>Тип установки — <b>«Автоматическая»</b>. Приложение само всё поставит. У меня так работает отлично.</li>
 <li>Подожди несколько минут.</li></ol>
-<p><b>Если вылезла ошибка:</b></p>
-<ul class="how"><li><b>ErrorCode 1200</b> («Ошибка QFile») — шестерёнка ⚙️ → «Закрыть приложение» (на Mac красный крестик не закрывает его полностью). Запусти заново и повтори — со второго раза проходит.</li>
-<li><b>ErrorCode 300</b> («SSH-запрос отклонён») — чаще всего пароль скопировался с лишним пробелом в конце: нажми на «глазик» и проверь. Не помогло — сервер не пускает по паролю, нужен вход по ключу. Тут проще всего попросить помощи у ИИ: промт в конце страницы.</li></ul></div></li><li class="stp" data-n="3"><div class="stp-h"><span class="stp-n">03</span><h3>Подключись и проверь</h3><button type="button" class="stp-ok" data-ok="3" aria-pressed="false"><i></i><span>Готово</span></button></div><div class="stp-b"><p>Нажми <b>«Подключиться»</b>. Перед проверкой выключи другие подобные приложения и расширения в браузере (например, встроенное в Brave) — иначе они будут мешать.</p><figure class="shot tall"><img src="kvn-5.jpg" loading="lazy" alt="Главный экран Amnezia — «Подключиться»"><figcaption>Главный экран Amnezia — «Подключиться»</figcaption></figure><p>Открой <b>browserleaks.com/ip</b> — должна быть Швеция и IP твоего сервера. На том же сайте загляни в разделы <b>WebRTC</b> и <b>DNS</b>: российских адресов там быть не должно.</p>
-<p><b>Настройки в Amnezia:</b></p>
-<ul class="how"><li><b>Логирование</b> — не включай, оно нужно только для поиска ошибок.</li>
-<li><b>Раздельное туннелирование</b> — оставь выключенным: Gemini Notebook работает через множество адресов Google, и если часть пойдёт мимо сервера, сервис снова «увидит» Россию.</li>
-<li><b>Kill Switch</b> — оставь включённым: если связь с сервером оборвётся, он отключит интернет, и браузер не «выдаст» твой настоящий адрес.</li></ul>
-<p class="tip">⚠️ Обратная сторона: если сервер выключен или не оплачен, интернет пропадёт целиком. Лечится просто — отключи подключение в приложении.</p></div></li><li class="stp" data-n="4"><div class="stp-h"><span class="stp-n">04</span><h3>Если Gemini Notebook всё равно не пускает</h3><button type="button" class="stp-ok" data-ok="4" aria-pressed="false"><i></i><span>Готово</span></button></div><div class="stp-b"><p>Проверь страну своего Google-аккаунта: <b>policies.google.com/terms</b>, строка «Версия для страны». Если там Россия, сервис может не пускать даже со шведским адресом.</p>
-<p>Страна аккаунта меняется сама через какое-то время использования из другой страны. А можно завести отдельный аккаунт при включённом подключении.</p></div></li><li class="stp" data-n="5"><div class="stp-h"><span class="stp-n">05</span><h3>Подключи телефон и близких</h3><button type="button" class="stp-ok" data-ok="5" aria-pressed="false"><i></i><span>Готово</span></button></div><div class="stp-b"><ol class="how"><li>В Amnezia на компьютере нажми <b>«Поделиться»</b> — вторая иконка на нижней панели.</li>
-<li>Выбери сервер и протокол — приложение создаст ключ или QR-код.</li>
-<li>На телефоне установи Amnezia и импортируй ключ. Нет приложения в App Store твоей страны — на <b>docs.amnezia.org</b> есть инструкция «AmneziaVPN нет в App Store».</li></ol>
-<p class="tip">На каждое устройство и каждого человека делай <b>отдельный ключ</b>. Так любой доступ можно потом отключить, не трогая остальные.</p></div></li><li class="stp" data-n="6"><div class="stp-h"><span class="stp-n">06</span><h3>По желанию: запасной протокол XRay</h3><button type="button" class="stp-ok" data-ok="6" aria-pressed="false"><i></i><span>Готово</span></button></div><div class="stp-b"><p>AmneziaWG у меня работает шикарно, а XRay ощутимо медленнее. Но держать его запасным полезно: если на каком-то операторе (особенно мобильном) AmneziaWG вдруг перестанет работать, можно переключиться.</p>
-<ol class="how"><li>Нижняя панель → шестерёнка ⚙️ → «Серверы» → твой сервер.</li>
+<p><b>Если выскочила ошибка — не пугайся:</b></p>
+<ul class="how"><li><b>ErrorCode 1200</b> — шестерёнка ⚙️ → «Закрыть приложение» (на Mac красный крестик его не закрывает до конца). Открой заново и повтори — со второго раза проходит.</li>
+<li><b>ErrorCode 300</b> — чаще всего к паролю прилип лишний пробел в конце. Нажми на «глазик» и проверь. Не помогло — попроси помощи у ИИ: готовый промт внизу страницы.</li></ul></div></li><li class="stp" data-n="3"><div class="stp-h"><span class="stp-n">03</span><h3>Подключись и проверь</h3><button type="button" class="stp-ok" data-ok="3" aria-pressed="false"><i></i><span>Готово</span></button></div><div class="stp-b"><p>Нажми <b>«Подключиться»</b>. Но сначала выключи другие похожие приложения и расширения в браузере (например, встроенное в Brave) — иначе будут мешать.</p><figure class="shot tall"><img src="kvn-5.jpg" loading="lazy" alt="Главный экран Amnezia — «Подключиться»"><figcaption>Главный экран Amnezia — «Подключиться»</figcaption></figure><p>Теперь открой <b>browserleaks.com/ip</b>. Там должна быть <b>Швеция</b> и IP твоего сервера. Загляни ещё в разделы <b>WebRTC</b> и <b>DNS</b> на том же сайте — российских адресов там быть не должно.</p>
+<p><b>Три настройки в Amnezia:</b></p>
+<ul class="how"><li><b>Логирование</b> — не включай. Оно нужно только мастерам для поиска ошибок.</li>
+<li><b>Раздельное туннелирование</b> — оставь выключенным. Gemini Notebook работает через много адресов Google, и если часть пойдёт мимо сервера, он снова «увидит» Россию.</li>
+<li><b>Kill Switch</b> («аварийный выключатель») — оставь включённым. Если связь с сервером оборвётся, он отключит интернет, и браузер не выдаст твой настоящий адрес.</li></ul>
+<p class="tip">⚠️ Обратная сторона: если сервер выключен или не оплачен, интернет пропадёт совсем. Не страшно — просто отключись в приложении.</p></div></li><li class="stp" data-n="4"><div class="stp-h"><span class="stp-n">04</span><h3>Gemini Notebook всё равно не пускает?</h3><button type="button" class="stp-ok" data-ok="4" aria-pressed="false"><i></i><span>Готово</span></button></div><div class="stp-b"><p>Проверь страну своего Google-аккаунта: <b>policies.google.com/terms</b>, строка «Версия для страны». Если там Россия, сервис может не пускать даже из Швеции.</p>
+<p>Страна аккаунта со временем меняется сама, если пользоваться им из другой страны. А можно просто завести новый Google-аккаунт при включённом KVN.</p></div></li><li class="stp" data-n="5"><div class="stp-h"><span class="stp-n">05</span><h3>Подключи телефон и близких</h3><button type="button" class="stp-ok" data-ok="5" aria-pressed="false"><i></i><span>Готово</span></button></div><div class="stp-b"><ol class="how"><li>В Amnezia на компьютере нажми <b>«Поделиться»</b> — вторая иконка внизу.</li>
+<li>Выбери сервер — приложение сделает ключ или QR-код.</li>
+<li>На телефоне поставь Amnezia и добавь этот ключ. Нет приложения в App Store — на <b>docs.amnezia.org</b> есть инструкция, как его поставить.</li></ol>
+<p class="tip">Каждому человеку и каждому устройству — <b>свой ключ</b>. Тогда любой доступ можно отключить, не трогая остальных.</p></div></li><li class="stp" data-n="6"><div class="stp-h"><span class="stp-n">06</span><h3>По желанию: запасной вариант</h3><button type="button" class="stp-ok" data-ok="6" aria-pressed="false"><i></i><span>Готово</span></button></div><div class="stp-b"><p>Основной способ соединения (AmneziaWG) у меня работает шикарно. Есть и запасной — <b>XRay</b>: он медленнее, но выручит, если на каком-то операторе, особенно мобильном, основной вдруг перестанет работать.</p>
+<ol class="how"><li>Внизу шестерёнка ⚙️ → «Серверы» → твой сервер.</li>
 <li>Вкладка «Протоколы» → найди <b>XRay</b> → «Установить».</li>
-<li>Порт оставь <b>443</b>, который предложит приложение, — AmneziaWG занимает другой, поэтому конфликта не будет.</li>
-<li>Дождись окончания. Снова ошибка 1200 — лечится так же: «Закрыть приложение» и повторить.</li></ol>
-<p>Теперь на главном экране под названием сервера можно переключаться между AmneziaWG и XRay. Родным и на телефон можно сразу выдать два ключа — на оба протокола.</p></div></li></ol>
+<li>Порт оставь <b>443</b>, который предложит приложение, — конфликта не будет.</li>
+<li>Снова ошибка 1200 — то же лечение: «Закрыть приложение» и повторить.</li></ol>
+<p>Теперь на главном экране можно переключаться между двумя способами. А близким можно сразу выдать два ключа — на оба.</p></div></li></ol>
   <div class="prog" aria-live="polite"><div class="prog-bar"><i id="pbar"></i></div><span id="ptxt">0 из 6</span></div>
-  <div class="done-card" id="donecard" hidden><span class="label">Итог</span><h3>У тебя свой личный доступ 🤍</h3><p>Раз в месяц оплачиваешь сервер — и пользуешься только ты и те, кому ты сам выдал ключ. А теперь — открывай Gemini Notebook и учись в удовольствие.</p></div>
+  <div class="done-card" id="donecard" hidden><span class="label">Готово</span><h3>У тебя свой личный доступ 🤍</h3><p>Раз в месяц оплачиваешь сервер — и пользуешься только ты и те, кому ты сам выдал ключ. Открывай Gemini Notebook и учись в удовольствие.</p></div>
   <div class="faq">
     <span class="label">Если что-то пошло не так</span>
     <details open><summary>Что-то пошло не так — промт для ИИ</summary><p>Скопируй этот текст в Claude или ChatGPT, подставь свои данные в квадратных скобках — и ИИ проведёт тебя по шагам.</p>
@@ -351,7 +377,7 @@ footer a{color:var(--acc)}
   <div class="rv">
     <div class="rv-avg" id="rvavg"></div>
     <div class="stars" id="stars" role="radiogroup" aria-label="Оценка"><button type="button" data-s="1" aria-label="1 из 5">★</button><button type="button" data-s="2" aria-label="2 из 5">★</button><button type="button" data-s="3" aria-label="3 из 5">★</button><button type="button" data-s="4" aria-label="4 из 5">★</button><button type="button" data-s="5" aria-label="5 из 5">★</button></div>
-    <textarea id="rvtext" maxlength="2000" rows="4" placeholder="Например: «Ошибка 1200 вылезла два раза, но со второго перезапуска всё встало. Gemini Notebook открылся!»"></textarea>
+    <textarea id="rvtext" maxlength="2000" rows="4" placeholder="Например: «Ошибка 1200 вылезла два раза, но со второго раза всё встало. Gemini Notebook открылся!»"></textarea>
     <div class="rv-row"><label><input type="checkbox" id="rvanon"> без имени</label>
       <button type="button" class="btn" id="rvsend">Отправить</button></div>
     <div class="rv-msg" id="rvmsg"></div>
@@ -363,7 +389,7 @@ footer a{color:var(--acc)}
   <div class="rule-orn"><i></i></div>
   <span class="label">Что дальше</span>
   <h2>Куда идти по карте</h2>
-  <div class="mapnav"><a class="pv" href="../karernyj-pomoshchnik/"><span class="label">‹ Предыдущая тема</span><h3>Карьерный помощник AI</h3></a><a class="back" href="/" data-back="myai"><span class="label">Меню раздела</span><h3>Мои AI-решения</h3><p>Все материалы раздела</p></a><div class="empty"></div></div>
+  <div class="mapnav"><a class="pv" href="../karernyj-pomoshchnik/"><span class="label">‹ Предыдущая тема</span><h3>💼 Карьерный помощник AI</h3></a><a class="back" href="/" data-back="myai"><span class="label">Меню раздела</span><h3>Мои AI-решения</h3><p>Все материалы раздела</p></a><div class="empty"></div></div>
 </div></section>
 
 <footer><div class="wrap">
