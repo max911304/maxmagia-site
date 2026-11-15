@@ -1052,6 +1052,39 @@ Best regards,
   </div>
 </section>
 
+<!-- MAPNAV v1 (15.11): «Куда идти по карте» -->
+<style>
+.mmnav{padding:clamp(56px,9vh,110px) 0;text-align:center;font-family:var(--sans,'Manrope',system-ui,sans-serif)}
+.mmnav .mmw{max-width:1200px;margin:0 auto;padding:0 clamp(20px,4vw,48px)}
+.mmnav .mml{display:block;font-size:13px;font-weight:600;letter-spacing:.28em;text-transform:uppercase;color:var(--acc,#D4B48A);margin-bottom:22px}
+.mmnav h2{font-family:var(--serif,'Cormorant Garamond',Georgia,serif);font-weight:400;font-size:clamp(36px,5vw,64px);line-height:1.08;margin:0 auto;color:var(--ink,inherit)}
+.mmnav .mmg{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px;margin-top:clamp(40px,6vh,60px);text-align:left}
+.mmnav .mmg a{display:block;position:relative;background:var(--card,rgba(127,127,127,.12));padding:clamp(24px,3vw,36px) clamp(20px,3vw,34px);min-height:150px;text-decoration:none;color:var(--ink,inherit)}
+.mmnav .mmg a::before{content:"";position:absolute;left:0;right:0;top:0;height:2px;background:linear-gradient(90deg,var(--acc,#D4B48A),transparent)}
+.mmnav .mmg a.nx{text-align:right}
+.mmnav .mmg a.nx::before{background:linear-gradient(270deg,var(--acc,#D4B48A),transparent)}
+.mmnav .mmg a.bk{text-align:center}
+.mmnav .mmg h3{font-family:var(--serif,'Cormorant Garamond',Georgia,serif);font-weight:500;font-size:clamp(23px,2.2vw,30px);line-height:1.15;margin:0}
+.mmnav .mmg a.bk h3{color:var(--acc,#D4B48A)}
+.mmnav .mmg p{margin:8px 0 0;font-size:15px;opacity:.75}
+.mmnav .mmg .mml{margin-bottom:12px}
+@media (max-width:760px){.mmnav .mmg{grid-template-columns:1fr}.mmnav .mmg a{min-height:0}.mmnav .mmg a.bk{order:3}.mmnav .mmg a.nx{text-align:left}}
+</style>
+<section class="mmnav" id="map"><div class="mmw">
+  <span class="mml">Что дальше</span>
+  <h2>Куда идти по карте</h2>
+  <div class="mmg">
+    <a class="pv" href="../money-archetype-ai/"><span class="mml">‹ Предыдущая тема</span><h3>💰 MONEY-ARCHETYPE.AI</h3></a>
+    <a class="bk" href="/" data-mmback="myai"><span class="mml">Меню раздела</span><h3>Мои AI-решения</h3><p>Все материалы раздела</p></a>
+    <a class="nx" href="../svoy-kvn/"><span class="mml">Следующая тема ›</span><h3>📡 Свой КВН для Gemini Notebook за 239 ₽ в месяц</h3></a>
+  </div>
+</div></section>
+<script>
+(function(){var a=document.querySelector('[data-mmback]');if(!a)return;
+  if(location.hostname.indexOf('app.')!==0){a.setAttribute('href','/art/');return;}
+  a.addEventListener('click',function(e){e.preventDefault();try{sessionStorage.setItem('mm_ret',a.getAttribute('data-mmback'));}catch(x){}location.href='/';});})();
+</script>
+<!-- /MAPNAV v1 -->
 <footer>
   <div class="wrap">
     <div class="sign">Клуб #MaxMagia</div>

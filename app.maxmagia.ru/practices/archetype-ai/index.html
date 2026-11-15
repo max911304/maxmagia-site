@@ -249,6 +249,13 @@ footer a{color:var(--acc)}
 .tlink{background:none;border:0;color:var(--mute);cursor:pointer;text-decoration:underline;text-underline-offset:3px;font-size:14px;padding:6px 4px;font-family:var(--sans)}
 .tlink:hover{color:var(--ink)}
 .cbtn[disabled]{opacity:.45;cursor:default}
+.shot{margin:4px 0 0;border:1px solid var(--line2);border-radius:14px;overflow:hidden;background:var(--bg);cursor:zoom-in}
+.shot img{display:block;width:100%;height:auto}
+.shot.tall{max-width:300px}
+.shot figcaption{font-size:13px;color:var(--mute);padding:8px 12px;border-top:1px solid var(--line)}
+.lbx{position:fixed;inset:0;z-index:50;background:rgba(0,0,0,.88);display:flex;align-items:center;justify-content:center;padding:16px;cursor:zoom-out}
+.lbx img{max-width:100%;max-height:100%;border-radius:10px}
+.faq details .cbx{margin:0 0 18px 24px}
 
 </style>
 </head>
@@ -376,7 +383,7 @@ footer a{color:var(--acc)}
   <div class="rule-orn"><i></i></div>
   <span class="label">Что дальше</span>
   <h2>Куда идти по карте</h2>
-  <div class="mapnav"><div class="soon pv"><span class="label">Скоро · ‹ Предыдущая тема</span><h3>Что такое Projects: свой проект в ChatGPT и Claude</h3></div><a class="back" href="/" data-back="myai"><span class="label">Меню раздела</span><h3>Мои AI-решения</h3><p>Все материалы раздела</p></a><a class="nx" href="../money-archetype-ai/"><span class="label">Следующая тема ›</span><h3>💰 MONEY-ARCHETYPE.AI</h3></a></div>
+  <div class="mapnav"><a class="pv" href="../ai-projects/"><span class="label">‹ Предыдущая тема</span><h3>🗂 Что такое Projects: свой проект в ChatGPT и Claude</h3></a><a class="back" href="/" data-back="myai"><span class="label">Меню раздела</span><h3>Мои AI-решения</h3><p>Все материалы раздела</p></a><a class="nx" href="../money-archetype-ai/"><span class="label">Следующая тема ›</span><h3>💰 MONEY-ARCHETYPE.AI</h3></a></div>
 </div></section>
 
 <footer><div class="wrap">
@@ -500,6 +507,10 @@ footer a{color:var(--acc)}
       fields.forEach(function(f){f.value='';});clr.dataset.armed='';clr.textContent='Стереть поля';build();});
     build();
   });
+  // скриншоты: нажал — открылся крупно
+  $$('.shot img').forEach(function(im){im.parentNode.addEventListener('click',function(){
+    var o=document.createElement('div');o.className='lbx';o.innerHTML='<img alt="">';o.firstChild.src=im.src;
+    o.addEventListener('click',function(){o.remove();});document.body.appendChild(o);});});
   tabs();paint();
 })();
 

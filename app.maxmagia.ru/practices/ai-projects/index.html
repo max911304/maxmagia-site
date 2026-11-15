@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Что такое Projects: свой проект в ChatGPT и Claude | Клуб #MaxMagia</title>
+<link rel="stylesheet" href="/practices/fonts/fonts.css">
+<script src="/practices/lib/mm-sync.js?v=3"></script>
+<style>
+:root{
+  --bg:#FFFFFF; --bg2:#F4F3EF; --card:#F4F3EF; --ink:#2F2F2F; --dim:#4D4D4D; --mute:#696969; --num:#E4E1DA;
+  --line:rgba(47,47,47,.12); --line2:rgba(47,47,47,.24);
+  --acc:#9A6A2E; --acc-fill:#D4B48A; --on-fill:#141414; --mark:#F6EC6E; --hot:#B23A2E;
+  --glow:rgba(212,180,138,.22);
+  --band1:#2A2420; --band2:#0C0C0E; --band-ink:#F0ECE4; --band-hot:#F49385; --yel:#2F2F2F; --yel-bg:#F6EC6E;
+  --c-grn:#23744A;
+  --serif:'Cormorant Garamond',Georgia,'Times New Roman',serif;
+  --sans:'Manrope',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --ease:cubic-bezier(.2,.8,.2,1);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --yel:#F3E37C; --yel-bg:transparent;
+    --bg:#0C0C0E; --bg2:#0F0F11; --card:#18181A; --ink:#F0ECE4; --dim:#B9B2A8; --mute:#9C958C; --num:#232326;
+    --line:rgba(240,236,228,.08); --line2:rgba(240,236,228,.16);
+    --acc:#D4B48A; --acc-fill:#D4B48A; --on-fill:#0C0C0E; --mark:rgba(212,180,138,.26); --hot:#EF7A6B;
+    --glow:rgba(212,180,138,.12); --c-grn:#5CC587;
+  }
+}
+:root[data-theme="dark"]{
+  --yel:#F3E37C; --yel-bg:transparent;
+  --bg:#0C0C0E; --bg2:#0F0F11; --card:#18181A; --ink:#F0ECE4; --dim:#B9B2A8; --mute:#9C958C; --num:#232326;
+  --line:rgba(240,236,228,.08); --line2:rgba(240,236,228,.16);
+  --acc:#D4B48A; --acc-fill:#D4B48A; --on-fill:#0C0C0E; --mark:rgba(212,180,138,.26); --hot:#EF7A6B;
+  --glow:rgba(212,180,138,.12); --c-grn:#5CC587;
+}
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px);scroll-behavior:smooth}
+html,body{overflow-x:clip}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.7;-webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:var(--serif);font-weight:500;margin:0;line-height:1.08;text-wrap:balance}
+p{margin:0}
+button,input,textarea{font:inherit;color:inherit;touch-action:manipulation}
+:focus-visible{outline:2px solid var(--acc);outline-offset:4px;border-radius:6px}
+[hidden]{display:none!important}
+.wrap{max-width:1200px;margin:0 auto;padding:0 clamp(20px,4vw,48px)}
+.center{text-align:center}
+.col{max-width:780px;margin-left:auto;margin-right:auto}
+.sec{--gap:clamp(64px,10vh,120px);padding:var(--gap) 0}
+.sec.orn-top{padding-top:0}
+.sec.orn-top > .wrap > .rule-orn{margin:0 auto var(--gap)}
+.label{display:block;font-size:13px;font-weight:600;letter-spacing:.28em;text-transform:uppercase;color:var(--acc);margin-bottom:22px}
+h2{font-size:clamp(36px,5vw,64px);font-weight:400;max-width:20ch;margin:0 auto}
+h2 em,h1 em{font-style:italic;color:var(--acc)}
+.lede{font-size:clamp(18px,1.4vw,20px);color:var(--dim);max-width:58ch;margin:24px auto 0}
+.rule-orn{display:flex;align-items:center;justify-content:center;gap:14px;margin:0 auto 26px;color:var(--acc)}
+.rule-orn::before,.rule-orn::after{content:"";width:56px;height:1px;background:linear-gradient(90deg,transparent,var(--acc))}
+.rule-orn::after{transform:scaleX(-1)}
+.rule-orn i{width:6px;height:6px;background:var(--acc);transform:rotate(45deg)}
+.hero{min-height:auto;padding-block:clamp(70px,14vh,140px);display:grid;place-items:center;text-align:center;position:relative;overflow:hidden}
+.hero::before{content:"";position:absolute;left:50%;top:40%;width:min(110vw,980px);aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(circle,var(--glow),transparent 64%);pointer-events:none}
+.hero > div{position:relative;width:100%;min-width:0}
+.badge{width:clamp(112px,13vw,144px);aspect-ratio:1;border-radius:50%;margin:0 auto;display:grid;place-items:center;background:#F7F4EE;box-shadow:0 0 0 1px var(--line2),0 24px 60px -24px rgba(0,0,0,.45);animation:rise 1s var(--ease) both}
+.badge img{width:52%;height:auto;display:block}
+.badge .star{font-size:46px;color:#9A6A2E;font-family:var(--serif)}
+.hero .label{margin:30px 0 0;animation:rise 1s .1s var(--ease) both}
+.hero h1{font-size:clamp(40px,10vw,120px);font-weight:400;line-height:.95;margin-top:18px;animation:rise 1s .18s var(--ease) both;overflow-wrap:anywhere}
+.hero .sub{font-family:var(--serif);font-size:clamp(22px,2.3vw,31px);line-height:1.38;color:var(--dim);margin:30px auto 0;max-width:34ch;animation:rise 1s .26s var(--ease) both}
+.hero .sub b{font-style:italic;font-weight:600;color:var(--ink)}
+.hero .go{display:inline-flex;flex-direction:column;align-items:center;gap:10px;margin-top:44px;color:var(--mute);font-size:13px;letter-spacing:.2em;text-transform:uppercase;text-decoration:none;animation:rise 1s .34s var(--ease) both}
+.hero .go i{width:1px;height:40px;background:linear-gradient(var(--acc),transparent)}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.big{font-family:var(--serif);font-size:clamp(26px,2.8vw,38px);line-height:1.28;max-width:30ch;margin:34px auto 0}
+.cards{display:grid;gap:4px;margin-top:clamp(40px,6vh,64px);align-items:stretch}
+.cards.c3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.cards.c4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.card{position:relative;background:var(--card);padding:clamp(30px,4vw,48px) clamp(20px,2.6vw,34px);text-align:center}
+.card::before{content:"";position:absolute;left:0;right:0;top:0;height:2px;background:linear-gradient(90deg,var(--acc),transparent)}
+.card .label{margin-bottom:14px}
+.card h3{font-size:clamp(26px,2.4vw,34px);font-weight:500}
+.card p{color:var(--dim);margin-top:12px}
+.callout{margin-top:4px;background:var(--card);border-left:2px solid var(--acc);padding:clamp(22px,3vw,34px) clamp(22px,4vw,52px);color:var(--dim);font-size:clamp(17px,1.3vw,19px);text-align:left}
+.callout b{color:var(--acc);font-weight:600}
+.yel{color:var(--yel);background:linear-gradient(transparent 58%,var(--yel-bg) 58%);-webkit-box-decoration-break:clone;box-decoration-break:clone}
+.band{position:relative;overflow:hidden;padding:clamp(100px,18vh,200px) 0;text-align:center;color:var(--band-ink);background:radial-gradient(ellipse 70% 90% at 72% 60%,var(--band1),var(--band2) 70%)}
+.band::before{content:"";position:absolute;inset:-20%;background:radial-gradient(circle at 30% 40%,rgba(212,180,138,.14),transparent 40%),radial-gradient(circle at 75% 65%,rgba(239,122,107,.12),transparent 38%);animation:drift 18s ease-in-out infinite alternate}
+.band .fade-top,.band .fade-bot{position:absolute;left:0;right:0;height:30%;pointer-events:none;z-index:1}
+.band .fade-top{top:0;background:linear-gradient(var(--bg),transparent)}
+.band .fade-bot{bottom:0;background:linear-gradient(transparent,var(--bg))}
+.band .in{position:relative;z-index:2}
+.band p{font-family:var(--serif);font-style:italic;font-size:clamp(26px,3.2vw,46px);line-height:1.5;opacity:0;transform:translateY(12px);transition:opacity 1.2s var(--ease),transform 1.2s var(--ease)}
+.band.seen p{opacity:.92;transform:none}
+.band.seen p:nth-child(2){transition-delay:.5s}
+.band.seen p:nth-child(3){transition-delay:1.2s}
+.band p.hot{color:var(--band-hot);font-size:clamp(44px,6.4vw,92px);line-height:1.2;margin-top:12px;opacity:0}
+.band.seen p.hot{opacity:1}
+@keyframes drift{from{transform:translate(-3%,-2%)}to{transform:translate(3%,2%)}}
+.sci{max-width:760px;margin:0 auto;padding:18px 22px;border-left:2px solid var(--acc);background:var(--card);text-align:left;font-size:15px;color:var(--dim)}
+.sci .label{margin-bottom:6px}
+.sci b{color:var(--ink)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:54px;padding:0 28px;border-radius:999px;border:0;background:var(--acc-fill);color:var(--on-fill);font-weight:700;font-size:16px;cursor:pointer;text-decoration:none;transition:transform .2s var(--ease),filter .2s}
+.btn:hover{filter:brightness(1.06)}
+.btn:active{transform:scale(.97)}
+.btn[disabled]{opacity:.55;cursor:default}
+.ghost{display:inline-flex;align-items:center;justify-content:center;min-height:54px;padding:0 22px;border-radius:999px;border:1px solid var(--line2);background:none;cursor:pointer;font-size:15px;font-weight:600;color:var(--ink);text-decoration:none}
+.ghost:hover{border-color:var(--acc)}
+.btns{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
+.btns.center{justify-content:center;margin-top:30px}
+.note-s{font-size:14px;color:var(--mute);margin-top:10px;min-height:1.2em}
+footer{padding:64px 0 86px;border-top:1px solid var(--line);color:var(--mute);font-size:14px;text-align:center}
+footer .sign{font-family:var(--serif);font-style:italic;font-size:22px;color:var(--acc);margin-bottom:10px}
+footer p + p{margin-top:8px}
+footer a{color:var(--acc)}
+/* ── страница-инструкция ── */
+.prog{display:flex;align-items:center;gap:14px;max-width:860px;margin:8px auto 0;position:sticky;bottom:calc(10px + env(safe-area-inset-bottom,0px));box-shadow:0 10px 30px -12px rgba(0,0,0,.35);z-index:5;background:color-mix(in srgb,var(--bg) 88%,transparent);padding:10px 14px;border-radius:999px;border:1px solid var(--line);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.prog-bar{flex:1;height:6px;border-radius:9px;background:var(--line2);overflow:hidden}
+.prog-bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--acc-fill),var(--acc));transition:width .5s var(--ease)}
+.prog span{font-size:13px;font-weight:700;color:var(--acc);white-space:nowrap}
+.stps{list-style:none;padding:0;margin:clamp(36px,5vh,52px) auto 0;max-width:860px;display:grid;gap:4px}
+.stp{background:var(--card);position:relative;padding:clamp(20px,3vw,32px) clamp(18px,3vw,36px)}
+.stp::before{content:"";position:absolute;left:0;right:0;top:0;height:2px;background:linear-gradient(90deg,var(--acc),transparent)}
+.stp.ok::before{background:linear-gradient(90deg,var(--c-grn),transparent)}
+.stp-h{display:flex;align-items:center;gap:14px}
+.stp-n{font-family:var(--serif);font-weight:600;font-size:clamp(40px,5vw,54px);line-height:.9;color:var(--num);flex:none;min-width:1.4em}
+.stp.ok .stp-n{color:var(--c-grn)}
+.stp-h h3{flex:1;font-size:clamp(24px,2.4vw,32px);min-width:0}
+.stp-ok{flex:none;display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 14px;border-radius:999px;border:1px solid var(--line2);background:none;cursor:pointer;font-size:14px;font-weight:600;color:var(--dim)}
+.stp-ok i{width:18px;height:18px;border-radius:50%;border:2px solid var(--line2);display:grid;place-items:center;font-style:normal;font-size:11px}
+.stp-ok[aria-pressed="true"]{border-color:var(--c-grn);color:var(--c-grn)}
+.stp-ok[aria-pressed="true"] i{background:var(--c-grn);border-color:var(--c-grn)}
+.stp-ok[aria-pressed="true"] i::after{content:"✓";color:var(--bg);font-weight:800}
+.stp-b{margin-top:14px;color:var(--dim);font-size:16.5px;line-height:1.65}
+.stp-b > * + *{margin-top:12px}
+.stp-b b{color:var(--ink)}
+.stp-b a:not(.btn):not(.ghost){color:var(--acc);font-weight:600}
+.stp-b code{font-family:ui-monospace,Menlo,monospace;font-size:14px;background:var(--bg);padding:2px 8px;border-radius:8px}
+.stp.ok .stp-b{opacity:.75}
+.how{margin:0;padding-left:22px}
+.how li + li{margin-top:6px}
+.tip{font-size:15px;color:var(--mute);border-left:2px solid var(--line2);padding-left:12px}
+.tabs{display:inline-flex;gap:4px;padding:4px;border-radius:999px;background:var(--bg);border:1px solid var(--line)}
+.tab{min-height:40px;padding:0 18px;border-radius:999px;border:0;background:none;cursor:pointer;font-weight:700;font-size:14px;color:var(--mute)}
+.tab.on{background:var(--acc-fill);color:var(--on-fill)}
+.cbx{border:1px solid var(--line2);border-radius:16px;overflow:hidden;background:var(--bg)}
+.cbx-h{display:flex;align-items:center;gap:10px;padding:10px 10px 10px 16px;border-bottom:1px solid var(--line)}
+.cbx-h span{flex:1;font-size:13px;font-weight:700;letter-spacing:.06em;color:var(--acc)}
+.cbtn{min-height:40px;padding:0 16px;border-radius:999px;border:0;background:var(--acc-fill);color:var(--on-fill);font-weight:700;font-size:14px;cursor:pointer;white-space:nowrap}
+.cbtn.done{background:var(--c-grn);color:var(--bg)}
+.cbx pre{margin:0;padding:14px 16px;max-height:220px;overflow:auto;white-space:pre-wrap;word-break:break-word;font:400 14px/1.55 var(--sans);color:var(--ink)}
+.done-card{max-width:860px;margin:4px auto 0;background:color-mix(in srgb,var(--card) 84%,var(--c-grn));padding:clamp(24px,3vw,36px);text-align:center;border-top:2px solid var(--c-grn)}
+.done-card h3{font-size:clamp(26px,2.6vw,36px);margin-bottom:10px}
+.done-card p{color:var(--dim)}
+.faq{max-width:860px;margin:clamp(40px,6vh,60px) auto 0}
+.faq details{background:var(--card);margin-top:4px;padding:0 20px}
+.faq summary{cursor:pointer;padding:16px 0;font-weight:600;list-style:none;display:flex;gap:10px}
+.faq summary::before{content:"+";color:var(--acc);font-weight:700;width:14px}
+.faq details[open] summary::before{content:"−"}
+.faq details p{padding:0 0 18px 24px;color:var(--dim);font-size:16px}
+.rv{margin-top:30px;text-align:center}
+.rv-avg{font-size:15px;color:var(--mute);min-height:1.4em}
+.rv-avg b{color:var(--acc);font-size:18px}
+.stars{display:flex;justify-content:center;gap:6px;margin:12px 0 18px}
+.stars button{width:52px;height:52px;border:0;background:none;cursor:pointer;font-size:40px;line-height:1;color:var(--line2);transition:transform .15s var(--ease),color .15s}
+.stars button.on{color:var(--acc-fill)}
+.stars button:active{transform:scale(.88)}
+.rv textarea{width:100%;background:var(--card);border:1px solid var(--line2);border-radius:16px;padding:14px 16px;font-size:16px;line-height:1.5;resize:vertical;color:var(--ink)}
+.rv textarea:focus{outline:none;border-color:var(--acc)}
+.rv-row{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:12px;flex-wrap:wrap}
+.rv-row label{font-size:14px;color:var(--mute);display:flex;gap:8px;align-items:center;cursor:pointer}
+.rv-msg{font-size:15px;margin-top:10px;min-height:1.3em;color:var(--c-grn)}
+.rv-msg.err{color:var(--hot)}
+.rv-list{margin-top:26px;display:grid;gap:4px;text-align:left}
+.rv-it{background:var(--card);padding:16px 18px}
+.rv-it .h{font-size:14px;font-weight:700;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.rv-it .h .s{color:var(--acc-fill);letter-spacing:1px}
+.rv-it .h .d{color:var(--mute);font-weight:500;margin-left:auto}
+.rv-it p{margin-top:6px;color:var(--dim);font-size:15.5px;white-space:pre-wrap}
+@media (max-width:980px){.cards.c4{grid-template-columns:repeat(2,minmax(0,1fr))}.cards.c3{grid-template-columns:1fr}}
+@media (max-width:640px){
+  .cards.c4{grid-template-columns:1fr}
+  .stp-h{flex-wrap:wrap}
+  .stp-h h3{flex-basis:calc(100% - 80px)}
+  .stp-ok{margin-left:auto}
+  .btns .btn,.btns .ghost{flex:1 1 100%}
+  .stars button{width:48px;font-size:36px}
+}
+@media (prefers-reduced-motion: reduce){
+  *{animation:none!important;transition:none!important}
+  html{scroll-behavior:auto}
+  .band p{opacity:.92!important;transform:none!important}
+}
+
+/* видео от Максима (появляется, если в папке есть video.mp4) */
+.vframe{width:min(100%,340px);aspect-ratio:9/16;margin:0 auto;border-radius:22px;overflow:hidden;background:#000;box-shadow:0 0 0 1px var(--line2),0 30px 70px -30px rgba(0,0,0,.6)}
+.vframe video{width:100%;height:100%;object-fit:cover;display:block}
+/* сравнение */
+.vs{text-align:left}
+.vs .card{text-align:left}
+.vs .card.cr::before{background:linear-gradient(90deg,var(--hot),transparent)}
+.vs .card.cg::before{background:linear-gradient(90deg,var(--c-grn),transparent)}
+.vs .ex{font-family:var(--serif);font-style:italic;font-size:clamp(21px,2vw,25px);color:var(--ink);margin-top:14px;line-height:1.35}
+.cards.c2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.five{list-style:none;padding:0;margin:clamp(40px,6vh,60px) 0 0;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:4px;counter-reset:f;text-align:left}
+.five li{counter-increment:f;background:var(--card);padding:24px 18px;position:relative}
+.five li::before{content:counter(f,decimal-leading-zero);display:block;font-family:var(--serif);font-weight:600;font-size:46px;line-height:.9;color:var(--num);margin-bottom:10px}
+.five li::after{content:"";position:absolute;left:0;right:0;top:0;height:2px;background:linear-gradient(90deg,var(--acc),transparent)}
+.five b{display:block;font-family:var(--serif);font-weight:500;font-size:clamp(23px,2vw,27px);line-height:1.2;margin-bottom:8px}
+.five p{font-size:15px;color:var(--dim)}
+/* конструктор */
+.bld{max-width:860px;margin:clamp(36px,5vh,56px) auto 0;background:var(--card);padding:clamp(22px,4vw,40px);text-align:left;position:relative}
+.bld::before{content:"";position:absolute;left:0;right:0;top:0;height:2px;background:linear-gradient(90deg,var(--acc),transparent)}
+.bld h3{font-size:clamp(28px,2.8vw,36px);text-align:center}
+.bld .hint{text-align:center;color:var(--mute);font-size:15px;margin-top:8px}
+.bf{display:grid;gap:6px;margin-top:18px}
+.bf label{font-size:15px;font-weight:700}
+.bf label small{font-weight:500;color:var(--mute)}
+.bf input,.bf textarea{width:100%;background:var(--bg);border:1px solid var(--line2);border-radius:12px;padding:12px 14px;color:var(--ink);font:inherit;font-size:16px;line-height:1.5}
+.bf textarea{resize:vertical;min-height:96px}
+.bf input:focus,.bf textarea:focus{outline:none;border-color:var(--acc)}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chips button{border:1px dashed var(--line2);background:transparent;border-radius:999px;padding:5px 12px;min-height:34px;font-size:13.5px;color:var(--dim);cursor:pointer}
+.chips button:hover{border-color:var(--acc);color:var(--ink)}
+.chips button[aria-pressed="true"]{border-style:solid;border-color:var(--acc);background:var(--acc-fill);color:var(--on-fill);font-weight:700}
+.bld .cbx{margin-top:22px}
+.bld .empty-out{color:var(--mute);font-style:italic}
+.how-n{max-width:780px;margin:30px auto 0;text-align:left;color:var(--dim);font-size:17px}
+.how-n li{margin-top:8px}
+.how-n b{color:var(--ink)}
+/* навигация по разделу */
+.mapnav{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px;margin-top:clamp(40px,6vh,60px);text-align:left}
+.mapnav a,.mapnav div{display:block;background:var(--card);padding:clamp(24px,3vw,36px) clamp(20px,3vw,34px);text-decoration:none;color:var(--ink);position:relative;min-height:150px}
+.mapnav a::before{content:"";position:absolute;left:0;right:0;top:0;height:2px;background:linear-gradient(90deg,var(--acc),transparent)}
+.mapnav a:hover{background:color-mix(in srgb,var(--card) 90%,var(--acc))}
+.mapnav .label{margin-bottom:12px}
+.mapnav h3{font-size:clamp(23px,2.2vw,30px);line-height:1.15}
+.mapnav p{color:var(--dim);font-size:15px;margin-top:8px}
+.mapnav .soon{opacity:.55}
+.mapnav .soon .label{color:var(--mute)}
+.mapnav .back{text-align:center}
+.mapnav .back h3{color:var(--acc)}
+.mapnav .nx{text-align:right}
+.mapnav .nx::before{background:linear-gradient(270deg,var(--acc),transparent)}
+.mapnav .empty{background:none;min-height:0}
+@media (max-width:980px){.five{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:760px){.mapnav{grid-template-columns:1fr}.mapnav .empty{display:none}.mapnav a,.mapnav div{min-height:0}.mapnav .back{order:3}.mapnav .nx{text-align:left}}
+@media (max-width:640px){.cards.c2{grid-template-columns:1fr}.five{grid-template-columns:1fr}}
+.tlink{background:none;border:0;color:var(--mute);cursor:pointer;text-decoration:underline;text-underline-offset:3px;font-size:14px;padding:6px 4px;font-family:var(--sans)}
+.tlink:hover{color:var(--ink)}
+.cbtn[disabled]{opacity:.45;cursor:default}
+.shot{margin:4px 0 0;border:1px solid var(--line2);border-radius:14px;overflow:hidden;background:var(--bg);cursor:zoom-in}
+.shot img{display:block;width:100%;height:auto}
+.shot.tall{max-width:300px}
+.shot figcaption{font-size:13px;color:var(--mute);padding:8px 12px;border-top:1px solid var(--line)}
+.lbx{position:fixed;inset:0;z-index:50;background:rgba(0,0,0,.88);display:flex;align-items:center;justify-content:center;padding:16px;cursor:zoom-out}
+.lbx img{max-width:100%;max-height:100%;border-radius:10px}
+.faq details .cbx{margin:0 0 18px 24px}
+
+</style>
+</head>
+<body data-slug="ai-projects" data-kit="nutri-ai.zip" data-total="9" data-name="Что такое Projects: свой проект в ChatGPT и Claude">
+<header class="hero"><div class="wrap">
+  <div class="badge"><img src="/practices/img/emblem.png" alt="MaxMagia"></div>
+  <span class="label">Клуб #MaxMagia · Мои AI-решения</span>
+  <h1>Projects — <em>свой</em> ИИ</h1>
+  <p class="sub">Один раз объясняешь ИИ, кто он и что знает, —<br>и дальше он помнит это в каждом чате.<br><b>Без повторов и без «напомни, о чём мы говорили».</b></p>
+  <a class="go" href="#about">Ниже подробнее<i></i></a>
+</div></header>
+
+<section class="sec" id="vid" hidden><div class="wrap center">
+  <span class="label">Пара слов от Максима</span>
+  <div class="vframe"><video controls playsinline preload="metadata" src="video.mp4"></video></div>
+</div></section>
+
+<section class="sec" id="about"><div class="wrap center">
+  <span class="label">Что это</span>
+  <h2>Проект — это <em>рабочее место</em> для ИИ</h2>
+  <p class="lede">Мой Хороший, представь папку на столе. В ней лежит записка «кто ты и как работаешь», рядом — нужные книги и справочники, а внутри — все ваши разговоры на эту тему. Вот это и есть проект в ChatGPT или Claude.</p>
+  <div class="cards c3">
+    <div class="card"><span class="label">01 · Инструкция</span><h3>Кто ИИ и как он работает</h3><p>Роль, характер, правила, формат ответов. Пишешь один раз — ИИ следует ей в каждом новом чате проекта.</p></div>
+    <div class="card"><span class="label">02 · Источники</span><h3>Что ИИ знает</h3><p>Твои файлы: справочники, таблицы, конспекты. Это его база знаний — он опирается на неё, а не на «что-то из интернета».</p></div>
+    <div class="card"><span class="label">03 · Чаты и память</span><h3>Всё по теме — в одном месте</h3><p>Разговоры не теряются среди сотни других, а память проекта можно сделать отдельной от остальных чатов.</p></div>
+  </div>
+</div></section>
+<section class="sec orn-top"><div class="wrap center">
+  <div class="rule-orn"><i></i></div>
+  <span class="label">Чем отличается</span>
+  <h2>Обычный чат и проект</h2>
+  <div class="cards c2 vs">
+    <div class="card cr"><span class="label">Обычный чат</span><h3>Случайный собеседник</h3>
+      <p>Каждый раз заново объясняешь, кто ты и чего хочешь. Файлы прикрепляешь снова. Ответы — «в общем», потому что ИИ про тебя ничего не помнит.</p></div>
+    <div class="card cg"><span class="label">Проект</span><h3>Свой специалист</h3>
+      <p>Роль и правила заданы один раз. Справочники всегда под рукой. Новый чат открываешь — а ИИ уже в теме и отвечает по твоим правилам.</p></div>
+  </div>
+  <ol class="five">
+    <li><b>Не повторяешься</b><p>Инструкция работает в каждом чате проекта сама.</p></li>
+    <li><b>Знания под рукой</b><p>Файлы загружаешь один раз — ИИ сверяется с ними.</p></li>
+    <li><b>Порядок</b><p>Питание — в одном проекте, работа — в другом, книга — в третьем.</p></li>
+    <li><b>Свой характер</b><p>Строгий редактор, тёплый коуч, зануда-бухгалтер — как захочешь.</p></li>
+    <li><b>Своя память</b><p>Режим «Только в проекте»: личное не смешивается с остальными чатами.</p></li>
+  </ol>
+</div></section>
+
+<section class="band" aria-label="Цитата"><div class="fade-top"></div><div class="in wrap"><p>Обычный чат — случайный собеседник.</p><p>Проект — свой специалист,</p><p class="hot">который тебя знает.</p></div><div class="fade-bot"></div></section>
+
+<section class="sec"><div class="wrap"><div class="sci"><span class="label">Честно о главном</span>
+<p>Проект не делает ИИ всезнающим: он отвечает по твоей инструкции и файлам и всё равно может ошибаться — особенно в цифрах. Проверяй важное. Не загружай в проекты паспортные данные, пароли и номера карт. А NUTRI AI — не врач: при беременности, диабете, болезнях почек и печени или сложных отношениях с едой питание подбирают вместе со специалистом. И если подсчёт калорий начинает тревожить — сделай паузу: еда не должна становиться источником стресса.</p></div></div></section>
+
+
+
+<section class="sec orn-top" id="steps"><div class="wrap">
+  <div class="rule-orn"><i></i></div>
+  <div class="center"><span class="label">Пошагово · как для первоклашки</span>
+  <h2>Собираем <em>NUTRI AI</em> — твоего ассистента по питанию</h2>
+  <p class="lede">Покажу на ChatGPT — в Claude всё почти так же. NUTRI AI считает калории и БЖУ (даже по фото тарелки), ведёт дневник, подводит итоги дня и составляет меню — бережно, без жёстких диет и чувства вины.</p></div>
+  <ol class="stps"><li class="stp" data-n="1"><div class="stp-h"><span class="stp-n">01</span><h3>Скачай набор NUTRI AI</h3><button type="button" class="stp-ok" data-ok="1" aria-pressed="false"><i></i><span>Готово</span></button></div><div class="stp-b"><p>В архиве — инструкция проекта и база знаний: 5 файлов о здоровом питании, расчётах, калорийности продуктов, порциях и меню.</p><div class="btns"><a class="btn" id="kitdl" href="nutri-ai.zip" download>⬇️ Скачать набор</a>
+<button type="button" class="ghost" id="kittg">📩 Прислать мне в Telegram</button></div>
+<p class="note-s" id="kitmsg"></p></div></li><li class="stp" data-n="2"><div class="stp-h"><span class="stp-n">02</span><h3>Прочитай и подстрой под себя</h3><button type="button" class="stp-ok" data-ok="2" aria-pressed="false"><i></i><span>Готово</span></button></div><div class="stp-b"><p>Распакуй архив и <b>внимательно прочитай</b> инструкцию и все пять файлов. Это займёт минут 15, но так помощник станет по-настоящему твоим.</p>
+<p>Всё, что тебе не подходит, исправь прямо в тексте. Например: ты вегетарианец, не ешь рыбу, есть аллергия, другая цель или другой бюджет.</p>
+<p class="tip">Распаковать: iPhone — «Файлы» → нажми на архив; Android — «Файлы» → «Извлечь»; компьютер — двойной клик.</p></div></li><li class="stp" data-n="3"><div class="stp-h"><span class="stp-n">03</span><h3>Создай проект</h3><button type="button" class="stp-ok" data-ok="3" aria-pressed="false"><i></i><span>Готово</span></button></div><div class="stp-b"><p>Открой <b>chatgpt.com</b> и войди. В меню слева найди <b>«Проекты»</b> и нажми <b>«+»</b> рядом.</p><figure class="shot "><img src="proj-1.jpg" loading="lazy" alt="Слева «Проекты» → «+»"><figcaption>Слева «Проекты» → «+»</figcaption></figure><p class="tip">В Claude: «Проекты» → «Новый проект». Нет кнопки «Проекты» в приложении — открой сайт на компьютере.</p></div></li><li class="stp" data-n="4"><div class="stp-h"><span class="stp-n">04</span><h3>Назови его и выбери память</h3><button type="button" class="stp-ok" data-ok="4" aria-pressed="false"><i></i><span>Готово</span></button></div><div class="stp-b"><p>Напиши название <b>NUTRI AI</b>, можно выбрать значок. Внизу открой список памяти и выбери <b>«Память только в проекте»</b> — так разговоры о питании не будут смешиваться с остальными. Нажми <b>«Создать проект»</b>.</p><figure class="shot "><img src="proj-2.jpg" loading="lazy" alt="Название, «Память только в проекте», «Создать проект»"><figcaption>Название, «Память только в проекте», «Создать проект»</figcaption></figure></div></li><li class="stp" data-n="5"><div class="stp-h"><span class="stp-n">05</span><h3>Открой настройки проекта</h3><button type="button" class="stp-ok" data-ok="5" aria-pressed="false"><i></i><span>Готово</span></button></div><div class="stp-b"><p>Вверху справа нажми <b>⋯</b> → <b>«Настройки проекта»</b>.</p><figure class="shot "><img src="proj-3.jpg" loading="lazy" alt="⋯ → «Настройки проекта»"><figcaption>⋯ → «Настройки проекта»</figcaption></figure></div></li><li class="stp" data-n="6"><div class="stp-h"><span class="stp-n">06</span><h3>Вставь инструкцию</h3><button type="button" class="stp-ok" data-ok="6" aria-pressed="false"><i></i><span>Готово</span></button></div><div class="stp-b"><p>Нажми <b>«Скопировать»</b> ниже (или возьми свой исправленный текст из файла 01), вставь в поле <b>«Инструкции»</b> и нажми <b>«Сохранить»</b>.</p><div class="cbx"><div class="cbx-h"><span>Инструкция NUTRI AI</span><button type="button" class="cbtn" data-copy="cb-nutri">Скопировать</button></div><pre id="cb-nutri">NUTRI AI — ПЕРСОНАЛЬНЫЙ ТРЕНЕР ПО ПИТАНИЮ
+
+1. РОЛЬ
+Ты — NUTRI AI, мой персональный ассистент по питанию: доказательная нутрициология, расчёт калорий и БЖУ, анализ продуктов и блюд (в том числе по фото), меню, пищевые привычки, безопасное изменение массы тела. Помогаешь сделать питание полноценным и достигать целей без экстремальных диет, вины и запретов. Ты не врач и не диетолог: не выдумывай квалификацию, исследования и медицинские назначения.
+
+2. БАЗА ЗНАНИЙ — ФАЙЛЫ ПРОЕКТА
+Опирайся на файлы проекта в первую очередь, а при доступе к интернету сверяйся с официальными источниками:
+- «Основы здорового питания.md» — принципы, группы продуктов, клетчатка, вода, мифы.
+- «Расчет калорий и БЖУ.md» — формулы BMR и TDEE, коэффициенты активности, безопасные границы, нормы белка, жиров, углеводов.
+- «Таблица калорийности продуктов.md» — значения на 100 г; различай сырое, сухое и готовое.
+- «Анализ еды и порций.md» — фотоанализ, порции «по руке», масло и соусы, погрешности, этикетки.
+- «Принципы составления рациона.md» — модель Harvard Healthy Eating Plate, меню, покупки, замены.
+Если в файлах нет нужных данных — скажи об этом и дай ориентировочную оценку с пометкой «приблизительно». Не придумывай цифры.
+
+3. ПРИНЦИПЫ
+1) Отвечай по-русски, дружелюбно, спокойно, без нравоучений и простым языком.
+2) Отделяй точные данные от оценок; расчёт — не лабораторное измерение.
+3) Учитывай мои цели, предпочтения, ограничения и бюджет.
+4) Не ругай за сладкое, переедание и отклонения от плана. Не используй стыд и вину.
+5) Не поощряй голодание, экстремальный дефицит и фиксацию на цифрах. Здоровье и устойчивые привычки важнее скорости.
+
+4. ЗНАКОМСТВО (первый разговор)
+Проведи интервью по этапам, не одним списком:
+1) возраст, пол (для формулы), рост, вес, по желанию талия;
+2) цель (снизить, удержать, набрать вес или просто питаться лучше), желаемый результат и темп, зачем это мне. Не навязывай снижение веса;
+3) работа (сидячая, смешанная, физическая), шаги, тренировки: вид, частота, длительность;
+4) режим и число приёмов пищи, любимые и нелюбимые продукты, сладкое, фастфуд, алкоголь, напитки, готовлю ли сам, есть ли весы, бюджет;
+5) здоровье — бережно и только по желанию: диагнозы, аллергии и непереносимости, лекарства, беременность или кормление, история расстройств пищевого поведения или тревоги вокруг еды, рекомендации врача.
+Затем покажи структурированный профиль, попроси проверить, назови, что можно рассчитать, а чего не хватает, и предложи стратегию.
+Сформируй документ «МОЙ ПРОФИЛЬ ПИТАНИЯ» в блоке, удобном для копирования, и предложи сохранить его в файлы проекта. Никогда не утверждай, что сохранил файл, если не сделал этого. При изменениях данных предлагай обновить профиль.
+
+5. РАСЧЁТЫ (подробно — в «Расчет калорий и БЖУ.md»)
+BMR по Миффлину — Сан Жеору: мужчины 10×вес + 6,25×рост − 5×возраст + 5; женщины то же, но −161. TDEE = BMR × коэффициент активности с учётом работы, шагов и тренировок. Калорийность цели: дефицит или профицит умеренный, без агрессивных значений, не ниже безопасных границ из файла без медицинского сопровождения, без обещаний результата к дате. БЖУ: белки и углеводы 4 ккал/г, жиры 9 ккал/г; проверяй, что сумма совпадает с калорийностью. Белок — не одна норма для всех; при болезнях почек и подобных состояниях — к врачу. Все цифры — ориентир, а не обязательство попадать в каждый грамм.
+
+6. ФОТО ЕДЫ (метод — в «Анализ еды и порций.md»)
+Определи продукты, способ приготовления, порцию, возможные масло, соусы и добавки; обозначь допущения; посчитай калории и БЖУ; укажи точность. Не утверждай, что по фото можно точно узнать массу и состав. Если непонятно — спроси.
+Формат: 🍽 Что на тарелке / 📊 Примерная пищевая ценность (ккал, Б, Ж, У) / 🔎 Что учтено / 🎯 Точность: высокая, средняя или низкая / 💡 Небольшая рекомендация.
+
+7. ДНЕВНИК
+Когда я пишу, что съел или выпил: дата, приём пищи, продукты и порции, калории и БЖУ, обновлённый итог дня таблицей (Приём пищи | Ккал | Б | Ж | У | ИТОГО) и остаток до ориентиров. Не считай запись окончательной, пока я уточняю, и не выдавай неполный день за полный. Не утверждай, что дневник сохраняется между чатами автоматически: по запросу дай отчёт для сохранения файлом или короткую сводку для переноса в новый чат.
+
+8. ИТОГИ ДНЯ («Подведи итоги дня»)
+Калории и БЖУ против ориентиров; группы продуктов; овощи, фрукты, клетчатка; источники белка; заметные привычки; одна-две рекомендации на завтра. Не оценивай день только по калориям и не называй его плохим или хорошим.
+
+9. РАЦИОН И МЕНЮ (основа — «Принципы составления рациона.md»)
+Ориентир — тарелка Harvard: ½ овощи и фрукты (в основном овощи), ¼ белок, ¼ цельнозерновые углеводы, полезные жиры умеренно, вода как главный напиток; картофель относится к углеводам. Это ориентир, а не правило для каждого приёма — адаптируй под культуру питания, бюджет, нагрузку и рекомендации врача.
+По запросу: меню на день или неделю, список покупок, бюджетный рацион, быстрые блюда, еда в дорогу, замены. Для блюд: ингредиенты и масса (сухая или готовая), приготовление, порция, ккал и БЖУ. Не предлагай продукты, на которые у меня аллергия, и не заставляй есть однообразно ради цифр.
+
+10. ПРИВЫЧКИ И ДИНАМИКА ВЕСА
+Ищи повторяющиеся закономерности (мало овощей, белка, клетчатки, разнообразия; пропуски приёмов; сладкие напитки; связь с режимом дня), а не выводы по одному дню. Предлагай маленькие реалистичные шаги. Вес: записывай дату и значение, смотри средние за неделю, учитывай естественные колебания. Если прогресса нет — сначала проверь полноту дневника, порции, активность и срок наблюдения; не урезай калории автоматически.
+
+11. БЕЗОПАСНОСТЬ — ОБЯЗАТЕЛЬНО
+Не ставь диагнозы, не назначай лечебное питание, не меняй медицинскую терапию. Не составляй персональных схем питания для беременных и кормящих, несовершеннолетних, людей с расстройствами пищевого поведения, тяжёлыми болезнями почек, печени и других органов, с диабетом, требующим медицинской коррекции, и при других состояниях, где нужна лечебная диета: дай только общую информацию и порекомендуй профильного специалиста.
+Если замечаешь признаки опасного ограничения, навязчивого подсчёта, страха еды, компенсаторного поведения или выраженного недоедания — не усиливай контроль и не поддерживай дальнейшее ограничение: бережно предложи профессиональную помощь.
+
+12. ИСТОЧНИКИ
+Приоритет: ВОЗ, EFSA, Harvard T.H. Chan School of Public Health, USDA FoodData Central, NHS, национальные рекомендации, систематические обзоры. Различай доказанное, расчёты, практические советы и гипотезы. Маркетинг БАДов и диетические мифы — не факты. Нет надёжных данных — так и скажи.
+
+13. РЕЖИМЫ (распознавай по запросу)
+«Фото еды», «Добавить в дневник», «Итоги дня», «Моё меню», «Анализ рациона», «Мой прогресс», «Продукт» (состав и этикетка), «Замена», «Обучение».
+
+14. ФОРМАТ
+Без лишней теории; таблицы — где сравниваем цифры; не повторяй весь профиль в каждом ответе; цифры показывай понятно и по порядку; не скрывай неопределённость; поддерживай мою самостоятельность.
+
+ГЛАВНОЕ: ты не полицейский по калориям и не надзиратель за холодильником, а помощник, который учит понимать питание и самостоятельно строить полноценный, разнообразный и комфортный рацион.</pre></div><figure class="shot "><img src="proj-4.jpg" loading="lazy" alt="Поле «Инструкции» → «Сохранить»"><figcaption>Поле «Инструкции» → «Сохранить»</figcaption></figure></div></li><li class="stp" data-n="7"><div class="stp-h"><span class="stp-n">07</span><h3>Загрузи базу знаний</h3><button type="button" class="stp-ok" data-ok="7" aria-pressed="false"><i></i><span>Готово</span></button></div><div class="stp-b"><p>Открой вкладку <b>«Источники»</b> → <b>«Добавить источники»</b> и выбери все 5 файлов из папки «База_знаний». А можно просто перетащить их мышкой в пунктирную рамку.</p><figure class="shot "><img src="proj-5.jpg" loading="lazy" alt="«Источники» → «Добавить источники» или перетащить файлы"><figcaption>«Источники» → «Добавить источники» или перетащить файлы</figcaption></figure></div></li><li class="stp" data-n="8"><div class="stp-h"><span class="stp-n">08</span><h3>Начни разговор</h3><button type="button" class="stp-ok" data-ok="8" aria-pressed="false"><i></i><span>Готово</span></button></div><div class="stp-b"><p>Когда все пять файлов появились в списке, напиши в поле <b>«Новый чат в NUTRI AI»</b>:</p><div class="cbx"><div class="cbx-h"><span>Первое сообщение</span><button type="button" class="cbtn" data-copy="cb-first">Скопировать</button></div><pre id="cb-first">Привет! Я — (твоё имя). Давай начнём!</pre></div><figure class="shot "><img src="proj-6.jpg" loading="lazy" alt="Файлы загружены — пишем «Я — … Давай начнём!»"><figcaption>Файлы загружены — пишем «Я — … Давай начнём!»</figcaption></figure><p>NUTRI AI проведёт короткое знакомство: рост, вес, цели, привычки. Отвечай честно — и в конце он соберёт <b>«Мой профиль питания»</b>. Сохрани его себе.</p></div></li><li class="stp" data-n="9"><div class="stp-h"><span class="stp-n">09</span><h3>Пользуйся каждый день</h3><button type="button" class="stp-ok" data-ok="9" aria-pressed="false"><i></i><span>Готово</span></button></div><div class="stp-b"><p>Просто пиши своими словами — NUTRI AI сам поймёт, что нужно:</p>
+<ul class="how"><li>📸 фото тарелки — посчитает калории и БЖУ;</li>
+<li>«На обед съел гречку с курицей» — добавит в дневник;</li>
+<li>«Подведи итоги дня» — разберёт день без оценок «хорошо / плохо»;</li>
+<li>«Составь меню на неделю и список покупок»;</li>
+<li>«Чем заменить сладкое вечером?»</li></ul>
+<p class="tip">Каждый новый день удобно начинать в новом чате внутри проекта — инструкция и файлы уже на месте.</p></div></li></ol>
+  <div class="prog" aria-live="polite"><div class="prog-bar"><i id="pbar"></i></div><span id="ptxt">0 из 9</span></div>
+  <div class="done-card" id="donecard" hidden><span class="label">Готово</span><h3>Твой первый проект собран 🤍</h3><p>Теперь ты знаешь, как это делается, — и можешь собрать проект под любую задачу: книгу, работу, учёбу, свой бизнес. А «промт для промтов» из темы про промт поможет написать инструкцию.</p></div>
+  <div class="faq">
+    <span class="label">Если что-то пошло не так</span>
+    <details><summary>Нет кнопки «Проекты»</summary><p>Обнови приложение или открой chatgpt.com в браузере на компьютере. В Claude проекты тоже есть: «Проекты» → «Новый проект».</p></details>
+<details><summary>ИИ отвечает «не по инструкции»</summary><p>Проверь, что инструкция сохранилась (⋯ → «Настройки проекта»), а все 5 файлов загружены. Потом открой новый чат внутри проекта.</p></details>
+<details><summary>ИИ «забыл» мой профиль</summary><p>Попроси его ещё раз показать «Мой профиль питания», скопируй и загрузи файлом в «Источники» проекта — тогда он будет помнить всегда.</p></details>
+<details><summary>Хочу свой проект, а не про питание</summary><p>Всё точно так же: инструкция + файлы. Опиши своими словами, какой помощник нужен, «промту для промтов» — он соберёт инструкцию.</p></details>
+  </div>
+</div></section>
+
+<section class="sec orn-top" id="rate"><div class="wrap col center">
+  <div class="rule-orn"><i></i></div>
+  <span class="label">Твой отзыв</span>
+  <h2>Как тебе <em>свой проект?</em></h2>
+  <p class="lede">Поставь звёзды и напиши, получилось ли собрать NUTRI AI и какой проект ты хочешь сделать следующим.</p>
+  <div class="rv">
+    <div class="rv-avg" id="rvavg"></div>
+    <div class="stars" id="stars" role="radiogroup" aria-label="Оценка"><button type="button" data-s="1" aria-label="1 из 5">★</button><button type="button" data-s="2" aria-label="2 из 5">★</button><button type="button" data-s="3" aria-label="3 из 5">★</button><button type="button" data-s="4" aria-label="4 из 5">★</button><button type="button" data-s="5" aria-label="5 из 5">★</button></div>
+    <textarea id="rvtext" maxlength="2000" rows="4" placeholder="Например: «Собрала NUTRI AI за 20 минут, сфоткала обед — посчитал! Следующий сделаю для работы»"></textarea>
+    <div class="rv-row"><label><input type="checkbox" id="rvanon"> без имени</label>
+      <button type="button" class="btn" id="rvsend">Отправить</button></div>
+    <div class="rv-msg" id="rvmsg"></div>
+    <div class="rv-list" id="rvlist"></div>
+  </div>
+</div></section>
+
+<section class="sec orn-top" id="map"><div class="wrap center">
+  <div class="rule-orn"><i></i></div>
+  <span class="label">Что дальше</span>
+  <h2>Куда идти по карте</h2>
+  <div class="mapnav"><a class="pv" href="../govori-s/"><span class="label">‹ Предыдущая тема</span><h3>🎭 Мой любимый промт «Поговори с…»</h3></a><a class="back" href="/" data-back="myai"><span class="label">Меню раздела</span><h3>Мои AI-решения</h3><p>Все материалы раздела</p></a><a class="nx" href="../archetype-ai/"><span class="label">Следующая тема ›</span><h3>🤖 ARCHETYPE.AI</h3></a></div>
+</div></section>
+
+<footer><div class="wrap">
+  <p class="sign">Клуб #MaxMagia</p>
+  <p>Клуб — не терапия и не медицинская помощь. Если тебе плохо прямо сейчас — звони 112 или напиши мне: <a href="https://t.me/MaxGuschin">t.me/MaxGuschin</a>.</p>
+  <p>Всё, что ты здесь отмечаешь и пишешь, хранится в этом браузере и в твоём кабинете клуба.</p>
+</div></footer>
+<script>
+(function(){
+  var B=document.body, SLUG=B.dataset.slug, TOTAL=+B.dataset.total, KEY='maxmagia-'+SLUG+'-v1';
+  var SYNC=/(^|\.)maxmagia\.ru$/.test(location.hostname)&&!/^app\./.test(location.hostname)?'/art-sync':'/api/psync';
+  function blank(){return {v:1,done:[],tab:'gpt',f:{}};}
+  var S=blank();
+  try{S=Object.assign(blank(),JSON.parse(localStorage.getItem(KEY)||'{}'));}catch(e){}
+  function save(){try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}}
+  function $(s,r){return (r||document).querySelector(s);}
+  function $$(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s));}
+  function api(path,opt){opt=opt||{};opt.credentials='same-origin';opt.headers=Object.assign({'X-MM':'1'},opt.headers||{});
+    return fetch(SYNC+path+(path.indexOf('?')<0?'?':'&')+'slug='+encodeURIComponent(SLUG),opt);}
+  // шаги
+  function paint(){
+    var n=0;
+    $$('.stp').forEach(function(li){var k=+li.dataset.n,on=S.done.indexOf(k)>=0;if(on)n++;
+      li.classList.toggle('ok',on);var b=$('.stp-ok',li);b.setAttribute('aria-pressed',on?'true':'false');$('span',b).textContent=on?'Сделано':'Готово';});
+    if(!$('#pbar'))return;
+    $('#pbar').style.width=(TOTAL?n/TOTAL*100:0)+'%';$('#ptxt').textContent=n+' из '+TOTAL;
+    $('#donecard').hidden=n<TOTAL;
+  }
+  $$('.stp-ok').forEach(function(b){b.addEventListener('click',function(){
+    var k=+b.dataset.ok,i=S.done.indexOf(k);if(i>=0)S.done.splice(i,1);else{S.done.push(k);
+      var nx=$('.stp[data-n="'+(k+1)+'"]');if(nx&&S.done.indexOf(k+1)<0)setTimeout(function(){nx.scrollIntoView({behavior:'smooth',block:'start'});},250);}
+    save();paint();if(S.done.length===TOTAL)setTimeout(function(){$('#donecard').scrollIntoView({behavior:'smooth',block:'center'});},300);});});
+  // вкладки ChatGPT / Claude
+  function tabs(){$$('.tab').forEach(function(t){t.classList.toggle('on',t.dataset.tab===S.tab);});
+    $$('.tabp').forEach(function(p){p.hidden=p.dataset.tabp!==S.tab;});}
+  $$('.tab').forEach(function(t){t.addEventListener('click',function(){S.tab=t.dataset.tab;save();tabs();});});
+  // копирование
+  function copy(t,done){
+    var fb=function(){try{var ta=document.createElement('textarea');ta.value=t;ta.setAttribute('readonly','');ta.style.cssText='position:fixed;top:0;left:0;opacity:0';
+      document.body.appendChild(ta);ta.select();ta.setSelectionRange(0,t.length);var ok=document.execCommand('copy');ta.remove();done(ok);}catch(e){done(false);}};
+    try{if(navigator.clipboard&&window.isSecureContext){navigator.clipboard.writeText(t).then(function(){done(true);},fb);return;}}catch(e){}
+    fb();
+  }
+  $$('.cbtn').forEach(function(b){b.addEventListener('click',function(){
+    if($('#'+b.dataset.copy).classList.contains('empty-out'))return;
+    copy($('#'+b.dataset.copy).textContent,function(ok){var o=b.textContent;b.textContent=ok?'✓ Скопировано':'Выдели и скопируй';if(ok)b.classList.add('done');
+      setTimeout(function(){b.textContent=o;b.classList.remove('done');},2200);});});});
+  // набор — прислать в Telegram (бот клуба)
+  var tg=$('#kittg');
+  if(tg)tg.addEventListener('click',async function(){
+    var m=$('#kitmsg');tg.disabled=true;m.textContent='Отправляю…';
+    try{var z=await fetch(B.dataset.kit,{credentials:'same-origin'});if(!z.ok)throw 0;var blob=await z.blob();
+      var r=await api('/send?name='+encodeURIComponent(B.dataset.kit)+'&title='+encodeURIComponent(B.dataset.name),{method:'POST',body:blob,headers:{'Content-Type':'application/zip'}});
+      if(r.ok){m.textContent='✓ Готово — архив в личке с ботом клуба';}
+      else if(r.status===502){m.textContent='Бот не смог написать тебе в Telegram. Открой бота клуба, нажми «Старт» — и попробуй ещё раз. Или просто «Скачать набор».';}
+      else if(r.status===429){m.textContent='Слишком часто — попробуй через пару минут.';}
+      else{m.textContent='Не получилось — нажми «Скачать набор».';}
+    }catch(e){m.textContent='Не получилось — нажми «Скачать набор».';}
+    tg.disabled=false;});
+  // полоса-цитата
+  try{var bd=$('.band');if('IntersectionObserver' in window){var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){bd.classList.add('seen');io.disconnect();}});},{threshold:.35});io.observe(bd);}else bd.classList.add('seen');}catch(e){}
+  // род: {мужской|женский|не знаю}
+  function gender(g){var i=g==='m'?0:g==='f'?1:2;
+    var w=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT,null);var nodes=[];while(w.nextNode())nodes.push(w.currentNode);
+    nodes.forEach(function(n){if(n.parentNode&&/^(SCRIPT|STYLE|PRE|TEXTAREA)$/.test(n.parentNode.nodeName))return;
+      if(n.nodeValue.indexOf('{')<0)return;n.nodeValue=n.nodeValue.replace(/\{([^{}|]*)\|([^{}|]*)\|([^{}|]*)\}/g,function(_,a,b,c){return [a,b,c][i];});});}
+  // звёзды и отзывы
+  var stars=0,MON=['января','февраля','марта','апреля','мая','июня','июля','августа','сентября','октября','ноября','декабря'];
+  function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+  function paintStars(){$$('#stars button').forEach(function(b){b.classList.toggle('on',+b.dataset.s<=stars);});}
+  function plural(n){var a=n%100,d=n%10;if(a>10&&a<20)return 'оценок';if(d===1)return 'оценка';if(d>1&&d<5)return 'оценки';return 'оценок';}
+  function render(d){
+    $('#rvavg').innerHTML=d.count?'<b>★ '+String(d.avg).replace('.',',')+'</b> · '+d.count+' '+plural(d.count):'Пока без оценок — твоя может быть первой ✨';
+    var me=d.mine;if(me){stars=me.stars||0;if(!$('#rvtext').value)$('#rvtext').value=me.text||'';$('#rvanon').checked=!!me.anon;$('#rvsend').textContent='Обновить';paintStars();}
+    $('#rvlist').innerHTML=(d.reviews||[]).map(function(r){var m=/^(\d{4})-(\d{2})-(\d{2})/.exec(r.date||'');
+      return '<div class="rv-it"><div class="h">'+esc(r.name)+(r.mine?' <span style="color:var(--mute);font-weight:500">(ты)</span>':'')+(r.stars?'<span class="s">'+'★'.repeat(r.stars)+'</span>':'')+
+        (m?'<span class="d">'+(+m[3])+' '+MON[+m[2]-1]+'</span>':'')+'</div><p>'+esc(r.text)+'</p></div>';}).join('');
+  }
+  $$('#stars button').forEach(function(b){b.addEventListener('click',function(){var n=+b.dataset.s;stars=stars===n?0:n;paintStars();});});
+  $('#rvsend').addEventListener('click',async function(){
+    var t=$('#rvtext').value.trim(),m=$('#rvmsg');m.className='rv-msg';
+    if(!stars&&!t){m.className='rv-msg err';m.textContent='Поставь звёзды или напиши пару слов 🙂';return;}
+    var b=this;b.disabled=true;
+    try{var r=await api('/rate',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({stars:stars,text:t,anon:$('#rvanon').checked})});
+      if(!r.ok)throw r.status;render(await r.json());m.textContent='💛 Спасибо! Твой отзыв сохранён.';}
+    catch(e){m.className='rv-msg err';m.textContent=e===401||e===403?'Отзыв можно оставить, когда страница открыта из кабинета клуба.':'Не получилось отправить — попробуй ещё раз.';}
+    b.disabled=false;});
+  (async function(){
+    try{var r=await api('/rate');if(r.ok)render(await r.json());else $('#rvavg').textContent='';}catch(e){}
+    try{var g=await api('/me');if(g.ok){var d=await g.json();gender(d.g);}else gender('');}catch(e){gender('');}
+  })();
+  // видео от Максима: показываем, только если в папке лежит video.mp4
+  (function(){var v=$('#vid');if(!v)return;
+    fetch('video.mp4',{method:'HEAD',credentials:'same-origin'}).then(function(r){
+      var t=(r.headers.get('Content-Type')||'');if(r.ok&&t.indexOf('video')===0){v.hidden=false;}}).catch(function(){});})();
+  // меню раздела: на app.maxmagia.ru — кабинет откроется сразу на этом разделе
+  $$('[data-back]').forEach(function(a){
+    if(location.hostname.indexOf('app.')!==0){a.setAttribute('href','/art/');return;}
+    a.addEventListener('click',function(e){e.preventDefault();try{sessionStorage.setItem('mm_ret',a.dataset.back);}catch(x){}location.href='/';});});
+  // конструкторы: поля [data-f] → шаблон → готовый текст
+  $$('[data-bld]').forEach(function(box){
+    var id=box.dataset.bld,tpl=$('#tpl-'+id).textContent.replace(/^\n+|\n+$/g,''),out=$('#out-'+id),btn=$('[data-copy="out-'+id+'"]',box);
+    var fields=$$('[data-f]',box);
+    function val(k){var el=$('[data-f="'+k+'"]',box);return el?el.value.trim():'';}
+    function build(){
+      var lines=tpl.split('\n'),res=[],any=false;
+      lines.forEach(function(l){var m=l.match(/\{(\w+)\}/g);if(!m){res.push(l);return;}
+        var ok=true,t=l.replace(/\{(\w+)\}/g,function(_,k){var v=val(k);if(!v)ok=false;else any=true;return v;});if(ok)res.push(t);});
+      var txt=res.join('\n').replace(/\n{3,}/g,'\n\n').trim();
+      out.textContent=any?txt:'';out.classList.toggle('empty-out',!any);if(!any)out.textContent=out.dataset.empty||'Заполни хотя бы одно поле — и здесь появится готовый текст';
+      if(btn)btn.disabled=!any;
+      S.f[id]={};fields.forEach(function(f){S.f[id][f.dataset.f]=f.value;});save();
+      $$('.chips[data-for]',box).forEach(function(c){var v=val(c.dataset.for);$$('button',c).forEach(function(b){b.setAttribute('aria-pressed',b.textContent===v?'true':'false');});});
+    }
+    var saved=(S.f||{})[id]||{};fields.forEach(function(f){if(saved[f.dataset.f])f.value=saved[f.dataset.f];f.addEventListener('input',build);});
+    $$('.chips[data-for]',box).forEach(function(c){$$('button',c).forEach(function(b){b.addEventListener('click',function(){
+      var el=$('[data-f="'+c.dataset.for+'"]',box);el.value=(el.value.trim()===b.textContent)?'':b.textContent;build();
+      if(c.dataset.hintfor){var h=$('#'+c.dataset.hintfor);if(h)h.textContent='Можно оставить так или переписать под себя ✍️';}});});});
+    var clr=$('[data-clear]',box);if(clr)clr.addEventListener('click',function(){
+      if(clr.dataset.armed!=='1'){clr.dataset.armed='1';var o=clr.textContent;clr.textContent='Точно стереть? Нажми ещё раз';setTimeout(function(){clr.dataset.armed='';clr.textContent=o;},4000);return;}
+      fields.forEach(function(f){f.value='';});clr.dataset.armed='';clr.textContent='Стереть поля';build();});
+    build();
+  });
+  // скриншоты: нажал — открылся крупно
+  $$('.shot img').forEach(function(im){im.parentNode.addEventListener('click',function(){
+    var o=document.createElement('div');o.className='lbx';o.innerHTML='<img alt="">';o.firstChild.src=im.src;
+    o.addEventListener('click',function(){o.remove();});document.body.appendChild(o);});});
+  tabs();paint();
+})();
+
+</script>
+</body>
+</html>

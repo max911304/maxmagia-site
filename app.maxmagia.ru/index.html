@@ -6888,7 +6888,7 @@ html[data-theme="light"] .hbs-in,html[data-theme="light"] .hbs-ok{border-color:#
 </script>
 <!-- /REFPROG v3 -->
 
-<!-- ═════ PAGES v2 (15.11): прокрутка статей; статьи кабинета вместо постов Telegram — page:<адрес>, обложки разделов, «Скопировать», «Скачать» ═════ -->
+<!-- ═════ PAGES v3 (15.11): page:prompt и page:govori-s ведут на страницы практик; прокрутка статей; статьи кабинета вместо постов Telegram — page:<адрес>, обложки разделов, «Скопировать», «Скачать» ═════ -->
 <style>
 .pg-sheet{padding-bottom:0!important}
 .modal-sheet.pg-sheet,.modal-sheet.full.pg-sheet{width:min(860px,100%)}
@@ -7014,7 +7014,8 @@ html[data-theme="light"] .hbs-in,html[data-theme="light"] .hbs-ok{border-color:#
   };
   // ссылки вида page:<адрес> (в таблице, в «Прочем», в статьях) открываем здесь
   var _ol=openLink;
-  openLink=function(url){if(/^page:/i.test(String(url||''))){openPage(String(url).slice(5));return;}return _ol.apply(this,arguments);};
+  var PG_ALIAS={'prompt':'/practices/prompt-key/','govori-s':'/practices/govori-s/','archetype':'/practices/archetype-ai/','money-archetype':'/practices/money-archetype-ai/'};
+  openLink=function(url){if(/^page:/i.test(String(url||''))){var id=String(url).slice(5).trim().toLowerCase();if(PG_ALIAS[id])return _ol.call(this,location.origin+PG_ALIAS[id]);openPage(id);return;}return _ol.apply(this,arguments);};
   // обложка раздела: статья sec-<id раздела> — карточкой вверху раздела
   async function intro(name){
     if(!name||name==='home'||PG.intro[name])return;
@@ -7032,7 +7033,7 @@ html[data-theme="light"] .hbs-in,html[data-theme="light"] .hbs-ok{border-color:#
   try{if(new URLSearchParams(location.search).get('page')){var q=new URLSearchParams(location.search).get('page');history.replaceState(null,'',location.pathname);setTimeout(function(){openPage(q);},1300);}}catch(e){}
 })();
 </script>
-<!-- /PAGES v2 -->
+<!-- /PAGES v3 -->
 
 </body>
 </html>
